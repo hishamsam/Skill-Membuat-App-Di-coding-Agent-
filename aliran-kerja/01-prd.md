@@ -67,6 +67,10 @@ untuk semua fasa selepas ini.
 | D | Firebase | Firestore + Auth + Hosting, realtime | `firebase emulators:start` |
 | E | Neon | Postgres serverless + API berasingan | Worker/Vercel function + `wrangler dev` |
 | F | Hibrid | Gabungan dua servis atau lebih | Ikut servis yang dipilih |
+| G | Next.js + Postgres | SSR, SEO, UI + API dalam satu projek | `npm run dev` |
+| H | Node/Express + Postgres | API tersuai, kawalan penuh | `npm run dev` / `npm start` |
+| I | Laravel + MySQL | PHP, admin panel, hosting biasa | `php artisan serve` |
+| J | FastAPI/Django + Postgres | API Python, admin Django | `uvicorn` / `manage.py runserver` |
 
 Peraturan: pilih SATU stack utama. Hibrid hanya jika pengguna nyatakan
 dengan jelas lapisan mana buat apa.

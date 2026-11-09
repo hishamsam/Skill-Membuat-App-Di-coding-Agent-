@@ -17,13 +17,14 @@ Jika port 7979 tiada, buka FigCraft live:
 figcraft --control 7979 &
 ```
 
-Dua laluan:
+**FigCraft live edit WAJIB.** Jangan guna MCP `figcraft` headless untuk
+menggantikan app. Jika app belum dibuka, berhenti dan minta pengguna buka
+`figcraft --control 7979`.
 
 | Laluan | Bila guna |
 | --- | --- |
-| MCP `figcraft-app` | Sedikit perubahan, mahu nampak live dalam app |
+| MCP `figcraft-app` | Sedikit perubahan, nampak live dalam app |
 | Skrip `figcraft-cli mcp --attach 7979` | Banyak layer — SATU skrip, satu larian |
-| MCP `figcraft` (headless) | Rehearsal / eksport tanpa app |
 
 Peraturan: lebih daripada 10 layer → tulis skrip, jangan panggil tool satu-satu.
 
@@ -37,7 +38,7 @@ Peraturan: lebih daripada 10 layer → tulis skrip, jangan panggil tool satu-sat
    - apa diambil / diganti / sengaja berbeza.
 3. Tulis `projek/<slug>/design/build.py` menggunakan
    `skrip/figcraft/fclib.py` (lihat `templat/figcraft/build.py`).
-4. Rehearsal dalam dokumen buangan:
+4. Rehearsal dalam dokumen buangan (masih dalam app live):
 
    ```bash
    python3 -I projek/<slug>/design/build.py --rehearsal

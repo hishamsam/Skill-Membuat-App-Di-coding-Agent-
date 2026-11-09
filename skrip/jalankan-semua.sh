@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Jalankan semua skrip semakan sekali gus.
-# Guna: bash skrip/jalankan-semua.sh [slug] [A|B|C|D|E|F]
+# Guna: bash skrip/jalankan-semua.sh [slug] [A-J]
 #
 # Tanpa slug: hanya semak persekitaran.
 # Dengan slug: semak persekitaran, cipta projek jika belum ada, kemudian
@@ -26,7 +26,7 @@ if [ -z "$SLUG" ]; then
   echo
   echo "Selesai semakan persekitaran."
   echo "Untuk jalankan semua langkah projek:"
-  echo "  bash skrip/jalankan-semua.sh <slug> [A|B|C|D|E|F]"
+  echo "  bash skrip/jalankan-semua.sh <slug> [A-J]"
   exit 0
 fi
 

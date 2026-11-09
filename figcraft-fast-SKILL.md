@@ -28,11 +28,9 @@ figcraft --control 7979 &
 
 Never close a FigCraft window that holds unsaved work.
 
-Headless alternative (no app window):
-
-```bash
-figcraft-cli mcp            # MCP over stdio, headless
-```
+Live edit is required by this repo's workflow. Do not use the headless
+`figcraft-cli mcp` mode as a substitute; if port 7979 is down, ask the user to
+open the app.
 
 The script attaches on its own, so no MCP server is needed in the session.
 

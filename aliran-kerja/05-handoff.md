@@ -34,6 +34,10 @@ projek/<slug>/
    | Firebase | `npx firebase-tools deploy --only hosting,firestore:rules` |
    | Neon | Deploy API (Worker/Vercel); `db/migrations` dijalankan pada DB produksi |
    | Hibrid | Deploy setiap lapisan ikut jadual di atas |
+   | Next.js | Deploy Vercel (import repo) + env Postgres |
+   | Node/Express | Deploy VPS/Dokploy (Docker/buildpack) + env DB |
+   | Laravel | Deploy VPS/Dokploy; document root `public/`; `php artisan migrate --force` |
+   | FastAPI/Django | Deploy VPS/Dokploy; jalankan migrasi; matikan debug |
 
 4. Uji production (smoke test):
    - buka URL production;
@@ -62,6 +66,10 @@ projek/<slug>/
 | Worker | Git + `wrangler deployments` | `wrangler rollback` |
 | Firebase | Backup Firestore / Git rules | Deploy semula rules + hosting versi lama |
 | Neon | Neon branch / restore | Restore branch atau PITR |
+| Next.js | Git + Vercel deployment history | Promote deployment lama |
+| Node/Express | Backup DB + imej Docker/Git | Deploy semula imej lama |
+| Laravel | `mysqldump` + Git | Restore dump + deploy lama |
+| FastAPI/Django | `pg_dump` + Git | Restore dump + deploy lama |
 
 ## Definisi siap
 

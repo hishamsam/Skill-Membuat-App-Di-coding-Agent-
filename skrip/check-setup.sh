@@ -3,6 +3,8 @@
 # Guna: bash skrip/check-setup.sh
 set -uo pipefail
 
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 ok()   { echo "  OK      $1"; }
 warn() { echo "  AMARAN  $1"; }
 
@@ -46,6 +48,17 @@ echo "Pilihan stack"
 
 command -v docker >/dev/null 2>&1 && ok "docker ada" || warn "docker tiada (Supabase local stack tidak boleh guna)"
 command -v psql >/dev/null 2>&1 && ok "psql ada" || warn "psql tiada (Neon guna klien Node)"
+command -v php >/dev/null 2>&1 && ok "php $(php -r 'echo PHP_VERSION;' 2>/dev/null)" || warn "php tiada (Laravel tidak boleh diuji)"
+command -v composer >/dev/null 2>&1 && ok "composer ada" || warn "composer tiada (Laravel tidak boleh dipasang)"
+
+echo
+echo "Dokploy (pilihan)"
+
+if bash "$ROOT/skrip/setup-dokploy.sh" --check 2>/dev/null | grep -q "aktif"; then
+  ok "Dokploy aktif di port 3000"
+else
+  warn "Dokploy tidak aktif (pilihan; ujian manual tetap boleh)"
+fi
 
 echo
 echo "Selesai. Amaran bukan penghalang; ikut pemasangan/ untuk penyelesaian."

@@ -154,6 +154,7 @@ body.nav-open .overlay{display:block}
 <a class="toc-link toc-h2" href="#en-9-phase-4-local-test" data-label="9. phase 4 — local test">9. Phase 4 — Local test</a>
 <a class="toc-link toc-h3" href="#en-commands_1" data-label="commands">Commands</a>
 <a class="toc-link toc-h3" href="#en-per-stack" data-label="per stack">Per stack</a>
+<a class="toc-link toc-h3" href="#en-optional-dokploy-for-local-testing" data-label="optional: dokploy for local testing">Optional: Dokploy for local testing</a>
 <a class="toc-link toc-h3" href="#en-browser-checks" data-label="browser checks">Browser checks</a>
 <a class="toc-link toc-h3" href="#en-gas-backend-check" data-label="gas backend check">GAS backend check</a>
 <a class="toc-link toc-h2" href="#en-10-phase-5-handoff-and-deploy" data-label="10. phase 5 — handoff and deploy">10. Phase 5 — Handoff and deploy</a>
@@ -197,6 +198,7 @@ body.nav-open .overlay{display:block}
 <a class="toc-link toc-h2" href="#ms-9-fasa-4-ujian-tempatan" data-label="9. fasa 4 — ujian tempatan">9. Fasa 4 — Ujian tempatan</a>
 <a class="toc-link toc-h3" href="#ms-perintah_1" data-label="perintah">Perintah</a>
 <a class="toc-link toc-h3" href="#ms-mengikut-stack" data-label="mengikut stack">Mengikut stack</a>
+<a class="toc-link toc-h3" href="#ms-pilihan-dokploy-untuk-ujian-local" data-label="pilihan: dokploy untuk ujian local">Pilihan: Dokploy untuk ujian local</a>
 <a class="toc-link toc-h3" href="#ms-semakan-pelayar" data-label="semakan pelayar">Semakan pelayar</a>
 <a class="toc-link toc-h3" href="#ms-semakan-backend-gas" data-label="semakan backend gas">Semakan backend GAS</a>
 <a class="toc-link toc-h2" href="#ms-10-fasa-5-serahan-dan-deploy" data-label="10. fasa 5 — serahan dan deploy">10. Fasa 5 — Serahan dan deploy</a>
@@ -396,7 +398,7 @@ Do not edit the OpenCode config to work around this; open the app in live mode.<
 <p>Each project:</p>
 <pre><code class="language-text">projek/&lt;slug&gt;/
 ├── STATUS.md                 # phase checkboxes
-├── STACK                     # A–F
+├── STACK                     # A–J
 ├── prd/PRD-v0.1.md
 ├── refs/                     # reference images
 ├── design/
@@ -412,7 +414,8 @@ Do not edit the OpenCode config to work around this; open the app in live mode.<
 <pre><code class="language-bash"># 1. Check the environment
 bash skrip/check-setup.sh
 
-# 2. Create a project (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hybrid)
+# 2. Create a project (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon,
+#    F=Hybrid, G=Next.js, H=Node, I=Laravel, J=Python)
 bash skrip/new-project.sh sistem-tempahan A
 
 # 3. Put reference images here
@@ -449,7 +452,7 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 </tr>
 <tr>
 <td>1</td>
-<td><code>bash skrip/new-project.sh &lt;slug&gt; [A-F]</code></td>
+<td><code>bash skrip/new-project.sh &lt;slug&gt; [A-J]</code></td>
 <td>Create <code>projek/&lt;slug&gt;/</code> with starter files</td>
 </tr>
 <tr>
@@ -484,7 +487,7 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 </tr>
 <tr>
 <td>All</td>
-<td><code>bash skrip/jalankan-semua.sh &lt;slug&gt; [A-F]</code></td>
+<td><code>bash skrip/jalankan-semua.sh &lt;slug&gt; [A-J]</code></td>
 <td>check-setup, new-project, qa-check, test-local --check</td>
 </tr>
 <tr>
@@ -518,7 +521,7 @@ Stop before deploy.
 </tr>
 <tr>
 <td>2 FigCraft</td>
-<td>Build, inspect the PNGs, use headless mode if port 7979 is down</td>
+<td>Live edit only; ask the user to open port 7979 if it is down</td>
 </tr>
 <tr>
 <td>3 Code</td>
@@ -653,6 +656,26 @@ waiting for approval.</p>
 <td>Hybrid</td>
 <td>Two or more services with clear boundaries</td>
 </tr>
+<tr>
+<td>G</td>
+<td>Next.js + Postgres</td>
+<td>SSR, SEO, UI + API in one Next.js project</td>
+</tr>
+<tr>
+<td>H</td>
+<td>Node/Express + Postgres</td>
+<td>Custom Node API, full control, VPS/Dokploy</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Laravel + MySQL</td>
+<td>PHP, admin panel, VPS/Dokploy</td>
+</tr>
+<tr>
+<td>J</td>
+<td>FastAPI/Django + Postgres</td>
+<td>Python API, Django admin, VPS/Dokploy</td>
+</tr>
 </tbody>
 </table>
 <p>The PRD records the choice and the rejected alternatives in Chapter 6.</p>
@@ -718,6 +741,8 @@ or "build" to continue.</p>
 <ul>
 <li>Read PRD Chapter 12 and the actual images in <code>refs/</code>. The FigCraft MCP
   cannot see images; the agent must open them.</li>
+<li>Use <strong>live edit mode only</strong> (<code>figcraft-app</code>, port 7979). If it is down, stop
+  and ask the user to run <code>figcraft --control 7979</code>. Do not use headless.</li>
 <li>Write <code>design/DESIGN-DNA.md</code>: grid, type, palette, spacing, radius,
   density, signature element.</li>
 <li>Build with one Python script, not one MCP call per layer.</li>
@@ -854,6 +879,22 @@ design/exports/S-01-desktop.png
 <td>F Hybrid</td>
 <td>Combination; do not duplicate logic</td>
 </tr>
+<tr>
+<td>G Next.js</td>
+<td><code>app/</code>, <code>app/api/</code>, <code>package.json</code>, <code>.env.example</code></td>
+</tr>
+<tr>
+<td>H Node/Express</td>
+<td><code>app/src/</code>, <code>app/server.js</code>, <code>package.json</code>, <code>.env.example</code></td>
+</tr>
+<tr>
+<td>I Laravel</td>
+<td><code>app/</code>, <code>app/routes/</code>, <code>app/resources/views/</code>, <code>composer.json</code></td>
+</tr>
+<tr>
+<td>J FastAPI/Django</td>
+<td><code>app/main.py</code> or <code>app/manage.py</code>, <code>requirements.txt</code></td>
+</tr>
 </tbody>
 </table>
 <h3 id="en-quality-gate">Quality gate<a class="anchor" href="#en-quality-gate" aria-label="Pautan ke bahagian ini">#</a></h3>
@@ -901,8 +942,32 @@ bash skrip/test-local.sh &lt;slug&gt; --check
 <td>F Hybrid</td>
 <td>Start each service in its own terminal</td>
 </tr>
+<tr>
+<td>G Next.js</td>
+<td><code>npm run dev -- -p 4173</code></td>
+</tr>
+<tr>
+<td>H Node/Express</td>
+<td><code>npm run dev</code> or <code>npm start</code></td>
+</tr>
+<tr>
+<td>I Laravel</td>
+<td><code>php artisan serve --host=127.0.0.1 --port=4173</code></td>
+</tr>
+<tr>
+<td>J FastAPI/Django</td>
+<td><code>uvicorn main:app</code> or <code>manage.py runserver</code></td>
+</tr>
 </tbody>
 </table>
+<h3 id="en-optional-dokploy-for-local-testing">Optional: Dokploy for local testing<a class="anchor" href="#en-optional-dokploy-for-local-testing" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Dokploy is optional. Ask the user for permission before installing it. If the
+user declines, skip it and continue with the manual commands above.</p>
+<pre><code class="language-bash">bash skrip/setup-dokploy.sh        # asks y/N
+</code></pre>
+<p>The script installs Docker (if missing) and Dokploy on a Linux dev/VPS machine.
+It needs root and free ports 80, 443, and 3000. Never run it on production.
+If installation fails, report it and continue manual testing.</p>
 <h3 id="en-browser-checks">Browser checks<a class="anchor" href="#en-browser-checks" aria-label="Pautan ke bahagian ini">#</a></h3>
 <p>Test at 360×800, 390×844, 768×1024, 1024×768, and 1440×900.</p>
 <p>Check:</p>
@@ -988,11 +1053,15 @@ bash skrip/test-local.sh &lt;slug&gt; --check
 <td>Check tools, FigCraft, port, MCP, Docker, <code>psql</code></td>
 </tr>
 <tr>
-<td><code>skrip/jalankan-semua.sh &lt;slug&gt; [A–F]</code></td>
+<td><code>skrip/jalankan-semua.sh &lt;slug&gt; [A–J]</code></td>
 <td>Run setup, project creation, QA, and local test in one command</td>
 </tr>
 <tr>
-<td><code>skrip/new-project.sh &lt;slug&gt; [A–F]</code></td>
+<td><code>skrip/setup-dokploy.sh</code></td>
+<td>Optional: install Dokploy for local testing (asks permission first)</td>
+</tr>
+<tr>
+<td><code>skrip/new-project.sh &lt;slug&gt; [A–J]</code></td>
 <td>Create the project folder and starter files</td>
 </tr>
 <tr>
@@ -1076,7 +1145,7 @@ python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal --save
 </tr>
 <tr>
 <td><code>pemasangan/02-figcraft.md</code></td>
-<td>FigCraft headless and live</td>
+<td>FigCraft live mode (required) and headless reference</td>
 </tr>
 <tr>
 <td><code>pemasangan/03-gas.md</code></td>
@@ -1097,6 +1166,26 @@ python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal --save
 <tr>
 <td><code>pemasangan/07-neon.md</code></td>
 <td>Neon setup</td>
+</tr>
+<tr>
+<td><code>pemasangan/08-dokploy.md</code></td>
+<td>Optional Dokploy for local testing</td>
+</tr>
+<tr>
+<td><code>pemasangan/09-nextjs.md</code></td>
+<td>Next.js + Postgres</td>
+</tr>
+<tr>
+<td><code>pemasangan/10-node-express.md</code></td>
+<td>Node/Express + Postgres</td>
+</tr>
+<tr>
+<td><code>pemasangan/11-laravel.md</code></td>
+<td>Laravel + MySQL</td>
+</tr>
+<tr>
+<td><code>pemasangan/12-python.md</code></td>
+<td>FastAPI/Django + Postgres</td>
 </tr>
 </tbody>
 </table>
@@ -1393,7 +1482,7 @@ Jangan ubah config OpenCode untuk mengelak masalah ini; buka app dalam mod live.
 <p>Setiap projek:</p>
 <pre><code class="language-text">projek/&lt;slug&gt;/
 ├── STATUS.md                 # senarai semak fasa
-├── STACK                     # A–F
+├── STACK                     # A–J
 ├── prd/PRD-v0.1.md
 ├── refs/                     # imej rujukan
 ├── design/
@@ -1409,7 +1498,8 @@ Jangan ubah config OpenCode untuk mengelak masalah ini; buka app dalam mod live.
 <pre><code class="language-bash"># 1. Semak persekitaran
 bash skrip/check-setup.sh
 
-# 2. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hibrid)
+# 2. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon,
+#    F=Hibrid, G=Next.js, H=Node, I=Laravel, J=Python)
 bash skrip/new-project.sh sistem-tempahan A
 
 # 3. Letak imej rujukan di sini
@@ -1446,7 +1536,7 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 </tr>
 <tr>
 <td>1</td>
-<td><code>bash skrip/new-project.sh &lt;slug&gt; [A-F]</code></td>
+<td><code>bash skrip/new-project.sh &lt;slug&gt; [A-J]</code></td>
 <td>Cipta <code>projek/&lt;slug&gt;/</code> dengan fail permulaan</td>
 </tr>
 <tr>
@@ -1481,7 +1571,7 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 </tr>
 <tr>
 <td>Semua</td>
-<td><code>bash skrip/jalankan-semua.sh &lt;slug&gt; [A-F]</code></td>
+<td><code>bash skrip/jalankan-semua.sh &lt;slug&gt; [A-J]</code></td>
 <td>check-setup, new-project, qa-check, test-local --check</td>
 </tr>
 <tr>
@@ -1514,7 +1604,7 @@ Berhenti sebelum deploy.
 </tr>
 <tr>
 <td>2 FigCraft</td>
-<td>Bina, semak PNG, guna headless jika port 7979 tiada</td>
+<td>Live edit sahaja; minta pengguna buka port 7979 jika tiada</td>
 </tr>
 <tr>
 <td>3 Kod</td>
@@ -1648,6 +1738,26 @@ demi satu, kemudian menulis PRD dan terus ke Fasa 2 tanpa menunggu kelulusan.</p
 <td>Hibrid</td>
 <td>Dua servis atau lebih dengan sempadan jelas</td>
 </tr>
+<tr>
+<td>G</td>
+<td>Next.js + Postgres</td>
+<td>SSR, SEO, UI + API dalam satu projek</td>
+</tr>
+<tr>
+<td>H</td>
+<td>Node/Express + Postgres</td>
+<td>API Node tersuai, kawalan penuh, VPS/Dokploy</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Laravel + MySQL</td>
+<td>PHP, admin panel, VPS/Dokploy</td>
+</tr>
+<tr>
+<td>J</td>
+<td>FastAPI/Django + Postgres</td>
+<td>API Python, admin Django, VPS/Dokploy</td>
+</tr>
 </tbody>
 </table>
 <p>PRD merekod pilihan dan alternatif yang ditolak dalam Bab 6.</p>
@@ -1714,6 +1824,8 @@ semakan penerimaan.</p>
 <ul>
 <li>Baca PRD Bab 12 dan imej sebenar dalam <code>refs/</code>. MCP FigCraft tidak boleh
   melihat imej; agent mesti membuka fail itu.</li>
+<li>Guna <strong>mod live edit sahaja</strong> (<code>figcraft-app</code>, port 7979). Jika tiada, berhenti
+  dan minta pengguna jalankan <code>figcraft --control 7979</code>. Jangan guna headless.</li>
 <li>Tulis <code>design/DESIGN-DNA.md</code>: grid, tipografi, palette, spacing, radius,
   density, elemen signature.</li>
 <li>Bina dengan SATU skrip Python, bukan satu panggilan MCP setiap layer.</li>
@@ -1850,6 +1962,22 @@ design/exports/S-01-desktop.png
 <td>F Hibrid</td>
 <td>Gabungan; jangan ulang logik</td>
 </tr>
+<tr>
+<td>G Next.js</td>
+<td><code>app/</code>, <code>app/api/</code>, <code>package.json</code>, <code>.env.example</code></td>
+</tr>
+<tr>
+<td>H Node/Express</td>
+<td><code>app/src/</code>, <code>app/server.js</code>, <code>package.json</code>, <code>.env.example</code></td>
+</tr>
+<tr>
+<td>I Laravel</td>
+<td><code>app/</code>, <code>app/routes/</code>, <code>app/resources/views/</code>, <code>composer.json</code></td>
+</tr>
+<tr>
+<td>J FastAPI/Django</td>
+<td><code>app/main.py</code> atau <code>app/manage.py</code>, <code>requirements.txt</code></td>
+</tr>
 </tbody>
 </table>
 <h3 id="ms-gerbang-kualiti">Gerbang kualiti<a class="anchor" href="#ms-gerbang-kualiti" aria-label="Pautan ke bahagian ini">#</a></h3>
@@ -1897,8 +2025,32 @@ bash skrip/test-local.sh &lt;slug&gt; --check
 <td>F Hibrid</td>
 <td>Jalankan setiap servis dalam terminal sendiri</td>
 </tr>
+<tr>
+<td>G Next.js</td>
+<td><code>npm run dev -- -p 4173</code></td>
+</tr>
+<tr>
+<td>H Node/Express</td>
+<td><code>npm run dev</code> atau <code>npm start</code></td>
+</tr>
+<tr>
+<td>I Laravel</td>
+<td><code>php artisan serve --host=127.0.0.1 --port=4173</code></td>
+</tr>
+<tr>
+<td>J FastAPI/Django</td>
+<td><code>uvicorn main:app</code> atau <code>manage.py runserver</code></td>
+</tr>
 </tbody>
 </table>
+<h3 id="ms-pilihan-dokploy-untuk-ujian-local">Pilihan: Dokploy untuk ujian local<a class="anchor" href="#ms-pilihan-dokploy-untuk-ujian-local" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Dokploy adalah pilihan. Tanya kebenaran pengguna sebelum memasang. Jika
+pengguna menolak, langkau dan teruskan perintah manual di atas.</p>
+<pre><code class="language-bash">bash skrip/setup-dokploy.sh        # tanya y/N
+</code></pre>
+<p>Skrip memasang Docker (jika tiada) dan Dokploy pada mesin Linux dev/VPS.
+Perlu root dan port 80, 443, 3000 bebas. Jangan jalankan pada produksi.
+Jika pemasangan gagal, lapor dan teruskan ujian manual.</p>
 <h3 id="ms-semakan-pelayar">Semakan pelayar<a class="anchor" href="#ms-semakan-pelayar" aria-label="Pautan ke bahagian ini">#</a></h3>
 <p>Uji pada 360×800, 390×844, 768×1024, 1024×768, dan 1440×900.</p>
 <p>Semak:</p>
@@ -1984,11 +2136,15 @@ bash skrip/test-local.sh &lt;slug&gt; --check
 <td>Semak alat, FigCraft, port, MCP, Docker, <code>psql</code></td>
 </tr>
 <tr>
-<td><code>skrip/jalankan-semua.sh &lt;slug&gt; [A–F]</code></td>
+<td><code>skrip/jalankan-semua.sh &lt;slug&gt; [A–J]</code></td>
 <td>Jalankan semakan, cipta projek, QA dan ujian tempatan sekali gus</td>
 </tr>
 <tr>
-<td><code>skrip/new-project.sh &lt;slug&gt; [A–F]</code></td>
+<td><code>skrip/setup-dokploy.sh</code></td>
+<td>Pilihan: pasang Dokploy untuk ujian local (tanya kebenaran dahulu)</td>
+</tr>
+<tr>
+<td><code>skrip/new-project.sh &lt;slug&gt; [A–J]</code></td>
 <td>Cipta folder projek dan fail permulaan</td>
 </tr>
 <tr>
@@ -2072,7 +2228,7 @@ python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal --save
 </tr>
 <tr>
 <td><code>pemasangan/02-figcraft.md</code></td>
-<td>FigCraft headless dan live</td>
+<td>FigCraft live (wajib) dan rujukan headless</td>
 </tr>
 <tr>
 <td><code>pemasangan/03-gas.md</code></td>
@@ -2093,6 +2249,26 @@ python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal --save
 <tr>
 <td><code>pemasangan/07-neon.md</code></td>
 <td>Pemasangan Neon</td>
+</tr>
+<tr>
+<td><code>pemasangan/08-dokploy.md</code></td>
+<td>Dokploy pilihan untuk ujian local</td>
+</tr>
+<tr>
+<td><code>pemasangan/09-nextjs.md</code></td>
+<td>Next.js + Postgres</td>
+</tr>
+<tr>
+<td><code>pemasangan/10-node-express.md</code></td>
+<td>Node/Express + Postgres</td>
+</tr>
+<tr>
+<td><code>pemasangan/11-laravel.md</code></td>
+<td>Laravel + MySQL</td>
+</tr>
+<tr>
+<td><code>pemasangan/12-python.md</code></td>
+<td>FastAPI/Django + Postgres</td>
 </tr>
 </tbody>
 </table>

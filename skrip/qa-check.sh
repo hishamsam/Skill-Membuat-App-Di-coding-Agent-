@@ -18,6 +18,13 @@ for f in "$PROJ/app/index.html" "$PROJ/app/public/index.html" "$PROJ/app/dist/in
   [ -f "$f" ] && FRONT="$f" && break
 done
 
+FRAMEWORK=0
+if [ -z "$FRONT" ]; then
+  for f in "$PROJ/app/package.json" "$PROJ/app/composer.json" "$PROJ/app/manage.py" "$PROJ/app/pyproject.toml"; do
+    [ -f "$f" ] && FRAMEWORK=1 && break
+  done
+fi
+
 FAIL=0
 WARN=0
 
@@ -27,62 +34,80 @@ ok()   { echo "  OK     $1"; }
 
 echo "QA — projek/$SLUG"
 
-if [ -z "$FRONT" ]; then
-  fail "index.html tidak dijumpai dalam app/"
+if [ -z "$FRONT" ] && [ "$FRAMEWORK" -eq 0 ]; then
+  fail "index.html atau projek framework tidak dijumpai dalam app/"
   echo
   echo "Keputusan: $FAIL gagal, $WARN amaran"
   exit 1
 fi
 
-echo "Frontend: ${FRONT#$ROOT/}"
+if [ -n "$FRONT" ]; then
+  SCAN="$FRONT"
+  GREP=(-r)
+  echo "Frontend: ${FRONT#$ROOT/}"
+else
+  SCAN="$PROJ/app"
+  GREP=(-r --binary-files=without-match --exclude-dir=node_modules
+        --exclude-dir=vendor --exclude-dir=.next --exclude-dir=dist
+        --exclude-dir=build --exclude-dir=.git)
+  echo "Frontend: ${SCAN#$ROOT/} (projek framework)"
+fi
 
 # 1. Meta viewport
-if grep -qi 'name="viewport"' "$FRONT"; then ok "meta viewport"; else fail "meta viewport tiada"; fi
+if grep -qi "${GREP[@]}" 'name="viewport"\|viewport' "$SCAN"; then
+  ok "meta viewport"
+elif [ "$FRAMEWORK" -eq 1 ]; then
+  warn "corak viewport tidak dijumpai — semak konfigurasi framework"
+else
+  fail "meta viewport tiada"
+fi
 
 # 2. Dark mode
-if grep -qE 'dark:|prefers-color-scheme|darkMode' "$FRONT"; then
+if grep -qE "${GREP[@]}" 'dark:|prefers-color-scheme|darkMode' "$SCAN"; then
   fail "kesan dark mode dijumpai (light mode sahaja)"
 else
   ok "tiada dark mode"
 fi
 
 # 3. Placeholder / kod tidak siap
-if grep -nE '\{\{|TODO|FIXME|lorem ipsum|Lorem ipsum' "$FRONT" >/dev/null; then
+if grep -nE "${GREP[@]}" '\{\{|TODO|FIXME|lorem ipsum|Lorem ipsum' "$SCAN" >/dev/null; then
   fail "placeholder/TODO/lorem dijumpai"
 else
   ok "tiada placeholder"
 fi
 
 # 4. Butang mati (kira kasar)
-BUTTONS=$(grep -o '<button' "$FRONT" | wc -l | tr -d ' ')
-ACTIONS=$(grep -o 'data-action=' "$FRONT" | wc -l | tr -d ' ')
+BUTTONS=$(grep -rho "${GREP[@]}" '<button' "$SCAN" | wc -l | tr -d ' ')
+ACTIONS=$(grep -rho "${GREP[@]}" 'data-action=\|onClick=\|@click=' "$SCAN" | wc -l | tr -d ' ')
 if [ "$BUTTONS" -gt 0 ] && [ "$ACTIONS" -lt "$BUTTONS" ]; then
-  warn "$BUTTONS butang, $ACTIONS data-action — semak butang tanpa handler"
+  warn "$BUTTONS butang, $ACTIONS handler — semak butang tanpa handler"
 else
-  ok "butang ada data-action ($ACTIONS/$BUTTONS)"
+  ok "butang ada handler ($ACTIONS/$BUTTONS)"
 fi
 
 # 5. Responsif
-if grep -qE '(sm:|md:|lg:|xl:|@media)' "$FRONT"; then
+if grep -qE "${GREP[@]}" '(sm:|md:|lg:|xl:|@media)' "$SCAN"; then
   ok "kelas/media responsif dijumpai"
+elif [ "$FRAMEWORK" -eq 1 ]; then
+  warn "corak responsif tidak dijumpai — semak CSS framework"
 else
   fail "tiada kelas responsif (sm:/md:/lg: atau @media)"
 fi
 
 # 6. Rahsia dalam frontend
-if grep -nE 'service_role|SUPABASE_SERVICE|DATABASE_URL["'"'"' ]*[:=]["'"'"' ]*postgres|BEGIN (RSA |EC )?PRIVATE KEY|sk_live_|AKIA[0-9A-Z]{16}' "$FRONT" >/dev/null; then
+if grep -nE "${GREP[@]}" 'service_role|SUPABASE_SERVICE|DATABASE_URL["'"'"' ]*[:=]["'"'"' ]*postgres|BEGIN (RSA |EC )?PRIVATE KEY|sk_live_|AKIA[0-9A-Z]{16}' "$SCAN" >/dev/null; then
   fail "kemungkinan rahsia dalam frontend"
 else
   ok "tiada corak rahsia"
 fi
 
 # 7. URL backend masih placeholder
-if grep -qE 'URL_PELANCARAN_GAS_ANDA_DISINI|GANTI_|YOUR_API_URL|example\.com' "$FRONT"; then
+if grep -qE "${GREP[@]}" 'URL_PELANCARAN_GAS_ANDA_DISINI|GANTI_|YOUR_API_URL|example\.com' "$SCAN"; then
   warn "URL/placeholder contoh masih ada — pastikan ini disengajakan"
 fi
 
 # 8. Scroll mendatar (heuristik)
-if grep -qE 'overflow-x:\s*(scroll|auto)' "$FRONT"; then
+if grep -qE "${GREP[@]}" 'overflow-x:\s*(scroll|auto)' "$SCAN"; then
   ok "overflow-x dibenarkan pada elemen tertentu (semak visual)"
 fi
 

@@ -7,10 +7,11 @@ untuk Fasa 3 (kod).
 
 | Mod | Server | Perlu app? | Kegunaan |
 | --- | --- | --- | --- |
-| Headless | `figcraft` → `figcraft-cli mcp` | Tidak | Buat/eksport fail tanpa tetingkap |
-| Live | `figcraft-app` → `figcraft-cli mcp --attach 7979` | Ya | Nampak perubahan langsung dalam app |
+| Live | `figcraft-app` → `figcraft-cli mcp --attach 7979` | Ya | **WAJIB untuk aliran kerja repo ini** |
+| Headless | `figcraft` → `figcraft-cli mcp` | Tidak | Rujukan teknikal sahaja |
 
-Kedua-duanya sudah didaftar dalam `opencode.json` mesin ini.
+Kedua-duanya sudah didaftar dalam `opencode.json` mesin ini, tetapi agent
+mesti guna **live** untuk Fasa 2.
 
 ## Buka mod live
 

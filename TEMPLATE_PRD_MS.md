@@ -107,6 +107,10 @@ Tanya mengikut urutan. Berhenti selepas SATU soalan. Tunggu jawapan.
 | **D** | **Firebase** (Firestore + Auth + Hosting) | Realtime sync, aplikasi mudah alih/web, auth pantas | Free tier; kos baca/tulis boleh naik; vendor lock-in |
 | **E** | **Neon** (serverless Postgres) | Perlu Postgres sebenar, branching, scale-to-zero | Perlu lapisan API (Worker/Vercel); cold start |
 | **F** | **Hibrid** | Contoh: frontend static + Neon + Worker API | Dua servis untuk dijaga |
+| **G** | **Next.js + Postgres** (Vercel + Neon/Supabase) | SSR, API routes, SEO, satu projek untuk UI + API | Vendor Vercel; Postgres berasingan |
+| **H** | **Node/Express + Postgres** (VPS/Dokploy) | Kawalan penuh, API tersuai, deploy sendiri | Perlu jaga server, backup, TLS |
+| **I** | **Laravel + MySQL** (VPS/Dokploy) | Projek PHP, admin panel, hosting biasa | Perlu PHP + MySQL; deploy lebih manual |
+| **J** | **FastAPI/Django + Postgres** (VPS/Dokploy) | API Python, data science, admin Django | Perlu Python runtime; deploy lebih manual |
 
 Tanya juga: "Kenapa pilihan itu?" Jawapan masuk Bab 6.1.
 Jika pengguna tiada pilihan, syorkan satu dan beri sebab dalam satu ayat.
@@ -118,6 +122,7 @@ Jika pengguna tiada pilihan, syorkan satu dan beri sebab dalam satu ayat.
 - C. Firebase Hosting
 - D. Google Apps Script Web App
 - E. Belum pasti — cadangkan yang paling murah
+- F. VPS sendiri (Dokploy) — deploy terkawal, kos tetap
 
 ## A8. Soalan susulan teknologi (bertanya mengikut pilihan A6 — MAKSIMUM 4)
 
@@ -155,6 +160,30 @@ Jika pengguna tiada pilihan, syorkan satu dan beri sebab dalam satu ayat.
 1. Lapisan mana buat apa? (frontend / API / DB / auth)
 2. Servis mana yang memegang data utama?
 3. Servis mana yang boleh gagal tanpa mematikan app?
+
+### Jika G — Next.js + Postgres
+1. App Router atau Pages Router?
+2. Auth: NextAuth/Auth.js, Clerk, Supabase Auth, atau sendiri?
+3. API dalam Next.js (`app/api`) atau servis berasingan?
+4. Deploy Vercel + Postgres Neon/Supabase, atau VPS?
+
+### Jika H — Node/Express + Postgres
+1. Bahasa: JavaScript atau TypeScript?
+2. Auth: JWT sendiri, session, atau penyedia luar?
+3. ORM: Prisma, Drizzle, Kysely, atau SQL terus?
+4. Deploy VPS/Dokploy: Docker atau proses Node terus?
+
+### Jika I — Laravel + MySQL
+1. Versi Laravel dan PHP?
+2. Auth: Breeze/Jetstream/Filament, atau tersuai?
+3. MySQL di server sama atau DB berasingan?
+4. Deploy VPS/Dokploy atau hosting PHP biasa?
+
+### Jika J — FastAPI/Django + Postgres
+1. FastAPI atau Django?
+2. Auth: JWT, session Django, atau penyedia luar?
+3. ORM: SQLAlchemy/Alembic atau Django ORM?
+4. Deploy VPS/Dokploy dengan Docker atau proses Python terus?
 
 ## A9. Rujukan visual & peranti
 "Ada gambar rujukan? Di mana failnya?"

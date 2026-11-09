@@ -99,6 +99,68 @@ Tiada `psql` pada mesin ini.
 Jalankan setiap servis yang terlibat, kemudian uji aliran hujung ke hujung.
 Contoh: `wrangler dev` (API) + `python3 -m http.server` (frontend).
 
+### G — Next.js
+
+```bash
+cd projek/<slug>/app
+npm install
+npm run dev -- -p 4173
+```
+
+- Uji route server dan route API.
+- `npm run build` mesti lulus sebelum serahan.
+
+### H — Node/Express
+
+```bash
+cd projek/<slug>/app
+npm install
+npm run dev        # atau npm start
+```
+
+- Uji `/api/health` dan satu CRUD.
+- Pastikan `.env` tidak di-commit.
+
+### I — Laravel
+
+```bash
+cd projek/<slug>/app
+composer install
+php artisan migrate
+php artisan serve --host=127.0.0.1 --port=4173
+```
+
+- Uji login, CRUD, dan validation.
+- `APP_DEBUG=false` untuk ujian production-like.
+
+### J — FastAPI/Django
+
+FastAPI:
+
+```bash
+cd projek/<slug>/app
+python3 -m uvicorn main:app --host 127.0.0.1 --port 4173
+```
+
+Django:
+
+```bash
+cd projek/<slug>/app
+python3 manage.py migrate
+python3 manage.py runserver 127.0.0.1:4173
+```
+
+## Pilihan: Dokploy untuk ujian local
+
+Dokploy hanya dipasang **jika pengguna membenarkan**. Tanya dahulu, kemudian:
+
+```bash
+bash skrip/setup-dokploy.sh
+```
+
+Jika pengguna menolak atau pemasangan gagal, langkau dan teruskan ujian
+manual di atas. Jangan jadikan Dokploy syarat lulus.
+
 ## Senarai semak ujian (semua stack)
 
 - [ ] Skrin login / skrin utama dibuka tanpa ralat konsol.

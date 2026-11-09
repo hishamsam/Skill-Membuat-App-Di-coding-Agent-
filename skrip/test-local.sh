@@ -54,6 +54,33 @@ run_static() {
   fi
 }
 
+run_dev() {
+  local label="$1" dir="$2"
+  shift 2
+  if [ ! -d "$dir" ]; then
+    echo "GAGAL: folder tiada: ${dir#$ROOT/}"
+    exit 1
+  fi
+  echo "$label: http://localhost:$PORT (${dir#$ROOT/})"
+  if [ "$CHECK" -eq 1 ]; then
+    local log="/tmp/opencode-dev-$SLUG.log"
+    (cd "$dir" && "$@" >"$log" 2>&1) &
+    PID=$!
+    trap 'kill $PID 2>/dev/null || true; pkill -P $PID 2>/dev/null || true' EXIT
+    code="000"
+    for _ in $(seq 1 45); do
+      code="$(curl -s -o /dev/null -w '%{http_code}' "http://localhost:$PORT/" || true)"
+      [ "$code" != "000" ] && break
+      sleep 1
+    done
+    echo "HTTP $code"
+    [ "$code" != "000" ] || { echo "GAGAL: server tidak bangkit. Lihat $log"; exit 1; }
+    echo "LULUS: $label memberi respons."
+  else
+    cd "$dir" && exec "$@"
+  fi
+}
+
 run_wrangler() {
   echo "Wrangler dev (Ctrl+C untuk henti)"
   cd "$APP"
@@ -107,6 +134,39 @@ case "$STACK" in
   F)
     echo "Stack F — Hibrid. Jalankan servis API dan frontend dalam dua terminal."
     run_static
+    ;;
+  G)
+    echo "Stack G — Next.js. Pastikan dependencies dipasang: (cd projek/$SLUG/app && npm install)"
+    run_dev "Next.js dev" "$APP" npm run dev -- -p "$PORT"
+    ;;
+  H)
+    echo "Stack H — Node/Express. Pastikan dependencies dipasang: (cd projek/$SLUG/app && npm install)"
+    if grep -q '"dev"' "$APP/package.json" 2>/dev/null; then
+      run_dev "Node dev" "$APP" env PORT="$PORT" npm run dev
+    else
+      run_dev "Node start" "$APP" env PORT="$PORT" npm start
+    fi
+    ;;
+  I)
+    echo "Stack I — Laravel. Pastikan dependencies dipasang: (cd projek/$SLUG/app && composer install)"
+    if [ ! -f "$APP/artisan" ]; then
+      echo "GAGAL: artisan tiada dalam projek/$SLUG/app."
+      exit 1
+    fi
+    run_dev "Laravel" "$APP" php artisan serve --host=127.0.0.1 --port="$PORT"
+    ;;
+  J)
+    echo "Stack J — FastAPI/Django. Pastikan dependencies dipasang."
+    if [ -f "$APP/manage.py" ]; then
+      run_dev "Django" "$APP" python3 manage.py runserver "127.0.0.1:$PORT"
+    elif [ -f "$APP/app/main.py" ]; then
+      run_dev "FastAPI" "$APP" python3 -m uvicorn app.main:app --host 127.0.0.1 --port "$PORT"
+    elif [ -f "$APP/main.py" ]; then
+      run_dev "FastAPI" "$APP" python3 -m uvicorn main:app --host 127.0.0.1 --port "$PORT"
+    else
+      echo "GAGAL: manage.py atau main.py tidak dijumpai dalam projek/$SLUG/app."
+      exit 1
+    fi
     ;;
   *)
     echo "STACK tidak sah: $STACK"

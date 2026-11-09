@@ -134,6 +134,71 @@ projek/<slug>/app/
 Gabung susunan di atas. Tulis dalam PRD Bab 6.3 lapisan mana buat apa.
 Jangan ulang logik yang sama dalam dua servis.
 
+### G — Next.js
+
+```text
+projek/<slug>/app/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── api/...
+├── components/
+├── lib/
+├── package.json
+└── .env.example
+```
+
+- Server component untuk data; client component hanya untuk interaksi.
+- Auth dan query DB di server, bukan dalam bundle klien.
+- Jangan letak `DATABASE_URL` dalam `NEXT_PUBLIC_*`.
+
+### H — Node/Express
+
+```text
+projek/<slug>/app/
+├── src/index.js
+├── src/routes/
+├── src/db.js
+├── public/             # frontend static jika ada
+├── package.json
+└── .env.example
+```
+
+- Validation dan auth di middleware server.
+- Frontend static boleh dihidang oleh Express atau servis berasingan.
+
+### I — Laravel
+
+```text
+projek/<slug>/app/
+├── app/Http/Controllers/
+├── app/Models/
+├── routes/web.php
+├── resources/views/
+├── public/
+├── composer.json
+└── .env.example
+```
+
+- Guna Form Request untuk validation.
+- Blade + Tailwind untuk UI; elak logik dalam view.
+- Document root production mesti `public/`.
+
+### J — FastAPI/Django
+
+```text
+projek/<slug>/app/
+├── main.py / manage.py
+├── app/                # FastAPI routers atau Django apps
+├── templates/          # jika ada UI
+├── requirements.txt
+└── .env.example
+```
+
+- FastAPI: Pydantic untuk validation, dependency untuk auth.
+- Django: form/model validation, template + Tailwind.
+- Debug mesti mati di production.
+
 ## Peraturan kod (semua stack)
 
 - Satu fail frontend yang boleh terus dijalankan; jangan pecah kepada

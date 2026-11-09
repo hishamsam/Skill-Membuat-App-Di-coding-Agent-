@@ -158,7 +158,7 @@ Each project:
 ```text
 projek/<slug>/
 ├── STATUS.md                 # phase checkboxes
-├── STACK                     # A–F
+├── STACK                     # A–J
 ├── prd/PRD-v0.1.md
 ├── refs/                     # reference images
 ├── design/
@@ -177,7 +177,8 @@ projek/<slug>/
 # 1. Check the environment
 bash skrip/check-setup.sh
 
-# 2. Create a project (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hybrid)
+# 2. Create a project (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon,
+#    F=Hybrid, G=Next.js, H=Node, I=Laravel, J=Python)
 bash skrip/new-project.sh sistem-tempahan A
 
 # 3. Put reference images here
@@ -203,14 +204,14 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 | Step | Command | Purpose |
 | --- | --- | --- |
 | 0 | `bash skrip/check-setup.sh` | Check Node, Python, Java, FigCraft, port 7979, MCP, Docker, `psql` |
-| 1 | `bash skrip/new-project.sh <slug> [A-F]` | Create `projek/<slug>/` with starter files |
+| 1 | `bash skrip/new-project.sh <slug> [A-J]` | Create `projek/<slug>/` with starter files |
 | 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Rehearse the FigCraft build without saving |
 | 2 | `python3 -I projek/<slug>/design/build.py --save` | Build and save `design.figcraft` |
 | 3 | `bash skrip/qa-check.sh <slug>` | Static quality gate |
 | 4 | `bash skrip/test-local.sh <slug>` | Serve the app locally |
 | 4 | `bash skrip/test-local.sh <slug> --check` | Smoke-test HTTP 200 and stop |
 | 4 | `bash skrip/test-local.sh <slug> --port 8080` | Use another port |
-| All | `bash skrip/jalankan-semua.sh <slug> [A-F]` | check-setup, new-project, qa-check, test-local --check |
+| All | `bash skrip/jalankan-semua.sh <slug> [A-J]` | check-setup, new-project, qa-check, test-local --check |
 | Docs | `python3 skrip/build-panduan-html.py` | Rebuild `PANDUAN.html` from `PANDUAN.md` |
 
 ### Auto mode (one-shot)
@@ -231,7 +232,7 @@ Stop before deploy.
 | Phase | Auto behaviour |
 | --- | --- |
 | 1 PRD | Full one-by-one interview, choose the stack, mark `[ASSUMPTION]` gaps |
-| 2 FigCraft | Build, inspect the PNGs, use headless mode if port 7979 is down |
+| 2 FigCraft | Live edit only; ask the user to open port 7979 if it is down |
 | 3 Code | Generate the responsive app, no dead buttons |
 | 4 Test | Run, fix up to three rounds, report real output |
 | 5 Deploy | Stop and wait for explicit approval |
@@ -295,6 +296,10 @@ Answer format:
 | D | Firebase | Realtime sync, fast auth, mobile/web |
 | E | Neon | Postgres serverless, branching, separate API |
 | F | Hybrid | Two or more services with clear boundaries |
+| G | Next.js + Postgres | SSR, SEO, UI + API in one Next.js project |
+| H | Node/Express + Postgres | Custom Node API, full control, VPS/Dokploy |
+| I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
+| J | FastAPI/Django + Postgres | Python API, Django admin, VPS/Dokploy |
 
 The PRD records the choice and the rejected alternatives in Chapter 6.
 
@@ -329,6 +334,8 @@ Files: `aliran-kerja/02-design-figcraft.md`, `figcraft-fast-SKILL.md`.
 
 - Read PRD Chapter 12 and the actual images in `refs/`. The FigCraft MCP
   cannot see images; the agent must open them.
+- Use **live edit mode only** (`figcraft-app`, port 7979). If it is down, stop
+  and ask the user to run `figcraft --control 7979`. Do not use headless.
 - Write `design/DESIGN-DNA.md`: grid, type, palette, spacing, radius,
   density, signature element.
 - Build with one Python script, not one MCP call per layer.
@@ -412,6 +419,10 @@ Hard rules:
 | D Firebase | `app/public/index.html`, `firestore.rules`, `firebase.json` |
 | E Neon | `app/public/index.html`, `app/api/`, `app/db/migrations/*.sql` |
 | F Hybrid | Combination; do not duplicate logic |
+| G Next.js | `app/`, `app/api/`, `package.json`, `.env.example` |
+| H Node/Express | `app/src/`, `app/server.js`, `package.json`, `.env.example` |
+| I Laravel | `app/`, `app/routes/`, `app/resources/views/`, `composer.json` |
+| J FastAPI/Django | `app/main.py` or `app/manage.py`, `requirements.txt` |
 
 ### Quality gate
 
@@ -444,6 +455,23 @@ bash skrip/test-local.sh <slug> --check
 | D Firebase | `npx firebase-tools emulators:start` |
 | E Neon | `npx wrangler dev` in `app/api` with a dev branch |
 | F Hybrid | Start each service in its own terminal |
+| G Next.js | `npm run dev -- -p 4173` |
+| H Node/Express | `npm run dev` or `npm start` |
+| I Laravel | `php artisan serve --host=127.0.0.1 --port=4173` |
+| J FastAPI/Django | `uvicorn main:app` or `manage.py runserver` |
+
+### Optional: Dokploy for local testing
+
+Dokploy is optional. Ask the user for permission before installing it. If the
+user declines, skip it and continue with the manual commands above.
+
+```bash
+bash skrip/setup-dokploy.sh        # asks y/N
+```
+
+The script installs Docker (if missing) and Dokploy on a Linux dev/VPS machine.
+It needs root and free ports 80, 443, and 3000. Never run it on production.
+If installation fails, report it and continue manual testing.
 
 ### Browser checks
 
@@ -504,8 +532,9 @@ Files: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
 | Script | Purpose |
 | --- | --- |
 | `skrip/check-setup.sh` | Check tools, FigCraft, port, MCP, Docker, `psql` |
-| `skrip/jalankan-semua.sh <slug> [A–F]` | Run setup, project creation, QA, and local test in one command |
-| `skrip/new-project.sh <slug> [A–F]` | Create the project folder and starter files |
+| `skrip/jalankan-semua.sh <slug> [A–J]` | Run setup, project creation, QA, and local test in one command |
+| `skrip/setup-dokploy.sh` | Optional: install Dokploy for local testing (asks permission first) |
+| `skrip/new-project.sh <slug> [A–J]` | Create the project folder and starter files |
 | `skrip/qa-check.sh <slug>` | Static quality gate |
 | `skrip/test-local.sh <slug> [--check]` | Run the local server, optionally smoke-test and stop |
 | `skrip/figcraft/fclib.py` | FigCraft Python helpers |
@@ -534,12 +563,17 @@ python3 -I projek/<slug>/design/build.py --rehearsal --save
 | `aliran-kerja/05-handoff.md` | Phase 5 deploy and handoff |
 | `templat/PROMPT-AUTO.md` | Copy-paste auto mode prompt (EN + MS) |
 | `pemasangan/01-opencode-mcp.md` | OpenCode MCP config |
-| `pemasangan/02-figcraft.md` | FigCraft headless and live |
+| `pemasangan/02-figcraft.md` | FigCraft live mode (required) and headless reference |
 | `pemasangan/03-gas.md` | GAS setup |
 | `pemasangan/04-supabase.md` | Supabase setup |
 | `pemasangan/05-cloudflare-worker.md` | Cloudflare setup |
 | `pemasangan/06-firebase.md` | Firebase setup |
 | `pemasangan/07-neon.md` | Neon setup |
+| `pemasangan/08-dokploy.md` | Optional Dokploy for local testing |
+| `pemasangan/09-nextjs.md` | Next.js + Postgres |
+| `pemasangan/10-node-express.md` | Node/Express + Postgres |
+| `pemasangan/11-laravel.md` | Laravel + MySQL |
+| `pemasangan/12-python.md` | FastAPI/Django + Postgres |
 
 ## 13. Troubleshooting
 
@@ -752,7 +786,7 @@ Setiap projek:
 ```text
 projek/<slug>/
 ├── STATUS.md                 # senarai semak fasa
-├── STACK                     # A–F
+├── STACK                     # A–J
 ├── prd/PRD-v0.1.md
 ├── refs/                     # imej rujukan
 ├── design/
@@ -771,7 +805,8 @@ projek/<slug>/
 # 1. Semak persekitaran
 bash skrip/check-setup.sh
 
-# 2. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hibrid)
+# 2. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon,
+#    F=Hibrid, G=Next.js, H=Node, I=Laravel, J=Python)
 bash skrip/new-project.sh sistem-tempahan A
 
 # 3. Letak imej rujukan di sini
@@ -797,14 +832,14 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 | Langkah | Perintah | Fungsi |
 | --- | --- | --- |
 | 0 | `bash skrip/check-setup.sh` | Semak Node, Python, Java, FigCraft, port 7979, MCP, Docker, `psql` |
-| 1 | `bash skrip/new-project.sh <slug> [A-F]` | Cipta `projek/<slug>/` dengan fail permulaan |
+| 1 | `bash skrip/new-project.sh <slug> [A-J]` | Cipta `projek/<slug>/` dengan fail permulaan |
 | 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Cuba bina FigCraft tanpa simpan |
 | 2 | `python3 -I projek/<slug>/design/build.py --save` | Bina dan simpan `design.figcraft` |
 | 3 | `bash skrip/qa-check.sh <slug>` | Gerbang kualiti statik |
 | 4 | `bash skrip/test-local.sh <slug>` | Hidang app secara tempatan |
 | 4 | `bash skrip/test-local.sh <slug> --check` | Uji HTTP 200 kemudian henti |
 | 4 | `bash skrip/test-local.sh <slug> --port 8080` | Guna port lain |
-| Semua | `bash skrip/jalankan-semua.sh <slug> [A-F]` | check-setup, new-project, qa-check, test-local --check |
+| Semua | `bash skrip/jalankan-semua.sh <slug> [A-J]` | check-setup, new-project, qa-check, test-local --check |
 | Dok | `python3 skrip/build-panduan-html.py` | Jana semula `PANDUAN.html` daripada `PANDUAN.md` |
 
 ### Mod auto (one-shot)
@@ -824,7 +859,7 @@ Berhenti sebelum deploy.
 | Fasa | Tingkah laku auto |
 | --- | --- |
 | 1 PRD | Temubual penuh satu-satu, pilih stack, tanda setiap lompang `[ANDAIAN]` |
-| 2 FigCraft | Bina, semak PNG, guna headless jika port 7979 tiada |
+| 2 FigCraft | Live edit sahaja; minta pengguna buka port 7979 jika tiada |
 | 3 Kod | Jana aplikasi responsif, tiada butang mati |
 | 4 Ujian | Jalankan, betulkan maksimum 3 pusingan, lapor output sebenar |
 | 5 Deploy | Berhenti dan tunggu kebenaran jelas |
@@ -887,6 +922,10 @@ Format jawapan:
 | D | Firebase | Realtime sync, auth pantas, web/mobile |
 | E | Neon | Postgres serverless, branching, API berasingan |
 | F | Hibrid | Dua servis atau lebih dengan sempadan jelas |
+| G | Next.js + Postgres | SSR, SEO, UI + API dalam satu projek |
+| H | Node/Express + Postgres | API Node tersuai, kawalan penuh, VPS/Dokploy |
+| I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
+| J | FastAPI/Django + Postgres | API Python, admin Django, VPS/Dokploy |
 
 PRD merekod pilihan dan alternatif yang ditolak dalam Bab 6.
 
@@ -922,6 +961,8 @@ Fail: `aliran-kerja/02-design-figcraft.md`, `figcraft-fast-SKILL.md`.
 
 - Baca PRD Bab 12 dan imej sebenar dalam `refs/`. MCP FigCraft tidak boleh
   melihat imej; agent mesti membuka fail itu.
+- Guna **mod live edit sahaja** (`figcraft-app`, port 7979). Jika tiada, berhenti
+  dan minta pengguna jalankan `figcraft --control 7979`. Jangan guna headless.
 - Tulis `design/DESIGN-DNA.md`: grid, tipografi, palette, spacing, radius,
   density, elemen signature.
 - Bina dengan SATU skrip Python, bukan satu panggilan MCP setiap layer.
@@ -1005,6 +1046,10 @@ Peraturan keras:
 | D Firebase | `app/public/index.html`, `firestore.rules`, `firebase.json` |
 | E Neon | `app/public/index.html`, `app/api/`, `app/db/migrations/*.sql` |
 | F Hibrid | Gabungan; jangan ulang logik |
+| G Next.js | `app/`, `app/api/`, `package.json`, `.env.example` |
+| H Node/Express | `app/src/`, `app/server.js`, `package.json`, `.env.example` |
+| I Laravel | `app/`, `app/routes/`, `app/resources/views/`, `composer.json` |
+| J FastAPI/Django | `app/main.py` atau `app/manage.py`, `requirements.txt` |
 
 ### Gerbang kualiti
 
@@ -1037,6 +1082,23 @@ bash skrip/test-local.sh <slug> --check
 | D Firebase | `npx firebase-tools emulators:start` |
 | E Neon | `npx wrangler dev` dalam `app/api` dengan branch dev |
 | F Hibrid | Jalankan setiap servis dalam terminal sendiri |
+| G Next.js | `npm run dev -- -p 4173` |
+| H Node/Express | `npm run dev` atau `npm start` |
+| I Laravel | `php artisan serve --host=127.0.0.1 --port=4173` |
+| J FastAPI/Django | `uvicorn main:app` atau `manage.py runserver` |
+
+### Pilihan: Dokploy untuk ujian local
+
+Dokploy adalah pilihan. Tanya kebenaran pengguna sebelum memasang. Jika
+pengguna menolak, langkau dan teruskan perintah manual di atas.
+
+```bash
+bash skrip/setup-dokploy.sh        # tanya y/N
+```
+
+Skrip memasang Docker (jika tiada) dan Dokploy pada mesin Linux dev/VPS.
+Perlu root dan port 80, 443, 3000 bebas. Jangan jalankan pada produksi.
+Jika pemasangan gagal, lapor dan teruskan ujian manual.
 
 ### Semakan pelayar
 
@@ -1097,8 +1159,9 @@ Fail: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
 | Skrip | Tujuan |
 | --- | --- |
 | `skrip/check-setup.sh` | Semak alat, FigCraft, port, MCP, Docker, `psql` |
-| `skrip/jalankan-semua.sh <slug> [A–F]` | Jalankan semakan, cipta projek, QA dan ujian tempatan sekali gus |
-| `skrip/new-project.sh <slug> [A–F]` | Cipta folder projek dan fail permulaan |
+| `skrip/jalankan-semua.sh <slug> [A–J]` | Jalankan semakan, cipta projek, QA dan ujian tempatan sekali gus |
+| `skrip/setup-dokploy.sh` | Pilihan: pasang Dokploy untuk ujian local (tanya kebenaran dahulu) |
+| `skrip/new-project.sh <slug> [A–J]` | Cipta folder projek dan fail permulaan |
 | `skrip/qa-check.sh <slug>` | Gerbang kualiti statik |
 | `skrip/test-local.sh <slug> [--check]` | Jalankan server tempatan, uji dan henti jika `--check` |
 | `skrip/figcraft/fclib.py` | Pembantu Python FigCraft |
@@ -1127,12 +1190,17 @@ python3 -I projek/<slug>/design/build.py --rehearsal --save
 | `aliran-kerja/05-handoff.md` | Deploy dan serahan Fasa 5 |
 | `templat/PROMPT-AUTO.md` | Prompt mod auto sedia salin (EN + MS) |
 | `pemasangan/01-opencode-mcp.md` | Config MCP OpenCode |
-| `pemasangan/02-figcraft.md` | FigCraft headless dan live |
+| `pemasangan/02-figcraft.md` | FigCraft live (wajib) dan rujukan headless |
 | `pemasangan/03-gas.md` | Pemasangan GAS |
 | `pemasangan/04-supabase.md` | Pemasangan Supabase |
 | `pemasangan/05-cloudflare-worker.md` | Pemasangan Cloudflare |
 | `pemasangan/06-firebase.md` | Pemasangan Firebase |
 | `pemasangan/07-neon.md` | Pemasangan Neon |
+| `pemasangan/08-dokploy.md` | Dokploy pilihan untuk ujian local |
+| `pemasangan/09-nextjs.md` | Next.js + Postgres |
+| `pemasangan/10-node-express.md` | Node/Express + Postgres |
+| `pemasangan/11-laravel.md` | Laravel + MySQL |
+| `pemasangan/12-python.md` | FastAPI/Django + Postgres |
 
 ## 13. Penyelesaian masalah
 

@@ -8,12 +8,17 @@ Folder ini mengumpul semua arahan pemasangan. Ia berasingan daripada
 | Fail | Isi |
 | --- | --- |
 | `01-opencode-mcp.md` | Format `opencode.json`, daftar MCP, semak status |
-| `02-figcraft.md` | FigCraft headless + live, port 7979, eksport |
+| `02-figcraft.md` | FigCraft live (wajib), port 7979, eksport |
 | `03-gas.md` | Google Apps Script, clasp, mod pratonton |
 | `04-supabase.md` | MCP Supabase, projek dev, RLS |
 | `05-cloudflare-worker.md` | MCP Cloudflare, wrangler, D1 |
 | `06-firebase.md` | MCP Firebase, emulator, rules |
 | `07-neon.md` | MCP Neon, Postgres serverless, API |
+| `08-dokploy.md` | Dokploy untuk ujian local (pilihan, perlu kebenaran) |
+| `09-nextjs.md` | Next.js + Postgres, Vercel |
+| `10-node-express.md` | Node/Express + Postgres, VPS/Dokploy |
+| `11-laravel.md` | Laravel + MySQL, VPS/Dokploy |
+| `12-python.md` | FastAPI/Django + Postgres, VPS/Dokploy |
 | `mcp.opencode.example.json` | Salinan tampal ke `~/.config/opencode/opencode.json` |
 
 ## Urutan pemasangan disyorkan
@@ -22,8 +27,10 @@ Folder ini mengumpul semua arahan pemasangan. Ia berasingan daripada
 2. `01-opencode-mcp.md` — asas.
 2. `02-figcraft.md` — wajib untuk Fasa 2.
 3. Pilih satu: `03-gas.md`, `04-supabase.md`, `05-cloudflare-worker.md`,
-   `06-firebase.md`, `07-neon.md`.
-4. Uji dengan `bash skrip/test-local.sh <slug> --check`.
+   `06-firebase.md`, `07-neon.md`, `09-nextjs.md`, `10-node-express.md`,
+   `11-laravel.md`, `12-python.md`.
+4. Pilihan ujian local: `08-dokploy.md` (tanya kebenaran dahulu).
+5. Uji dengan `bash skrip/test-local.sh <slug> --check`.
 
 ## Peraturan rahsia
 

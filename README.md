@@ -15,7 +15,8 @@ Aplikasi
 Siap
 ```
 
-Backend boleh GAS, Supabase, Cloudflare Worker, Firebase, atau Neon.
+Backend boleh GAS, Supabase, Cloudflare Worker, Firebase, Neon, Next.js,
+Node/Express, Laravel, atau FastAPI/Django.
 Frontend kekal satu aplikasi responsif 360px–1920px.
 
 **Panduan penggunaan penuh: [`PANDUAN.html`](PANDUAN.html) (HTML) · [`PANDUAN.md`](PANDUAN.md) (Markdown). English + Bahasa Melayu.**
@@ -105,9 +106,10 @@ Agent buat semua ini sendiri. Guna hanya jika mahu kawal langkah.
 | Perintah | Fungsi |
 | --- | --- |
 | `bash skrip/check-setup.sh` | Semak alat dan MCP |
-| `bash skrip/new-project.sh <slug> A` | Cipta folder projek (A–F) |
+| `bash skrip/new-project.sh <slug> A` | Cipta folder projek (A–J) |
 | `bash skrip/qa-check.sh <slug>` | Semak kualiti kod |
 | `bash skrip/test-local.sh <slug> --check` | Uji app tempatan |
+| `bash skrip/setup-dokploy.sh` | Pilihan: pasang Dokploy untuk ujian local (tanya kebenaran) |
 | `bash skrip/jalankan-semua.sh <slug> A` | Semua sekali gus |
 
 Rujukan penuh: [`PANDUAN.html`](PANDUAN.html).
@@ -142,6 +144,11 @@ GAS Skill/
 │   ├── 05-cloudflare-worker.md
 │   ├── 06-firebase.md
 │   ├── 07-neon.md
+│   ├── 08-dokploy.md
+│   ├── 09-nextjs.md
+│   ├── 10-node-express.md
+│   ├── 11-laravel.md
+│   ├── 12-python.md
 │   └── mcp.opencode.example.json
 ├── skrip/
 │   ├── check-setup.sh
@@ -149,6 +156,7 @@ GAS Skill/
 │   ├── new-project.sh
 │   ├── test-local.sh
 │   ├── qa-check.sh
+│   ├── setup-dokploy.sh
 │   ├── build-panduan-html.py
 │   └── figcraft/fclib.py
 ├── templat/
@@ -199,7 +207,7 @@ Yang agent buat sendiri:
 | Fasa | Auto |
 | --- | --- |
 | 1 PRD | Temubual penuh satu-satu, pilih stack, tanda `[ANDAIAN]` |
-| 2 FigCraft | Bina + semak PNG sendiri, guna headless jika perlu |
+| 2 FigCraft | Live edit sahaja; minta pengguna buka port 7979 jika perlu |
 | 3 Kod | Jana responsif, tiada butang mati |
 | 4 Ujian | Jalankan, betulkan maksimum 3 pusingan |
 | 5 Deploy | BERHENTI, tunggu kebenaran |
@@ -236,13 +244,18 @@ Soalan teknologi (A6) wajib sebelum PRD ditulis:
 | D | Firebase | Firestore + Auth + realtime |
 | E | Neon | Postgres serverless |
 | F | Hibrid | Gabungan, nyatakan lapisan |
+| G | Next.js + Postgres | SSR + API routes, Vercel |
+| H | Node/Express + Postgres | VPS/Dokploy, kawalan penuh |
+| I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
+| J | FastAPI/Django + Postgres | API Python, VPS/Dokploy |
 
 Bab 12 PRD mengunci skrin, token, dan rujukan untuk FigCraft.
 Bab 13 mengunci perintah ujian dan kriteria terima.
 
 ### Fasa 2 — FigCraft
 
-- Guna MCP live (`figcraft-app`) untuk nampak perubahan.
+- **WAJIB live edit** (`figcraft-app`, port 7979). Jangan guna headless.
+  Jika app belum dibuka, minta pengguna jalankan `figcraft --control 7979`.
 - Untuk banyak layer: satu skrip `design/build.py`, bukan tool call satu-satu.
 - Eksport PNG dan simpan `design.figcraft` dalam folder projek.
 - Rujukan mobile ≠ kod mobile-only. Frame desktop tetap dibina.
@@ -264,11 +277,18 @@ Bab 13 mengunci perintah ujian dan kriteria terima.
 | Worker | `npx wrangler dev` |
 | Firebase | `npx firebase-tools emulators:start` |
 | Neon | `npx wrangler dev` + branch dev |
+| Next.js | `npm run dev -- -p 4173` |
+| Node/Express | `npm run dev` / `npm start` |
+| Laravel | `php artisan serve` |
+| FastAPI/Django | `uvicorn` / `manage.py runserver` |
 
 ```bash
 bash skrip/test-local.sh <slug> --check
 bash skrip/qa-check.sh <slug>
 ```
+
+Pilihan: `bash skrip/setup-dokploy.sh` untuk ujian local melalui Dokploy.
+Tanya kebenaran dahulu; jika ditolak, langkau dan uji manual.
 
 ### Fasa 5 — Serahan
 
@@ -286,12 +306,17 @@ Semua arahan pemasangan dalam folder berasingan: **`pemasangan/`**.
 | Dokumen | Isi |
 | --- | --- |
 | `pemasangan/01-opencode-mcp.md` | Format `opencode.json`, daftar server |
-| `pemasangan/02-figcraft.md` | Headless vs live, port 7979 |
+| `pemasangan/02-figcraft.md` | Live mode (wajib), port 7979 |
 | `pemasangan/03-gas.md` | GAS, clasp, mod pratonton |
 | `pemasangan/04-supabase.md` | MCP Supabase, projek dev, RLS |
 | `pemasangan/05-cloudflare-worker.md` | MCP Cloudflare, wrangler, D1 |
 | `pemasangan/06-firebase.md` | MCP Firebase, emulator, rules |
 | `pemasangan/07-neon.md` | MCP Neon, serverless driver |
+| `pemasangan/08-dokploy.md` | Dokploy untuk ujian local (pilihan) |
+| `pemasangan/09-nextjs.md` | Next.js + Postgres, Vercel |
+| `pemasangan/10-node-express.md` | Node/Express + Postgres, VPS/Dokploy |
+| `pemasangan/11-laravel.md` | Laravel + MySQL, VPS/Dokploy |
+| `pemasangan/12-python.md` | FastAPI/Django + Postgres |
 
 Config siap tampal: `pemasangan/mcp.opencode.example.json`.
 

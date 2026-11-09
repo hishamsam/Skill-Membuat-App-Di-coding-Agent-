@@ -46,7 +46,7 @@ lengkap, terus bekerja tanpa gerbang kelulusan antara fasa.
 ### 1. Cipta projek
 
 ```bash
-bash skrip/new-project.sh <slug> [A|B|C|D|E|F]
+bash skrip/new-project.sh <slug> [A-J]
 ```
 
 Slug dijana daripada idea. Jika stack tidak dinyatakan, pilih menggunakan
@@ -62,6 +62,10 @@ jadual di bawah dan rekod sebabnya.
 | Realtime sync, auth pantas, hosting mudah | D Firebase |
 | Postgres serverless, branching, API berasingan | E Neon |
 | Dua keperluan jelas daripada senarai di atas | F Hibrid |
+| SSR, SEO, UI + API dalam satu projek Next.js | G Next.js |
+| API Node tersuai, deploy VPS/Dokploy | H Node/Express |
+| PHP, admin panel, MySQL, VPS/Dokploy | I Laravel |
+| API Python, admin Django atau FastAPI | J FastAPI/Django |
 
 Jika dua pilihan hampir sama, pilih yang paling sedikit servis untuk dijaga.
 Rekod pilihan dan alternatif ditolak dalam PRD Bab 6.
@@ -80,9 +84,10 @@ Rekod pilihan dan alternatif ditolak dalam PRD Bab 6.
 
 ### 4. FigCraft auto
 
-- Jika port 7979 aktif, guna `figcraft-app` / skrip live.
-- Jika tiada, guna MCP `figcraft` headless. Jangan gagal hanya kerana app
-  tidak dibuka.
+- FigCraft WAJIB guna mod **live edit**: `figcraft-app` / `figcraft-cli mcp
+  --attach 7979`.
+- Jika port 7979 tidak aktif, berhenti dan minta pengguna buka
+  `figcraft --control 7979`. Jangan guna headless sebagai ganti.
 - Baca PRD Bab 12 dan imej dalam `refs/` sendiri.
 - Bina semua skrin dengan satu skrip.
 - Eksport PNG dan semak imej. Betulkan sehingga tiada teks bertindih atau

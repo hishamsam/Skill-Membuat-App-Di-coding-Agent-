@@ -43,7 +43,9 @@ Jika pengguna taip `mula <idea>`, terus guna idea itu.
 Selepas lulus, ikut `aliran-kerja/02-design-figcraft.md`,
 `03-codegen.md`, dan `04-local-test.md`.
 
-- Guna FigCraft jika tersedia. Jika tiada, teruskan dengan HTML/CSS.
+- FigCraft WAJIB guna mod **live edit** (`figcraft-app`, port 7979). Jangan guna
+  headless. Jika app belum dibuka, berhenti dan minta pengguna jalankan
+  `figcraft --control 7979`.
 - Responsif 360–1920px. Tiada butang mati, tiada placeholder, tiada dark mode.
 - Jalankan dan tunjuk output sebenar:
 
@@ -52,6 +54,9 @@ bash skrip/qa-check.sh <slug>
 bash skrip/test-local.sh <slug> --check
 ```
 
+- Dokploy untuk ujian local adalah **pilihan**. Tanya kebenaran dahulu. Jika
+  dibenarkan, jalankan `bash skrip/setup-dokploy.sh`. Jika ditolak, langkau
+  dan teruskan ujian manual.
 - Betulkan gagal, maksimum 3 pusingan, kemudian lapor blocker.
 
 ### 5. Serahan

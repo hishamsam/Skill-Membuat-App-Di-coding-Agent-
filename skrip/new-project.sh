@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Cipta struktur folder projek baharu.
-# Guna: bash skrip/new-project.sh <slug> [A|B|C|D|E|F]
+# Guna: bash skrip/new-project.sh <slug> [A-J]
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -8,8 +8,9 @@ RAW_SLUG="${1:-}"
 STACK="${2:-A}"
 
 if [ -z "$RAW_SLUG" ]; then
-  echo "Guna: bash skrip/new-project.sh <slug> [A|B|C|D|E|F]"
-  echo "  A=GAS  B=Supabase  C=Cloudflare Worker  D=Firebase  E=Neon  F=Hibrid"
+  echo "Guna: bash skrip/new-project.sh <slug> [A-J]"
+  echo "  A=GAS  B=Supabase  C=Cloudflare Worker  D=Firebase  E=Neon"
+  echo "  F=Hibrid  G=Next.js  H=Node/Express  I=Laravel  J=FastAPI/Django"
   exit 1
 fi
 
@@ -24,8 +25,8 @@ if [ -z "$SLUG" ]; then
 fi
 
 case "$STACK" in
-  A|B|C|D|E|F) ;;
-  *) echo "Stack mesti A, B, C, D, E, atau F."; exit 1 ;;
+  A|B|C|D|E|F|G|H|I|J) ;;
+  *) echo "Stack mesti A, B, C, D, E, F, G, H, I, atau J."; exit 1 ;;
 esac
 
 DEST="$ROOT/projek/$SLUG"
