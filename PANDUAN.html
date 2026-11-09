@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="ms" data-lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Panduan penggunaan lengkap WebApp Builder: PRD, FigCraft, kod responsif, ujian tempatan, serahan. English and Bahasa Melayu.">
+<title>Panduan Penggunaan — WebApp Builder</title>
+<style>
+:root{
+  --ink:#17211c; --muted:#5b665f; --line:#e2e5dd; --surface:#ffffff;
+  --canvas:#f5f6f2; --accent:#0f6b4f; --accent-soft:#e7f1ec;
+  --code-bg:#f2f4ef; --topbar:64px; --sidebar:300px;
+  --font:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--topbar) + 18px)}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:10px 14px;z-index:100}
+.skip:focus{left:12px;top:12px;border-radius:8px}
+.topbar{position:sticky;top:0;z-index:50;height:var(--topbar);background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 20px}
+.brand{font-weight:700;font-size:15px;color:var(--ink);white-space:nowrap}
+.brand span{font-weight:500;color:var(--muted)}
+.icon-btn{display:none;width:40px;height:40px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font-size:18px;cursor:pointer}
+.search{margin-left:auto;position:relative}
+.search input{width:260px;max-width:38vw;height:40px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:0 12px 0 34px;font:inherit;font-size:14px;color:var(--ink);outline:none}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,107,79,.14)}
+.search svg{position:absolute;left:11px;top:11px;width:18px;height:18px;opacity:.55}
+.lang{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.lang button{border:0;background:#fff;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:9px 13px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:transparent}
+.progress span{display:block;height:100%;width:0;background:var(--accent)}
+.layout{display:flex;align-items:flex-start}
+.sidebar{position:sticky;top:var(--topbar);width:var(--sidebar);flex:0 0 var(--sidebar);height:calc(100vh - var(--topbar));overflow-y:auto;padding:22px 16px 60px;border-right:1px solid var(--line);background:#fbfcf9}
+.sidebar h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:4px 10px 10px}
+.toc-link{display:block;padding:7px 10px;border-radius:8px;color:#36423b;font-size:13.5px;line-height:1.35;border-left:2px solid transparent}
+.toc-link:hover{background:var(--accent-soft);text-decoration:none;color:var(--accent)}
+.toc-link.active{background:var(--accent-soft);color:var(--accent);font-weight:600;border-left-color:var(--accent)}
+.toc-h3{padding-left:22px;font-size:12.8px;color:var(--muted)}
+.no-result{display:none;padding:10px;color:var(--muted);font-size:13px}
+.main{flex:1;min-width:0;padding:38px 40px 100px}
+.doc{max-width:940px;margin:0 auto}
+.doc-head{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:26px}
+.doc-head h1{font-size:clamp(28px,4vw,42px);line-height:1.15;margin:0 0 10px;letter-spacing:-.02em}
+.doc-head p{margin:0;color:var(--muted);font-size:16px;max-width:68ch}
+.content h2{font-size:clamp(22px,2.6vw,29px);line-height:1.25;margin:46px 0 14px;padding-top:6px;letter-spacing:-.01em}
+.content h3{font-size:18px;margin:30px 0 10px}
+.content h4{font-size:15px;margin:22px 0 8px}
+.content p{margin:0 0 14px;max-width:78ch}
+.content ul,.content ol{margin:0 0 16px;padding-left:24px}
+.content li{margin:5px 0}
+.content li>p{margin:0}
+.content strong{font-weight:650}
+.content hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+.content blockquote{margin:18px 0;padding:14px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;color:#22372c}
+.content blockquote p:last-child{margin:0}
+.anchor{margin-left:8px;color:var(--muted);font-weight:400;opacity:0;font-size:.7em;text-decoration:none}
+h2:hover .anchor,h3:hover .anchor,.anchor:focus{opacity:1}
+.content code{font-family:var(--mono);font-size:.88em;background:var(--code-bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+.content pre{position:relative;margin:0 0 18px;background:#1c2620;color:#e8f0ea;border-radius:12px;padding:18px 18px 16px;overflow:auto;font-size:13.5px;line-height:1.6}
+.content pre code{background:none;border:0;padding:0;color:inherit;font-size:inherit}
+.copy{position:absolute;top:8px;right:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#e8f0ea;border-radius:7px;font:inherit;font-size:11px;padding:4px 9px;cursor:pointer;opacity:0;transition:opacity .15s}
+pre:hover .copy,.copy:focus{opacity:1}
+.copy.done{background:var(--accent);border-color:var(--accent)}
+.table-wrap{overflow-x:auto;margin:0 0 20px;border:1px solid var(--line);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f4f6f0;font-weight:650;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:#fafbf8}
+.content input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);margin-right:6px;vertical-align:-2px}
+.footer{max-width:940px;margin:60px auto 0;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;display:flex;gap:16px;flex-wrap:wrap}
+html[data-lang="en"] [data-lang="ms"],html[data-lang="ms"] [data-lang="en"]{display:none!important}
+.overlay{display:none;position:fixed;inset:var(--topbar) 0 0;background:rgba(20,30,24,.35);z-index:35}
+body.nav-open .overlay{display:block}
+@media(max-width:1024px){
+  .icon-btn{display:inline-flex;align-items:center;justify-content:center}
+  .search input{width:180px}
+  .sidebar{position:fixed;left:0;top:var(--topbar);bottom:0;z-index:40;transform:translateX(-105%);transition:transform .18s ease;box-shadow:0 12px 40px rgba(20,30,24,.18)}
+  body.nav-open .sidebar{transform:none}
+  .main{padding:28px 20px 80px}
+}
+@media(max-width:640px){
+  .brand span{display:none}
+  .search{flex:1;margin-left:0}
+  .search input{width:100%;max-width:none}
+  .topbar{gap:9px;padding:0 12px}
+  .lang button{padding:8px 10px}
+  .content pre{font-size:12.5px}
+}
+@media(max-width:540px){
+  .brand{display:none}
+}
+@media print{
+  .topbar,.sidebar,.overlay,.copy{display:none!important}
+  .main{padding:0}
+  .doc{max-width:none}
+  html[data-lang="en"] [data-lang="ms"],html[data-lang="ms"] [data-lang="en"]{display:none!important}
+  .content pre{background:#f4f6f0;color:#17211c;border:1px solid #ddd}
+  .content a{color:inherit}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-en="Skip to content" data-ms="Lompat ke kandungan">Lompat ke kandungan</a>
+<header class="topbar">
+  <button class="icon-btn" id="menu" aria-label="Buka menu" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="#main">WebApp Builder <span data-en="· Guide" data-ms="· Panduan">· Panduan</span></a>
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    <input id="search" type="search" placeholder="Cari bahagian…" aria-label="Cari bahagian" data-placeholder-en="Search sections…" data-placeholder-ms="Cari bahagian…">
+  </div>
+  <div class="lang" role="group" aria-label="Bahasa / Language">
+    <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    <button type="button" data-set-lang="ms" aria-pressed="true">MS</button>
+  </div>
+  <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+</header>
+<div class="overlay" id="overlay"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div data-lang="en">
+      <h2>Contents</h2>
+      <nav aria-label="Contents"><a class="toc-link toc-h2" href="#en-1-what-this-tool-is" data-label="1. what this tool is">1. What this tool is</a>
+<a class="toc-link toc-h2" href="#en-2-requirements" data-label="2. requirements">2. Requirements</a>
+<a class="toc-link toc-h2" href="#en-3-installation" data-label="3. installation">3. Installation</a>
+<a class="toc-link toc-h3" href="#en-31-check-the-machine" data-label="3.1 check the machine">3.1 Check the machine</a>
+<a class="toc-link toc-h3" href="#en-32-register-the-mcp-servers" data-label="3.2 register the mcp servers">3.2 Register the MCP servers</a>
+<a class="toc-link toc-h3" href="#en-33-start-figcraft-in-live-mode" data-label="3.3 start figcraft in live mode">3.3 Start FigCraft in live mode</a>
+<a class="toc-link toc-h2" href="#en-4-repository-layout" data-label="4. repository layout">4. Repository layout</a>
+<a class="toc-link toc-h2" href="#en-5-quick-start" data-label="5. quick start">5. Quick start</a>
+<a class="toc-link toc-h3" href="#en-auto-mode-one-shot" data-label="auto mode (one-shot)">Auto mode (one-shot)</a>
+<a class="toc-link toc-h2" href="#en-6-phase-1-prd" data-label="6. phase 1 — prd">6. Phase 1 — PRD</a>
+<a class="toc-link toc-h3" href="#en-what-happens" data-label="what happens">What happens</a>
+<a class="toc-link toc-h3" href="#en-interview-questions" data-label="interview questions">Interview questions</a>
+<a class="toc-link toc-h3" href="#en-technology-choices" data-label="technology choices">Technology choices</a>
+<a class="toc-link toc-h3" href="#en-prd-chapters" data-label="prd chapters">PRD chapters</a>
+<a class="toc-link toc-h3" href="#en-approval-gate" data-label="approval gate">Approval gate</a>
+<a class="toc-link toc-h2" href="#en-7-phase-2-figcraft-design" data-label="7. phase 2 — figcraft design">7. Phase 2 — FigCraft design</a>
+<a class="toc-link toc-h3" href="#en-rules" data-label="rules">Rules</a>
+<a class="toc-link toc-h3" href="#en-commands" data-label="commands">Commands</a>
+<a class="toc-link toc-h3" href="#en-frame-sizes" data-label="frame sizes">Frame sizes</a>
+<a class="toc-link toc-h3" href="#en-screen-naming" data-label="screen naming">Screen naming</a>
+<a class="toc-link toc-h3" href="#en-output" data-label="output">Output</a>
+<a class="toc-link toc-h2" href="#en-8-phase-3-responsive-code" data-label="8. phase 3 — responsive code">8. Phase 3 — Responsive code</a>
+<a class="toc-link toc-h3" href="#en-responsive-contract" data-label="responsive contract">Responsive contract</a>
+<a class="toc-link toc-h3" href="#en-files-per-stack" data-label="files per stack">Files per stack</a>
+<a class="toc-link toc-h3" href="#en-quality-gate" data-label="quality gate">Quality gate</a>
+<a class="toc-link toc-h2" href="#en-9-phase-4-local-test" data-label="9. phase 4 — local test">9. Phase 4 — Local test</a>
+<a class="toc-link toc-h3" href="#en-commands_1" data-label="commands">Commands</a>
+<a class="toc-link toc-h3" href="#en-per-stack" data-label="per stack">Per stack</a>
+<a class="toc-link toc-h3" href="#en-browser-checks" data-label="browser checks">Browser checks</a>
+<a class="toc-link toc-h3" href="#en-gas-backend-check" data-label="gas backend check">GAS backend check</a>
+<a class="toc-link toc-h2" href="#en-10-phase-5-handoff-and-deploy" data-label="10. phase 5 — handoff and deploy">10. Phase 5 — Handoff and deploy</a>
+<a class="toc-link toc-h3" href="#en-deploy-commands" data-label="deploy commands">Deploy commands</a>
+<a class="toc-link toc-h3" href="#en-handoff-contents" data-label="handoff contents">Handoff contents</a>
+<a class="toc-link toc-h3" href="#en-production-smoke-test" data-label="production smoke test">Production smoke test</a>
+<a class="toc-link toc-h2" href="#en-11-script-reference" data-label="11. script reference">11. Script reference</a>
+<a class="toc-link toc-h2" href="#en-12-documentation-map" data-label="12. documentation map">12. Documentation map</a>
+<a class="toc-link toc-h2" href="#en-13-troubleshooting" data-label="13. troubleshooting">13. Troubleshooting</a>
+<a class="toc-link toc-h2" href="#en-14-example-prompts" data-label="14. example prompts">14. Example prompts</a>
+<a class="toc-link toc-h2" href="#en-15-definition-of-done" data-label="15. definition of done">15. Definition of done</a></nav>
+    </div>
+    <div data-lang="ms">
+      <h2>Kandungan</h2>
+      <nav aria-label="Kandungan"><a class="toc-link toc-h2" href="#ms-1-apa-alat-ini" data-label="1. apa alat ini">1. Apa alat ini</a>
+<a class="toc-link toc-h2" href="#ms-2-keperluan" data-label="2. keperluan">2. Keperluan</a>
+<a class="toc-link toc-h2" href="#ms-3-pemasangan" data-label="3. pemasangan">3. Pemasangan</a>
+<a class="toc-link toc-h3" href="#ms-31-semak-mesin" data-label="3.1 semak mesin">3.1 Semak mesin</a>
+<a class="toc-link toc-h3" href="#ms-32-daftar-server-mcp" data-label="3.2 daftar server mcp">3.2 Daftar server MCP</a>
+<a class="toc-link toc-h3" href="#ms-33-buka-figcraft-mod-live" data-label="3.3 buka figcraft mod live">3.3 Buka FigCraft mod live</a>
+<a class="toc-link toc-h2" href="#ms-4-susunan-repositori" data-label="4. susunan repositori">4. Susunan repositori</a>
+<a class="toc-link toc-h2" href="#ms-5-mula-pantas" data-label="5. mula pantas">5. Mula pantas</a>
+<a class="toc-link toc-h3" href="#ms-mod-auto-one-shot" data-label="mod auto (one-shot)">Mod auto (one-shot)</a>
+<a class="toc-link toc-h2" href="#ms-6-fasa-1-prd" data-label="6. fasa 1 — prd">6. Fasa 1 — PRD</a>
+<a class="toc-link toc-h3" href="#ms-apa-yang-berlaku" data-label="apa yang berlaku">Apa yang berlaku</a>
+<a class="toc-link toc-h3" href="#ms-soalan-temubual" data-label="soalan temubual">Soalan temubual</a>
+<a class="toc-link toc-h3" href="#ms-pilihan-teknologi" data-label="pilihan teknologi">Pilihan teknologi</a>
+<a class="toc-link toc-h3" href="#ms-bab-prd" data-label="bab prd">Bab PRD</a>
+<a class="toc-link toc-h3" href="#ms-gerbang-kelulusan" data-label="gerbang kelulusan">Gerbang kelulusan</a>
+<a class="toc-link toc-h2" href="#ms-7-fasa-2-reka-bentuk-figcraft" data-label="7. fasa 2 — reka bentuk figcraft">7. Fasa 2 — Reka bentuk FigCraft</a>
+<a class="toc-link toc-h3" href="#ms-peraturan" data-label="peraturan">Peraturan</a>
+<a class="toc-link toc-h3" href="#ms-perintah" data-label="perintah">Perintah</a>
+<a class="toc-link toc-h3" href="#ms-saiz-frame" data-label="saiz frame">Saiz frame</a>
+<a class="toc-link toc-h3" href="#ms-penamaan-skrin" data-label="penamaan skrin">Penamaan skrin</a>
+<a class="toc-link toc-h3" href="#ms-output" data-label="output">Output</a>
+<a class="toc-link toc-h2" href="#ms-8-fasa-3-kod-responsif" data-label="8. fasa 3 — kod responsif">8. Fasa 3 — Kod responsif</a>
+<a class="toc-link toc-h3" href="#ms-kontrak-responsif" data-label="kontrak responsif">Kontrak responsif</a>
+<a class="toc-link toc-h3" href="#ms-fail-mengikut-stack" data-label="fail mengikut stack">Fail mengikut stack</a>
+<a class="toc-link toc-h3" href="#ms-gerbang-kualiti" data-label="gerbang kualiti">Gerbang kualiti</a>
+<a class="toc-link toc-h2" href="#ms-9-fasa-4-ujian-tempatan" data-label="9. fasa 4 — ujian tempatan">9. Fasa 4 — Ujian tempatan</a>
+<a class="toc-link toc-h3" href="#ms-perintah_1" data-label="perintah">Perintah</a>
+<a class="toc-link toc-h3" href="#ms-mengikut-stack" data-label="mengikut stack">Mengikut stack</a>
+<a class="toc-link toc-h3" href="#ms-semakan-pelayar" data-label="semakan pelayar">Semakan pelayar</a>
+<a class="toc-link toc-h3" href="#ms-semakan-backend-gas" data-label="semakan backend gas">Semakan backend GAS</a>
+<a class="toc-link toc-h2" href="#ms-10-fasa-5-serahan-dan-deploy" data-label="10. fasa 5 — serahan dan deploy">10. Fasa 5 — Serahan dan deploy</a>
+<a class="toc-link toc-h3" href="#ms-perintah-deploy" data-label="perintah deploy">Perintah deploy</a>
+<a class="toc-link toc-h3" href="#ms-kandungan-serahan" data-label="kandungan serahan">Kandungan serahan</a>
+<a class="toc-link toc-h3" href="#ms-smoke-test-production" data-label="smoke test production">Smoke test production</a>
+<a class="toc-link toc-h2" href="#ms-11-rujukan-skrip" data-label="11. rujukan skrip">11. Rujukan skrip</a>
+<a class="toc-link toc-h2" href="#ms-12-peta-dokumentasi" data-label="12. peta dokumentasi">12. Peta dokumentasi</a>
+<a class="toc-link toc-h2" href="#ms-13-penyelesaian-masalah" data-label="13. penyelesaian masalah">13. Penyelesaian masalah</a>
+<a class="toc-link toc-h2" href="#ms-14-contoh-prompt" data-label="14. contoh prompt">14. Contoh prompt</a>
+<a class="toc-link toc-h2" href="#ms-15-definisi-siap" data-label="15. definisi siap">15. Definisi siap</a></nav>
+    </div>
+    <p class="no-result" data-en="No matching sections." data-ms="Tiada bahagian sepadan.">Tiada bahagian sepadan.</p>
+  </aside>
+  <main class="main" id="main">
+    <div class="doc">
+      <div data-lang="en">
+        <header class="doc-head">
+          <h1>Complete Usage Guide</h1>
+          <p>From a rough idea to a tested, deployed application. Includes PRD, FigCraft design, responsive code, local testing, and handoff.</p>
+        </header>
+        <div class="content"><h2 id="en-1-what-this-tool-is">1. What this tool is<a class="anchor" href="#en-1-what-this-tool-is" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>This repository is a complete workflow for turning a rough idea into a
+working web application:</p>
+<pre><code class="language-text">Idea + reference images
+        ↓  Phase 1  PRD
+Approved PRD (single source of truth)
+        ↓  Phase 2  FigCraft
+Design file + exported screens
+        ↓  Phase 3  Code
+Responsive app
+        ↓  Phase 4  Local test
+        ↓  Phase 5  Handoff + deploy
+Finished app
+</code></pre>
+<p>It supports five backends:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Stack</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Google Apps Script + Google Sheets</td>
+<td>Internal tools, small data, Google Workspace</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Supabase</td>
+<td>Postgres, Auth, RLS, Storage, SaaS apps</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Cloudflare Worker</td>
+<td>Edge APIs, D1/KV/R2, static assets</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Firebase</td>
+<td>Firestore, Auth, realtime, Hosting</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Neon</td>
+<td>Serverless Postgres with a separate API</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Hybrid</td>
+<td>Explicit combination of the above</td>
+</tr>
+</tbody>
+</table>
+<p>The frontend is always one responsive app, from 360px to 1920px.</p>
+<h2 id="en-2-requirements">2. Requirements<a class="anchor" href="#en-2-requirements" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Tested on this machine:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node.js</td>
+<td>v24.22.1</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>11.19.1</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.12.3</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>OpenJDK 17 (Firebase emulators)</td>
+</tr>
+<tr>
+<td>FigCraft CLI</td>
+<td><code>/usr/bin/figcraft-cli</code> 0.16.0</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>Not installed — Supabase local stack unavailable</td>
+</tr>
+<tr>
+<td><code>psql</code></td>
+<td>Not installed — use a Node client for Neon</td>
+</tr>
+<tr>
+<td>Supabase / Neon / Firebase / Wrangler / clasp</td>
+<td>Run through <code>npx</code></td>
+</tr>
+</tbody>
+</table>
+<p>Required for all projects:</p>
+<ul>
+<li>FigCraft installed and able to run in live mode.</li>
+<li>OpenCode with the FigCraft MCP servers registered.</li>
+<li>A terminal, Node.js, and Python 3.</li>
+</ul>
+<h2 id="en-3-installation">3. Installation<a class="anchor" href="#en-3-installation" aria-label="Pautan ke bahagian ini">#</a></h2>
+<h3 id="en-31-check-the-machine">3.1 Check the machine<a class="anchor" href="#en-31-check-the-machine" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">bash skrip/check-setup.sh
+</code></pre>
+<p>This reports Node, npm, Python, Java, FigCraft CLI, port 7979, MCP
+registration, Docker, and <code>psql</code>.</p>
+<h3 id="en-32-register-the-mcp-servers">3.2 Register the MCP servers<a class="anchor" href="#en-32-register-the-mcp-servers" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Config file: <code>~/.config/opencode/opencode.json</code></p>
+<pre><code class="language-bash">opencode mcp add figcraft --global -- /usr/bin/figcraft-cli mcp
+opencode mcp add figcraft-app --global -- /usr/bin/figcraft-cli mcp --attach 7979
+opencode mcp list
+</code></pre>
+<p>Or copy the matching blocks from <code>pemasangan/mcp.opencode.example.json</code>.
+Restart OpenCode after changing the config.</p>
+<p>Optional cloud services:</p>
+<pre><code class="language-bash"># Supabase — OAuth or personal access token
+opencode mcp add supabase --global \
+  --url &quot;https://mcp.supabase.com/mcp?project_ref=&lt;ref&gt;&quot;
+opencode mcp auth supabase
+
+# Cloudflare
+opencode mcp add cloudflare-docs --global \
+  --url &quot;https://docs.mcp.cloudflare.com/mcp&quot;
+opencode mcp add cloudflare-observability --global \
+  --url &quot;https://observability.mcp.cloudflare.com/mcp&quot;
+
+# Firebase
+opencode mcp add firebase --global -- npx -y firebase-tools@latest mcp
+
+# Neon
+opencode mcp add neon --global --url &quot;https://mcp.neon.tech/mcp&quot;
+opencode mcp auth neon
+</code></pre>
+<p>Never commit tokens. Use <code>{file:~/.secrets/&lt;name&gt;}</code> in the config or OAuth.</p>
+<h3 id="en-33-start-figcraft-in-live-mode">3.3 Start FigCraft in live mode<a class="anchor" href="#en-33-start-figcraft-in-live-mode" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">figcraft --control 7979 &amp;
+ss -ltnp | grep 7979
+</code></pre>
+<p>If the port is not listening, the <code>figcraft-app</code> MCP server cannot attach.
+Do not edit the OpenCode config to work around this; open the app in live mode.</p>
+<h2 id="en-4-repository-layout">4. Repository layout<a class="anchor" href="#en-4-repository-layout" aria-label="Pautan ke bahagian ini">#</a></h2>
+<pre><code class="language-text">GAS Skill/
+├── SKILL.md                  # main agent instructions
+├── TEMPLATE_PRD_MS.md        # PRD generator (interview + template)
+├── figcraft-fast-SKILL.md    # fast FigCraft scripting rules
+├── PANDUAN.md                # this guide
+├── README.md                 # short quick start
+├── aliran-kerja/             # phase-by-phase workflows
+├── pemasangan/               # MCP and stack setup
+├── skrip/                    # automation scripts
+├── templat/                  # HANDOFF + FigCraft build template
+└── projek/                   # one folder per project
+</code></pre>
+<p>Each project:</p>
+<pre><code class="language-text">projek/&lt;slug&gt;/
+├── STATUS.md                 # phase checkboxes
+├── STACK                     # A–F
+├── prd/PRD-v0.1.md
+├── refs/                     # reference images
+├── design/
+│   ├── DESIGN-DNA.md
+│   ├── build.py
+│   ├── design.figcraft
+│   └── exports/*.png
+├── app/                      # code
+├── tests/
+└── HANDOFF.md
+</code></pre>
+<h2 id="en-5-quick-start">5. Quick start<a class="anchor" href="#en-5-quick-start" aria-label="Pautan ke bahagian ini">#</a></h2>
+<pre><code class="language-bash"># 1. Check the environment
+bash skrip/check-setup.sh
+
+# 2. Create a project (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hybrid)
+bash skrip/new-project.sh sistem-tempahan A
+
+# 3. Put reference images here
+cp ~/Downloads/ref.png projek/sistem-tempahan/refs/
+
+# 4. Ask the agent to run Phase 1
+#    &quot;Read the idea and refs/. Use TEMPLATE_PRD_MS.md. Generate the PRD.&quot;
+
+# 5. After PRD approval, start FigCraft
+figcraft --control 7979 &amp;
+python3 -I projek/sistem-tempahan/design/build.py --rehearsal
+
+# 6. After UI approval, generate code and test
+bash skrip/qa-check.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan
+</code></pre>
+<h3 id="en-auto-mode-one-shot">Auto mode (one-shot)<a class="anchor" href="#en-auto-mode-one-shot" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Give the idea once and let the agent run Phases 1–4 without stopping. The
+workflow does not change; only the interview and the approval gates are
+shortened.</p>
+<p>Trigger phrases: <code>auto</code>, <code>auto penuh</code>, <code>buat semua</code>, <code>siapkan terus</code>,
+<code>one-shot</code>.</p>
+<pre><code class="language-text">Build an office vehicle booking system in full auto mode.
+Reference: projek/booking/refs/dashboard.png
+Code must be responsive 360-1920px. Run qa-check and test-local --check.
+Stop before deploy.
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Auto behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 PRD</td>
+<td>Skip the interview, choose the stack, mark every gap <code>[ASSUMPTION]</code></td>
+</tr>
+<tr>
+<td>2 FigCraft</td>
+<td>Build, inspect the PNGs, use headless mode if port 7979 is down</td>
+</tr>
+<tr>
+<td>3 Code</td>
+<td>Generate the responsive app, no dead buttons</td>
+</tr>
+<tr>
+<td>4 Test</td>
+<td>Run, fix up to three rounds, report real output</td>
+</tr>
+<tr>
+<td>5 Deploy</td>
+<td>Stop and wait for explicit approval</td>
+</tr>
+</tbody>
+</table>
+<p>Still requires separate approval: production deploy, new accounts, payments,
+DNS changes, production data deletion, production credentials.</p>
+<p>Files: <code>aliran-kerja/00-auto.md</code> and <code>templat/PROMPT-AUTO.md</code>.</p>
+<h2 id="en-6-phase-1-prd">6. Phase 1 — PRD<a class="anchor" href="#en-6-phase-1-prd" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Files: <code>TEMPLATE_PRD_MS.md</code>, <code>aliran-kerja/01-prd.md</code>.</p>
+<h3 id="en-what-happens">What happens<a class="anchor" href="#en-what-happens" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ol>
+<li>The agent creates the project folder and reads any reference images.</li>
+<li>It runs a structured interview, one question per message: ten main
+   questions plus up to four stack follow-ups.</li>
+<li>Question A6 locks the technology stack.</li>
+<li>It writes the full PRD to <code>projek/&lt;slug&gt;/prd/PRD-v0.1.md</code>.</li>
+<li>It stops and waits for approval.</li>
+</ol>
+<p>If you want speed, reply "generate directly". The agent will generate the PRD
+and mark every assumption in Chapter 5.</p>
+<p>In auto mode the interview is skipped entirely. The agent picks the stack
+itself, marks every gap <code>[ASSUMPTION]</code>, and continues to Phase 2 without
+waiting for approval.</p>
+<h3 id="en-interview-questions">Interview questions<a class="anchor" href="#en-interview-questions" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Problem and users</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Roles and permissions</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Core flow</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>Main data entities</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>MVP scope</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>Technology stack (mandatory)</td>
+</tr>
+<tr>
+<td>A7</td>
+<td>Hosting and domain</td>
+</tr>
+<tr>
+<td>A8</td>
+<td>Stack-specific follow-ups (max 4)</td>
+</tr>
+<tr>
+<td>A9</td>
+<td>Visual references and target device</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>Definition of done and tests</td>
+</tr>
+</tbody>
+</table>
+<h3 id="en-technology-choices">Technology choices<a class="anchor" href="#en-technology-choices" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Stack</th>
+<th>Choose when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>GAS + Sheets</td>
+<td>Internal, under ~10k rows, Google ecosystem</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Supabase</td>
+<td>Postgres, Auth, RLS, Storage, realtime</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Cloudflare Worker</td>
+<td>Global API, D1/KV/R2, low latency</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Firebase</td>
+<td>Realtime sync, fast auth, mobile/web</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Neon</td>
+<td>Postgres serverless, branching, separate API</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Hybrid</td>
+<td>Two or more services with clear boundaries</td>
+</tr>
+</tbody>
+</table>
+<p>The PRD records the choice and the rejected alternatives in Chapter 6.</p>
+<h3 id="en-prd-chapters">PRD chapters<a class="anchor" href="#en-prd-chapters" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Chapter</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–5</td>
+<td>Problem, goals, users, scope, assumptions</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Technology decision, environment variables, architecture</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Functional requirements with IDs and priority</td>
+</tr>
+<tr>
+<td>8</td>
+<td>User flows</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Data model + physical implementation per stack</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Non-functional requirements, including responsive rules</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Third-party integrations</td>
+</tr>
+<tr>
+<td>12</td>
+<td>UI contract and FigCraft handoff (mandatory)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Local test plan and acceptance criteria (mandatory)</td>
+</tr>
+<tr>
+<td>14–17</td>
+<td>Future features, out of scope, open questions, glossary</td>
+</tr>
+</tbody>
+</table>
+<p>Chapter 12 must list every screen with four states: default, loading, empty,
+error. Chapter 13 must list runnable test commands and acceptance checks.</p>
+<h3 id="en-approval-gate">Approval gate<a class="anchor" href="#en-approval-gate" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Do not write code before the PRD is approved. Reply "lulus", "ok proceed",
+or "build" to continue.</p>
+<h2 id="en-7-phase-2-figcraft-design">7. Phase 2 — FigCraft design<a class="anchor" href="#en-7-phase-2-figcraft-design" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Files: <code>aliran-kerja/02-design-figcraft.md</code>, <code>figcraft-fast-SKILL.md</code>.</p>
+<h3 id="en-rules">Rules<a class="anchor" href="#en-rules" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ul>
+<li>Read PRD Chapter 12 and the actual images in <code>refs/</code>. The FigCraft MCP
+  cannot see images; the agent must open them.</li>
+<li>Write <code>design/DESIGN-DNA.md</code>: grid, type, palette, spacing, radius,
+  density, signature element.</li>
+<li>Build with one Python script, not one MCP call per layer.</li>
+<li>Export PNGs and look at them. Fix the script and rerun.</li>
+<li>Save the native file as <code>design/design.figcraft</code>.</li>
+</ul>
+<h3 id="en-commands">Commands<a class="anchor" href="#en-commands" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash"># Rehearse in a throwaway document
+python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal
+
+# Build for real
+python3 -I projek/&lt;slug&gt;/design/build.py
+
+# Build and save design.figcraft
+python3 -I projek/&lt;slug&gt;/design/build.py --save
+</code></pre>
+<h3 id="en-frame-sizes">Frame sizes<a class="anchor" href="#en-frame-sizes" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mobile</td>
+<td>390 × 844</td>
+</tr>
+<tr>
+<td>Tablet</td>
+<td>768 × 1024</td>
+</tr>
+<tr>
+<td>Desktop</td>
+<td>1440 × 900</td>
+</tr>
+</tbody>
+</table>
+<p>Build desktop frames even when the reference is mobile. A mobile reference is
+a composition guide, not a width lock for the code.</p>
+<h3 id="en-screen-naming">Screen naming<a class="anchor" href="#en-screen-naming" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-text">S-01 / Mobile 390
+S-01 / Desktop 1440
+</code></pre>
+<p>Use the screen IDs from PRD Chapter 12.</p>
+<h3 id="en-output">Output<a class="anchor" href="#en-output" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-text">design/design.figcraft
+design/exports/S-01-mobile.png
+design/exports/S-01-desktop.png
+</code></pre>
+<h2 id="en-8-phase-3-responsive-code">8. Phase 3 — Responsive code<a class="anchor" href="#en-8-phase-3-responsive-code" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Files: <code>aliran-kerja/03-codegen.md</code>.</p>
+<h3 id="en-responsive-contract">Responsive contract<a class="anchor" href="#en-responsive-contract" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Range</th>
+<th>Target</th>
+<th>Navigation</th>
+<th>Content grid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>360–639px</td>
+<td>Phone</td>
+<td>Bottom nav, 3–5 items</td>
+<td>1 column</td>
+</tr>
+<tr>
+<td>640–1023px</td>
+<td>Tablet</td>
+<td>Top bar or rail</td>
+<td>1–2 columns</td>
+</tr>
+<tr>
+<td>1024–1439px</td>
+<td>Laptop</td>
+<td>Sidebar or full top nav</td>
+<td>2–3 columns</td>
+</tr>
+<tr>
+<td>≥ 1440px</td>
+<td>Desktop</td>
+<td>Same, capped container</td>
+<td>3–4 columns</td>
+</tr>
+</tbody>
+</table>
+<p>Hard rules:</p>
+<ul>
+<li><code>viewport</code> meta present.</li>
+<li>No horizontal scroll on the root.</li>
+<li>Tables use <code>overflow-x-auto</code> or become card lists on mobile.</li>
+<li>Modals: <code>w-[calc(100%-2rem)] max-w-lg max-h-[85vh] overflow-y-auto</code>.</li>
+<li>Buttons and inputs are at least 44px high.</li>
+<li>Mobile content has <code>pb-24</code> clearance for the bottom nav.</li>
+<li>No dark mode.</li>
+<li>No dead buttons: every button has a real handler.</li>
+<li>Every screen has loading, empty, and error states.</li>
+<li>No secrets in frontend files.</li>
+</ul>
+<h3 id="en-files-per-stack">Files per stack<a class="anchor" href="#en-files-per-stack" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stack</th>
+<th>Main files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A GAS</td>
+<td><code>app/index.html</code>, <code>app/Code.gs</code>, <code>app/appsscript.json</code></td>
+</tr>
+<tr>
+<td>B Supabase</td>
+<td><code>app/public/index.html</code>, <code>app/supabase/migrations/*.sql</code>, <code>.env.example</code></td>
+</tr>
+<tr>
+<td>C Worker</td>
+<td><code>app/public/</code>, <code>app/src/index.js</code>, <code>app/wrangler.jsonc</code></td>
+</tr>
+<tr>
+<td>D Firebase</td>
+<td><code>app/public/index.html</code>, <code>firestore.rules</code>, <code>firebase.json</code></td>
+</tr>
+<tr>
+<td>E Neon</td>
+<td><code>app/public/index.html</code>, <code>app/api/</code>, <code>app/db/migrations/*.sql</code></td>
+</tr>
+<tr>
+<td>F Hybrid</td>
+<td>Combination; do not duplicate logic</td>
+</tr>
+</tbody>
+</table>
+<h3 id="en-quality-gate">Quality gate<a class="anchor" href="#en-quality-gate" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">bash skrip/qa-check.sh &lt;slug&gt;
+</code></pre>
+<p>The script checks viewport, dark mode, placeholders, buttons vs <code>data-action</code>,
+responsive classes, secret patterns, PRD presence, and design exports. It
+exits non-zero on failures.</p>
+<h2 id="en-9-phase-4-local-test">9. Phase 4 — Local test<a class="anchor" href="#en-9-phase-4-local-test" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Files: <code>aliran-kerja/04-local-test.md</code>.</p>
+<h3 id="en-commands_1">Commands<a class="anchor" href="#en-commands_1" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">bash skrip/test-local.sh &lt;slug&gt;
+bash skrip/test-local.sh &lt;slug&gt; --check
+</code></pre>
+<h3 id="en-per-stack">Per stack<a class="anchor" href="#en-per-stack" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stack</th>
+<th>Local test</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A GAS</td>
+<td><code>IS_PREVIEW=true</code>, then <code>python3 -m http.server</code>; test the deployed backend with <code>curl</code></td>
+</tr>
+<tr>
+<td>B Supabase</td>
+<td>Use a free dev project; Docker is not installed here</td>
+</tr>
+<tr>
+<td>C Worker</td>
+<td><code>npx wrangler dev</code></td>
+</tr>
+<tr>
+<td>D Firebase</td>
+<td><code>npx firebase-tools emulators:start</code></td>
+</tr>
+<tr>
+<td>E Neon</td>
+<td><code>npx wrangler dev</code> in <code>app/api</code> with a dev branch</td>
+</tr>
+<tr>
+<td>F Hybrid</td>
+<td>Start each service in its own terminal</td>
+</tr>
+</tbody>
+</table>
+<h3 id="en-browser-checks">Browser checks<a class="anchor" href="#en-browser-checks" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Test at 360×800, 390×844, 768×1024, 1024×768, and 1440×900.</p>
+<p>Check:</p>
+<ul>
+<li>No console errors.</li>
+<li>Every button does something real.</li>
+<li>CRUD works with seed data.</li>
+<li>Loading, empty, and error states can be triggered.</li>
+<li>Refreshing does not force logout.</li>
+<li>No horizontal scroll at 360px.</li>
+<li>No secret strings in the built frontend.</li>
+</ul>
+<h3 id="en-gas-backend-check">GAS backend check<a class="anchor" href="#en-gas-backend-check" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">curl -L -X POST &quot;&lt;GAS_URL&gt;&quot; \
+  -H &quot;Content-Type: text/plain;charset=utf-8&quot; \
+  -d '{&quot;action&quot;:&quot;ping&quot;,&quot;data&quot;:{}}'
+</code></pre>
+<h2 id="en-10-phase-5-handoff-and-deploy">10. Phase 5 — Handoff and deploy<a class="anchor" href="#en-10-phase-5-handoff-and-deploy" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Files: <code>aliran-kerja/05-handoff.md</code>, <code>templat/HANDOFF.md</code>.</p>
+<h3 id="en-deploy-commands">Deploy commands<a class="anchor" href="#en-deploy-commands" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stack</th>
+<th>Deploy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GAS</td>
+<td>Deploy <code>Code.gs</code> as a Web App; upload <code>index.html</code> to Vercel</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td><code>npx supabase link --project-ref &lt;ref&gt;</code> then <code>npx supabase db push</code></td>
+</tr>
+<tr>
+<td>Worker</td>
+<td><code>npx wrangler d1 execute ... --remote</code>, <code>npx wrangler secret put</code>, <code>npx wrangler deploy</code></td>
+</tr>
+<tr>
+<td>Firebase</td>
+<td><code>npx firebase-tools deploy --only hosting,firestore:rules,firestore:indexes</code></td>
+</tr>
+<tr>
+<td>Neon</td>
+<td>Deploy the API, run migrations on the production branch</td>
+</tr>
+<tr>
+<td>Hybrid</td>
+<td>Deploy each layer separately</td>
+</tr>
+</tbody>
+</table>
+<h3 id="en-handoff-contents">Handoff contents<a class="anchor" href="#en-handoff-contents" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ul>
+<li>Production and staging URLs.</li>
+<li>Admin account and password-change procedure.</li>
+<li>Environment variable names, never values.</li>
+<li>Local run and deploy commands.</li>
+<li>Backup and rollback steps.</li>
+<li>Known limits and future work.</li>
+<li>Links to PRD, design file, and exports.</li>
+</ul>
+<h3 id="en-production-smoke-test">Production smoke test<a class="anchor" href="#en-production-smoke-test" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ol>
+<li>Open the production URL.</li>
+<li>Log in with the real account.</li>
+<li>Perform one create, read, update, and delete.</li>
+<li>Submit one invalid input and confirm a clear error.</li>
+</ol>
+<h2 id="en-11-script-reference">11. Script reference<a class="anchor" href="#en-11-script-reference" aria-label="Pautan ke bahagian ini">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skrip/check-setup.sh</code></td>
+<td>Check tools, FigCraft, port, MCP, Docker, <code>psql</code></td>
+</tr>
+<tr>
+<td><code>skrip/new-project.sh &lt;slug&gt; [A–F]</code></td>
+<td>Create the project folder and starter files</td>
+</tr>
+<tr>
+<td><code>skrip/qa-check.sh &lt;slug&gt;</code></td>
+<td>Static quality gate</td>
+</tr>
+<tr>
+<td><code>skrip/test-local.sh &lt;slug&gt; [--check]</code></td>
+<td>Run the local server, optionally smoke-test and stop</td>
+</tr>
+<tr>
+<td><code>skrip/figcraft/fclib.py</code></td>
+<td>FigCraft Python helpers</td>
+</tr>
+<tr>
+<td><code>templat/figcraft/build.py</code></td>
+<td>Starter FigCraft build script</td>
+</tr>
+<tr>
+<td><code>skrip/build-panduan-html.py</code></td>
+<td>Regenerate <code>PANDUAN.html</code> from this file</td>
+</tr>
+</tbody>
+</table>
+<p>Useful flags:</p>
+<pre><code class="language-bash">bash skrip/test-local.sh &lt;slug&gt; --port 8080
+python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal --save
+</code></pre>
+<h2 id="en-12-documentation-map">12. Documentation map<a class="anchor" href="#en-12-documentation-map" aria-label="Pautan ke bahagian ini">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Read it when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>First overview</td>
+</tr>
+<tr>
+<td><code>SKILL.md</code></td>
+<td>Agent behaviour and engineering standards</td>
+</tr>
+<tr>
+<td><code>TEMPLATE_PRD_MS.md</code></td>
+<td>Phase 1 interview and PRD format</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/00-auto.md</code></td>
+<td>Auto mode: trigger, limits, report</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/01-prd.md</code></td>
+<td>Step-by-step Phase 1</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/02-design-figcraft.md</code></td>
+<td>Step-by-step Phase 2</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/03-codegen.md</code></td>
+<td>Phase 3 rules and file layouts</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/04-local-test.md</code></td>
+<td>Phase 4 test matrix</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/05-handoff.md</code></td>
+<td>Phase 5 deploy and handoff</td>
+</tr>
+<tr>
+<td><code>templat/PROMPT-AUTO.md</code></td>
+<td>Copy-paste auto mode prompt (EN + MS)</td>
+</tr>
+<tr>
+<td><code>pemasangan/01-opencode-mcp.md</code></td>
+<td>OpenCode MCP config</td>
+</tr>
+<tr>
+<td><code>pemasangan/02-figcraft.md</code></td>
+<td>FigCraft headless and live</td>
+</tr>
+<tr>
+<td><code>pemasangan/03-gas.md</code></td>
+<td>GAS setup</td>
+</tr>
+<tr>
+<td><code>pemasangan/04-supabase.md</code></td>
+<td>Supabase setup</td>
+</tr>
+<tr>
+<td><code>pemasangan/05-cloudflare-worker.md</code></td>
+<td>Cloudflare setup</td>
+</tr>
+<tr>
+<td><code>pemasangan/06-firebase.md</code></td>
+<td>Firebase setup</td>
+</tr>
+<tr>
+<td><code>pemasangan/07-neon.md</code></td>
+<td>Neon setup</td>
+</tr>
+</tbody>
+</table>
+<h2 id="en-13-troubleshooting">13. Troubleshooting<a class="anchor" href="#en-13-troubleshooting" aria-label="Pautan ke bahagian ini">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>can't reach 127.0.0.1:7979</code></td>
+<td>App not in live mode</td>
+<td><code>figcraft --control 7979 &amp;</code></td>
+</tr>
+<tr>
+<td>FigCraft tools missing in OpenCode</td>
+<td>Session started before MCP was ready</td>
+<td>Restart OpenCode</td>
+</tr>
+<tr>
+<td>Port 4173 already in use</td>
+<td>Old test server still running</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt; --port 4174</code></td>
+</tr>
+<tr>
+<td><code>qa-check</code> fails on placeholder</td>
+<td>PRD or code still has <code>{{...}}</code> / <code>TODO</code></td>
+<td>Replace them with real content</td>
+</tr>
+<tr>
+<td><code>qa-check</code> fails on dead buttons</td>
+<td>More <code>&lt;button&gt;</code> than <code>data-action</code></td>
+<td>Add handlers</td>
+</tr>
+<tr>
+<td>Supabase local fails</td>
+<td>Docker not installed</td>
+<td>Use a free cloud dev project</td>
+</tr>
+<tr>
+<td>Neon connection fails locally</td>
+<td><code>psql</code> not installed</td>
+<td>Use the Node migration script</td>
+</tr>
+<tr>
+<td>Firebase emulator will not start</td>
+<td>Java missing or wrong version</td>
+<td>Install Java 17+</td>
+</tr>
+<tr>
+<td>Wrangler deploy asks for login</td>
+<td>No Cloudflare session</td>
+<td><code>npx wrangler login</code></td>
+</tr>
+<tr>
+<td>FigCraft text looks wrong</td>
+<td>Missing font</td>
+<td><code>f.cmd('text.missingFonts')</code></td>
+</tr>
+<tr>
+<td>Renamed folder breaks a path</td>
+<td>Scripts resolve from repo root</td>
+<td>Run commands from the repo, or use full paths</td>
+</tr>
+</tbody>
+</table>
+<h2 id="en-14-example-prompts">14. Example prompts<a class="anchor" href="#en-14-example-prompts" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p><strong>Start a project</strong></p>
+<blockquote>
+<p>Build an office vehicle booking system. Use <code>TEMPLATE_PRD_MS.md</code> and stack
+Supabase. Reference <code>projek/booking/refs/dashboard.png</code>. Generate the PRD
+first.</p>
+</blockquote>
+<p><strong>Amend the PRD</strong></p>
+<blockquote>
+<p>Add a "Supervisor" role and a <code>plate_no</code> field. Regenerate the PRD.</p>
+</blockquote>
+<p><strong>Approve</strong></p>
+<blockquote>
+<p>PRD approved. Continue to Phase 2 in FigCraft.</p>
+</blockquote>
+<p><strong>Review the UI</strong></p>
+<blockquote>
+<p>Screen S-02 desktop is too dense. Remove two cards, keep the table. Export
+again.</p>
+</blockquote>
+<p><strong>Build the code</strong></p>
+<blockquote>
+<p>UI approved. Continue to Phase 3. Must be responsive 360–1920 and have no
+dead buttons.</p>
+</blockquote>
+<p><strong>Test</strong></p>
+<blockquote>
+<p>Run <code>qa-check.sh</code> and <code>test-local.sh --check</code>. Show the results.</p>
+</blockquote>
+<h2 id="en-15-definition-of-done">15. Definition of done<a class="anchor" href="#en-15-definition-of-done" aria-label="Pautan ke bahagian ini">#</a></h2>
+<ul>
+<li class="task"><input type="checkbox" disabled> PRD approved and saved.</li>
+<li class="task"><input type="checkbox" disabled> Design file and PNG exports saved.</li>
+<li class="task"><input type="checkbox" disabled> Code passes <code>qa-check.sh</code>.</li>
+<li class="task"><input type="checkbox" disabled> Local smoke test passes.</li>
+<li class="task"><input type="checkbox" disabled> All mandatory PRD requirements work.</li>
+<li class="task"><input type="checkbox" disabled> Responsive verified at 390 / 768 / 1024 / 1440.</li>
+<li class="task"><input type="checkbox" disabled> Production smoke test passes.</li>
+<li class="task"><input type="checkbox" disabled> <code>HANDOFF.md</code> complete.</li>
+<li class="task"><input type="checkbox" disabled> No secrets in the repository.</li>
+</ul>
+<hr /></div>
+      </div>
+      <div data-lang="ms">
+        <header class="doc-head">
+          <h1>Panduan Penggunaan Lengkap</h1>
+          <p>Daripada idea kasar kepada aplikasi yang diuji dan dilancarkan. Merangkumi PRD, reka bentuk FigCraft, kod responsif, ujian tempatan, dan serahan.</p>
+        </header>
+        <div class="content"><h2 id="ms-1-apa-alat-ini">1. Apa alat ini<a class="anchor" href="#ms-1-apa-alat-ini" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Repositori ini ialah satu aliran kerja lengkap untuk menukar idea kasar
+menjadi aplikasi web yang berfungsi:</p>
+<pre><code class="language-text">Idea + imej rujukan
+        ↓  Fasa 1  PRD
+PRD diluluskan (satu sumber kebenaran)
+        ↓  Fasa 2  FigCraft
+Fail reka bentuk + skrin dieksport
+        ↓  Fasa 3  Kod
+Aplikasi responsif
+        ↓  Fasa 4  Ujian tempatan
+        ↓  Fasa 5  Serahan + deploy
+Aplikasi siap
+</code></pre>
+<p>Lima pilihan backend:</p>
+<table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Stack</th>
+<th>Sesuai untuk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Google Apps Script + Google Sheets</td>
+<td>Alat dalaman, data kecil, Google Workspace</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Supabase</td>
+<td>Postgres, Auth, RLS, Storage, aplikasi SaaS</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Cloudflare Worker</td>
+<td>API edge, D1/KV/R2, static assets</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Firebase</td>
+<td>Firestore, Auth, realtime, Hosting</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Neon</td>
+<td>Postgres serverless dengan API berasingan</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Hibrid</td>
+<td>Gabungan di atas dengan sempadan jelas</td>
+</tr>
+</tbody>
+</table>
+<p>Frontend sentiasa satu aplikasi responsif, dari 360px hingga 1920px.</p>
+<h2 id="ms-2-keperluan">2. Keperluan<a class="anchor" href="#ms-2-keperluan" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Diuji pada mesin ini:</p>
+<table>
+<thead>
+<tr>
+<th>Komponen</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node.js</td>
+<td>v24.22.1</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>11.19.1</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.12.3</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>OpenJDK 17 (emulator Firebase)</td>
+</tr>
+<tr>
+<td>FigCraft CLI</td>
+<td><code>/usr/bin/figcraft-cli</code> 0.16.0</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>Tiada — Supabase local stack tidak boleh guna</td>
+</tr>
+<tr>
+<td><code>psql</code></td>
+<td>Tiada — guna klien Node untuk Neon</td>
+</tr>
+<tr>
+<td>Supabase / Neon / Firebase / Wrangler / clasp</td>
+<td>Jalankan melalui <code>npx</code></td>
+</tr>
+</tbody>
+</table>
+<p>Keperluan untuk semua projek:</p>
+<ul>
+<li>FigCraft dipasang dan boleh berjalan dalam mod live.</li>
+<li>OpenCode dengan server MCP FigCraft didaftar.</li>
+<li>Terminal, Node.js, dan Python 3.</li>
+</ul>
+<h2 id="ms-3-pemasangan">3. Pemasangan<a class="anchor" href="#ms-3-pemasangan" aria-label="Pautan ke bahagian ini">#</a></h2>
+<h3 id="ms-31-semak-mesin">3.1 Semak mesin<a class="anchor" href="#ms-31-semak-mesin" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">bash skrip/check-setup.sh
+</code></pre>
+<p>Skrip melaporkan Node, npm, Python, Java, FigCraft CLI, port 7979,
+pendaftaran MCP, Docker, dan <code>psql</code>.</p>
+<h3 id="ms-32-daftar-server-mcp">3.2 Daftar server MCP<a class="anchor" href="#ms-32-daftar-server-mcp" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Fail config: <code>~/.config/opencode/opencode.json</code></p>
+<pre><code class="language-bash">opencode mcp add figcraft --global -- /usr/bin/figcraft-cli mcp
+opencode mcp add figcraft-app --global -- /usr/bin/figcraft-cli mcp --attach 7979
+opencode mcp list
+</code></pre>
+<p>Atau salin blok berkenaan daripada <code>pemasangan/mcp.opencode.example.json</code>.
+Buka semula OpenCode selepas mengubah config.</p>
+<p>Servis awan pilihan:</p>
+<pre><code class="language-bash"># Supabase — OAuth atau token akses peribadi
+opencode mcp add supabase --global \
+  --url &quot;https://mcp.supabase.com/mcp?project_ref=&lt;ref&gt;&quot;
+opencode mcp auth supabase
+
+# Cloudflare
+opencode mcp add cloudflare-docs --global \
+  --url &quot;https://docs.mcp.cloudflare.com/mcp&quot;
+opencode mcp add cloudflare-observability --global \
+  --url &quot;https://observability.mcp.cloudflare.com/mcp&quot;
+
+# Firebase
+opencode mcp add firebase --global -- npx -y firebase-tools@latest mcp
+
+# Neon
+opencode mcp add neon --global --url &quot;https://mcp.neon.tech/mcp&quot;
+opencode mcp auth neon
+</code></pre>
+<p>Jangan commit token. Guna <code>{file:~/.secrets/&lt;nama&gt;}</code> dalam config atau OAuth.</p>
+<h3 id="ms-33-buka-figcraft-mod-live">3.3 Buka FigCraft mod live<a class="anchor" href="#ms-33-buka-figcraft-mod-live" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">figcraft --control 7979 &amp;
+ss -ltnp | grep 7979
+</code></pre>
+<p>Jika port tidak aktif, server MCP <code>figcraft-app</code> tidak boleh menyambung.
+Jangan ubah config OpenCode untuk mengelak masalah ini; buka app dalam mod live.</p>
+<h2 id="ms-4-susunan-repositori">4. Susunan repositori<a class="anchor" href="#ms-4-susunan-repositori" aria-label="Pautan ke bahagian ini">#</a></h2>
+<pre><code class="language-text">GAS Skill/
+├── SKILL.md                  # arahan utama agent
+├── TEMPLATE_PRD_MS.md        # penjana PRD (temubual + templat)
+├── figcraft-fast-SKILL.md    # peraturan skrip FigCraft pantas
+├── PANDUAN.md                # panduan ini
+├── README.md                 # mula pantas
+├── aliran-kerja/             # panduan setiap fasa
+├── pemasangan/               # pemasangan MCP dan stack
+├── skrip/                    # skrip automasi
+├── templat/                  # HANDOFF + templat bina FigCraft
+└── projek/                   # satu folder setiap projek
+</code></pre>
+<p>Setiap projek:</p>
+<pre><code class="language-text">projek/&lt;slug&gt;/
+├── STATUS.md                 # senarai semak fasa
+├── STACK                     # A–F
+├── prd/PRD-v0.1.md
+├── refs/                     # imej rujukan
+├── design/
+│   ├── DESIGN-DNA.md
+│   ├── build.py
+│   ├── design.figcraft
+│   └── exports/*.png
+├── app/                      # kod
+├── tests/
+└── HANDOFF.md
+</code></pre>
+<h2 id="ms-5-mula-pantas">5. Mula pantas<a class="anchor" href="#ms-5-mula-pantas" aria-label="Pautan ke bahagian ini">#</a></h2>
+<pre><code class="language-bash"># 1. Semak persekitaran
+bash skrip/check-setup.sh
+
+# 2. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hibrid)
+bash skrip/new-project.sh sistem-tempahan A
+
+# 3. Letak imej rujukan di sini
+cp ~/Downloads/ref.png projek/sistem-tempahan/refs/
+
+# 4. Minta agent jalankan Fasa 1
+#    &quot;Baca idea dan refs/. Guna TEMPLATE_PRD_MS.md. Jana PRD.&quot;
+
+# 5. Selepas PRD diluluskan, buka FigCraft
+figcraft --control 7979 &amp;
+python3 -I projek/sistem-tempahan/design/build.py --rehearsal
+
+# 6. Selepas UI disemak, jana kod dan uji
+bash skrip/qa-check.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan
+</code></pre>
+<h3 id="ms-mod-auto-one-shot">Mod auto (one-shot)<a class="anchor" href="#ms-mod-auto-one-shot" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Beri idea sekali, agent jalankan Fasa 1–4 tanpa berhenti. Workflow tidak
+berubah; hanya temubual dan gerbang kelulusan dipendekkan.</p>
+<p>Frasa cetus: <code>auto</code>, <code>auto penuh</code>, <code>buat semua</code>, <code>siapkan terus</code>, <code>one-shot</code>.</p>
+<pre><code class="language-text">Bina sistem tempahan kenderaan pejabat dalam mod auto penuh.
+Rujukan: projek/booking/refs/dashboard.png
+Kod mesti responsif 360-1920px. Jalankan qa-check dan test-local --check.
+Berhenti sebelum deploy.
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Fasa</th>
+<th>Tingkah laku auto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 PRD</td>
+<td>Langkau temubual, pilih stack, tanda setiap lompang <code>[ANDAIAN]</code></td>
+</tr>
+<tr>
+<td>2 FigCraft</td>
+<td>Bina, semak PNG, guna headless jika port 7979 tiada</td>
+</tr>
+<tr>
+<td>3 Kod</td>
+<td>Jana aplikasi responsif, tiada butang mati</td>
+</tr>
+<tr>
+<td>4 Ujian</td>
+<td>Jalankan, betulkan maksimum 3 pusingan, lapor output sebenar</td>
+</tr>
+<tr>
+<td>5 Deploy</td>
+<td>Berhenti dan tunggu kebenaran jelas</td>
+</tr>
+</tbody>
+</table>
+<p>Masih perlukan kebenaran berasingan: deploy production, akaun baharu,
+pembayaran, tukar DNS, padam data production, kredensial production.</p>
+<p>Fail: <code>aliran-kerja/00-auto.md</code> dan <code>templat/PROMPT-AUTO.md</code>.</p>
+<h2 id="ms-6-fasa-1-prd">6. Fasa 1 — PRD<a class="anchor" href="#ms-6-fasa-1-prd" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Fail: <code>TEMPLATE_PRD_MS.md</code>, <code>aliran-kerja/01-prd.md</code>.</p>
+<h3 id="ms-apa-yang-berlaku">Apa yang berlaku<a class="anchor" href="#ms-apa-yang-berlaku" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ol>
+<li>Agent mencipta folder projek dan membaca imej rujukan.</li>
+<li>Ia menjalankan temubual berstruktur, satu soalan per mesej: sepuluh soalan
+   utama serta maksimum empat soalan susulan khusus stack.</li>
+<li>Soalan A6 mengunci teknologi.</li>
+<li>PRD penuh ditulis ke <code>projek/&lt;slug&gt;/prd/PRD-v0.1.md</code>.</li>
+<li>Agent berhenti dan menunggu kelulusan.</li>
+</ol>
+<p>Jika mahu laju, balas "jana terus". Agent akan menjana PRD dan menandakan
+setiap andaian dalam Bab 5.</p>
+<p>Dalam mod auto, temubual dilangkau sepenuhnya. Agent memilih stack sendiri,
+menanda setiap lompang <code>[ANDAIAN]</code>, dan terus ke Fasa 2 tanpa menunggu
+kelulusan.</p>
+<h3 id="ms-soalan-temubual">Soalan temubual<a class="anchor" href="#ms-soalan-temubual" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Topik</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Masalah dan pengguna</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Peranan dan kebenaran</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Aliran teras</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>Entiti data utama</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>Skop MVP</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>Teknologi (wajib)</td>
+</tr>
+<tr>
+<td>A7</td>
+<td>Hosting dan domain</td>
+</tr>
+<tr>
+<td>A8</td>
+<td>Soalan susulan khusus stack (maksimum 4)</td>
+</tr>
+<tr>
+<td>A9</td>
+<td>Rujukan visual dan peranti sasaran</td>
+</tr>
+<tr>
+<td>A10</td>
+<td>Definisi siap dan ujian</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ms-pilihan-teknologi">Pilihan teknologi<a class="anchor" href="#ms-pilihan-teknologi" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Stack</th>
+<th>Pilih bila</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>GAS + Sheets</td>
+<td>Dalaman, bawah ~10k baris, ekosistem Google</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Supabase</td>
+<td>Postgres, Auth, RLS, Storage, realtime</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Cloudflare Worker</td>
+<td>API global, D1/KV/R2, latensi rendah</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Firebase</td>
+<td>Realtime sync, auth pantas, web/mobile</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Neon</td>
+<td>Postgres serverless, branching, API berasingan</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Hibrid</td>
+<td>Dua servis atau lebih dengan sempadan jelas</td>
+</tr>
+</tbody>
+</table>
+<p>PRD merekod pilihan dan alternatif yang ditolak dalam Bab 6.</p>
+<h3 id="ms-bab-prd">Bab PRD<a class="anchor" href="#ms-bab-prd" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Bab</th>
+<th>Kandungan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–5</td>
+<td>Masalah, tujuan, pengguna, skop, andaian</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Keputusan teknologi, env, seni bina</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Keperluan fungsian ber-ID dan keutamaan</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Aliran pengguna</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Model data + implementasi fizikal ikut stack</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Keperluan bukan fungsian termasuk responsif</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Integrasi pihak ketiga</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Kontrak UI dan handoff FigCraft (wajib)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Pelan ujian tempatan dan kriteria terima (wajib)</td>
+</tr>
+<tr>
+<td>14–17</td>
+<td>Ciri masa depan, luar skop, soalan terbuka, glosarium</td>
+</tr>
+</tbody>
+</table>
+<p>Bab 12 mesti menyenaraikan setiap skrin dengan empat keadaan: default,
+loading, empty, error. Bab 13 mesti menyenaraikan perintah ujian dan
+semakan penerimaan.</p>
+<h3 id="ms-gerbang-kelulusan">Gerbang kelulusan<a class="anchor" href="#ms-gerbang-kelulusan" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Jangan tulis kod sebelum PRD diluluskan. Balas "lulus", "ok proceed", atau
+"buat kod" untuk teruskan.</p>
+<h2 id="ms-7-fasa-2-reka-bentuk-figcraft">7. Fasa 2 — Reka bentuk FigCraft<a class="anchor" href="#ms-7-fasa-2-reka-bentuk-figcraft" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Fail: <code>aliran-kerja/02-design-figcraft.md</code>, <code>figcraft-fast-SKILL.md</code>.</p>
+<h3 id="ms-peraturan">Peraturan<a class="anchor" href="#ms-peraturan" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ul>
+<li>Baca PRD Bab 12 dan imej sebenar dalam <code>refs/</code>. MCP FigCraft tidak boleh
+  melihat imej; agent mesti membuka fail itu.</li>
+<li>Tulis <code>design/DESIGN-DNA.md</code>: grid, tipografi, palette, spacing, radius,
+  density, elemen signature.</li>
+<li>Bina dengan SATU skrip Python, bukan satu panggilan MCP setiap layer.</li>
+<li>Eksport PNG dan lihat. Betulkan skrip, ulang.</li>
+<li>Simpan fail asal sebagai <code>design/design.figcraft</code>.</li>
+</ul>
+<h3 id="ms-perintah">Perintah<a class="anchor" href="#ms-perintah" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash"># Rehearsal dalam dokumen buangan
+python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal
+
+# Bina sebenar
+python3 -I projek/&lt;slug&gt;/design/build.py
+
+# Bina dan simpan design.figcraft
+python3 -I projek/&lt;slug&gt;/design/build.py --save
+</code></pre>
+<h3 id="ms-saiz-frame">Saiz frame<a class="anchor" href="#ms-saiz-frame" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Peranti</th>
+<th>Saiz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mobile</td>
+<td>390 × 844</td>
+</tr>
+<tr>
+<td>Tablet</td>
+<td>768 × 1024</td>
+</tr>
+<tr>
+<td>Desktop</td>
+<td>1440 × 900</td>
+</tr>
+</tbody>
+</table>
+<p>Bina frame desktop walaupun rujukan hanya mobile. Rujukan mobile ialah
+panduan komposisi, bukan kunci lebar kod.</p>
+<h3 id="ms-penamaan-skrin">Penamaan skrin<a class="anchor" href="#ms-penamaan-skrin" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-text">S-01 / Mobile 390
+S-01 / Desktop 1440
+</code></pre>
+<p>Guna ID skrin daripada PRD Bab 12.</p>
+<h3 id="ms-output">Output<a class="anchor" href="#ms-output" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-text">design/design.figcraft
+design/exports/S-01-mobile.png
+design/exports/S-01-desktop.png
+</code></pre>
+<h2 id="ms-8-fasa-3-kod-responsif">8. Fasa 3 — Kod responsif<a class="anchor" href="#ms-8-fasa-3-kod-responsif" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Fail: <code>aliran-kerja/03-codegen.md</code>.</p>
+<h3 id="ms-kontrak-responsif">Kontrak responsif<a class="anchor" href="#ms-kontrak-responsif" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Julat</th>
+<th>Sasaran</th>
+<th>Navigasi</th>
+<th>Grid kandungan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>360–639px</td>
+<td>Telefon</td>
+<td>Bottom nav, 3–5 item</td>
+<td>1 kolum</td>
+</tr>
+<tr>
+<td>640–1023px</td>
+<td>Tablet</td>
+<td>Top bar atau rail</td>
+<td>1–2 kolum</td>
+</tr>
+<tr>
+<td>1024–1439px</td>
+<td>Laptop</td>
+<td>Sidebar atau top nav penuh</td>
+<td>2–3 kolum</td>
+</tr>
+<tr>
+<td>≥ 1440px</td>
+<td>Desktop</td>
+<td>Sama, container terhad</td>
+<td>3–4 kolum</td>
+</tr>
+</tbody>
+</table>
+<p>Peraturan keras:</p>
+<ul>
+<li>Meta <code>viewport</code> ada.</li>
+<li>Tiada scroll mendatar pada root.</li>
+<li>Jadual guna <code>overflow-x-auto</code> atau jadi senarai kad di mobile.</li>
+<li>Modal: <code>w-[calc(100%-2rem)] max-w-lg max-h-[85vh] overflow-y-auto</code>.</li>
+<li>Butang dan input sekurang-kurangnya 44px tinggi.</li>
+<li>Kandungan mobile ada <code>pb-24</code> untuk ruang bottom nav.</li>
+<li>Tiada dark mode.</li>
+<li>Tiada butang mati: setiap butang ada handler sebenar.</li>
+<li>Setiap skrin ada keadaan loading, empty, error.</li>
+<li>Tiada rahsia dalam fail frontend.</li>
+</ul>
+<h3 id="ms-fail-mengikut-stack">Fail mengikut stack<a class="anchor" href="#ms-fail-mengikut-stack" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stack</th>
+<th>Fail utama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A GAS</td>
+<td><code>app/index.html</code>, <code>app/Code.gs</code>, <code>app/appsscript.json</code></td>
+</tr>
+<tr>
+<td>B Supabase</td>
+<td><code>app/public/index.html</code>, <code>app/supabase/migrations/*.sql</code>, <code>.env.example</code></td>
+</tr>
+<tr>
+<td>C Worker</td>
+<td><code>app/public/</code>, <code>app/src/index.js</code>, <code>app/wrangler.jsonc</code></td>
+</tr>
+<tr>
+<td>D Firebase</td>
+<td><code>app/public/index.html</code>, <code>firestore.rules</code>, <code>firebase.json</code></td>
+</tr>
+<tr>
+<td>E Neon</td>
+<td><code>app/public/index.html</code>, <code>app/api/</code>, <code>app/db/migrations/*.sql</code></td>
+</tr>
+<tr>
+<td>F Hibrid</td>
+<td>Gabungan; jangan ulang logik</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ms-gerbang-kualiti">Gerbang kualiti<a class="anchor" href="#ms-gerbang-kualiti" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">bash skrip/qa-check.sh &lt;slug&gt;
+</code></pre>
+<p>Skrip menyemak viewport, dark mode, placeholder, nisbah butang vs
+<code>data-action</code>, kelas responsif, corak rahsia, kewujudan PRD, dan eksport
+reka bentuk. Ia keluar dengan kod bukan sifar jika gagal.</p>
+<h2 id="ms-9-fasa-4-ujian-tempatan">9. Fasa 4 — Ujian tempatan<a class="anchor" href="#ms-9-fasa-4-ujian-tempatan" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Fail: <code>aliran-kerja/04-local-test.md</code>.</p>
+<h3 id="ms-perintah_1">Perintah<a class="anchor" href="#ms-perintah_1" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">bash skrip/test-local.sh &lt;slug&gt;
+bash skrip/test-local.sh &lt;slug&gt; --check
+</code></pre>
+<h3 id="ms-mengikut-stack">Mengikut stack<a class="anchor" href="#ms-mengikut-stack" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stack</th>
+<th>Ujian tempatan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A GAS</td>
+<td><code>IS_PREVIEW=true</code>, kemudian <code>python3 -m http.server</code>; uji backend selepas deploy dengan <code>curl</code></td>
+</tr>
+<tr>
+<td>B Supabase</td>
+<td>Guna projek dev percuma; Docker tiada di mesin ini</td>
+</tr>
+<tr>
+<td>C Worker</td>
+<td><code>npx wrangler dev</code></td>
+</tr>
+<tr>
+<td>D Firebase</td>
+<td><code>npx firebase-tools emulators:start</code></td>
+</tr>
+<tr>
+<td>E Neon</td>
+<td><code>npx wrangler dev</code> dalam <code>app/api</code> dengan branch dev</td>
+</tr>
+<tr>
+<td>F Hibrid</td>
+<td>Jalankan setiap servis dalam terminal sendiri</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ms-semakan-pelayar">Semakan pelayar<a class="anchor" href="#ms-semakan-pelayar" aria-label="Pautan ke bahagian ini">#</a></h3>
+<p>Uji pada 360×800, 390×844, 768×1024, 1024×768, dan 1440×900.</p>
+<p>Semak:</p>
+<ul>
+<li>Tiada ralat konsol.</li>
+<li>Setiap butang melakukan tindakan nyata.</li>
+<li>CRUD berfungsi dengan data seed.</li>
+<li>Keadaan loading, empty, error boleh dicetuskan.</li>
+<li>Refresh tidak memaksa logout.</li>
+<li>Tiada scroll mendatar pada 360px.</li>
+<li>Tiada string rahsia dalam frontend yang dibina.</li>
+</ul>
+<h3 id="ms-semakan-backend-gas">Semakan backend GAS<a class="anchor" href="#ms-semakan-backend-gas" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash">curl -L -X POST &quot;&lt;GAS_URL&gt;&quot; \
+  -H &quot;Content-Type: text/plain;charset=utf-8&quot; \
+  -d '{&quot;action&quot;:&quot;ping&quot;,&quot;data&quot;:{}}'
+</code></pre>
+<h2 id="ms-10-fasa-5-serahan-dan-deploy">10. Fasa 5 — Serahan dan deploy<a class="anchor" href="#ms-10-fasa-5-serahan-dan-deploy" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p>Fail: <code>aliran-kerja/05-handoff.md</code>, <code>templat/HANDOFF.md</code>.</p>
+<h3 id="ms-perintah-deploy">Perintah deploy<a class="anchor" href="#ms-perintah-deploy" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Stack</th>
+<th>Deploy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GAS</td>
+<td>Deploy <code>Code.gs</code> sebagai Web App; muat naik <code>index.html</code> ke Vercel</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td><code>npx supabase link --project-ref &lt;ref&gt;</code> kemudian <code>npx supabase db push</code></td>
+</tr>
+<tr>
+<td>Worker</td>
+<td><code>npx wrangler d1 execute ... --remote</code>, <code>npx wrangler secret put</code>, <code>npx wrangler deploy</code></td>
+</tr>
+<tr>
+<td>Firebase</td>
+<td><code>npx firebase-tools deploy --only hosting,firestore:rules,firestore:indexes</code></td>
+</tr>
+<tr>
+<td>Neon</td>
+<td>Deploy API, jalankan migrasi pada branch production</td>
+</tr>
+<tr>
+<td>Hibrid</td>
+<td>Deploy setiap lapisan secara berasingan</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ms-kandungan-serahan">Kandungan serahan<a class="anchor" href="#ms-kandungan-serahan" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ul>
+<li>URL production dan staging.</li>
+<li>Akaun admin dan cara tukar kata laluan.</li>
+<li>Nama pemboleh ubah persekitaran, bukan nilai.</li>
+<li>Perintah jalan tempatan dan deploy.</li>
+<li>Langkah backup dan rollback.</li>
+<li>Had diketahui dan kerja masa depan.</li>
+<li>Pautan ke PRD, fail reka bentuk, dan eksport.</li>
+</ul>
+<h3 id="ms-smoke-test-production">Smoke test production<a class="anchor" href="#ms-smoke-test-production" aria-label="Pautan ke bahagian ini">#</a></h3>
+<ol>
+<li>Buka URL production.</li>
+<li>Log masuk dengan akaun sebenar.</li>
+<li>Lakukan satu create, read, update, dan delete.</li>
+<li>Hantar satu input tidak sah dan pastikan ralat jelas.</li>
+</ol>
+<h2 id="ms-11-rujukan-skrip">11. Rujukan skrip<a class="anchor" href="#ms-11-rujukan-skrip" aria-label="Pautan ke bahagian ini">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Skrip</th>
+<th>Tujuan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skrip/check-setup.sh</code></td>
+<td>Semak alat, FigCraft, port, MCP, Docker, <code>psql</code></td>
+</tr>
+<tr>
+<td><code>skrip/new-project.sh &lt;slug&gt; [A–F]</code></td>
+<td>Cipta folder projek dan fail permulaan</td>
+</tr>
+<tr>
+<td><code>skrip/qa-check.sh &lt;slug&gt;</code></td>
+<td>Gerbang kualiti statik</td>
+</tr>
+<tr>
+<td><code>skrip/test-local.sh &lt;slug&gt; [--check]</code></td>
+<td>Jalankan server tempatan, uji dan henti jika <code>--check</code></td>
+</tr>
+<tr>
+<td><code>skrip/figcraft/fclib.py</code></td>
+<td>Pembantu Python FigCraft</td>
+</tr>
+<tr>
+<td><code>templat/figcraft/build.py</code></td>
+<td>Skrip permulaan bina FigCraft</td>
+</tr>
+<tr>
+<td><code>skrip/build-panduan-html.py</code></td>
+<td>Jana semula <code>PANDUAN.html</code> daripada fail ini</td>
+</tr>
+</tbody>
+</table>
+<p>Flag berguna:</p>
+<pre><code class="language-bash">bash skrip/test-local.sh &lt;slug&gt; --port 8080
+python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal --save
+</code></pre>
+<h2 id="ms-12-peta-dokumentasi">12. Peta dokumentasi<a class="anchor" href="#ms-12-peta-dokumentasi" aria-label="Pautan ke bahagian ini">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Dokumen</th>
+<th>Baca bila</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>Gambaran pertama</td>
+</tr>
+<tr>
+<td><code>SKILL.md</code></td>
+<td>Tingkah laku agent dan standard kejuruteraan</td>
+</tr>
+<tr>
+<td><code>TEMPLATE_PRD_MS.md</code></td>
+<td>Temubual Fasa 1 dan format PRD</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/00-auto.md</code></td>
+<td>Mod auto: cetusan, had, laporan</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/01-prd.md</code></td>
+<td>Langkah Fasa 1</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/02-design-figcraft.md</code></td>
+<td>Langkah Fasa 2</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/03-codegen.md</code></td>
+<td>Peraturan dan susunan fail Fasa 3</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/04-local-test.md</code></td>
+<td>Matriks ujian Fasa 4</td>
+</tr>
+<tr>
+<td><code>aliran-kerja/05-handoff.md</code></td>
+<td>Deploy dan serahan Fasa 5</td>
+</tr>
+<tr>
+<td><code>templat/PROMPT-AUTO.md</code></td>
+<td>Prompt mod auto sedia salin (EN + MS)</td>
+</tr>
+<tr>
+<td><code>pemasangan/01-opencode-mcp.md</code></td>
+<td>Config MCP OpenCode</td>
+</tr>
+<tr>
+<td><code>pemasangan/02-figcraft.md</code></td>
+<td>FigCraft headless dan live</td>
+</tr>
+<tr>
+<td><code>pemasangan/03-gas.md</code></td>
+<td>Pemasangan GAS</td>
+</tr>
+<tr>
+<td><code>pemasangan/04-supabase.md</code></td>
+<td>Pemasangan Supabase</td>
+</tr>
+<tr>
+<td><code>pemasangan/05-cloudflare-worker.md</code></td>
+<td>Pemasangan Cloudflare</td>
+</tr>
+<tr>
+<td><code>pemasangan/06-firebase.md</code></td>
+<td>Pemasangan Firebase</td>
+</tr>
+<tr>
+<td><code>pemasangan/07-neon.md</code></td>
+<td>Pemasangan Neon</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ms-13-penyelesaian-masalah">13. Penyelesaian masalah<a class="anchor" href="#ms-13-penyelesaian-masalah" aria-label="Pautan ke bahagian ini">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Gejala</th>
+<th>Punca</th>
+<th>Penyelesaian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>can't reach 127.0.0.1:7979</code></td>
+<td>App bukan mod live</td>
+<td><code>figcraft --control 7979 &amp;</code></td>
+</tr>
+<tr>
+<td>Tool FigCraft tiada dalam OpenCode</td>
+<td>Sesi bermula sebelum MCP sedia</td>
+<td>Buka semula OpenCode</td>
+</tr>
+<tr>
+<td>Port 4173 sedang digunakan</td>
+<td>Server ujian lama masih hidup</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt; --port 4174</code></td>
+</tr>
+<tr>
+<td><code>qa-check</code> gagal pada placeholder</td>
+<td>PRD atau kod masih ada <code>{{...}}</code> / <code>TODO</code></td>
+<td>Ganti dengan kandungan sebenar</td>
+</tr>
+<tr>
+<td><code>qa-check</code> gagal pada butang mati</td>
+<td>Bilangan <code>&lt;button&gt;</code> lebih daripada <code>data-action</code></td>
+<td>Tambah handler</td>
+</tr>
+<tr>
+<td>Supabase local gagal</td>
+<td>Docker tiada</td>
+<td>Guna projek dev awan percuma</td>
+</tr>
+<tr>
+<td>Sambungan Neon gagal</td>
+<td><code>psql</code> tiada</td>
+<td>Guna skrip migrasi Node</td>
+</tr>
+<tr>
+<td>Emulator Firebase tidak mula</td>
+<td>Java tiada atau versi salah</td>
+<td>Pasang Java 17+</td>
+</tr>
+<tr>
+<td>Wrangler minta login</td>
+<td>Tiada sesi Cloudflare</td>
+<td><code>npx wrangler login</code></td>
+</tr>
+<tr>
+<td>Teks FigCraft kelihatan salah</td>
+<td>Font tiada</td>
+<td><code>f.cmd('text.missingFonts')</code></td>
+</tr>
+<tr>
+<td>Folder dinamakan semula memecahkan path</td>
+<td>Skrip mengira root repo</td>
+<td>Jalankan dari root repo atau guna path penuh</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ms-14-contoh-prompt">14. Contoh prompt<a class="anchor" href="#ms-14-contoh-prompt" aria-label="Pautan ke bahagian ini">#</a></h2>
+<p><strong>Mula projek</strong></p>
+<blockquote>
+<p>Bina sistem tempahan kenderaan pejabat. Guna <code>TEMPLATE_PRD_MS.md</code> dan
+stack Supabase. Rujuk <code>projek/booking/refs/dashboard.png</code>. Jana PRD dahulu.</p>
+</blockquote>
+<p><strong>Pinda PRD</strong></p>
+<blockquote>
+<p>Tambah peranan "Penyelia" dan medan <code>plate_no</code>. Jana semula PRD.</p>
+</blockquote>
+<p><strong>Lulus</strong></p>
+<blockquote>
+<p>PRD diluluskan. Teruskan Fasa 2 di FigCraft.</p>
+</blockquote>
+<p><strong>Semak UI</strong></p>
+<blockquote>
+<p>Skrin S-02 desktop terlalu padat. Buang dua kad, kekalkan jadual. Eksport
+semula.</p>
+</blockquote>
+<p><strong>Bina kod</strong></p>
+<blockquote>
+<p>UI diluluskan. Teruskan Fasa 3. Wajib responsif 360–1920 dan tiada butang
+mati.</p>
+</blockquote>
+<p><strong>Ujian</strong></p>
+<blockquote>
+<p>Jalankan <code>qa-check.sh</code> dan <code>test-local.sh --check</code>. Tunjuk keputusan.</p>
+</blockquote>
+<h2 id="ms-15-definisi-siap">15. Definisi siap<a class="anchor" href="#ms-15-definisi-siap" aria-label="Pautan ke bahagian ini">#</a></h2>
+<ul>
+<li class="task"><input type="checkbox" disabled> PRD diluluskan dan disimpan.</li>
+<li class="task"><input type="checkbox" disabled> Fail reka bentuk dan eksport PNG disimpan.</li>
+<li class="task"><input type="checkbox" disabled> Kod lulus <code>qa-check.sh</code>.</li>
+<li class="task"><input type="checkbox" disabled> Ujian tempatan lulus.</li>
+<li class="task"><input type="checkbox" disabled> Semua keperluan wajib PRD berfungsi.</li>
+<li class="task"><input type="checkbox" disabled> Responsif disahkan pada 390 / 768 / 1024 / 1440.</li>
+<li class="task"><input type="checkbox" disabled> Smoke test production lulus.</li>
+<li class="task"><input type="checkbox" disabled> <code>HANDOFF.md</code> lengkap.</li>
+<li class="task"><input type="checkbox" disabled> Tiada rahsia dalam repositori.</li>
+</ul></div>
+      </div>
+      <footer class="footer">
+        <span>WebApp Builder · 2026</span>
+        <a href="PANDUAN.md"><span data-en="Source: PANDUAN.md" data-ms="Sumber: PANDUAN.md">Sumber: PANDUAN.md</span></a>
+      </footer>
+    </div>
+  </main>
+</div>
+<script>
+(function(){
+  var root=document.documentElement;
+  var body=document.body;
+  var input=document.getElementById('search');
+  var links=[].slice.call(document.querySelectorAll('.toc-link'));
+  var noResult=document.querySelector('.no-result');
+  var bar=document.getElementById('bar');
+  var menu=document.getElementById('menu');
+
+  function setLang(lang){
+    root.setAttribute('data-lang',lang);
+    root.lang=lang;
+    document.title=(lang==='ms'?'Panduan Penggunaan':'Usage Guide')+' — WebApp Builder';
+    document.querySelectorAll('.lang button').forEach(function(b){
+      b.setAttribute('aria-pressed',String(b.dataset.setLang===lang));
+    });
+    document.querySelectorAll('[data-en]').forEach(function(el){
+      el.textContent=lang==='en'?el.dataset.en:el.dataset.ms;
+    });
+    var searchBox=document.getElementById('search');
+    searchBox.placeholder=lang==='en'?searchBox.dataset.placeholderEn:searchBox.dataset.placeholderMs;
+    searchBox.setAttribute('aria-label',lang==='en'?'Search sections':'Cari bahagian');
+    menu.setAttribute('aria-label',lang==='en'?'Open menu':'Buka menu');
+    try{localStorage.setItem('panduan-lang',lang);}catch(e){}
+    body.classList.remove('nav-open');
+    menu.setAttribute('aria-expanded','false');
+    observe();
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click',function(){setLang(b.dataset.setLang);});
+  });
+  var saved=null;
+  try{saved=localStorage.getItem('panduan-lang');}catch(e){}
+  var fromUrl=null;
+  try{fromUrl=new URLSearchParams(location.search).get('lang');}catch(e){}
+  setLang(fromUrl==='en'||saved==='en'?'en':'ms');
+
+  menu.addEventListener('click',function(){
+    var open=body.classList.toggle('nav-open');
+    menu.setAttribute('aria-expanded',String(open));
+  });
+  document.getElementById('overlay').addEventListener('click',function(){
+    body.classList.remove('nav-open');menu.setAttribute('aria-expanded','false');
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){body.classList.remove('nav-open');menu.setAttribute('aria-expanded','false');}
+  });
+  document.querySelectorAll('.toc-link').forEach(function(a){
+    a.addEventListener('click',function(){
+      body.classList.remove('nav-open');menu.setAttribute('aria-expanded','false');
+    });
+  });
+
+  input.addEventListener('input',function(){
+    var q=input.value.trim().toLowerCase();
+    var shown=0;
+    links.forEach(function(a){
+      var hit=!q||a.dataset.label.indexOf(q)>-1;
+      a.style.display=hit?'':'none';
+      if(hit)shown++;
+    });
+    noResult.style.display=shown?'none':'block';
+  });
+
+  document.querySelectorAll('.content pre').forEach(function(pre){
+    var btn=document.createElement('button');
+    btn.className='copy';btn.type='button';btn.textContent='Copy';
+    btn.addEventListener('click',function(){
+      var code=pre.querySelector('code');
+      var text=code?code.innerText:pre.innerText;
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done);
+      }else{
+        var ta=document.createElement('textarea');
+        ta.value=text;document.body.appendChild(ta);ta.select();
+        document.execCommand('copy');ta.remove();done();
+      }
+      function done(){btn.textContent='Copied';btn.classList.add('done');setTimeout(function(){btn.textContent='Copy';btn.classList.remove('done');},1400);}
+    });
+    pre.appendChild(btn);
+  });
+
+  document.querySelectorAll('.content table').forEach(function(t){
+    if(t.parentElement.classList.contains('table-wrap'))return;
+    var w=document.createElement('div');w.className='table-wrap';
+    t.parentNode.insertBefore(w,t);w.appendChild(t);
+  });
+
+  document.querySelectorAll('.content h2,.content h3').forEach(function(h){
+    if(!h.id||h.querySelector('.anchor'))return;
+    var a=document.createElement('a');
+    a.className='anchor';a.href='#'+h.id;a.textContent='#';
+    a.setAttribute('aria-label','Pautan ke bahagian ini');
+    h.appendChild(a);
+  });
+
+  var current=null;
+  var visibleLinks=[];
+  function activeLinks(){
+    var lang=root.getAttribute('data-lang');
+    visibleLinks=[].slice.call(document.querySelectorAll('[data-lang="'+lang+'"] .toc-link'));
+  }
+  function onScroll(){
+    var max=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(max>0?Math.min(100,window.scrollY/max*100):0)+'%';
+    if(!visibleLinks.length)return;
+    var mark=window.scrollY+120,best=null;
+    visibleLinks.forEach(function(a){
+      var id=a.getAttribute('href').slice(1);
+      var h=document.getElementById(id);
+      if(h&&h.getBoundingClientRect().top<=140)best=a;
+    });
+    if(best!==current){
+      if(current)current.classList.remove('active');
+      current=best;
+      if(current)current.classList.add('active');
+    }
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+
+  var io;
+  function observe(){
+    activeLinks();
+    if(io)io.disconnect();
+    if(!('IntersectionObserver'in window)){onScroll();return;}
+    io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          var a=document.querySelector('.toc-link[href="#'+en.target.id+'"]');
+          if(a){if(current)current.classList.remove('active');current=a;a.classList.add('active');}
+        }
+      });
+    },{rootMargin:'-90px 0px -70% 0px',threshold:0});
+    document.querySelectorAll('[data-lang="'+root.getAttribute('data-lang')+'"] .content h2').forEach(function(h){io.observe(h);});
+    onScroll();
+  }
+  observe();
+})();
+</script>
+</body>
+</html>

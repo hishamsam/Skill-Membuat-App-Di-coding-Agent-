@@ -1,169 +1,290 @@
-# 📘 Panduan Penggunaan WebApp Builder (GAS + Vercel) untuk AI Agent & Chat
+# WebApp Builder — PRD → FigCraft → Kod → Ujian → Serahan
 
-Panduan ini menerangkan cara memasang dan memanfaatkan arahan kepakaran **`SKILL.md`** di dalam mana-mana platform AI Agent mahupun sesi perbualan Chat (seperti Claude, ChatGPT, Cursor, Windsurf, Cline, atau mana-mana LLM Agent).
+Satu aliran kerja untuk membina aplikasi daripada idea kasar:
 
----
-
-## 🎯 Objektif Sistem
-
-Sistem ini membolehkan anda membina aplikasi web penuh (*Full-Stack Web App*) bertaraf *Enterprise/SaaS* secara automatik daripada idea kasar anda:
-- **Backend:** Google Apps Script (Headless JSON API) + Google Sheets (Pangkalan data idempotent berkunci `LockService`).
-- **Frontend:** Satu fail utuh `index.html` moden berasaskan Tailwind CSS CDN, Lucide Icons, SweetAlert2, anti-logout semasa refresh pelayar, dan sifar butang mati.
-- **Hosting / Deployment:** Vercel (kaedah muat naik fail HTML terus tanpa kompilasi/framework) atau Google Apps Script Web App.
-
----
-
-## 🛠️ 1. Cara Memasang / Memuatkan Skill ke dalam AI
-
-Pilih kaedah yang sesuai mengikut platform yang anda gunakan:
-
-### Kaedah A: Claude Projects / Custom Instructions / ChatGPT GPTs
-1. Buka projek baharu atau tetapan sistem prompt:
-   - **Claude:** Masuk ke *Project* → buka bahagian *Project Knowledge* / *Instructions* → Muat naik fail `SKILL.md` atau salin seluruh kandungannya ke bahagian arahan.
-   - **ChatGPT:** Cipta *Custom GPT* atau letakkan di *Custom Instructions* / *System Prompt*.
-2. Mulakan perbualan dengan menyatakan idea aplikasi yang ingin dibina.
-
-### Kaedah B: Editor AI (Cursor / Windsurf / Cline / Roo Code / omp)
-1. Letakkan fail `SKILL.md` di dalam direktori kerja / root repositori projek anda:
-   - Untuk **Cursor**: Boleh dirujuk di `.cursorrules` atau mention `@SKILL.md` di Chat.
-   - Untuk **Windsurf / Cascade**: Boleh dirujuk di `.windsurfrules` atau mention `@SKILL.md`.
-   - Untuk **Agent CLI (omp, dll)**: Rujuk secara terus fail `@SKILL.md`.
-
-### Kaedah C: Sesi Chat Biasa (One-off Chat Session)
-1. Salin keseluruhan teks dari `SKILL.md`.
-2. Tampal ke dalam chat dengan awalan arahan ringkas:
-   ```text
-   Berikut ialah standard kejuruteraan dan alur kerja (SKILL) yang wajib kamu patuhi. Fahami arahan ini:
-   [TAMPAL KANDUNGAN SKILL.MD DI SINI]
-   ```
-3. Kemudian hantarkan idea aplikasi anda.
-
----
-
-## 🔄 2. Alur Interaksi 4 Tahap di Chat (Workflow Wajib)
-
-AI yang mematuhi `SKILL.md` akan mengikut 4 tahap interaksi berikut secara berdisiplin:
-
-```mermaid
-flowchart TD
-    A[Tahap 1: Pengguna Beri Idea Kasar] --> B[AI Auto-Jana PRD Padat & Berstruktur]
-    B --> C{Tahap 2: Semakan Pengguna}
-    C -- Ada Pembetulan --> D[Pengguna Mention Pembetulan & AI Jana Semula PRD]
-    D --> C
-    C -- Puas Hati --> E[Tahap 3: Pengguna Beri Kelulusan Rasmi]
-    E --> F[Tahap 4: Fasa Pengkodan & Output Canvas/Fail]
-    F --> G[1. index.html Frontend]
-    F --> H[2. Code.gs Backend]
-    F --> I[3. Panduan Deployment Vercel]
+```text
+Idea + imej rujukan
+   ↓  Fasa 1  TEMPLATE_PRD_MS.md
+PRD (Single Source of Truth)
+   ↓  Fasa 2  FigCraft live MCP
+Reka bentuk + eksport PNG
+   ↓  Fasa 3  kod responsif
+Aplikasi
+   ↓  Fasa 4  ujian tempatan
+   ↓  Fasa 5  HANDOFF + deploy
+Siap
 ```
 
-### Tahap 1: Idea Kasar → PRD Automatik
-- **Tindakan Anda:** Berikan idea ringkas (contoh: *"saya nak sistem e-tempahan kenderaan pejabat"*).
-- **Tindakan AI:** AI **DILARANG** menyoal siasat dengan senarai soalan yang panjang. AI akan terus menganalisis dan menjana Dokumen Keperluan Produk (**PRD**) Padat & Berstruktur Tinggi (modul, aliran kerja Mermaid, skema Sheets, dan API actions).
+Backend boleh GAS, Supabase, Cloudflare Worker, Firebase, atau Neon.
+Frontend kekal satu aplikasi responsif 360px–1920px.
 
-### Tahap 2: Semakan & Mention Pembetulan
-- Jika ada bahagian PRD yang perlu diubah, anda hanya perlu menyebut (*mention*) pindaan tersebut di chat (contoh: *"tukar login guna nombor staf, tambah status Kenderaan Diselenggara"*).
-- AI akan menjana semula (*regenerate*) PRD secara harmoni tanpa merosakkan bahagian lain.
-
-### Tahap 3: Pintu Kelulusan Rasmi (Approval Gate)
-- **AI WAJIB BERHENTI** selepas menjana PRD dan menunggu kelulusan anda.
-- Dilarang menulis kod sebelum anda memberi kata putus yang jelas seperti:
-  * *"Setuju, sila buat kod"*
-  * *"Ok proceed"*
-  * *"Lulus, mulakan pengkodan"*
-
-### Tahap 4: Fasa Pengkodan (Output Utuh)
-AI akan mengeluarkan 3 output mengikut urutan:
-1. **Frontend `index.html`:** Satu fail utuh lengkap (HTML + Tailwind Play CDN + Lucide Icons + SweetAlert2 + JS reaktif).
-2. **Backend `Code.gs`:** Satu fail kod lengkap Google Apps Script mengikut standard pengeluaran (LockService, batch operations, salted hash SHA-256).
-3. **Petunjuk Deployment:** Langkah penyediaan Google Sheet, tetapan Apps Script, dan cara deploy frontend ke Vercel.
+**Panduan penggunaan penuh: [`PANDUAN.html`](PANDUAN.html) (HTML) · [`PANDUAN.md`](PANDUAN.md) (Markdown). English + Bahasa Melayu.**
 
 ---
 
-## 💬 3. Contoh Skrip Perbualan (Cheatsheet Prompt)
+## Struktur repo
 
-### 📌 Contoh 1: Memulakan Projek (Tahap 1)
-> *"Saya mahu buat sistem pengurusan aduan kerosakan fasiliti sekolah. Ada peranan Pengadu (guru/staf) dan Admin (juruteknik). Rujuk @SKILL.md dan hasilkan PRD padat."*
+```text
+GAS Skill/
+├── SKILL.md                  # skill utama (arahan agent)
+├── TEMPLATE_PRD_MS.md        # penjana PRD: temubual + templat
+├── figcraft-fast-SKILL.md    # cara tulis FigCraft laju
+├── README.md                 # fail ini
+├── PANDUAN.md                # panduan lengkap EN + MS
+├── PANDUAN.html              # versi HTML, carian + tukar bahasa
+├── aliran-kerja/
+│   ├── 00-auto.md
+│   ├── 01-prd.md
+│   ├── 02-design-figcraft.md
+│   ├── 03-codegen.md
+│   ├── 04-local-test.md
+│   └── 05-handoff.md
+├── pemasangan/                    # pemasangan MCP (folder berasingan)
+│   ├── 01-opencode-mcp.md
+│   ├── 02-figcraft.md
+│   ├── 03-gas.md
+│   ├── 04-supabase.md
+│   ├── 05-cloudflare-worker.md
+│   ├── 06-firebase.md
+│   ├── 07-neon.md
+│   └── mcp.opencode.example.json
+├── skrip/
+│   ├── new-project.sh
+│   ├── test-local.sh
+│   ├── qa-check.sh
+│   └── figcraft/fclib.py
+├── templat/
+│   ├── HANDOFF.md
+│   ├── PROMPT-AUTO.md
+│   └── figcraft/build.py
+└── projek/                 # hasil setiap projek
+```
 
-### 📌 Contoh 2: Meminta Pindaan PRD (Tahap 2)
-> *"Kemas kini PRD: Tambah satu medan 'Kategori Aduan' (Elektrik, Paip, Perabot, ICT) dan admin boleh muat naik status gambar selepas dibaiki."*
+Setiap projek disimpan dalam folder sendiri:
 
-### 📌 Contoh 3: Meluluskan PRD untuk Mula Kod (Tahap 3)
-> *"PRD nampak mantap dan lengkap. Saya bersetuju. Sila teruskan dengan fasa pengkodan sekarang."*
-
-### 📌 Contoh 4: Memohon Penambahan Fitur Selepas Kod Siap
-> *"Sila kekalkan kod sedia ada yang berfungsi. Tambah fungsi eksport laporan senarai aduan bulanan ke format CSV pada paparan admin."*
-
----
-
-## 🚀 4. Langkah Menguji & Deployment ke Vercel
-
-### Langkah A: Pengujian Segera di Komputer (Preview Mode)
-1. Salin kod `index.html` yang dihasilkan oleh AI dan simpan di komputer anda sebagai fail `index.html`.
-2. Secara lalai, pemboleh ubah di dalam `index.html` disetkan kepada mod pratonton:
-   ```javascript
-   const IS_PREVIEW = true; // Menggunakan data dummy / demo
-   ```
-3. Dwiklik fail `index.html` untuk membukanya di mana-mana pelayar web (Chrome, Edge, Safari).
-4. Anda boleh mencuba log masuk menggunakan akaun demo yang disediakan pada skrin login (cth: Admin / Pengguna) untuk menguji seluruh UI, navigasi, dan fungsi butang.
-
----
-
-### Langkah B: Penyediaan Backend Google Apps Script
-1. Buka [Google Sheets](https://sheets.new) baharu.
-2. Pergi ke menu **Extensions** (Pelanjutan) → **Apps Script**.
-3. Padam kod asal, tampal kod penuh dari `Code.gs`.
-4. Pilih fungsi `setupDatabase` di bar alat atas dan klik **Run** (Jalankan) untuk membina semua helaian secara automatik.
-5. Pergi ke **Project Settings** (ikon gear ⚙️) → **Script Properties** → Tambah properti `TOKEN_SECRET` (masukkan sebarang teks rawak rahsia yang panjang).
-6. Klik butang biru **Deploy** → **New deployment**:
-   - Jenis: **Web app**
-   - Description: `v1`
-   - Execute as: **Me** (Akaun saya)
-   - Who has access: **Anyone** (Sesiapa sahaja)
-7. Klik **Deploy**, berikan kebenaran Google (**Authorize access**), dan salin **Web app URL** yang terhasil (berakhiran `/exec`).
-
----
-
-### Langkah C: Menyambungkan Frontend ke Backend
-1. Buka fail `index.html` dalam editor teks (cth: Notepad atau VS Code).
-2. Cari konfigurasi di bahagian atas tag `<script>`:
-   ```javascript
-   const IS_PREVIEW = false; // Matikan mod pratonton (kotak demo akan hilang automatik)
-   const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec"; // Masukkan URL GAS anda
-   ```
-3. Simpan perubahan fail `index.html`.
-
----
-
-### Langkah D: Deployment ke Vercel (Kaedah Upload Fail Terus)
-
-#### ⭐ Kaedah Utama: Muat Naik Fail Terus / Drag & Drop (Paling Mudah)
-1. Masukkan fail `index.html` anda ke dalam satu folder (contoh nama folder: `app-saya`).
-2. Layari [Vercel](https://vercel.com) dan daftar/log masuk akaun percuma anda.
-3. Di halaman **Dashboard**, klik **"Add New..."** → pilih **"Project"**.
-4. Di ruangan muat naik projek, seret dan lepaskan (*drag and drop*) folder `app-saya` tersebut ke Vercel (atau pilih folder dari komputer).
-   > *Alternatif Terminal (CLI):* Jika anda memasang Node.js, buka terminal di folder tersebut dan jalankan:
-   > ```bash
-   > npx vercel
-   > ```
-5. Klik **"Deploy"**.
-6. Dalam masa beberapa saat sahaja, aplikasi anda siap dilancarkan dengan URL rasmi percuma (contoh: `https://app-saya.vercel.app`) lengkap dengan HTTPS/SSL dan CDN global!
-
-#### 🐙 Kaedah Alternatif: Sambungan GitHub (Pilihan / Optional)
-1. Cipta repositori baharu di [GitHub](https://github.com) dan muat naik fail `index.html`.
-2. Di Dashboard Vercel, pilih **"Import"** repositori GitHub tersebut.
-3. Tetapkan *Framework Preset* kepada **"Other"** (*Static HTML*) dan klik **"Deploy"**.
-4. Setiap kali anda mengemas kini kod di GitHub, Vercel akan mengemas kini laman web anda secara automatik.
+```text
+projek/<slug>/
+├── STATUS.md
+├── prd/PRD-v0.1.md
+├── refs/                     # gambar rujukan
+├── design/
+│   ├── DESIGN-DNA.md
+│   ├── build.py
+│   ├── design.figcraft
+│   └── exports/*.png
+├── app/                      # kod aplikasi
+└── HANDOFF.md
+```
 
 ---
 
-## 🛡️ 5. Standard Kejuruteraan Utama (Peringatan Penting)
+## Mula pantas
 
-| Perkara | Standard Yang Ditetapkan |
-|---|---|
-| **Sifar Butang Mati** | Setiap butang WAJIB mempunyai logik hidup melalui atribut `data-action` (tiada butang hiasan/dummy). |
-| **Sesi Tahan Refresh** | Status log masuk disimpan dalam `localStorage`. Halaman tidak akan auto-logout apabila direfresh. |
-| **Mod Tema** | 100% Tema Terang (*Light Mode*) yang bersih dan profesional. Tiada mod gelap (*Dark Mode dilarang*). |
-| **Responsif 100%** | Dwi-navigasi ketat: Desktop menggunakan navigasi standard, manakala Mobile menggunakan Thumb-Zone Bottom Nav. |
-| **Keselamatan Password** | Hash kata laluan SHA-256 + salt unik. Admin wajib mempunyai antara muka untuk menukar kata laluan. |
-| **Integrasi Sheet GAS** | Operasi baca/tulis secara kelompok (*batch* `getValues` & `setValues`) dilindungi transaksi `LockService`. |
+```bash
+# 0. Semak persekitaran
+bash skrip/check-setup.sh
+
+# 1. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hibrid)
+bash skrip/new-project.sh sistem-tempahan A
+
+# 2. Letak imej rujukan (jika ada)
+cp ~/Downloads/ref.png projek/sistem-tempahan/refs/
+
+# 3. Minta agent jana PRD
+#    "Baca idea ini + refs/, guna TEMPLATE_PRD_MS.md, jana PRD."
+
+# 4. Selepas PRD diluluskan: reka bentuk FigCraft
+figcraft --control 7979 &
+python3 -I projek/sistem-tempahan/design/build.py --rehearsal
+
+# 5. Selepas UI disemak: kod + ujian
+bash skrip/qa-check.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan
+```
+
+---
+
+## Mod auto (one-shot)
+
+Beri idea sekali, agent jalankan Fasa 1–4 tanpa berhenti. Workflow sama;
+hanya temubual dan gerbang kelulusan dipendekkan.
+
+Cetus dengan frasa: `auto`, `auto penuh`, `buat semua`, `siapkan terus`,
+`one-shot`.
+
+```text
+Bina sistem tempahan kenderaan pejabat dalam mod auto penuh.
+Rujukan: projek/booking/refs/dashboard.png
+Kod responsif 360-1920px. Jalankan qa-check dan test-local --check.
+Berhenti sebelum deploy.
+```
+
+Prompt penuh: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
+Protokol: [`aliran-kerja/00-auto.md`](aliran-kerja/00-auto.md).
+
+Yang agent buat sendiri:
+
+| Fasa | Auto |
+| --- | --- |
+| 1 PRD | Langkau temubual, pilih stack, tanda `[ANDAIAN]` |
+| 2 FigCraft | Bina + semak PNG sendiri, guna headless jika perlu |
+| 3 Kod | Jana responsif, tiada butang mati |
+| 4 Ujian | Jalankan, betulkan maksimum 3 pusingan |
+| 5 Deploy | BERHENTI, tunggu kebenaran |
+
+Yang masih perlukan kebenaran berasingan: deploy production, akaun baharu,
+pembayaran, tukar DNS, padam data production.
+
+---
+
+## 5 fasa
+
+| Fasa | Panduan | Output | Gerbang |
+| --- | --- | --- | --- |
+| 1 PRD | `aliran-kerja/01-prd.md` | `prd/PRD-v0.1.md` | Lulus PRD |
+| 2 Reka bentuk | `aliran-kerja/02-design-figcraft.md` | `design/design.figcraft` + PNG | UI disemak |
+| 3 Kod | `aliran-kerja/03-codegen.md` | `app/` | `qa-check` lulus |
+| 4 Ujian | `aliran-kerja/04-local-test.md` | bukti ujian | semua kes lulus |
+| 5 Serahan | `aliran-kerja/05-handoff.md` | `HANDOFF.md` + deploy | smoke test |
+
+### Fasa 1 — PRD
+
+`TEMPLATE_PRD_MS.md` ada dua bahagian:
+
+- **Bahagian A:** 10 soalan temubual, satu soalan per mesej.
+- **Bahagian B:** templat PRD 17 bab.
+
+Soalan teknologi (A6) wajib sebelum PRD ditulis:
+
+| Kod | Pilihan | Sesuai |
+| --- | --- | --- |
+| A | GAS + Google Sheets | Dalaman, data kecil |
+| B | Supabase | Postgres + Auth + RLS |
+| C | Cloudflare Worker | API edge + D1/KV/R2 |
+| D | Firebase | Firestore + Auth + realtime |
+| E | Neon | Postgres serverless |
+| F | Hibrid | Gabungan, nyatakan lapisan |
+
+Bab 12 PRD mengunci skrin, token, dan rujukan untuk FigCraft.
+Bab 13 mengunci perintah ujian dan kriteria terima.
+
+### Fasa 2 — FigCraft
+
+- Guna MCP live (`figcraft-app`) untuk nampak perubahan.
+- Untuk banyak layer: satu skrip `design/build.py`, bukan tool call satu-satu.
+- Eksport PNG dan simpan `design.figcraft` dalam folder projek.
+- Rujukan mobile ≠ kod mobile-only. Frame desktop tetap dibina.
+
+### Fasa 3 — Kod
+
+- Token dari `DESIGN-DNA.md` masuk satu konfigurasi.
+- Responsif: 360–639 / 640–1023 / 1024–1439 / ≥1440.
+- Mobile: bottom nav + 1 kolum + `pb-24`.
+- Desktop: sidebar/top nav + 2–3 kolum.
+- Zero dead buttons, zero placeholder, zero rahsia di klien.
+
+### Fasa 4 — Ujian
+
+| Stack | Perintah |
+| --- | --- |
+| GAS | `IS_PREVIEW=true` + `python3 -m http.server` |
+| Supabase | projek dev (Docker tiada di mesin ini) |
+| Worker | `npx wrangler dev` |
+| Firebase | `npx firebase-tools emulators:start` |
+| Neon | `npx wrangler dev` + branch dev |
+
+```bash
+bash skrip/test-local.sh <slug> --check
+bash skrip/qa-check.sh <slug>
+```
+
+### Fasa 5 — Serahan
+
+- Isi `HANDOFF.md`.
+- Deploy ikut stack.
+- Smoke test production.
+- Tanda `STATUS.md` selesai.
+
+---
+
+## Setup MCP
+
+Semua arahan pemasangan dalam folder berasingan: **`pemasangan/`**.
+
+| Dokumen | Isi |
+| --- | --- |
+| `pemasangan/01-opencode-mcp.md` | Format `opencode.json`, daftar server |
+| `pemasangan/02-figcraft.md` | Headless vs live, port 7979 |
+| `pemasangan/03-gas.md` | GAS, clasp, mod pratonton |
+| `pemasangan/04-supabase.md` | MCP Supabase, projek dev, RLS |
+| `pemasangan/05-cloudflare-worker.md` | MCP Cloudflare, wrangler, D1 |
+| `pemasangan/06-firebase.md` | MCP Firebase, emulator, rules |
+| `pemasangan/07-neon.md` | MCP Neon, serverless driver |
+
+Config siap tampal: `pemasangan/mcp.opencode.example.json`.
+
+Semak:
+
+```bash
+opencode mcp list
+ss -ltnp | grep 7979
+```
+
+---
+
+## Mod rujukan imej
+
+| Mod | Maksud | Bila |
+| --- | --- | --- |
+| Structural (lalai) | Ambil struktur, density, navigasi; warna boleh ubah | Branding sendiri |
+| Pixel-faithful | Ikut grid, skala, radius hampir 1:1 | Mahu hampir sama |
+| Mood | Ambil nada/warna/material sahaja | Vibe sahaja |
+
+Apa diambil: sistem visual. Apa tidak: logo, trademark, ilustrasi, foto stok,
+avatar, teks berhak cipta.
+
+---
+
+## Contoh prompt
+
+**Mula projek:**
+
+> Bina sistem tempahan kenderaan. Rujuk `refs/dashboard.png`. Guna
+> `TEMPLATE_PRD_MS.md`, stack Supabase. Jana PRD dahulu.
+
+**Pindaan PRD:**
+
+> Tambah peranan "Penyelia" dan medan `no_plat`. Jana semula PRD.
+
+**Lulus:**
+
+> PRD OK. Teruskan Fasa 2 FigCraft.
+
+**Semak UI:**
+
+> Skrin S-02 desktop terlalu padat. Kurangkan kad, kekalkan jadual.
+> Eksport semula.
+
+**Kod:**
+
+> UI lulus. Teruskan Fasa 3. Pastikan responsif 360–1920 dan tiada butang mati.
+
+**Ujian:**
+
+> Jalankan `qa-check.sh` dan `test-local.sh --check`, tunjuk keputusan.
+
+---
+
+## Standard ringkas
+
+| Perkara | Standard |
+| --- | --- |
+| PRD | Satu sumber kebenaran; tiada kod sebelum lulus |
+| Responsif | 360px–1920px; tiada scroll mendatar |
+| Navigasi | Bottom nav mobile; sidebar/top nav desktop |
+| Butang | Semua hidup, `data-action` + handler |
+| Keadaan UI | default, loading, empty, error |
+| Tema | Light mode sahaja |
+| Ikon | Satu pustaka (Lucide) |
+| Keselamatan | Auth/izin di server; tiada rahsia di klien |
+| Ujian | `qa-check` + `test-local` sebelum serah |

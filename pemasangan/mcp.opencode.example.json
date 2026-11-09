@@ -1,0 +1,45 @@
+{
+  "mcp": {
+    "figcraft": {
+      "type": "local",
+      "command": ["/usr/bin/figcraft-cli", "mcp"],
+      "enabled": true
+    },
+    "figcraft-app": {
+      "type": "local",
+      "command": ["/usr/bin/figcraft-cli", "mcp", "--attach", "7979"],
+      "enabled": true
+    },
+    "supabase": {
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?project_ref=GANTI_PROJECT_REF",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {file:~/.secrets/supabase-token}"
+      }
+    },
+    "cloudflare-docs": {
+      "type": "remote",
+      "url": "https://docs.mcp.cloudflare.com/mcp",
+      "enabled": false
+    },
+    "cloudflare-observability": {
+      "type": "remote",
+      "url": "https://observability.mcp.cloudflare.com/mcp",
+      "enabled": false
+    },
+    "firebase": {
+      "type": "local",
+      "command": ["npx", "-y", "firebase-tools@latest", "mcp"],
+      "enabled": false
+    },
+    "neon": {
+      "type": "remote",
+      "url": "https://mcp.neon.tech/mcp",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {file:~/.secrets/neon-token}"
+      }
+    }
+  }
+}
