@@ -63,9 +63,27 @@ Required for all projects:
 
 ## 3. Installation
 
-### 3.1 Check the machine
+### 3.1 Get the repo and check the machine
 
 ```bash
+# Git (recommended)
+git clone https://github.com/hishamsam/GAS-App-builder-Skill-.git
+cd "GAS-App-builder-Skill-"
+
+# Or GitHub CLI
+gh repo clone hishamsam/GAS-App-builder-Skill-
+
+# Or ZIP without git
+curl -L -o gas-skill.zip \
+  https://github.com/hishamsam/GAS-App-builder-Skill-/archive/refs/heads/main.zip
+unzip gas-skill.zip
+cd GAS-App-builder-Skill--main
+```
+
+Allow the scripts to run, then check the machine:
+
+```bash
+chmod +x skrip/*.sh
 bash skrip/check-setup.sh
 ```
 
@@ -174,8 +192,26 @@ python3 -I projek/sistem-tempahan/design/build.py --rehearsal
 
 # 6. After UI approval, generate code and test
 bash skrip/qa-check.sh sistem-tempahan
-bash skrip/test-local.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan --check
+
+# 7. Or run steps 1, 2, 6 in one go
+bash skrip/jalankan-semua.sh sistem-tempahan A
 ```
+
+### All script commands
+
+| Step | Command | Purpose |
+| --- | --- | --- |
+| 0 | `bash skrip/check-setup.sh` | Check Node, Python, Java, FigCraft, port 7979, MCP, Docker, `psql` |
+| 1 | `bash skrip/new-project.sh <slug> [A-F]` | Create `projek/<slug>/` with starter files |
+| 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Rehearse the FigCraft build without saving |
+| 2 | `python3 -I projek/<slug>/design/build.py --save` | Build and save `design.figcraft` |
+| 3 | `bash skrip/qa-check.sh <slug>` | Static quality gate |
+| 4 | `bash skrip/test-local.sh <slug>` | Serve the app locally |
+| 4 | `bash skrip/test-local.sh <slug> --check` | Smoke-test HTTP 200 and stop |
+| 4 | `bash skrip/test-local.sh <slug> --port 8080` | Use another port |
+| All | `bash skrip/jalankan-semua.sh <slug> [A-F]` | check-setup, new-project, qa-check, test-local --check |
+| Docs | `python3 skrip/build-panduan-html.py` | Rebuild `PANDUAN.html` from `PANDUAN.md` |
 
 ### Auto mode (one-shot)
 
@@ -240,6 +276,14 @@ waiting for approval.
 | A8 | Stack-specific follow-ups (max 4) |
 | A9 | Visual references and target device |
 | A10 | Definition of done and tests |
+
+Answer format:
+
+- Reply with a letter: `A`, `B`, `C`, or `D`.
+- Add a note: `C, needs two roles`.
+- Answer several at once: `A1:A, A2:C, A4:B`.
+- Accept defaults: `follow your recommendation` (recorded as `[ASSUMPTION]`).
+- Skip the interview: `auto`, `auto penuh`, `buat semua`, `siapkan terus`, `one-shot`.
 
 ### Technology choices
 
@@ -460,6 +504,7 @@ Files: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
 | Script | Purpose |
 | --- | --- |
 | `skrip/check-setup.sh` | Check tools, FigCraft, port, MCP, Docker, `psql` |
+| `skrip/jalankan-semua.sh <slug> [A–F]` | Run setup, project creation, QA, and local test in one command |
 | `skrip/new-project.sh <slug> [A–F]` | Create the project folder and starter files |
 | `skrip/qa-check.sh <slug>` | Static quality gate |
 | `skrip/test-local.sh <slug> [--check]` | Run the local server, optionally smoke-test and stop |
@@ -612,9 +657,27 @@ Keperluan untuk semua projek:
 
 ## 3. Pemasangan
 
-### 3.1 Semak mesin
+### 3.1 Dapatkan repo dan semak mesin
 
 ```bash
+# Git (disyorkan)
+git clone https://github.com/hishamsam/GAS-App-builder-Skill-.git
+cd "GAS-App-builder-Skill-"
+
+# Atau GitHub CLI
+gh repo clone hishamsam/GAS-App-builder-Skill-
+
+# Atau ZIP tanpa git
+curl -L -o gas-skill.zip \
+  https://github.com/hishamsam/GAS-App-builder-Skill-/archive/refs/heads/main.zip
+unzip gas-skill.zip
+cd GAS-App-builder-Skill--main
+```
+
+Benarkan skrip berjalan, kemudian semak mesin:
+
+```bash
+chmod +x skrip/*.sh
 bash skrip/check-setup.sh
 ```
 
@@ -723,8 +786,26 @@ python3 -I projek/sistem-tempahan/design/build.py --rehearsal
 
 # 6. Selepas UI disemak, jana kod dan uji
 bash skrip/qa-check.sh sistem-tempahan
-bash skrip/test-local.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan --check
+
+# 7. Atau jalankan langkah 1, 2, 6 sekali gus
+bash skrip/jalankan-semua.sh sistem-tempahan A
 ```
+
+### Semua perintah skrip
+
+| Langkah | Perintah | Fungsi |
+| --- | --- | --- |
+| 0 | `bash skrip/check-setup.sh` | Semak Node, Python, Java, FigCraft, port 7979, MCP, Docker, `psql` |
+| 1 | `bash skrip/new-project.sh <slug> [A-F]` | Cipta `projek/<slug>/` dengan fail permulaan |
+| 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Cuba bina FigCraft tanpa simpan |
+| 2 | `python3 -I projek/<slug>/design/build.py --save` | Bina dan simpan `design.figcraft` |
+| 3 | `bash skrip/qa-check.sh <slug>` | Gerbang kualiti statik |
+| 4 | `bash skrip/test-local.sh <slug>` | Hidang app secara tempatan |
+| 4 | `bash skrip/test-local.sh <slug> --check` | Uji HTTP 200 kemudian henti |
+| 4 | `bash skrip/test-local.sh <slug> --port 8080` | Guna port lain |
+| Semua | `bash skrip/jalankan-semua.sh <slug> [A-F]` | check-setup, new-project, qa-check, test-local --check |
+| Dok | `python3 skrip/build-panduan-html.py` | Jana semula `PANDUAN.html` daripada `PANDUAN.md` |
 
 ### Mod auto (one-shot)
 
@@ -787,6 +868,14 @@ kelulusan.
 | A8 | Soalan susulan khusus stack (maksimum 4) |
 | A9 | Rujukan visual dan peranti sasaran |
 | A10 | Definisi siap dan ujian |
+
+Format jawapan:
+
+- Balas satu huruf: `A`, `B`, `C`, atau `D`.
+- Tambah nota: `C, perlu dua peranan`.
+- Jawab banyak sekali: `A1:A, A2:C, A4:B`.
+- Terima cadangan: `ikut cadangan` (direkod sebagai `[ANDAIAN]`).
+- Langkau temubual: `auto`, `auto penuh`, `buat semua`, `siapkan terus`, `one-shot`.
 
 ### Pilihan teknologi
 
@@ -1008,6 +1097,7 @@ Fail: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
 | Skrip | Tujuan |
 | --- | --- |
 | `skrip/check-setup.sh` | Semak alat, FigCraft, port, MCP, Docker, `psql` |
+| `skrip/jalankan-semua.sh <slug> [A–F]` | Jalankan semakan, cipta projek, QA dan ujian tempatan sekali gus |
 | `skrip/new-project.sh <slug> [A–F]` | Cipta folder projek dan fail permulaan |
 | `skrip/qa-check.sh <slug>` | Gerbang kualiti statik |
 | `skrip/test-local.sh <slug> [--check]` | Jalankan server tempatan, uji dan henti jika `--check` |

@@ -35,6 +35,10 @@ FRONT="$APP"
 [ -f "$APP/public/index.html" ] && FRONT="$APP/public"
 
 run_static() {
+  if [ ! -f "$FRONT/index.html" ]; then
+    echo "GAGAL: index.html tiada dalam ${FRONT#$ROOT/}. Jana kod Fasa 3 dahulu."
+    exit 1
+  fi
   echo "Static server: http://localhost:$PORT ($FRONT)"
   if [ "$CHECK" -eq 1 ]; then
     (cd "$FRONT" && exec python3 -m http.server "$PORT" >/tmp/opencode-http-$SLUG.log 2>&1) &

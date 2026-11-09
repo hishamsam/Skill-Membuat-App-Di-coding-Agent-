@@ -49,9 +49,12 @@ GAS Skill/
 │   ├── 07-neon.md
 │   └── mcp.opencode.example.json
 ├── skrip/
+│   ├── check-setup.sh
+│   ├── jalankan-semua.sh
 │   ├── new-project.sh
 │   ├── test-local.sh
 │   ├── qa-check.sh
+│   ├── build-panduan-html.py
 │   └── figcraft/fclib.py
 ├── templat/
 │   ├── HANDOFF.md
@@ -78,6 +81,37 @@ projek/<slug>/
 
 ---
 
+## Muat turun repo
+
+Pilih satu cara. Semua arahan di bawah dijalankan dari folder repo.
+
+```bash
+# 1. Git (disyorkan, mudah kemas kini)
+git clone https://github.com/hishamsam/GAS-App-builder-Skill-.git
+cd "GAS-App-builder-Skill-"
+
+# 2. GitHub CLI
+gh repo clone hishamsam/GAS-App-builder-Skill-
+
+# 3. ZIP tanpa git
+curl -L -o gas-skill.zip \
+  https://github.com/hishamsam/GAS-App-builder-Skill-/archive/refs/heads/main.zip
+unzip gas-skill.zip
+cd GAS-App-builder-Skill--main
+```
+
+Benarkan skrip berjalan, kemudian semak mesin:
+
+```bash
+chmod +x skrip/*.sh
+bash skrip/check-setup.sh
+```
+
+Keperluan minimum: `bash`, `python3`, `git`. Pilihan: `node`/`npm`
+(Wrangler, Firebase), `figcraft-cli` (reka bentuk), `opencode` (agent).
+
+---
+
 ## Mula pantas
 
 ```bash
@@ -99,8 +133,73 @@ python3 -I projek/sistem-tempahan/design/build.py --rehearsal
 
 # 5. Selepas UI disemak: kod + ujian
 bash skrip/qa-check.sh sistem-tempahan
-bash skrip/test-local.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan --check
+
+# 6. Atau jalankan langkah 0, 1, 5 sekali gus
+bash skrip/jalankan-semua.sh sistem-tempahan A
 ```
+
+---
+
+## Semua perintah skrip
+
+| Langkah | Perintah | Fungsi |
+| --- | --- | --- |
+| 0 | `bash skrip/check-setup.sh` | Semak node, python3, java, FigCraft, port 7979, MCP, docker, psql |
+| 1 | `bash skrip/new-project.sh <slug> [A-F]` | Cipta `projek/<slug>/` + STATUS.md + build.py |
+| 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Cuba bina reka bentuk FigCraft tanpa simpan |
+| 2 | `python3 -I projek/<slug>/design/build.py --save` | Bina + simpan `design.figcraft` |
+| 3 | `bash skrip/qa-check.sh <slug>` | Semakan statik: viewport, responsif, placeholder, rahsia, PRD, PNG |
+| 4 | `bash skrip/test-local.sh <slug>` | Hidang app tempatan (Ctrl+C untuk henti) |
+| 4 | `bash skrip/test-local.sh <slug> --check` | Uji HTTP 200 kemudian henti sendiri |
+| 4 | `bash skrip/test-local.sh <slug> --port 8080` | Guna port lain |
+| Semua | `bash skrip/jalankan-semua.sh <slug> [A-F]` | check-setup → new-project (jika perlu) → qa-check → test-local --check |
+| Dok | `python3 skrip/build-panduan-html.py` | Jana semula `PANDUAN.html` daripada `PANDUAN.md` |
+
+Nota:
+
+- `jalankan-semua.sh` tanpa slug hanya menjalankan `check-setup.sh`.
+- `qa-check.sh` dan `test-local.sh` memerlukan `projek/<slug>/app/index.html`.
+- `test-local.sh --check` guna port 4173 secara lalai.
+- Semua skrip boleh dijalankan dari mana-mana folder; ia cari root repo sendiri.
+
+---
+
+## Temubual PRD — jawab pantas
+
+Agent tanya satu soalan (A1–A10) setiap mesej. Jawab ringkas sahaja.
+
+| Cara jawab | Contoh | Kesan |
+| --- | --- | --- |
+| Satu huruf | `A` | Agent ambil pilihan A, terus ke soalan berikut |
+| Huruf + nota | `C, sebab perlu dua peranan` | Pilihan C + nota masuk PRD |
+| Nyatakan sendiri | `D: pelajar, guru, pentadbir` | Guna senarai anda |
+| Jawab banyak sekali | `A1:A, A2:C, A4:B, A5:C` | Agent langkau soalan yang sudah dijawab |
+| Terima cadangan | `ikut cadangan` | Agent pilih nilai munasabah, tanda `[ANDAIAN]` |
+| Langkau semua | `jana terus` | Agent isi semua bab dengan andaian, tunjuk PRD |
+
+Aliran contoh:
+
+```text
+Agent: A1. Siapa guna sistem ini, dan masalah apa hendak diselesaikan?
+Anda : B
+Agent: A2. Peranan apa yang perlu ada?
+Anda : B
+Agent: A6. Pilih teknologi backend/data…
+Anda : A, sebab dalam Google Workspace
+...
+Agent: [tunjuk PRD penuh] Terima PRD ini, atau ada pindaan?
+Anda : PRD OK. Teruskan Fasa 2.
+```
+
+Peraturan penting:
+
+- Jawapan `auto` / `auto penuh` / `buat semua` / `siapkan terus` / `one-shot`
+  mematikan temubual sepenuhnya. Agent terus jana PRD + Fasa 2–4.
+- Kelulusan PRD mesti jelas: `PRD OK`, `lulus`, atau `teruskan`.
+- Pindaan: sebut perubahan sahaja, contoh `Tambah peranan Penyelia dan medan no_plat`.
+
+Prompt auto siap salin: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
 
 ---
 

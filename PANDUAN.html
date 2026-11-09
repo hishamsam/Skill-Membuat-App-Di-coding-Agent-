@@ -128,11 +128,12 @@ body.nav-open .overlay{display:block}
       <nav aria-label="Contents"><a class="toc-link toc-h2" href="#en-1-what-this-tool-is" data-label="1. what this tool is">1. What this tool is</a>
 <a class="toc-link toc-h2" href="#en-2-requirements" data-label="2. requirements">2. Requirements</a>
 <a class="toc-link toc-h2" href="#en-3-installation" data-label="3. installation">3. Installation</a>
-<a class="toc-link toc-h3" href="#en-31-check-the-machine" data-label="3.1 check the machine">3.1 Check the machine</a>
+<a class="toc-link toc-h3" href="#en-31-get-the-repo-and-check-the-machine" data-label="3.1 get the repo and check the machine">3.1 Get the repo and check the machine</a>
 <a class="toc-link toc-h3" href="#en-32-register-the-mcp-servers" data-label="3.2 register the mcp servers">3.2 Register the MCP servers</a>
 <a class="toc-link toc-h3" href="#en-33-start-figcraft-in-live-mode" data-label="3.3 start figcraft in live mode">3.3 Start FigCraft in live mode</a>
 <a class="toc-link toc-h2" href="#en-4-repository-layout" data-label="4. repository layout">4. Repository layout</a>
 <a class="toc-link toc-h2" href="#en-5-quick-start" data-label="5. quick start">5. Quick start</a>
+<a class="toc-link toc-h3" href="#en-all-script-commands" data-label="all script commands">All script commands</a>
 <a class="toc-link toc-h3" href="#en-auto-mode-one-shot" data-label="auto mode (one-shot)">Auto mode (one-shot)</a>
 <a class="toc-link toc-h2" href="#en-6-phase-1-prd" data-label="6. phase 1 — prd">6. Phase 1 — PRD</a>
 <a class="toc-link toc-h3" href="#en-what-happens" data-label="what happens">What happens</a>
@@ -170,11 +171,12 @@ body.nav-open .overlay{display:block}
       <nav aria-label="Kandungan"><a class="toc-link toc-h2" href="#ms-1-apa-alat-ini" data-label="1. apa alat ini">1. Apa alat ini</a>
 <a class="toc-link toc-h2" href="#ms-2-keperluan" data-label="2. keperluan">2. Keperluan</a>
 <a class="toc-link toc-h2" href="#ms-3-pemasangan" data-label="3. pemasangan">3. Pemasangan</a>
-<a class="toc-link toc-h3" href="#ms-31-semak-mesin" data-label="3.1 semak mesin">3.1 Semak mesin</a>
+<a class="toc-link toc-h3" href="#ms-31-dapatkan-repo-dan-semak-mesin" data-label="3.1 dapatkan repo dan semak mesin">3.1 Dapatkan repo dan semak mesin</a>
 <a class="toc-link toc-h3" href="#ms-32-daftar-server-mcp" data-label="3.2 daftar server mcp">3.2 Daftar server MCP</a>
 <a class="toc-link toc-h3" href="#ms-33-buka-figcraft-mod-live" data-label="3.3 buka figcraft mod live">3.3 Buka FigCraft mod live</a>
 <a class="toc-link toc-h2" href="#ms-4-susunan-repositori" data-label="4. susunan repositori">4. Susunan repositori</a>
 <a class="toc-link toc-h2" href="#ms-5-mula-pantas" data-label="5. mula pantas">5. Mula pantas</a>
+<a class="toc-link toc-h3" href="#ms-semua-perintah-skrip" data-label="semua perintah skrip">Semua perintah skrip</a>
 <a class="toc-link toc-h3" href="#ms-mod-auto-one-shot" data-label="mod auto (one-shot)">Mod auto (one-shot)</a>
 <a class="toc-link toc-h2" href="#ms-6-fasa-1-prd" data-label="6. fasa 1 — prd">6. Fasa 1 — PRD</a>
 <a class="toc-link toc-h3" href="#ms-apa-yang-berlaku" data-label="apa yang berlaku">Apa yang berlaku</a>
@@ -324,8 +326,23 @@ Finished app
 <li>A terminal, Node.js, and Python 3.</li>
 </ul>
 <h2 id="en-3-installation">3. Installation<a class="anchor" href="#en-3-installation" aria-label="Pautan ke bahagian ini">#</a></h2>
-<h3 id="en-31-check-the-machine">3.1 Check the machine<a class="anchor" href="#en-31-check-the-machine" aria-label="Pautan ke bahagian ini">#</a></h3>
-<pre><code class="language-bash">bash skrip/check-setup.sh
+<h3 id="en-31-get-the-repo-and-check-the-machine">3.1 Get the repo and check the machine<a class="anchor" href="#en-31-get-the-repo-and-check-the-machine" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash"># Git (recommended)
+git clone https://github.com/hishamsam/GAS-App-builder-Skill-.git
+cd &quot;GAS-App-builder-Skill-&quot;
+
+# Or GitHub CLI
+gh repo clone hishamsam/GAS-App-builder-Skill-
+
+# Or ZIP without git
+curl -L -o gas-skill.zip \
+  https://github.com/hishamsam/GAS-App-builder-Skill-/archive/refs/heads/main.zip
+unzip gas-skill.zip
+cd GAS-App-builder-Skill--main
+</code></pre>
+<p>Allow the scripts to run, then check the machine:</p>
+<pre><code class="language-bash">chmod +x skrip/*.sh
+bash skrip/check-setup.sh
 </code></pre>
 <p>This reports Node, npm, Python, Java, FigCraft CLI, port 7979, MCP
 registration, Docker, and <code>psql</code>.</p>
@@ -410,8 +427,73 @@ python3 -I projek/sistem-tempahan/design/build.py --rehearsal
 
 # 6. After UI approval, generate code and test
 bash skrip/qa-check.sh sistem-tempahan
-bash skrip/test-local.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan --check
+
+# 7. Or run steps 1, 2, 6 in one go
+bash skrip/jalankan-semua.sh sistem-tempahan A
 </code></pre>
+<h3 id="en-all-script-commands">All script commands<a class="anchor" href="#en-all-script-commands" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>bash skrip/check-setup.sh</code></td>
+<td>Check Node, Python, Java, FigCraft, port 7979, MCP, Docker, <code>psql</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>bash skrip/new-project.sh &lt;slug&gt; [A-F]</code></td>
+<td>Create <code>projek/&lt;slug&gt;/</code> with starter files</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal</code></td>
+<td>Rehearse the FigCraft build without saving</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>python3 -I projek/&lt;slug&gt;/design/build.py --save</code></td>
+<td>Build and save <code>design.figcraft</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>bash skrip/qa-check.sh &lt;slug&gt;</code></td>
+<td>Static quality gate</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt;</code></td>
+<td>Serve the app locally</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt; --check</code></td>
+<td>Smoke-test HTTP 200 and stop</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt; --port 8080</code></td>
+<td>Use another port</td>
+</tr>
+<tr>
+<td>All</td>
+<td><code>bash skrip/jalankan-semua.sh &lt;slug&gt; [A-F]</code></td>
+<td>check-setup, new-project, qa-check, test-local --check</td>
+</tr>
+<tr>
+<td>Docs</td>
+<td><code>python3 skrip/build-panduan-html.py</code></td>
+<td>Rebuild <code>PANDUAN.html</code> from <code>PANDUAN.md</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="en-auto-mode-one-shot">Auto mode (one-shot)<a class="anchor" href="#en-auto-mode-one-shot" aria-label="Pautan ke bahagian ini">#</a></h3>
 <p>Give the idea once and let the agent run Phases 1–4 without stopping. The
 workflow does not change; only the interview and the approval gates are
@@ -523,6 +605,14 @@ waiting for approval.</p>
 </tr>
 </tbody>
 </table>
+<p>Answer format:</p>
+<ul>
+<li>Reply with a letter: <code>A</code>, <code>B</code>, <code>C</code>, or <code>D</code>.</li>
+<li>Add a note: <code>C, needs two roles</code>.</li>
+<li>Answer several at once: <code>A1:A, A2:C, A4:B</code>.</li>
+<li>Accept defaults: <code>follow your recommendation</code> (recorded as <code>[ASSUMPTION]</code>).</li>
+<li>Skip the interview: <code>auto</code>, <code>auto penuh</code>, <code>buat semua</code>, <code>siapkan terus</code>, <code>one-shot</code>.</li>
+</ul>
 <h3 id="en-technology-choices">Technology choices<a class="anchor" href="#en-technology-choices" aria-label="Pautan ke bahagian ini">#</a></h3>
 <table>
 <thead>
@@ -898,6 +988,10 @@ bash skrip/test-local.sh &lt;slug&gt; --check
 <td>Check tools, FigCraft, port, MCP, Docker, <code>psql</code></td>
 </tr>
 <tr>
+<td><code>skrip/jalankan-semua.sh &lt;slug&gt; [A–F]</code></td>
+<td>Run setup, project creation, QA, and local test in one command</td>
+</tr>
+<tr>
 <td><code>skrip/new-project.sh &lt;slug&gt; [A–F]</code></td>
 <td>Create the project folder and starter files</td>
 </tr>
@@ -1229,8 +1323,23 @@ Aplikasi siap
 <li>Terminal, Node.js, dan Python 3.</li>
 </ul>
 <h2 id="ms-3-pemasangan">3. Pemasangan<a class="anchor" href="#ms-3-pemasangan" aria-label="Pautan ke bahagian ini">#</a></h2>
-<h3 id="ms-31-semak-mesin">3.1 Semak mesin<a class="anchor" href="#ms-31-semak-mesin" aria-label="Pautan ke bahagian ini">#</a></h3>
-<pre><code class="language-bash">bash skrip/check-setup.sh
+<h3 id="ms-31-dapatkan-repo-dan-semak-mesin">3.1 Dapatkan repo dan semak mesin<a class="anchor" href="#ms-31-dapatkan-repo-dan-semak-mesin" aria-label="Pautan ke bahagian ini">#</a></h3>
+<pre><code class="language-bash"># Git (disyorkan)
+git clone https://github.com/hishamsam/GAS-App-builder-Skill-.git
+cd &quot;GAS-App-builder-Skill-&quot;
+
+# Atau GitHub CLI
+gh repo clone hishamsam/GAS-App-builder-Skill-
+
+# Atau ZIP tanpa git
+curl -L -o gas-skill.zip \
+  https://github.com/hishamsam/GAS-App-builder-Skill-/archive/refs/heads/main.zip
+unzip gas-skill.zip
+cd GAS-App-builder-Skill--main
+</code></pre>
+<p>Benarkan skrip berjalan, kemudian semak mesin:</p>
+<pre><code class="language-bash">chmod +x skrip/*.sh
+bash skrip/check-setup.sh
 </code></pre>
 <p>Skrip melaporkan Node, npm, Python, Java, FigCraft CLI, port 7979,
 pendaftaran MCP, Docker, dan <code>psql</code>.</p>
@@ -1315,8 +1424,73 @@ python3 -I projek/sistem-tempahan/design/build.py --rehearsal
 
 # 6. Selepas UI disemak, jana kod dan uji
 bash skrip/qa-check.sh sistem-tempahan
-bash skrip/test-local.sh sistem-tempahan
+bash skrip/test-local.sh sistem-tempahan --check
+
+# 7. Atau jalankan langkah 1, 2, 6 sekali gus
+bash skrip/jalankan-semua.sh sistem-tempahan A
 </code></pre>
+<h3 id="ms-semua-perintah-skrip">Semua perintah skrip<a class="anchor" href="#ms-semua-perintah-skrip" aria-label="Pautan ke bahagian ini">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Langkah</th>
+<th>Perintah</th>
+<th>Fungsi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>bash skrip/check-setup.sh</code></td>
+<td>Semak Node, Python, Java, FigCraft, port 7979, MCP, Docker, <code>psql</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>bash skrip/new-project.sh &lt;slug&gt; [A-F]</code></td>
+<td>Cipta <code>projek/&lt;slug&gt;/</code> dengan fail permulaan</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal</code></td>
+<td>Cuba bina FigCraft tanpa simpan</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>python3 -I projek/&lt;slug&gt;/design/build.py --save</code></td>
+<td>Bina dan simpan <code>design.figcraft</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>bash skrip/qa-check.sh &lt;slug&gt;</code></td>
+<td>Gerbang kualiti statik</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt;</code></td>
+<td>Hidang app secara tempatan</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt; --check</code></td>
+<td>Uji HTTP 200 kemudian henti</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>bash skrip/test-local.sh &lt;slug&gt; --port 8080</code></td>
+<td>Guna port lain</td>
+</tr>
+<tr>
+<td>Semua</td>
+<td><code>bash skrip/jalankan-semua.sh &lt;slug&gt; [A-F]</code></td>
+<td>check-setup, new-project, qa-check, test-local --check</td>
+</tr>
+<tr>
+<td>Dok</td>
+<td><code>python3 skrip/build-panduan-html.py</code></td>
+<td>Jana semula <code>PANDUAN.html</code> daripada <code>PANDUAN.md</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="ms-mod-auto-one-shot">Mod auto (one-shot)<a class="anchor" href="#ms-mod-auto-one-shot" aria-label="Pautan ke bahagian ini">#</a></h3>
 <p>Beri idea sekali, agent jalankan Fasa 1–4 tanpa berhenti. Workflow tidak
 berubah; hanya temubual dan gerbang kelulusan dipendekkan.</p>
@@ -1426,6 +1600,14 @@ kelulusan.</p>
 </tr>
 </tbody>
 </table>
+<p>Format jawapan:</p>
+<ul>
+<li>Balas satu huruf: <code>A</code>, <code>B</code>, <code>C</code>, atau <code>D</code>.</li>
+<li>Tambah nota: <code>C, perlu dua peranan</code>.</li>
+<li>Jawab banyak sekali: <code>A1:A, A2:C, A4:B</code>.</li>
+<li>Terima cadangan: <code>ikut cadangan</code> (direkod sebagai <code>[ANDAIAN]</code>).</li>
+<li>Langkau temubual: <code>auto</code>, <code>auto penuh</code>, <code>buat semua</code>, <code>siapkan terus</code>, <code>one-shot</code>.</li>
+</ul>
 <h3 id="ms-pilihan-teknologi">Pilihan teknologi<a class="anchor" href="#ms-pilihan-teknologi" aria-label="Pautan ke bahagian ini">#</a></h3>
 <table>
 <thead>
@@ -1800,6 +1982,10 @@ bash skrip/test-local.sh &lt;slug&gt; --check
 <tr>
 <td><code>skrip/check-setup.sh</code></td>
 <td>Semak alat, FigCraft, port, MCP, Docker, <code>psql</code></td>
+</tr>
+<tr>
+<td><code>skrip/jalankan-semua.sh &lt;slug&gt; [A–F]</code></td>
+<td>Jalankan semakan, cipta projek, QA dan ujian tempatan sekali gus</td>
 </tr>
 <tr>
 <td><code>skrip/new-project.sh &lt;slug&gt; [A–F]</code></td>
