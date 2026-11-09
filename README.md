@@ -22,10 +22,101 @@ Frontend kekal satu aplikasi responsif 360px–1920px.
 
 ---
 
+## Cara guna — 3 langkah
+
+### 1. Clone repo
+
+```bash
+git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
+cd Skill-Membuat-App-Di-coding-Agent-
+```
+
+Tiada git? Muat turun ZIP:
+
+```bash
+curl -L -o skill.zip https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
+unzip skill.zip
+cd Skill-Membuat-App-Di-coding-Agent--main
+```
+
+### 2. Buka AI agent dalam folder itu
+
+Mana-mana agent: opencode, Claude Code, Codex, Cursor, Gemini CLI.
+Agent baca fail arahan repo secara automatik (`AGENTS.md`, `CLAUDE.md`).
+
+Jika agent tidak baca automatik, taip sekali:
+
+```text
+Baca AGENTS.md dan ikut sepenuhnya.
+```
+
+### 3. Taip `mula`
+
+```text
+mula
+```
+
+Atau terus dengan idea:
+
+```text
+mula bina sistem tempahan kenderaan pejabat
+```
+
+Agent akan tanya soalan satu-satu sehingga projek siap:
+
+```text
+Soalan → PRD → kelulusan → reka bentuk → kod → ujian → serahan
+```
+
+Agent berhenti sebelum deploy dan minta kebenaran.
+
+---
+
+## Cara jawab soalan
+
+| Anda taip | Agent buat |
+| --- | --- |
+| `A` / `B` / `C` | Ambil pilihan itu, tanya soalan seterusnya |
+| `B, sebab dalam Google Workspace` | Pilihan + nota masuk PRD |
+| `D: pelajar, guru, pentadbir` | Guna senarai anda |
+| `A1:A, A2:C, A4:B` | Jawab banyak soalan sekali gus |
+| `ikut cadangan` | Pilih nilai munasabah, tanda `[ANDAIAN]` |
+| `jana terus` | Langkau temubual, isi PRD dengan andaian |
+| `PRD OK` | Lulus PRD, terus ke reka bentuk dan kod |
+
+Mahu tanpa temubual langsung? Taip `auto` selepas idea:
+
+```text
+auto bina sistem tempahan kenderaan, rujukan projek/booking/refs/dashboard.png
+```
+
+Prompt penuh: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
+
+---
+
+## Perintah manual (pilihan)
+
+Agent buat semua ini sendiri. Guna hanya jika mahu kawal langkah.
+
+| Perintah | Fungsi |
+| --- | --- |
+| `bash skrip/check-setup.sh` | Semak alat dan MCP |
+| `bash skrip/new-project.sh <slug> A` | Cipta folder projek (A–F) |
+| `bash skrip/qa-check.sh <slug>` | Semak kualiti kod |
+| `bash skrip/test-local.sh <slug> --check` | Uji app tempatan |
+| `bash skrip/jalankan-semua.sh <slug> A` | Semua sekali gus |
+
+Rujukan penuh: [`PANDUAN.html`](PANDUAN.html).
+
+---
+
 ## Struktur repo
 
 ```text
 GAS Skill/
+├── AGENTS.md                 # arahan mula untuk AI agent
+├── CLAUDE.md                 # alias untuk Claude Code
+├── GEMINI.md                 # alias untuk Gemini CLI
 ├── SKILL.md                  # skill utama (arahan agent)
 ├── TEMPLATE_PRD_MS.md        # penjana PRD: temubual + templat
 ├── figcraft-fast-SKILL.md    # cara tulis FigCraft laju
@@ -78,128 +169,6 @@ projek/<slug>/
 ├── app/                      # kod aplikasi
 └── HANDOFF.md
 ```
-
----
-
-## Muat turun repo
-
-Pilih satu cara. Semua arahan di bawah dijalankan dari folder repo.
-
-```bash
-# 1. Git (disyorkan, mudah kemas kini)
-git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
-cd "Skill-Membuat-App-Di-coding-Agent-"
-
-# 2. GitHub CLI
-gh repo clone hishamsam/Skill-Membuat-App-Di-coding-Agent-
-
-# 3. ZIP tanpa git
-curl -L -o gas-skill.zip \
-  https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
-unzip gas-skill.zip
-cd Skill-Membuat-App-Di-coding-Agent--main
-```
-
-Benarkan skrip berjalan, kemudian semak mesin:
-
-```bash
-chmod +x skrip/*.sh
-bash skrip/check-setup.sh
-```
-
-Keperluan minimum: `bash`, `python3`, `git`. Pilihan: `node`/`npm`
-(Wrangler, Firebase), `figcraft-cli` (reka bentuk), `opencode` (agent).
-
----
-
-## Mula pantas
-
-```bash
-# 0. Semak persekitaran
-bash skrip/check-setup.sh
-
-# 1. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon, F=Hibrid)
-bash skrip/new-project.sh sistem-tempahan A
-
-# 2. Letak imej rujukan (jika ada)
-cp ~/Downloads/ref.png projek/sistem-tempahan/refs/
-
-# 3. Minta agent jana PRD
-#    "Baca idea ini + refs/, guna TEMPLATE_PRD_MS.md, jana PRD."
-
-# 4. Selepas PRD diluluskan: reka bentuk FigCraft
-figcraft --control 7979 &
-python3 -I projek/sistem-tempahan/design/build.py --rehearsal
-
-# 5. Selepas UI disemak: kod + ujian
-bash skrip/qa-check.sh sistem-tempahan
-bash skrip/test-local.sh sistem-tempahan --check
-
-# 6. Atau jalankan langkah 0, 1, 5 sekali gus
-bash skrip/jalankan-semua.sh sistem-tempahan A
-```
-
----
-
-## Semua perintah skrip
-
-| Langkah | Perintah | Fungsi |
-| --- | --- | --- |
-| 0 | `bash skrip/check-setup.sh` | Semak node, python3, java, FigCraft, port 7979, MCP, docker, psql |
-| 1 | `bash skrip/new-project.sh <slug> [A-F]` | Cipta `projek/<slug>/` + STATUS.md + build.py |
-| 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Cuba bina reka bentuk FigCraft tanpa simpan |
-| 2 | `python3 -I projek/<slug>/design/build.py --save` | Bina + simpan `design.figcraft` |
-| 3 | `bash skrip/qa-check.sh <slug>` | Semakan statik: viewport, responsif, placeholder, rahsia, PRD, PNG |
-| 4 | `bash skrip/test-local.sh <slug>` | Hidang app tempatan (Ctrl+C untuk henti) |
-| 4 | `bash skrip/test-local.sh <slug> --check` | Uji HTTP 200 kemudian henti sendiri |
-| 4 | `bash skrip/test-local.sh <slug> --port 8080` | Guna port lain |
-| Semua | `bash skrip/jalankan-semua.sh <slug> [A-F]` | check-setup → new-project (jika perlu) → qa-check → test-local --check |
-| Dok | `python3 skrip/build-panduan-html.py` | Jana semula `PANDUAN.html` daripada `PANDUAN.md` |
-
-Nota:
-
-- `jalankan-semua.sh` tanpa slug hanya menjalankan `check-setup.sh`.
-- `qa-check.sh` dan `test-local.sh` memerlukan `projek/<slug>/app/index.html`.
-- `test-local.sh --check` guna port 4173 secara lalai.
-- Semua skrip boleh dijalankan dari mana-mana folder; ia cari root repo sendiri.
-
----
-
-## Temubual PRD — jawab pantas
-
-Agent tanya satu soalan (A1–A10) setiap mesej. Jawab ringkas sahaja.
-
-| Cara jawab | Contoh | Kesan |
-| --- | --- | --- |
-| Satu huruf | `A` | Agent ambil pilihan A, terus ke soalan berikut |
-| Huruf + nota | `C, sebab perlu dua peranan` | Pilihan C + nota masuk PRD |
-| Nyatakan sendiri | `D: pelajar, guru, pentadbir` | Guna senarai anda |
-| Jawab banyak sekali | `A1:A, A2:C, A4:B, A5:C` | Agent langkau soalan yang sudah dijawab |
-| Terima cadangan | `ikut cadangan` | Agent pilih nilai munasabah, tanda `[ANDAIAN]` |
-| Langkau semua | `jana terus` | Agent isi semua bab dengan andaian, tunjuk PRD |
-
-Aliran contoh:
-
-```text
-Agent: A1. Siapa guna sistem ini, dan masalah apa hendak diselesaikan?
-Anda : B
-Agent: A2. Peranan apa yang perlu ada?
-Anda : B
-Agent: A6. Pilih teknologi backend/data…
-Anda : A, sebab dalam Google Workspace
-...
-Agent: [tunjuk PRD penuh] Terima PRD ini, atau ada pindaan?
-Anda : PRD OK. Teruskan Fasa 2.
-```
-
-Peraturan penting:
-
-- Jawapan `auto` / `auto penuh` / `buat semua` / `siapkan terus` / `one-shot`
-  mematikan temubual sepenuhnya. Agent terus jana PRD + Fasa 2–4.
-- Kelulusan PRD mesti jelas: `PRD OK`, `lulus`, atau `teruskan`.
-- Pindaan: sebut perubahan sahaja, contoh `Tambah peranan Penyelia dan medan no_plat`.
-
-Prompt auto siap salin: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
 
 ---
 
