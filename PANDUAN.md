@@ -67,17 +67,17 @@ Required for all projects:
 
 ```bash
 # Git (recommended)
-git clone https://github.com/hishamsam/GAS-App-builder-Skill-.git
-cd "GAS-App-builder-Skill-"
+git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
+cd "Skill-Membuat-App-Di-coding-Agent-"
 
 # Or GitHub CLI
-gh repo clone hishamsam/GAS-App-builder-Skill-
+gh repo clone hishamsam/Skill-Membuat-App-Di-coding-Agent-
 
 # Or ZIP without git
 curl -L -o gas-skill.zip \
-  https://github.com/hishamsam/GAS-App-builder-Skill-/archive/refs/heads/main.zip
+  https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
 unzip gas-skill.zip
-cd GAS-App-builder-Skill--main
+cd Skill-Membuat-App-Di-coding-Agent--main
 ```
 
 Allow the scripts to run, then check the machine:
@@ -661,17 +661,17 @@ Keperluan untuk semua projek:
 
 ```bash
 # Git (disyorkan)
-git clone https://github.com/hishamsam/GAS-App-builder-Skill-.git
-cd "GAS-App-builder-Skill-"
+git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
+cd "Skill-Membuat-App-Di-coding-Agent-"
 
 # Atau GitHub CLI
-gh repo clone hishamsam/GAS-App-builder-Skill-
+gh repo clone hishamsam/Skill-Membuat-App-Di-coding-Agent-
 
 # Atau ZIP tanpa git
 curl -L -o gas-skill.zip \
-  https://github.com/hishamsam/GAS-App-builder-Skill-/archive/refs/heads/main.zip
+  https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
 unzip gas-skill.zip
-cd GAS-App-builder-Skill--main
+cd Skill-Membuat-App-Di-coding-Agent--main
 ```
 
 Benarkan skrip berjalan, kemudian semak mesin:
