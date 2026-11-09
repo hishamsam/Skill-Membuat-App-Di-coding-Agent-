@@ -31,23 +31,26 @@ Panduan penuh setiap fasa ada dalam `aliran-kerja/`.
 Panduan penuh: `aliran-kerja/00-auto.md`. Prompt sedia guna: `templat/PROMPT-AUTO.md`.
 
 Jika pengguna menulis `auto`, `auto penuh`, `buat semua`, `siapkan terus`,
-atau `one-shot` dalam mesej pertama, jalankan Fasa 1–4 tanpa berhenti:
+atau `one-shot` dalam mesej pertama, temubual PRD TETAP DIJALANKAN,
+kemudian Fasa 2–4 berjalan tanpa gerbang setiap fasa:
 
-1. Sahkan dalam SATU baris: "Mod auto: Fasa 1–4, berhenti sebelum deploy.
-   Andaian akan direkod."
-2. Langkau Bahagian A `TEMPLATE_PRD_MS.md`; jawab A1–A10 dengan nilai lalai
-   paling munasabah. Tanda setiap lompang `[ANDAIAN]` dalam PRD Bab 5.
-3. Pilih stack sendiri guna jadual dalam `aliran-kerja/00-auto.md` dan rekod
-   pilihan + alternatif ditolak dalam PRD Bab 6.
-4. Jana PRD, terus ke FigCraft, kod, dan ujian. Jangan tunggu kelulusan PRD.
-5. Guna `figcraft` headless jika port 7979 tidak aktif; jangan gagal kerana
+1. Sahkan dalam SATU baris: "Mod auto: temubual penuh, Fasa 1–4, berhenti
+   sebelum deploy."
+2. Jalankan Bahagian A `TEMPLATE_PRD_MS.md`: satu soalan setiap mesej,
+   termasuk soalan susulan A8. Jangan langkau atau gabung soalan.
+3. Pilih stack daripada jawapan A6. Jika A6 tidak dijawab, syorkan satu dan
+   minta pengesahan. Rekod pilihan + alternatif ditolak dalam PRD Bab 6.
+4. Jana PRD penuh selepas jawapan lengkap. Tanda `[ANDAIAN]` hanya untuk
+   perkara yang pengguna sengaja serahkan.
+5. Terus ke FigCraft, kod, dan ujian tanpa menunggu kelulusan setiap fasa.
+6. Guna `figcraft` headless jika port 7979 tidak aktif; jangan gagal kerana
    app tidak dibuka.
-6. Betulkan kegagalan `qa-check` / `test-local` maksimum 3 pusingan, kemudian
+7. Betulkan kegagalan `qa-check` / `test-local` maksimum 3 pusingan, kemudian
    berhenti dan lapor blocker.
-7. Lapor PRD, design, fail kod, output ujian sebenar, andaian, dan blocker.
+8. Lapor PRD, design, fail kod, output ujian sebenar, andaian, dan blocker.
 
-Workflow dan gerbang kualiti TIDAK berubah. Mod auto hanya memendekkan
-interaksi, bukan melangkau fasa.
+Workflow dan gerbang kualiti TIDAK berubah. Mod auto hanya membuang gerbang
+kelulusan antara fasa, bukan melangkau temubual atau fasa.
 
 **Berhenti dan minta kebenaran berasingan sebelum:** deploy production,
 cipta akaun, pembayaran, tukar DNS, padam data production, atau guna
@@ -67,14 +70,13 @@ Tindakan AI:
    ```
    Letak gambar rujukan dalam `projek/<slug>/refs/`.
 2. **Jalankan temubual berstruktur** mengikut `TEMPLATE_PRD_MS.md` Bahagian A.
-   - Jika mod auto aktif, LANGKAU temubual dan guna nilai lalai (lihat
-     "Mod Auto" di atas).
-   - SATU soalan per mesej, maksimum 10 soalan.
-   - Ini bukan borang panjang. Jika pengguna mahu laju, jana terus dan tandakan
-     setiap andaian dalam PRD Bab 5.
+   - Temubual WAJIB dalam semua mod, termasuk mod auto.
+   - SATU soalan per mesej. Jangan gabung soalan atau tunjuk senarai sekali gus.
+   - Gali jawapan kabur dengan soalan susulan sebelum pindah.
    - Soalan A6 (teknologi) WAJIB: GAS / Supabase / Cloudflare Worker /
      Firebase / Neon / Hibrid.
    - Soalan susulan teknologi (A8) maksimum 4, mengikut stack yang dipilih.
+   - Jangan jana PRD sehingga jawapan cukup terperinci.
 3. **Baca gambar rujukan sendiri.** MCP FigCraft tidak boleh melihat imej;
    anda yang mesti buka fail dalam `refs/` dan ekstrak Design DNA.
 4. **Jana PRD penuh** (Bahagian B) dan simpan:
@@ -170,9 +172,9 @@ Panduan penuh: `aliran-kerja/05-handoff.md`.
 
 DILARANG menulis kod aplikasi selagi pengguna belum meluluskan PRD.
 
-**Pengecualian:** jika arahan mod auto diberi pada mesej pertama, arahan itu
-dikira kelulusan untuk Fasa 1–4. PRD tetap dijana penuh dan dilaporkan, tetapi
-agent tidak berhenti menunggu. Lihat `aliran-kerja/00-auto.md`.
+**Pengecualian:** jika arahan mod auto diberi pada mesej pertama, temubual PRD
+tetap wajib. Selepas temubual lengkap, PRD dijana penuh dan agent terus ke
+Fasa 2–4 tanpa berhenti menunggu kelulusan. Lihat `aliran-kerja/00-auto.md`.
 
 Selepas memaparkan PRD:
 

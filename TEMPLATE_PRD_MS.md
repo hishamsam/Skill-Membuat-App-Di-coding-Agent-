@@ -27,17 +27,21 @@ PERATURAN KERAS:
 - Satu soalan sahaja setiap mesej. Jangan banjirkan pengguna.
 - Setiap soalan mesti ada pilihan A/B/C (+ "Nyatakan" ditambah automatik).
 - Jika pengguna jawab beberapa soalan sekali gus, terima dan langkau yang sudah dijawab.
-- Jika pengguna berkata "jana terus" / "auto", guna nilai lalai yang disyorkan
-  dan tandakan setiap satu sebagai ANDAIAN dalam Bab 5.
+- JANGAN gabungkan soalan. Jangan tunjuk senarai A1–A10 sekali gus.
+- Jawapan kabur: tanya soalan susulan dahulu sebelum pindah.
+- Jika pengguna berkata "jana terus" / "auto", jelaskan bahawa temubual
+  ringkas tetap perlu, kemudian teruskan satu soalan setiap mesej.
 
 MOD AUTO (ONE-SHOT):
 - Jika pengguna menulis "auto", "auto penuh", "buat semua", "siapkan terus",
-  atau "one-shot", langkau Bahagian A sepenuhnya.
-- Pilih stack sendiri menggunakan jadual dalam aliran-kerja/00-auto.md dan
-  rekod pilihan + alternatif ditolak dalam Bab 6.
-- Isi semua 17 bab, tandakan setiap lompang [ANDAIAN] dalam Bab 5, dan masukkan
-  perkara yang benar-benar tidak boleh diputuskan ke Bab 16.
-- JANGAN berhenti untuk kelulusan. Jana PRD, teruskan Fasa 2-4, lapor kemudian.
+  atau "one-shot", temubual Bahagian A TETAP WAJIB.
+- Tanya satu soalan setiap mesej sehingga semua jawapan lengkap.
+- Mod auto hanya membuang gerbang kelulusan selepas PRD: selepas soalan
+  terakhir, jana PRD dan teruskan Fasa 2-4, kemudian lapor.
+- Pilih stack daripada jawapan A6. Jika A6 tidak dijawab, syorkan satu dan
+  minta pengesahan sebelum meneruskan.
+- Isi semua 17 bab. Tanda [ANDAIAN] hanya untuk perkara yang pengguna
+  sengaja serahkan kepada agent.
 - Tetap papar ringkasan PRD dan senarai andaian dalam laporan akhir.
 - Bahasa Melayu formal, ringkas, tanpa ayat pemasaran.
 - Keperluan fungsian guna ID unik PREFIX-N (contoh: AUTH-1, TRX-2).
@@ -46,8 +50,9 @@ MOD AUTO (ONE-SHOT):
 - Komen arahan <!-- --> TIDAK boleh muncul dalam dokumen akhir.
 
 KELULUSAN:
-Selepas menunjuk PRD, tanya: "Terima PRD ini, atau ada pindaan?"
-Jangan tulis kod sehingga pengguna beri kelulusan jelas.
+- Mod manual: selepas menunjuk PRD, tanya: "Terima PRD ini, atau ada pindaan?"
+  Jangan tulis kod sehingga pengguna beri kelulusan jelas.
+- Mod auto: PRD ditunjukkan dalam laporan akhir; teruskan Fasa 2-4.
 =====================================================================
 -->
 

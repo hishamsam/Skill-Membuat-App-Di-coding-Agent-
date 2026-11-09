@@ -33,9 +33,11 @@ untuk semua fasa selepas ini.
    baca imej itu dahulu (agent mesti nampak gambar, bukan teka).
 
 3. Jalankan temubual mengikut `TEMPLATE_PRD_MS.md` Bahagian A:
-   - SATU soalan per mesej.
+   - SATU soalan per mesej. Jangan gabung soalan.
    - Setiap soalan ada pilihan A/B/C.
+   - Gali jawapan kabur dengan soalan susulan sebelum pindah.
    - Soalan A6 (teknologi) WAJIB sebelum PRD ditulis.
+   - Tanya semua soalan susulan A8 yang berkaitan.
 
 4. Jana PRD penuh (Bahagian B) dan simpan:
 

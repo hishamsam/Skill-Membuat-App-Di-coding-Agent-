@@ -215,9 +215,8 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 
 ### Auto mode (one-shot)
 
-Give the idea once and let the agent run Phases 1–4 without stopping. The
-workflow does not change; only the interview and the approval gates are
-shortened.
+Give the idea once and let the agent run Phases 1–4 without approval gates
+between phases. The PRD interview stays full and detailed.
 
 Trigger phrases: `auto`, `auto penuh`, `buat semua`, `siapkan terus`,
 `one-shot`.
@@ -231,7 +230,7 @@ Stop before deploy.
 
 | Phase | Auto behaviour |
 | --- | --- |
-| 1 PRD | Skip the interview, choose the stack, mark every gap `[ASSUMPTION]` |
+| 1 PRD | Full one-by-one interview, choose the stack, mark `[ASSUMPTION]` gaps |
 | 2 FigCraft | Build, inspect the PNGs, use headless mode if port 7979 is down |
 | 3 Code | Generate the responsive app, no dead buttons |
 | 4 Test | Run, fix up to three rounds, report real output |
@@ -255,11 +254,12 @@ Files: `TEMPLATE_PRD_MS.md`, `aliran-kerja/01-prd.md`.
 4. It writes the full PRD to `projek/<slug>/prd/PRD-v0.1.md`.
 5. It stops and waits for approval.
 
-If you want speed, reply "generate directly". The agent will generate the PRD
-and mark every assumption in Chapter 5.
+If you want speed, still answer one question at a time. "generate directly"
+does not skip the interview; it only tells the agent to continue without
+per-phase approval after the PRD is complete.
 
-In auto mode the interview is skipped entirely. The agent picks the stack
-itself, marks every gap `[ASSUMPTION]`, and continues to Phase 2 without
+In auto mode the interview is not skipped. The agent asks every question,
+one per message, then writes the PRD and continues to Phase 2 without
 waiting for approval.
 
 ### Interview questions
@@ -283,7 +283,7 @@ Answer format:
 - Add a note: `C, needs two roles`.
 - Answer several at once: `A1:A, A2:C, A4:B`.
 - Accept defaults: `follow your recommendation` (recorded as `[ASSUMPTION]`).
-- Skip the interview: `auto`, `auto penuh`, `buat semua`, `siapkan terus`, `one-shot`.
+- `auto` does not skip the interview; it removes per-phase approval gates.
 
 ### Technology choices
 
@@ -809,8 +809,8 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 
 ### Mod auto (one-shot)
 
-Beri idea sekali, agent jalankan Fasa 1–4 tanpa berhenti. Workflow tidak
-berubah; hanya temubual dan gerbang kelulusan dipendekkan.
+Beri idea sekali, agent jalankan Fasa 1–4 tanpa gerbang kelulusan antara
+fasa. Temubual PRD tetap penuh dan terperinci.
 
 Frasa cetus: `auto`, `auto penuh`, `buat semua`, `siapkan terus`, `one-shot`.
 
@@ -823,7 +823,7 @@ Berhenti sebelum deploy.
 
 | Fasa | Tingkah laku auto |
 | --- | --- |
-| 1 PRD | Langkau temubual, pilih stack, tanda setiap lompang `[ANDAIAN]` |
+| 1 PRD | Temubual penuh satu-satu, pilih stack, tanda setiap lompang `[ANDAIAN]` |
 | 2 FigCraft | Bina, semak PNG, guna headless jika port 7979 tiada |
 | 3 Kod | Jana aplikasi responsif, tiada butang mati |
 | 4 Ujian | Jalankan, betulkan maksimum 3 pusingan, lapor output sebenar |
@@ -847,12 +847,12 @@ Fail: `TEMPLATE_PRD_MS.md`, `aliran-kerja/01-prd.md`.
 4. PRD penuh ditulis ke `projek/<slug>/prd/PRD-v0.1.md`.
 5. Agent berhenti dan menunggu kelulusan.
 
-Jika mahu laju, balas "jana terus". Agent akan menjana PRD dan menandakan
-setiap andaian dalam Bab 5.
+Jika mahu laju, tetap jawab satu soalan setiap mesej. Frasa "jana terus"
+tidak melangkau temubual; ia hanya bermaksud agent teruskan tanpa gerbang
+kelulusan selepas PRD lengkap.
 
-Dalam mod auto, temubual dilangkau sepenuhnya. Agent memilih stack sendiri,
-menanda setiap lompang `[ANDAIAN]`, dan terus ke Fasa 2 tanpa menunggu
-kelulusan.
+Dalam mod auto, temubual tidak dilangkau. Agent bertanya semua soalan satu
+demi satu, kemudian menulis PRD dan terus ke Fasa 2 tanpa menunggu kelulusan.
 
 ### Soalan temubual
 
@@ -875,7 +875,7 @@ Format jawapan:
 - Tambah nota: `C, perlu dua peranan`.
 - Jawab banyak sekali: `A1:A, A2:C, A4:B`.
 - Terima cadangan: `ikut cadangan` (direkod sebagai `[ANDAIAN]`).
-- Langkau temubual: `auto`, `auto penuh`, `buat semua`, `siapkan terus`, `one-shot`.
+- `auto` tidak melangkau temubual; ia membuang gerbang kelulusan antara fasa.
 
 ### Pilihan teknologi
 

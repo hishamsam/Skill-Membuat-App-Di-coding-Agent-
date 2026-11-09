@@ -1,8 +1,9 @@
 # Fasa 0 — Mod Auto (One-Shot)
 
 Mod auto membenarkan pengguna beri idea sekali, kemudian agent jalankan
-Fasa 1–4 tanpa berhenti. Workflow tidak berubah; hanya gerbang kelulusan
-dipermudah dan soalan temubual dilangkau.
+Fasa 1–4 tanpa gerbang kelulusan antara fasa. Workflow tidak berubah.
+Temubual PRD tetap WAJIB dan mesti terperinci; mod auto hanya membuang
+gerbang kelulusan selepas PRD.
 
 ## Cetus
 
@@ -18,22 +19,26 @@ one-shot
 
 Jika mesej pertama mengandungi frasa ini, agent mengesahkan dalam SATU baris:
 
-> "Mod auto: Fasa 1–4, berhenti sebelum deploy. Andaian akan direkod."
+> "Mod auto: temubual penuh, Fasa 1–4, berhenti sebelum deploy. Andaian akan direkod."
 
-Kemudian terus bekerja tanpa menunggu balasan.
+Kemudian mulakan temubual PRD: satu soalan setiap mesej. Selepas jawapan
+lengkap, terus bekerja tanpa gerbang kelulusan antara fasa.
 
 ## Prinsip
 
-1. **Idea = kebenaran untuk Fasa 1–4.** Tiada soalan temubual satu-satu.
-2. **Workflow sama.** PRD → FigCraft → kod → ujian. Tiada fasa dilangkau.
-3. **Andaian mesti kelihatan.** Setiap lompang ditanda `[ANDAIAN]` dalam PRD
+1. **Idea = titik mula temubual.** Agent mesti tanya soalan terperinci satu
+   demi satu sebelum menulis PRD.
+2. **Temubual wajib.** Tiada langkauan walaupun pengguna menulis `auto`.
+   Butiran tepat menghasilkan sistem yang lebih baik.
+3. **Workflow sama.** PRD → FigCraft → kod → ujian. Tiada fasa dilangkau.
+4. **Andaian mesti kelihatan.** Setiap lompang ditanda `[ANDAIAN]` dalam PRD
    Bab 5 dan disenaraikan dalam ringkasan akhir.
-4. **Berhenti sebelum tindakan tidak boleh pulang.** Deploy production,
+5. **Berhenti sebelum tindakan tidak boleh pulang.** Deploy production,
    pembayaran, DNS, padam data, dan kredensial production perlukan
    kebenaran berasingan.
-5. **Bukti, bukan dakwaan.** Jangan lapor siap tanpa output `qa-check` dan
+6. **Bukti, bukan dakwaan.** Jangan lapor siap tanpa output `qa-check` dan
    `test-local`.
-6. **Blocker dihadkan.** Jika sesuatu gagal, cuba betulkan maksimum 3 kali,
+7. **Blocker dihadkan.** Jika sesuatu gagal, cuba betulkan maksimum 3 kali,
    kemudian berhenti dan lapor blocker sebenar.
 
 ## Langkah auto
@@ -63,14 +68,15 @@ Rekod pilihan dan alternatif ditolak dalam PRD Bab 6.
 
 ### 3. PRD auto
 
-- Langkau Bahagian A dalam `TEMPLATE_PRD_MS.md`.
-- Jawab A1–A10 dengan nilai lalai yang paling munasabah.
-- Isi PRD 17 bab; tanda setiap andaian `[ANDAIAN]`.
+- Jalankan Bahagian A `TEMPLATE_PRD_MS.md`: satu soalan setiap mesej,
+  termasuk soalan susulan A8. Jangan gabung atau langkau soalan.
+- Gali jawapan kabur dengan soalan susulan sebelum pindah.
+- Jawab A1–A10 berdasarkan jawapan sebenar pengguna, bukan nilai lalai.
+- Tanda `[ANDAIAN]` hanya untuk perkara yang pengguna sengaja serahkan.
 - Perkara yang benar-benar tidak boleh diputuskan masuk Bab 16 (TBD).
 - Simpan `prd/PRD-v0.1.md`.
-- JANGAN berhenti untuk kelulusan; arahan auto dikira sebagai kelulusan
-  untuk meneruskan Fasa 2–4.
-- Tetap papar ringkasan PRD dalam laporan akhir.
+- Selepas jawapan lengkap, jana PRD dan teruskan Fasa 2–4 tanpa berhenti.
+- Tetap papar ringkasan PRD dan senarai andaian dalam laporan akhir.
 
 ### 4. FigCraft auto
 
@@ -147,7 +153,7 @@ Hanya jika pengguna menulis `auto deploy` DAN kredensial sudah wujud:
 
 | Fasa | Mod manual | Mod auto |
 | --- | --- | --- |
-| PRD | Tunjuk, tunggu lulus | Jana, teruskan, lapor kemudian |
+| PRD | Temubual penuh, tunjuk, tunggu lulus | Temubual penuh, jana, teruskan selepas jawapan lengkap |
 | FigCraft | Tunjuk, tunggu semakan | Bina, semak PNG sendiri, teruskan |
 | Kod | Tunggu arahan | Teruskan |
 | Ujian | Jalankan, lapor | Jalankan, betulkan, lapor |

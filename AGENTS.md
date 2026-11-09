@@ -15,19 +15,28 @@ Jika pengguna belum beri idea, tanya SATU soalan:
 
 Jika pengguna taip `mula <idea>`, terus guna idea itu.
 
-### 2. Temubual PRD
+### 2. Temubual PRD — WAJIB
 
 - Baca `TEMPLATE_PRD_MS.md` Bahagian A dan `aliran-kerja/01-prd.md`.
 - Tanya A1–A10 **satu soalan setiap mesej**. Tunggu jawapan.
 - Setiap soalan mesti ada pilihan A/B/C (tambah "Nyatakan").
-- Jawapan `auto`, `auto penuh`, `buat semua`, `siapkan terus`, `one-shot`:
-  langkau temubual, pilih stack sendiri, tanda setiap andaian `[ANDAIAN]`.
+- **Jangan gabung soalan.** Jangan senaraikan semua soalan sekali gus.
+- **Gali jawapan kabur** dengan soalan susulan sebelum pindah ke soalan seterusnya.
+- Tanya semua soalan susulan A8 yang berkaitan dengan stack yang dipilih.
+- Jangan jana PRD sehingga semua jawapan lengkap. Butiran yang tepat
+  menghasilkan sistem yang lebih baik.
+- Temubual tetap wajib walaupun pengguna menulis `auto`, `auto penuh`,
+  `buat semua`, `siapkan terus`, atau `one-shot`.
+- Frasa auto hanya bermaksud: selepas PRD siap, agent terus Fasa 2–4 tanpa
+  gerbang kelulusan setiap fasa. PRD tetap ditunjukkan dalam laporan akhir.
 
 ### 3. PRD
 
 - Isi semua 17 bab. Simpan `projek/<slug>/prd/PRD-v0.1.md`.
 - Tunjuk PRD penuh, kemudian tanya: "Terima PRD ini, atau ada pindaan?"
 - **BERHENTI** sehingga pengguna lulus (`PRD OK`, `lulus`, `teruskan`).
+- Pengecualian `auto`: selepas PRD lengkap, tunjuk ringkasan dan teruskan
+  Fasa 2–4 tanpa berhenti.
 
 ### 4. Reka bentuk, kod, ujian
 
@@ -53,6 +62,7 @@ bash skrip/test-local.sh <slug> --check
 ## Peraturan
 
 - Satu soalan setiap mesej. Jangan banjirkan pengguna.
+- Temubual PRD tidak boleh dipendekkan. Butiran tepat lebih penting daripada kelajuan.
 - Jawab dalam bahasa pengguna.
 - Jangan reka fakta. Tanda `[ANDAIAN]` dan senaraikan pada akhir.
 - Tiada rahsia dalam kod klien.

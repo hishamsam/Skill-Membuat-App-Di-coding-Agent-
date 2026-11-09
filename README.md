@@ -81,10 +81,14 @@ Agent berhenti sebelum deploy dan minta kebenaran.
 | `D: pelajar, guru, pentadbir` | Guna senarai anda |
 | `A1:A, A2:C, A4:B` | Jawab banyak soalan sekali gus |
 | `ikut cadangan` | Pilih nilai munasabah, tanda `[ANDAIAN]` |
-| `jana terus` | Langkau temubual, isi PRD dengan andaian |
+| Jawapan terperinci | `Tempahan perlu kelulusan penyelia; simpan 5 tahun` | PRD lebih tepat, kurang andaian |
 | `PRD OK` | Lulus PRD, terus ke reka bentuk dan kod |
 
-Mahu tanpa temubual langsung? Taip `auto` selepas idea:
+Jawab satu soalan satu mesej. Agent tidak akan gabung soalan, dan akan tanya
+susulan jika jawapan kabur. Temubual penuh menghasilkan sistem yang lebih baik.
+
+Mod `auto` tidak melangkau temubual. Ia hanya membuang gerbang kelulusan
+antara fasa selepas PRD siap:
 
 ```text
 auto bina sistem tempahan kenderaan, rujukan projek/booking/refs/dashboard.png
@@ -174,8 +178,8 @@ projek/<slug>/
 
 ## Mod auto (one-shot)
 
-Beri idea sekali, agent jalankan Fasa 1–4 tanpa berhenti. Workflow sama;
-hanya temubual dan gerbang kelulusan dipendekkan.
+Beri idea sekali, agent jalankan Fasa 1–4 tanpa gerbang kelulusan antara
+fasa. Temubual PRD tetap penuh dan terperinci.
 
 Cetus dengan frasa: `auto`, `auto penuh`, `buat semua`, `siapkan terus`,
 `one-shot`.
@@ -194,7 +198,7 @@ Yang agent buat sendiri:
 
 | Fasa | Auto |
 | --- | --- |
-| 1 PRD | Langkau temubual, pilih stack, tanda `[ANDAIAN]` |
+| 1 PRD | Temubual penuh satu-satu, pilih stack, tanda `[ANDAIAN]` |
 | 2 FigCraft | Bina + semak PNG sendiri, guna headless jika perlu |
 | 3 Kod | Jana responsif, tiada butang mati |
 | 4 Ujian | Jalankan, betulkan maksimum 3 pusingan |
