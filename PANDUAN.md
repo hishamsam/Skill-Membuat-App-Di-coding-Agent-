@@ -62,25 +62,25 @@ Required for all projects:
 
 ```bash
 # Git (recommended)
-git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
-cd "Skill-Membuat-App-Di-coding-Agent-"
+git clone https://github.com/hishamsam/idea-to-app-skill.git
+cd "idea-to-app-skill"
 
 # Or GitHub CLI
-gh repo clone hishamsam/Skill-Membuat-App-Di-coding-Agent-
+gh repo clone hishamsam/idea-to-app-skill
 
 # Or ZIP without git
 curl -L -o gas-skill.zip \
-  https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
+  https://github.com/hishamsam/idea-to-app-skill/archive/refs/heads/main.zip
 unzip gas-skill.zip
-cd Skill-Membuat-App-Di-coding-Agent--main
+cd idea-to-app-skill-main
 ```
 
 Windows PowerShell, no git needed:
 
 ```powershell
-Invoke-WebRequest -Uri https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip -OutFile gas-skill.zip
+Invoke-WebRequest -Uri https://github.com/hishamsam/idea-to-app-skill/archive/refs/heads/main.zip -OutFile gas-skill.zip
 Expand-Archive -Path gas-skill.zip -DestinationPath .
-Set-Location Skill-Membuat-App-Di-coding-Agent--main
+Set-Location idea-to-app-skill-main
 ```
 
 Allow the scripts to run:

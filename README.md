@@ -28,26 +28,26 @@ The frontend stays one responsive app from 360px to 1920px.
 ### 1. Download the repo
 
 ```bash
-git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
-cd Skill-Membuat-App-Di-coding-Agent-
+git clone https://github.com/hishamsam/idea-to-app-skill.git
+cd idea-to-app-skill
 ```
 
 No git? Use the GitHub CLI or the ZIP:
 
 ```bash
-gh repo clone hishamsam/Skill-Membuat-App-Di-coding-Agent-
+gh repo clone hishamsam/idea-to-app-skill
 
-curl -L -o skill.zip https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
+curl -L -o skill.zip https://github.com/hishamsam/idea-to-app-skill/archive/refs/heads/main.zip
 unzip skill.zip
-cd Skill-Membuat-App-Di-coding-Agent--main
+cd idea-to-app-skill-main
 ```
 
 Windows PowerShell, no unzip needed:
 
 ```powershell
-Invoke-WebRequest -Uri https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip -OutFile skill.zip
+Invoke-WebRequest -Uri https://github.com/hishamsam/idea-to-app-skill/archive/refs/heads/main.zip -OutFile skill.zip
 Expand-Archive -Path skill.zip -DestinationPath .
-Set-Location Skill-Membuat-App-Di-coding-Agent--main
+Set-Location idea-to-app-skill-main
 ```
 
 ### 2. Open an AI agent in that folder
