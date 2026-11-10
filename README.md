@@ -15,8 +15,10 @@ Application
 Done
 ```
 
-The backend can be GAS, Supabase, Cloudflare Worker, Firebase, Neon, Next.js,
-Node/Express, Laravel, FastAPI/Django, or Flutter (Web + Android/iOS).
+The backend can be Supabase, Cloudflare Workers, Firebase, Next.js, Node/Express,
+Laravel, Django/FastAPI, or Flutter (web + Android/iOS). The workflow recommends
+only these industry-standard stacks; the older options (Google Apps Script,
+Neon, Hybrid) exist only for projects that already own them.
 The frontend stays one responsive app from 360px to 1920px.
 
 **Full usage guide: [`GUIDE.md`](GUIDE.md).**
@@ -138,7 +140,7 @@ The agent does all of this itself. Use these only if you want to control a step.
 | --- | --- |
 | `bash scripts/preflight.sh [--install] [--json] [--stack A-K]` | Scan (and install) tools, FigCraft, port 7979, MCP |
 | `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 -Install -Json` | Same, for native Windows |
-| `bash scripts/new-project.sh <slug> A` | Create the project folder (A–K) |
+| `bash scripts/new-project.sh <slug> B` | Create the project folder (Tier 1: B, C, D, G–K) |
 | `bash scripts/qa-check.sh <slug>` | Check code quality |
 | `bash scripts/security-audit.sh <slug> [--deps]` | Static security gate before handoff |
 | `bash scripts/test-local.sh <slug> --check [--path /route]` | Test the app, per module route |
@@ -318,21 +320,23 @@ payments, DNS changes, production data deletion.
 - **Part A:** 10 interview questions, one question per message.
 - **Part B:** a 17-chapter PRD template.
 
-The technology question (A6) is mandatory before the PRD is written:
+The technology question (A6) is mandatory before the PRD is written. The agent
+recommends only **Tier 1** (industry-leading, widely adopted). Tier 2 is offered
+only when a project already depends on it.
 
-| Code | Option | Best for |
-| --- | --- | --- |
-| A | GAS + Google Sheets | Internal, small data |
-| B | Supabase | Postgres + Auth + RLS |
-| C | Cloudflare Worker | Edge API + D1/KV/R2 |
-| D | Firebase | Firestore + Auth + realtime |
-| E | Neon | Serverless Postgres |
-| F | Hybrid | Combination, state the layers |
-| G | Next.js + Postgres | SSR + API routes, Vercel |
-| H | Node/Express + Postgres | VPS/Dokploy, full control |
-| I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
-| J | FastAPI/Django + Postgres | Python API, VPS/Dokploy |
-| K | Flutter Web + Android/iOS | One Dart codebase; responsive web + mobile |
+| Code | Option | Tier | Best for |
+| --- | --- | --- | --- |
+| B | Supabase (PostgreSQL) | 1 | Managed database, login, file storage, access rules |
+| C | Cloudflare Workers | 1 | Fast global API, small data, static pages |
+| D | Firebase | 1 | Live updates, mobile apps, easy Google login |
+| G | Next.js + PostgreSQL | 1 | Pages plus data in one project, SEO |
+| H | Node/Express + PostgreSQL | 1 | Custom API, full control, VPS |
+| I | Laravel + MySQL | 1 | PHP team, ready admin page |
+| J | Django or FastAPI + PostgreSQL | 1 | Python team, ready admin page, reports |
+| K | Flutter (web + Android/iOS) | 1 | One code base for website and phone apps |
+| A | Google Apps Script + Sheets | 2 | Very small internal tool only |
+| E | Neon | 2 | Database only, with a separate API |
+| F | Hybrid | 2 | A combination of services already in use |
 
 PRD Chapter 12 locks the screens, tokens, and references for FigCraft.
 Chapter 13 locks the test commands and acceptance criteria.

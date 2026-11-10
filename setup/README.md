@@ -9,17 +9,17 @@ This folder collects all installation instructions. It is separate from
 | --- | --- |
 | `01-opencode-mcp.md` | `opencode.json` format, register MCP, check status |
 | `02-figcraft.md` | FigCraft live (required), port 7979, export |
-| `03-gas.md` | Google Apps Script, clasp, preview mode |
-| `04-supabase.md` | Supabase MCP, dev project, RLS |
-| `05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 |
-| `06-firebase.md` | Firebase MCP, emulator, rules |
-| `07-neon.md` | Neon MCP, serverless Postgres, API |
+| `03-gas.md` | Google Apps Script, clasp, preview mode (Tier 2 — on request only) |
+| `04-supabase.md` | Supabase MCP, dev project, RLS (Tier 1) |
+| `05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 (Tier 1) |
+| `06-firebase.md` | Firebase MCP, emulator, rules (Tier 1) |
+| `07-neon.md` | Neon MCP, serverless Postgres, API (Tier 2 — on request only) |
 | `08-dokploy.md` | Dokploy for local testing (optional, requires permission) |
-| `09-nextjs.md` | Next.js + Postgres, Vercel |
-| `10-node-express.md` | Node/Express + Postgres, VPS/Dokploy |
-| `11-laravel.md` | Laravel + MySQL, VPS/Dokploy |
-| `12-python.md` | FastAPI/Django + Postgres, VPS/Dokploy |
-| `13-flutter.md` | Flutter Web + Android/iOS, web testing |
+| `09-nextjs.md` | Next.js + Postgres, Vercel (Tier 1) |
+| `10-node-express.md` | Node/Express + Postgres, VPS/Dokploy (Tier 1) |
+| `11-laravel.md` | Laravel + MySQL, VPS/Dokploy (Tier 1) |
+| `12-python.md` | FastAPI/Django + Postgres, VPS/Dokploy (Tier 1) |
+| `13-flutter.md` | Flutter Web + Android/iOS, web testing (Tier 1) |
 | `mcp.opencode.example.json` | Copy to paste into `~/.config/opencode/opencode.json` |
 
 ## Recommended installation order
@@ -27,9 +27,11 @@ This folder collects all installation instructions. It is separate from
 1. `bash scripts/preflight.sh --install` — check machine status.
 2. `01-opencode-mcp.md` — basics.
 3. `02-figcraft.md` — required for Phase 2.
-4. Pick one stack: `03-gas.md`, `04-supabase.md`, `05-cloudflare-worker.md`,
-   `06-firebase.md`, `07-neon.md`, `09-nextjs.md`, `10-node-express.md`,
-   `11-laravel.md`, `12-python.md`, `13-flutter.md`.
+4. Pick one **Tier 1** stack first: `04-supabase.md`, `05-cloudflare-worker.md`,
+   `06-firebase.md`, `09-nextjs.md`, `10-node-express.md`, `11-laravel.md`,
+   `12-python.md`, `13-flutter.md`.
+   Tier 2 files (`03-gas.md`, `07-neon.md`) are for projects that already use
+   them; they are never the recommended choice.
 5. Optional local testing: `08-dokploy.md` (ask for permission first).
 6. Test with `bash scripts/test-local.sh <slug> --check`.
 

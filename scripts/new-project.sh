@@ -5,12 +5,13 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 RAW_SLUG="${1:-}"
-STACK="${2:-A}"
+STACK="${2:-B}"
 
 if [ -z "$RAW_SLUG" ]; then
   echo "Usage: bash scripts/new-project.sh <slug> [A-K]"
-  echo "  A=GAS  B=Supabase  C=Cloudflare Worker  D=Firebase  E=Neon"
-  echo "  F=Hybrid  G=Next.js  H=Node/Express  I=Laravel  J=FastAPI/Django  K=Flutter"
+  echo "  Tier 1 (recommended): B=Supabase  C=Cloudflare Workers  D=Firebase"
+  echo "                        G=Next.js  H=Node/Express  I=Laravel  J=Django/FastAPI  K=Flutter"
+  echo "  Tier 2 (on request):  A=GAS  E=Neon  F=Hybrid"
   exit 1
 fi
 

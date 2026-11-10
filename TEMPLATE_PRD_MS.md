@@ -170,28 +170,37 @@ about how much data will it hold in the first year?" Then use this table to
 map the answer to a code. Read the second column to the user, not the product
 names.
 
-**Recommended if you are not sure:** A — it is free, nothing needs installing
-or maintaining, and it is the fastest way to ship for up to about 100 internal
-users. Move to B as soon as customers sign in, files are uploaded, or real
-growth is expected.
+**Recommendation rule — results first:** recommend only **Tier 1**. It holds
+industry-leading, widely adopted stacks with large ecosystems, current
+security patches, and a deep pool of people who can maintain them. Never
+propose a **Tier 2** option first; mention it only when the user asks for it or
+already owns it, and state its limits plainly before continuing.
 
-| Code | What it is, in plain words | Good for | Watch out for |
-| --- | --- | --- | --- |
-| **A** | A Google spreadsheet with an app on top (Google Apps Script) | A small internal team, under ~100 users, under ~10,000 rows | Google's daily limits; it is not a real database |
-| **B** | A ready-made online database with login, file storage, and access rules (Supabase) | Most web apps, customers, uploaded files | Small free tier; an idle project can pause |
-| **C** | A service that answers requests fast, anywhere in the world (Cloudflare Worker) | Public apps with high traffic and small data | Storage size limits; fewer ready features |
-| **D** | Google's app platform with instant sync and easy login (Firebase) | Chat-like, live-updating, mobile apps | Cost grows with reads and writes |
-| **E** | A database only; a small program still has to sit in front (Neon) | A real database without running a server | Needs a second service and more setup |
-| **F** | Two or more of the above combined (Hybrid) | Mixed needs, for example files here and data there | Two things to maintain |
-| **G** | One project that builds both pages and data access, good for Google search (Next.js) | Marketing sites plus an app; SEO matters | Tied to one host; separate database |
-| **H** | Your own server program with full control (Node/Express) | Custom logic, unusual requirements | Someone must keep the server running and backed up |
-| **I** | A PHP framework with a ready admin page (Laravel) | PHP teams, shared hosting | More manual deployment |
-| **J** | A Python framework with a ready admin page (FastAPI/Django) | Python teams, reports, data work | More manual deployment |
-| **K** | One code base that ships website + Android + iPhone (Flutter) | You need phone apps from day one | Larger download; iPhone builds need a Mac |
+**Recommended if you are not sure:** B — a managed Postgres database with
+login, file storage, and access rules, used by a very large developer base, and
+nothing to install or maintain.
+
+| Code | Tier | What it is, in plain words | Good for | Watch out for |
+| --- | --- | --- | --- | --- |
+| **B** | 1 | A ready-made online database with login, file storage, and access rules (Supabase on PostgreSQL) | Most web apps, customers, uploaded files | Small free tier; an idle project can pause |
+| **C** | 1 | A service that answers requests fast, anywhere in the world (Cloudflare Workers) | Public apps with high traffic and small data | Storage size limits; fewer ready features |
+| **D** | 1 | Google's app platform with instant sync and easy login (Firebase) | Chat-like, live-updating, mobile apps | Cost grows with reads and writes |
+| **G** | 1 | One project that builds both pages and data access, good for Google search (Next.js + PostgreSQL) | Marketing sites plus an app; SEO matters | Tied to one host; separate database |
+| **H** | 1 | Your own server program with full control (Node/Express + PostgreSQL) | Custom logic, unusual requirements | Someone must keep the server running and backed up |
+| **I** | 1 | A PHP framework with a ready admin page (Laravel + MySQL) | PHP teams, ordinary hosting | More manual deployment |
+| **J** | 1 | A Python framework with a ready admin page (Django or FastAPI + PostgreSQL) | Python teams, reports, data work | More manual deployment |
+| **K** | 1 | One code base that ships website + Android + iPhone (Flutter) | You need phone apps from day one | Larger download; iPhone builds need a Mac |
+| **A** | 2 | A Google spreadsheet with an app on top (Google Apps Script) | A very small internal tool, under ~100 users, under ~10,000 rows | Google's daily limits; not a real database; hard to grow |
+| **E** | 2 | A database only; a small program still has to sit in front (Neon) | A PostgreSQL database with nothing else | Needs a second service; fewer proven deployments than managed Postgres |
+| **F** | 2 | Two or more of the above combined (Hybrid) | Mixed needs, for example files here and data there | Two things to maintain; more ways to fail |
 
 **Other — describe:** if none of the codes fits, ask the user to describe the
-app in one sentence. The agent then picks the closest code, states which one it
-is and why, and asks for an explicit yes before continuing.
+app in one sentence. The agent then picks the closest **Tier 1** code, states
+which one it is and why, and asks for an explicit yes before continuing.
+
+**If the user asks for a Tier 2 code:** say in one sentence what it cannot do
+well, offer the closest Tier 1 alternative, and continue only after an explicit
+yes. Never present Tier 2 as the recommended choice.
 
 After the choice, ask ONE follow-up: "Why that one?" The answer goes into
 Chapter 6.1. If the user has no preference, state your recommendation, ask for
@@ -201,14 +210,15 @@ an explicit yes or no, and only then continue. Do not silently pick for them.
 
 Use everyday words: "the address people open in their browser".
 
-**Recommended if you are not sure:** E — the agent picks the cheapest option
-that matches A6 and says which one and why in one sentence.
+**Recommended if you are not sure:** E — the agent picks the standard
+industry host for that stack (Vercel, Cloudflare, Firebase, Google, or a VPS),
+and says which one and why in one sentence.
 
 - A. A managed website host (Vercel) — simple, free for small use
 - B. Cloudflare Pages or Workers — fast everywhere, generous free tier
 - C. Firebase Hosting — Google, pairs with D
 - D. Google Apps Script web app — nothing extra to host, pairs with A
-- E. Not sure — recommend the cheapest option that fits A6
+- E. Not sure — recommend the standard host for that stack
 - F. Own server (VPS with Dokploy) — fixed monthly cost, full control
 - G. Other — describe where it should live, or the domain already owned
 
@@ -222,11 +232,13 @@ Then ask, as its own message: "Do you already own a domain name?"
 
 Ask only the block that matches the A6 code. Each follow-up keeps the same
 rules: plain words, ready options, one recommendation, and an Other option.
+The Tier 2 blocks (A, E, F) are asked only when the user explicitly chose that
+code after the warning in A6.
 Record answers in the user's words; technical internals (routers, ORMs,
 languages, containers) are your decision and go into Chapter 5 marked
 `[ASSUMPTION]` unless the user already answered them.
 
-### If A — Google spreadsheet app
+### If A — Google spreadsheet app (Tier 2, only on request)
 1. Which Google account will run it?
    - A. A company Google Workspace account
    - B. A personal Gmail account
@@ -337,7 +349,7 @@ languages, containers) are your decision and go into Chapter 5 marked
    - D. Other — describe
    Recommended if unsure: B.
 
-### If E — database only (Neon)
+### If E — database only (Neon, Tier 2, only on request)
 1. The database needs a small program in front. Where should it run?
    - A. Together with the pages
    - B. As a separate small service
@@ -364,7 +376,7 @@ languages, containers) are your decision and go into Chapter 5 marked
    - D. Other — estimate
    Recommended if unsure: A.
 
-### If F — two or more services combined (Hybrid)
+### If F — two or more services combined (Hybrid, Tier 2, only on request)
 1. What does each part do?
    - A. Pages in one place, data and login in another
    - B. Pages and login together, data elsewhere

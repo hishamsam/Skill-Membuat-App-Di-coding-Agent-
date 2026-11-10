@@ -63,17 +63,19 @@ the table below and record the reason.
 
 | Signal from the idea | Stack |
 | --- | --- |
-| Internal tool, Google Workspace, small data, no complex auth | A GAS |
+| Internal tool, Google Workspace, small data, no complex auth | B Supabase (do not default to GAS) |
 | Needs auth + Postgres + RLS + Storage + realtime | B Supabase |
-| Edge API, global traffic, D1/KV/R2, static assets | C Worker |
+| Edge API, global traffic, D1/KV/R2, static assets | C Cloudflare Workers |
 | Realtime sync, fast auth, simple hosting | D Firebase |
-| Serverless Postgres, branching, separate API | E Neon |
-| Two clear requirements from the list above | F Hybrid |
-| SSR, SEO, UI + API in one Next.js project | G Next.js |
+| SSR, SEO, UI + API in one project | G Next.js |
 | Custom Node API, VPS/Dokploy deploy | H Node/Express |
 | PHP, admin panel, MySQL, VPS/Dokploy | I Laravel |
-| Python API, Django or FastAPI admin | J FastAPI/Django |
+| Python API, Django or FastAPI admin | J Django/FastAPI |
 | One Flutter codebase for responsive web and Android/iOS | K Flutter |
+
+Never auto-select Tier 2 (A Google Apps Script, E Neon, F Hybrid). If the idea
+genuinely needs one — a tiny tool that already lives in Google Sheets, or
+services the user already owns — stop and ask before scaffolding.
 
 If two choices are nearly equal, pick the one with the fewest services to
 maintain. Record the choice and the rejected alternatives in PRD Chapter 6.

@@ -65,21 +65,25 @@ for all later phases.
 
 ## Technology options (A6)
 
-| Code | Stack | In plain words: choose when | Phase 4 (local test) |
-| --- | --- | --- | --- |
-| A | GAS + Google Sheets | A spreadsheet with an app on top; internal team, under ~100 users, under ~10,000 rows | Preview mode + `python3 -m http.server` |
-| B | Supabase | A ready-made online database with login and file storage; most web apps | Supabase dev project (no Docker on this machine) |
-| C | Cloudflare Worker | Answers fast worldwide; high traffic, small data, static pages | `npx wrangler dev` |
-| D | Firebase | Google's app platform; live updates, mobile apps, easy login | `firebase emulators:start` |
-| E | Neon | Database only; a small program still sits in front | Worker/Vercel function + `wrangler dev` |
-| F | Hybrid | Two or more services, each doing one job | Follow the chosen services |
-| G | Next.js + Postgres | Pages and data in one project; pages can be found on Google | `npm run dev` |
-| H | Node/Express + Postgres | Your own server program; full control | `npm run dev` / `npm start` |
-| I | Laravel + MySQL | PHP framework with a ready admin page | `php artisan serve` |
-| J | FastAPI/Django + Postgres | Python framework with a ready admin page | `uvicorn` / `manage.py runserver` |
-| K | Flutter | One code base for website + Android + iPhone | Varies with the backend |
+| Code | Tier | Stack | In plain words: choose when | Phase 4 (local test) |
+| --- | --- | --- | --- | --- |
+| A | 2 | GAS + Google Sheets | A spreadsheet with an app on top; only a tiny internal tool, under ~100 users, under ~10,000 rows | Preview mode + `python3 -m http.server` |
+| B | 1 | Supabase (PostgreSQL) | A ready-made online database with login and file storage; most web apps | Supabase dev project (no Docker on this machine) |
+| C | 1 | Cloudflare Workers | Answers fast worldwide; high traffic, small data, static pages | `npx wrangler dev` |
+| D | 1 | Firebase | Google's app platform; live updates, mobile apps, easy login | `firebase emulators:start` |
+| E | 2 | Neon | Database only; a small program still sits in front | Worker/Vercel function + `wrangler dev` |
+| F | 2 | Hybrid | Two or more services already in use, each doing one job | Follow the chosen services |
+| G | 1 | Next.js + PostgreSQL | Pages and data in one project; pages can be found on Google | `npm run dev` |
+| H | 1 | Node/Express + PostgreSQL | Your own server program; full control | `npm run dev` / `npm start` |
+| I | 1 | Laravel + MySQL | PHP framework with a ready admin page | `php artisan serve` |
+| J | 1 | Django or FastAPI + PostgreSQL | Python framework with a ready admin page | `uvicorn` / `manage.py runserver` |
+| K | 1 | Flutter | One code base for website + Android + iPhone | Varies with the backend |
 
-When asking A6, read the third column to the user, not the product names.
+When asking A6, read the fourth column to the user, not the product names.
+
+Recommendation rule: propose **Tier 1 only**. Tier 2 exists for projects that
+already depend on it; offer it only when the user asks, state its limits, and
+keep the closest Tier 1 alternative on the table.
 
 Rule: choose ONE main stack. Hybrid only if the user states
 clearly which layer does what.

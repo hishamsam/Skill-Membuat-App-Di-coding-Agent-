@@ -355,19 +355,26 @@ Rules the agent must follow:
 
 ### Technology choices
 
-| Code | Stack | Choose when |
-| --- | --- | --- |
-| A | GAS + Sheets | Internal team, under ~100 users, under ~10k rows, Google account |
-| B | Supabase | Customers sign in, files are uploaded, most web apps |
-| C | Cloudflare Worker | Public app, high traffic, small data, fast everywhere |
-| D | Firebase | Live updates, mobile apps, easy Google login |
-| E | Neon | A real database, with a small program in front |
-| F | Hybrid | Two or more services, each doing one clear job |
-| G | Next.js + Postgres | Pages plus data in one project; pages found on Google |
-| H | Node/Express + Postgres | Own server program, custom logic, full control |
-| I | Laravel + MySQL | PHP team, ready admin page |
-| J | FastAPI/Django + Postgres | Python team, ready admin page, reports |
-| K | Flutter | One code base for website, Android and iPhone |
+The agent recommends **Tier 1 only**: industry-leading, widely adopted stacks
+with large ecosystems and a deep pool of maintainers. Tier 2 is offered only
+when a project already depends on it.
+
+| Code | Tier | Stack | Choose when |
+| --- | --- | --- | --- |
+| B | 1 | Supabase (PostgreSQL) | Customers sign in, files are uploaded, most web apps |
+| C | 1 | Cloudflare Workers | Public app, high traffic, small data, fast everywhere |
+| D | 1 | Firebase | Live updates, mobile apps, easy Google login |
+| G | 1 | Next.js + PostgreSQL | Pages plus data in one project; pages found on Google |
+| H | 1 | Node/Express + PostgreSQL | Own server program, custom logic, full control |
+| I | 1 | Laravel + MySQL | PHP team, ready admin page |
+| J | 1 | Django or FastAPI + PostgreSQL | Python team, ready admin page, reports |
+| K | 1 | Flutter | One code base for website, Android and iPhone |
+| A | 2 | Google Apps Script + Sheets | Very small internal tool only |
+| E | 2 | Neon | PostgreSQL only, with a separate program in front |
+| F | 2 | Hybrid | Combination of services already in use |
+
+Default recommendation when unsure: **B** — managed PostgreSQL with login,
+file storage and access rules, and nothing to install or maintain.
 
 The PRD records the choice and the rejected alternatives in Chapter 6.
 

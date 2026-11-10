@@ -47,6 +47,10 @@ Otherwise ask ONE question:
 - **Unanswered means stop.** If the user skips or dodges a question, re-ask the
   same question in simpler words. Do not continue and do not generate the PRD.
 - Ask every A8 follow-up that applies to the chosen stack.
+- Recommend **Tier 1** stacks only: Supabase, Cloudflare Workers, Firebase,
+  Next.js, Node/Express, Laravel, Django/FastAPI, Flutter. Tier 2 (Google Apps
+  Script, Neon, Hybrid) is offered only when the user asks or already owns it,
+  after stating its limits.
 - Do not generate the PRD until every answer is complete. Precise detail
   produces a better system.
 - The interview is mandatory even if the user writes `auto`, `full auto`,
