@@ -19,5 +19,8 @@ __pycache__/
 Thumbs.db
 
 # Project folders are their own local git repositories
-projek/*
-!projek/README.md
+projects/*
+!projects/README.md
+
+# Generated guide page
+GUIDE.html

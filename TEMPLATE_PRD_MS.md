@@ -17,8 +17,8 @@ INPUT:
 TASK:
 1. Run INTERVIEW MODE (Part A) until there is enough information.
 2. Fill ALL {{...}} placeholders in Part B.
-3. Save the result to: projek/<slug>/prd/PRD-v0.1.md
-   (see aliran-kerja/01-prd.md for the folder steps).
+3. Save the result to: projects/<slug>/prd/PRD-v0.1.md
+   (see workflow/01-prd.md for the folder steps).
 4. Show the full PRD, then STOP and wait for user approval.
 
 HARD RULES:
@@ -195,7 +195,7 @@ If the user has no preference, suggest one and give the reason in one sentence.
 ## A9. Visual references & devices
 "Any reference images? Where are the files?"
 - A. None — pick a visual direction that suits the domain
-- B. Screenshot / mockup available (place in projek/<slug>/refs/)
+- B. Screenshot / mockup available (place in projects/<slug>/refs/)
 - C. Live app URL available
 - D. Several mixed references
 
@@ -227,7 +227,7 @@ After A10: generate the full PRD (Part B), save the file, show it, wait for appr
 | **Prepared by** | {{NAMA_PENGEMBANG}} |
 | **For** | {{NAMA_KLIEN}} |
 | **Date** | {{TANGGAL_DOKUMEN}} |
-| **Project Folder** | `projek/{{SLUG}}/` |
+| **Project Folder** | `projects/{{SLUG}}/` |
 | **Technology** | {{TEKNOLOGI_TERPILIH}} |
 | **Related Documents** | {{DOKUMEN_TERKAIT}} |
 
@@ -388,7 +388,7 @@ Write precisely enough that the design script can be generated without asking ag
 | Item | Value |
 | --- | --- |
 | Fidelity mode | `None` / `Structural` / `Pixel-faithful` / `Mood` |
-| Reference file | `projek/{{SLUG}}/refs/{{NAMA_FAIL}}` |
+| Reference file | `projects/{{SLUG}}/refs/{{NAMA_FAIL}}` |
 | Reference URL | {{URL_RUJUKAN}} |
 | Reference device | Mobile / Desktop / Both |
 | What is taken | {{APA_DIAMBIL}} |
@@ -444,7 +444,7 @@ Viewport: Mobile 390×844 / Desktop 1440×900. -->
 
 ```bash
 # filled per stack, for example:
-bash skrip/test-local.sh {{SLUG}}
+bash scripts/test-local.sh {{SLUG}}
 ```
 
 ### 13.2 Test Data
@@ -470,7 +470,7 @@ bash skrip/test-local.sh {{SLUG}}
 - [ ] Responsive checked at 390, 768, 1024, 1440.
 - [ ] No dead buttons.
 - [ ] No secrets in frontend files.
-- [ ] `bash skrip/qa-check.sh {{SLUG}}` passes.
+- [ ] `bash scripts/qa-check.sh {{SLUG}}` passes.
 
 ## 14. Proposed Features / Later Phase
 

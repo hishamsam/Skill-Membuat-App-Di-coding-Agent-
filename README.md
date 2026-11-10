@@ -19,7 +19,7 @@ The backend can be GAS, Supabase, Cloudflare Worker, Firebase, Neon, Next.js,
 Node/Express, Laravel, FastAPI/Django, or Flutter (Web + Android/iOS).
 The frontend stays one responsive app from 360px to 1920px.
 
-**Full usage guide: [`PANDUAN.html`](PANDUAN.html) (HTML) · [`PANDUAN.md`](PANDUAN.md) (Markdown).**
+**Full usage guide: [`GUIDE.md`](GUIDE.md).**
 
 ---
 
@@ -53,10 +53,9 @@ Set-Location idea-to-app-skill-main
 ### 2. Open an AI agent in that folder
 
 Any agent: opencode, Claude Code, Codex, Cursor, Gemini CLI.
-The agent reads the repo instruction files automatically (`AGENTS.md`,
-`CLAUDE.md`, `GEMINI.md`, `.cursor/rules/mula.mdc`).
+The agent reads `AGENTS.md` automatically when it opens this folder.
 
-If the agent does not read them automatically, type this once:
+If the agent does not read it automatically, type this once:
 
 ```text
 Read AGENTS.md and follow it completely.
@@ -88,7 +87,7 @@ The agent stops before deploy and asks for permission.
 
 | Step | Action |
 | --- | --- |
-| 1 | Scans the machine (`bash skrip/preflight.sh --install --json`, or `skrip/preflight.ps1` on Windows) |
+| 1 | Scans the machine (`bash scripts/preflight.sh --install --json`, or `scripts/preflight.ps1` on Windows) |
 | 2 | Installs the missing tools it can install unattended; never prompts for a password |
 | 3 | Reports every tool with status, version, action, and hint |
 | 4 | Continues to the PRD interview — no tooling is needed for Phase 1 |
@@ -98,7 +97,7 @@ The agent stops before deploy and asks for permission.
 Installable automatically: git, curl, unzip, node, npm, python3, java, psql,
 php, composer (apt, dnf, pacman, zypper, apk, Homebrew, or winget).
 Reported but manual: FigCraft + `figcraft-cli`, Docker, Flutter.
-Details: [`aliran-kerja/00-mula.md`](aliran-kerja/00-mula.md).
+Details: [`workflow/00-start.md`](workflow/00-start.md).
 
 ---
 
@@ -121,10 +120,10 @@ follow-ups when an answer is vague. A full interview produces a better system.
 between phases after the PRD is complete:
 
 ```text
-auto build a vehicle booking system, reference projek/booking/refs/dashboard.png
+auto build a vehicle booking system, reference projects/booking/refs/dashboard.png
 ```
 
-Full prompt: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
+Full prompt: [`templates/PROMPT-AUTO.md`](templates/PROMPT-AUTO.md).
 
 ---
 
@@ -134,17 +133,17 @@ The agent does all of this itself. Use these only if you want to control a step.
 
 | Command | Purpose |
 | --- | --- |
-| `bash skrip/preflight.sh [--install] [--json] [--stack A-K]` | Scan (and install) tools, FigCraft, port 7979, MCP |
-| `powershell -NoProfile -ExecutionPolicy Bypass -File skrip/preflight.ps1 -Install -Json` | Same, for native Windows |
-| `bash skrip/new-project.sh <slug> A` | Create the project folder (A–K) |
-| `bash skrip/qa-check.sh <slug>` | Check code quality |
-| `bash skrip/security-audit.sh <slug> [--deps]` | Static security gate before handoff |
-| `bash skrip/test-local.sh <slug> --check [--path /route]` | Test the app, per module route |
-| `bash skrip/git-save.sh <slug> "<message>"` | Commit the project's local git repository |
-| `bash skrip/setup-dokploy.sh` | Optional: install Dokploy for local testing (asks permission) |
-| `bash skrip/jalankan-semua.sh <slug> A` | Everything at once |
+| `bash scripts/preflight.sh [--install] [--json] [--stack A-K]` | Scan (and install) tools, FigCraft, port 7979, MCP |
+| `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 -Install -Json` | Same, for native Windows |
+| `bash scripts/new-project.sh <slug> A` | Create the project folder (A–K) |
+| `bash scripts/qa-check.sh <slug>` | Check code quality |
+| `bash scripts/security-audit.sh <slug> [--deps]` | Static security gate before handoff |
+| `bash scripts/test-local.sh <slug> --check [--path /route]` | Test the app, per module route |
+| `bash scripts/git-save.sh <slug> "<message>"` | Commit the project's local git repository |
+| `bash scripts/setup-dokploy.sh` | Optional: install Dokploy for local testing (asks permission) |
+| `bash scripts/run-all.sh <slug> A` | Everything at once |
 
-Full reference: [`PANDUAN.html`](PANDUAN.html).
+Full reference: [`GUIDE.md`](GUIDE.md).
 
 ---
 
@@ -155,27 +154,27 @@ For each module, in this order:
 
 ```bash
 # 2. test it (repeat --path per module route)
-bash skrip/test-local.sh <slug> --check --path / --path /orders
+bash scripts/test-local.sh <slug> --check --path / --path /orders
 
 # 3. commit it to the project's own repository
-bash skrip/git-save.sh <slug> "feat(module-3): orders list + tests"
+bash scripts/git-save.sh <slug> "feat(module-3): orders list + tests"
 ```
 
 A module is finished only when its test passes and the commit exists. The real
 output and the commit id go into the `STATUS.md` Modules table.
 
-Each project gets its own git repository at `projek/<slug>/.git`, created by
-`new-project.sh`. The skill repo ignores `projek/*`, so project history never
+Each project gets its own git repository at `projects/<slug>/.git`, created by
+`new-project.sh`. The skill repo ignores `projects/*`, so project history never
 mixes with skill history, and every change is traceable to a module, a fix, or an
 audit finding.
 
 ## Security gate (Phase 4.5)
 
 Before handoff, the project must pass the gate in
-[`aliran-kerja/06-security-audit.md`](aliran-kerja/06-security-audit.md):
+[`workflow/06-security-audit.md`](workflow/06-security-audit.md):
 
 ```bash
-bash skrip/security-audit.sh <slug>    # static rules: secrets, injection, RLS, CORS, cookies, authz, CSRF, uploads
+bash scripts/security-audit.sh <slug>    # static rules: secrets, injection, RLS, CORS, cookies, authz, CSRF, uploads
 ```
 
 - `FAIL` blocks handoff: fix it and rerun.
@@ -188,20 +187,16 @@ bash skrip/security-audit.sh <slug>    # static rules: secrets, injection, RLS, 
 ## Repository layout
 
 ```text
-GAS Skill/
-├── AGENTS.md                 # start instructions for the AI agent
-├── CLAUDE.md                 # alias for Claude Code
-├── GEMINI.md                 # alias for Gemini CLI
-├── .cursor/rules/mula.mdc    # alias for Cursor
-├── SKILL.md                  # main skill (agent instructions)
-├── TEMPLATE_PRD_MS.md        # PRD generator: interview + template
-├── figcraft-fast-SKILL.md    # how to script FigCraft fast
-├── README.md                 # this file
-├── LICENSE                   # MIT
-├── PANDUAN.md                # complete usage guide
-├── PANDUAN.html              # HTML version with search
-├── aliran-kerja/
-│   ├── 00-mula.md            # Phase 0 bootstrap (mula / start)
+WebApp Builder/
+├── AGENTS.md                   # start instructions for the AI agent
+├── SKILL.md                    # main skill (agent instructions)
+├── TEMPLATE_PRD_MS.md          # PRD generator: interview + template
+├── FIGCRAFT-SCRIPTING.md       # how to script FigCraft fast
+├── GUIDE.md                    # complete usage guide
+├── README.md                   # this file
+├── LICENSE                     # MIT
+├── workflow/
+│   ├── 00-start.md             # Phase 0 bootstrap (mula / start)
 │   ├── 00-auto.md
 │   ├── 01-prd.md
 │   ├── 02-design-figcraft.md
@@ -209,7 +204,7 @@ GAS Skill/
 │   ├── 04-local-test.md
 │   ├── 05-handoff.md
 │   └── 06-security-audit.md
-├── pemasangan/                    # MCP setup (separate folder)
+├── setup/                      # MCP and stack setup
 │   ├── 01-opencode-mcp.md
 │   ├── 02-figcraft.md
 │   ├── 03-gas.md
@@ -224,30 +219,33 @@ GAS Skill/
 │   ├── 12-python.md
 │   ├── 13-flutter.md
 │   └── mcp.opencode.example.json
-├── skrip/
-│   ├── tools.tsv              # one catalog for every tool
-│   ├── preflight.sh           # scan and install (Linux/macOS/Git Bash)
-│   ├── preflight.ps1          # scan and install (native Windows)
-│   ├── jalankan-semua.sh
+├── scripts/
+│   ├── tools.tsv               # one catalog for every tool
+│   ├── preflight.sh            # scan and install (Linux/macOS/Git Bash)
+│   ├── preflight.ps1           # scan and install (native Windows)
+│   ├── run-all.sh
 │   ├── new-project.sh
 │   ├── test-local.sh
 │   ├── qa-check.sh
 │   ├── security-audit.sh
 │   ├── git-save.sh
 │   ├── setup-dokploy.sh
-│   ├── build-panduan-html.py
-│   └── figcraft/fclib.py
-├── templat/
+│   ├── build-guide-html.py     # optional: regenerate GUIDE.html
+│   └── figcraft/
+│       ├── figcraft_client.py  # live FigCraft client + helpers
+│       └── test_figcraft_client.py
+├── templates/
 │   ├── HANDOFF.md
 │   ├── PROMPT-AUTO.md
-│   └── figcraft/build.py
-└── projek/                 # output of each project
+│   └── figcraft/figcraft_build.py
+└── projects/                   # output of each project
 ```
+
 
 Each project is stored in its own folder:
 
 ```text
-projek/<slug>/
+projects/<slug>/
 ├── STATUS.md
 ├── STACK                     # A–K
 ├── prd/PRD-v0.1.md
@@ -276,13 +274,13 @@ Trigger phrases: `auto`, `full auto`, `do everything`, `finish it right away`,
 
 ```text
 Build an office vehicle booking system in full auto mode.
-Reference: projek/booking/refs/dashboard.png
+Reference: projects/booking/refs/dashboard.png
 Responsive code 360-1920px. Run qa-check and test-local --check.
 Stop before deploy.
 ```
 
-Full prompt: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
-Protocol: [`aliran-kerja/00-auto.md`](aliran-kerja/00-auto.md).
+Full prompt: [`templates/PROMPT-AUTO.md`](templates/PROMPT-AUTO.md).
+Protocol: [`workflow/00-auto.md`](workflow/00-auto.md).
 
 What the agent does by itself:
 
@@ -303,12 +301,12 @@ payments, DNS changes, production data deletion.
 
 | Phase | Guide | Output | Gate |
 | --- | --- | --- | --- |
-| 1 PRD | `aliran-kerja/01-prd.md` | `prd/PRD-v0.1.md` | PRD approved |
-| 2 Design | `aliran-kerja/02-design-figcraft.md` | `design/design.figcraft` + PNG | UI reviewed |
-| 3 Code | `aliran-kerja/03-codegen.md` | `app/` | `qa-check` passes |
-| 4 Test | `aliran-kerja/04-local-test.md` | test evidence | all cases pass |
-| 4.5 Security | `aliran-kerja/06-security-audit.md` | `security/REPORT.md` | 0 `FAIL`, no open high/critical |
-| 5 Handoff | `aliran-kerja/05-handoff.md` | `HANDOFF.md` + deploy | smoke test |
+| 1 PRD | `workflow/01-prd.md` | `prd/PRD-v0.1.md` | PRD approved |
+| 2 Design | `workflow/02-design-figcraft.md` | `design/design.figcraft` + PNG | UI reviewed |
+| 3 Code | `workflow/03-codegen.md` | `app/` | `qa-check` passes |
+| 4 Test | `workflow/04-local-test.md` | test evidence | all cases pass |
+| 4.5 Security | `workflow/06-security-audit.md` | `security/REPORT.md` | 0 `FAIL`, no open high/critical |
+| 5 Handoff | `workflow/05-handoff.md` | `HANDOFF.md` + deploy | smoke test |
 
 ### Phase 1 — PRD
 
@@ -368,12 +366,12 @@ Chapter 13 locks the test commands and acceptance criteria.
 | Flutter | `flutter build web` + static server (`test-local` script) |
 
 ```bash
-bash skrip/test-local.sh <slug> --check
-bash skrip/qa-check.sh <slug>
-bash skrip/security-audit.sh <slug>
+bash scripts/test-local.sh <slug> --check
+bash scripts/qa-check.sh <slug>
+bash scripts/security-audit.sh <slug>
 ```
 
-Optional: `bash skrip/setup-dokploy.sh` for local testing through Dokploy.
+Optional: `bash scripts/setup-dokploy.sh` for local testing through Dokploy.
 Ask permission first; if declined, skip it and test manually.
 
 ### Phase 5 — Handoff
@@ -387,25 +385,25 @@ Ask permission first; if declined, skip it and test manually.
 
 ## MCP setup
 
-Every setup instruction lives in a separate folder: **`pemasangan/`**.
+Every setup instruction lives in a separate folder: **`setup/`**.
 
 | Document | Content |
 | --- | --- |
-| `pemasangan/01-opencode-mcp.md` | `opencode.json` format, registering servers |
-| `pemasangan/02-figcraft.md` | Live mode (required), port 7979 |
-| `pemasangan/03-gas.md` | GAS, clasp, preview mode |
-| `pemasangan/04-supabase.md` | Supabase MCP, dev project, RLS |
-| `pemasangan/05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 |
-| `pemasangan/06-firebase.md` | Firebase MCP, emulators, rules |
-| `pemasangan/07-neon.md` | Neon MCP, serverless driver |
-| `pemasangan/08-dokploy.md` | Dokploy for local testing (optional) |
-| `pemasangan/09-nextjs.md` | Next.js + Postgres, Vercel |
-| `pemasangan/10-node-express.md` | Node/Express + Postgres, VPS/Dokploy |
-| `pemasangan/11-laravel.md` | Laravel + MySQL, VPS/Dokploy |
-| `pemasangan/12-python.md` | FastAPI/Django + Postgres |
-| `pemasangan/13-flutter.md` | Flutter Web + Android/iOS, web testing |
+| `setup/01-opencode-mcp.md` | `opencode.json` format, registering servers |
+| `setup/02-figcraft.md` | Live mode (required), port 7979 |
+| `setup/03-gas.md` | GAS, clasp, preview mode |
+| `setup/04-supabase.md` | Supabase MCP, dev project, RLS |
+| `setup/05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 |
+| `setup/06-firebase.md` | Firebase MCP, emulators, rules |
+| `setup/07-neon.md` | Neon MCP, serverless driver |
+| `setup/08-dokploy.md` | Dokploy for local testing (optional) |
+| `setup/09-nextjs.md` | Next.js + Postgres, Vercel |
+| `setup/10-node-express.md` | Node/Express + Postgres, VPS/Dokploy |
+| `setup/11-laravel.md` | Laravel + MySQL, VPS/Dokploy |
+| `setup/12-python.md` | FastAPI/Django + Postgres |
+| `setup/13-flutter.md` | Flutter Web + Android/iOS, web testing |
 
-Ready-to-paste config: `pemasangan/mcp.opencode.example.json`.
+Ready-to-paste config: `setup/mcp.opencode.example.json`.
 
 Check:
 

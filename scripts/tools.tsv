@@ -1,0 +1,16 @@
+id|tier|check|version_args|apt|dnf|pacman|brew|winget|manual_hint
+git|core|git|--version|git|git|git|git|Git.Git|
+curl|core|curl|--version|curl|curl|curl|curl||
+unzip|core|unzip|-v|unzip|unzip|unzip|||
+node|core|node|--version|nodejs|nodejs|nodejs|node|OpenJS.NodeJS.LTS|
+npm|core|npm|--version||||||npm ships with Node.js; reinstall Node.js if npm is missing.|
+python3|core|python3|--version|python3 python3-pip python3-venv|python3 python3-pip|python python-pip|python|Python.Python.3.12|
+figcraft|core|figcraft|--version||||||No unattended installer in this repo. Install the FigCraft application package for your OS, then rerun preflight. Required for Phase 2 only.|
+figcraft-cli|core|figcraft-cli|--version||||||Installed together with the FigCraft application. Add it to PATH, then rerun preflight.|
+java|stack:D|java|-version|openjdk-17-jre-headless|java-17-openjdk-headless|jre17-openjdk|openjdk@17|Microsoft.OpenJDK.17|
+docker|stack:B|docker|--version||||||Install Docker Desktop (Windows/macOS) or Docker Engine (Linux) manually, then rerun preflight.|
+psql|stack:E|psql|--version|postgresql-client|postgresql|postgresql|libpq||
+php|stack:I|php|--version|php-cli|php-cli|php|php||
+composer|stack:I|composer|--version|composer|composer|composer|composer||
+flutter|stack:K|flutter|--version||||||Install the Flutter SDK manually (https://docs.flutter.dev/get-started/install), then run: flutter config --enable-web|
+python-markdown|optional|__python_markdown__||python3-markdown|python3-markdown|python-markdown|||Needed only to rebuild GUIDE.html: python3 -m pip install --user markdown|

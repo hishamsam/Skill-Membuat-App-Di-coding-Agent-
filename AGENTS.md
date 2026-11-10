@@ -11,8 +11,8 @@ Do not write code before the PRD is approved.
 
 Run one command before anything else:
 
-- Linux, macOS, Git Bash: `bash skrip/preflight.sh --install --json`
-- Native Windows PowerShell: `powershell -NoProfile -ExecutionPolicy Bypass -File skrip/preflight.ps1 -Install -Json`
+- Linux, macOS, Git Bash: `bash scripts/preflight.sh --install --json`
+- Native Windows PowerShell: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 -Install -Json`
 
 Parse the JSON (or the last `PREFLIGHT_JSON` line):
 
@@ -24,7 +24,7 @@ Parse the JSON (or the last `PREFLIGHT_JSON` line):
 - Native Windows → state that Phase 2 needs WSL2/Linux.
 
 After the A6 stack answer, rerun with `--stack <CODE>` / `-Stack <CODE>`.
-Full contract: `aliran-kerja/00-mula.md`.
+Full contract: `workflow/00-start.md`.
 
 ### 2. Idea
 
@@ -35,7 +35,7 @@ Otherwise ask ONE question:
 
 ### 3. PRD interview — mandatory
 
-- Read `TEMPLATE_PRD_MS.md` Part A and `aliran-kerja/01-prd.md`.
+- Read `TEMPLATE_PRD_MS.md` Part A and `workflow/01-prd.md`.
 - Ask A1–A10 **one question per message**. Wait for the answer.
 - Every question must offer A/B/C choices (plus "Specify").
 - **Never merge questions.** Never list all questions at once.
@@ -51,7 +51,7 @@ Otherwise ask ONE question:
 
 ### 4. PRD
 
-- Fill in all 17 chapters. Save to `projek/<slug>/prd/PRD-v0.1.md`.
+- Fill in all 17 chapters. Save to `projects/<slug>/prd/PRD-v0.1.md`.
 - Show the full PRD, then ask: "Do you accept this PRD, or are there amendments?"
 - **STOP** until the user approves (`PRD OK`, `accept`, `continue`, or the Malay
   equivalent).
@@ -60,7 +60,7 @@ Otherwise ask ONE question:
 
 ### 5. Design, code, test
 
-After approval, follow `aliran-kerja/02-design-figcraft.md`,
+After approval, follow `workflow/02-design-figcraft.md`,
 `03-codegen.md`, and `04-local-test.md`.
 
 - FigCraft MUST use **live edit** mode (`figcraft-app`, port 7979). Never use
@@ -70,34 +70,34 @@ After approval, follow `aliran-kerja/02-design-figcraft.md`,
 - **Build one module at a time.** A module is one screen plus its handler,
   endpoint, and data. For every module, in this order:
   1. build it end to end (including loading, empty, and error states);
-  2. test it — `bash skrip/test-local.sh <slug> --check --path <route>`;
+  2. test it — `bash scripts/test-local.sh <slug> --check --path <route>`;
   3. fix failures before starting the next module;
-  4. commit it — `bash skrip/git-save.sh <slug> "feat(module-<n>): <name> + tests"`;
+  4. commit it — `bash scripts/git-save.sh <slug> "feat(module-<n>): <name> + tests"`;
   5. record the row in `STATUS.md` (module, route, test evidence, commit id).
   A module is finished only when its test passes and the commit exists.
-- Each project has its own local git repository at `projek/<slug>/.git`. Never
+- Each project has its own local git repository at `projects/<slug>/.git`. Never
   commit `.env`, `.dev.vars`, keys, or personal data.
 - Run and show the real output:
 
 ```bash
-bash skrip/qa-check.sh <slug>
-bash skrip/security-audit.sh <slug>
-bash skrip/test-local.sh <slug> --check
+bash scripts/qa-check.sh <slug>
+bash scripts/security-audit.sh <slug>
+bash scripts/test-local.sh <slug> --check
 ```
 
 - Dokploy for local testing is **optional**. Ask permission first. If approved,
-  run `bash skrip/setup-dokploy.sh`. If declined, skip it and continue manual
+  run `bash scripts/setup-dokploy.sh`. If declined, skip it and continue manual
   testing.
 - Fix failures, maximum 3 rounds, then report the blocker.
 
 ### 6. Security gate (Phase 4.5) — mandatory before handoff
 
-Follow `aliran-kerja/06-security-audit.md`. The workflow phases do not change;
+Follow `workflow/06-security-audit.md`. The workflow phases do not change;
 this is a gate between Phase 4 and Phase 5.
 
-1. Write `projek/<slug>/security/THREAT-MODEL.md`: assets, actors, trust
+1. Write `projects/<slug>/security/THREAT-MODEL.md`: assets, actors, trust
    boundaries, data classes, STRIDE, claimed controls.
-2. Run `bash skrip/security-audit.sh <slug>`. Every `FAIL` is fixed and the script
+2. Run `bash scripts/security-audit.sh <slug>`. Every `FAIL` is fixed and the script
    rerun; every `WARN` gets a recorded decision with source evidence.
 3. Hunt by attack class (access control, auth/session, injection, crypto and
    secrets, business logic, files/SSRF, client side, data isolation, availability,
@@ -107,7 +107,7 @@ this is a gate between Phase 4 and Phase 5.
    `rejected` (disproved). Severity is CVSS v3.1 anchored and never above the
    demonstrated impact.
 5. Fix at the last trusted decision point, add a regression test, commit with
-   `bash skrip/git-save.sh <slug> "fix(security): ..."`.
+   `bash scripts/git-save.sh <slug> "fix(security): ..."`.
 6. Write `security/REPORT.md` and `security/findings.json`; re-read every
    confirmed trace with fresh eyes before the report claims it.
 7. Never test production, shared services, third parties, or real personal data.
@@ -117,7 +117,7 @@ this is a gate between Phase 4 and Phase 5.
 
 ### 7. Handoff
 
-- Fill in `HANDOFF.md` per `aliran-kerja/05-handoff.md`.
+- Fill in `HANDOFF.md` per `workflow/05-handoff.md`.
 - Include the security summary: findings fixed, decisions on remaining `WARN`s,
   any `needs_validation` lead, and the module test/commit table.
 - **STOP before deploy.** Ask for separate permission.
@@ -141,9 +141,9 @@ this is a gate between Phase 4 and Phase 5.
 | --- | --- |
 | `SKILL.md` | Full skill instructions |
 | `TEMPLATE_PRD_MS.md` | Interview and PRD template |
-| `aliran-kerja/` | Steps for each phase |
-| `aliran-kerja/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
-| `pemasangan/` | MCP and stack setup |
-| `skrip/` | Check and test scripts |
-| `templat/` | HANDOFF, auto prompt, FigCraft build |
-| `PANDUAN.md` | Complete usage guide |
+| `workflow/` | Steps for each phase |
+| `workflow/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
+| `setup/` | MCP and stack setup |
+| `scripts/` | Check and test scripts |
+| `templates/` | HANDOFF, auto prompt, FigCraft build |
+| `GUIDE.md` | Complete usage guide |
