@@ -51,8 +51,8 @@ Example:
 
 ```bash
 python3 -I projects/<slug>/design/build.py --check       # connect only
-python3 -I projects/<slug>/design/build.py --rehearsal   # clean doc, exports/rehearsal/
-python3 -I projects/<slug>/design/build.py --save        # build + save design.figcraft
+python3 -I projects/<slug>/design/build.py               # build + export + save
+python3 -I projects/<slug>/design/build.py --no-save     # build + export only
 ```
 
 The script connects to `figcraft-cli mcp --attach 7979` by itself. No MCP
@@ -61,7 +61,8 @@ server needs to be registered in the session for this script.
 Each run starts a clean document (`file.new`) and reuses the single empty page,
 renamed to `UI`, so reruns never duplicate screens or leave `Page 1` behind.
 Top-level frames are placed left to right automatically; pass `x` only when a
-specific position is wanted. `--rehearsal` and `--save` are mutually exclusive.
+specific position is wanted. A normal run saves `design/design.figcraft`;
+`--no-save` exports the PNGs without writing the file.
 
 The regression test for the helper library needs no app and writes no files:
 

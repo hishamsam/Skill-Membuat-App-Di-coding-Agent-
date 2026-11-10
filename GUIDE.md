@@ -234,7 +234,7 @@ cp ~/Downloads/ref.png projects/sistem-tempahan/refs/
 # 5. After PRD approval, start FigCraft
 figcraft --control 7979 &
 python3 -I projects/sistem-tempahan/design/build.py --check
-python3 -I projects/sistem-tempahan/design/build.py --rehearsal
+python3 -I projects/sistem-tempahan/design/build.py
 
 # 6. After UI approval, generate code and test
 bash scripts/qa-check.sh sistem-tempahan
@@ -256,8 +256,8 @@ asks the interview questions one at a time, and stops before deploy.
 | 0 | `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 -Install -Json` | Same, for native Windows through winget |
 | 1 | `bash scripts/new-project.sh <slug> [A-K]` | Create `projects/<slug>/` with starter files |
 | 2 | `python3 -I projects/<slug>/design/build.py --check` | Verify the live connection; changes nothing |
-| 2 | `python3 -I projects/<slug>/design/build.py --rehearsal` | Rehearse in a clean throwaway document, PNGs in `exports/rehearsal/` |
-| 2 | `python3 -I projects/<slug>/design/build.py --save` | Build in a clean document and save `design.figcraft` |
+| 2 | `python3 -I projects/<slug>/design/build.py` | One clean run: build every screen, export PNGs, save `design.figcraft` |
+| 2 | `python3 -I projects/<slug>/design/build.py --no-save` | Build and export PNGs without overwriting `design.figcraft` |
 | 2 | `python3 -I scripts/figcraft/test_figcraft_client.py` | Test the FigCraft helper library, headless, no files written |
 | 3 | `bash scripts/qa-check.sh <slug>` | Static quality gate |
 | 4 | `bash scripts/test-local.sh <slug>` | Serve the app locally |
@@ -423,20 +423,17 @@ Files: `workflow/02-design-figcraft.md`, `FIGCRAFT-SCRIPTING.md`.
 # Check the live connection (changes nothing)
 python3 -I projects/<slug>/design/build.py --check
 
-# Rehearse in a clean throwaway document, PNGs in exports/rehearsal/
-python3 -I projects/<slug>/design/build.py --rehearsal
-
-# Build in a clean document, export to exports/ (unsaved)
+# Build every screen, export PNGs to exports/, save design.figcraft
 python3 -I projects/<slug>/design/build.py
 
-# Build and save design.figcraft
-python3 -I projects/<slug>/design/build.py --save
+# Build and export only (do not overwrite design.figcraft)
+python3 -I projects/<slug>/design/build.py --no-save
 ```
 
-`--rehearsal` and `--save` are mutually exclusive. Each run starts a clean
-document and reuses the single empty page (renamed to `UI`), so rerunning never
-duplicates screens and no `Page 1` is left behind. Top-level frames are placed
-left to right automatically; pass `x` only for a deliberate position.
+Each run starts a clean document and reuses the single empty page (renamed to
+`UI`), so rerunning never duplicates screens and no `Page 1` is left behind.
+There is no rehearsal document: the first run is the design. Top-level frames
+are placed left to right automatically; pass `x` only for a deliberate position.
 
 ### Frame sizes
 
@@ -464,7 +461,6 @@ Use the screen IDs from PRD Chapter 12.
 design/design.figcraft
 design/exports/S-01-mobile.png
 design/exports/S-01-desktop.png
-design/exports/rehearsal/          # from --rehearsal, safe to delete
 ```
 
 ## 8. Phase 3 — Responsive code
@@ -688,8 +684,8 @@ Useful flags:
 ```bash
 bash scripts/test-local.sh <slug> --port 8080
 python3 -I projects/<slug>/design/build.py --check
-python3 -I projects/<slug>/design/build.py --rehearsal
-python3 -I projects/<slug>/design/build.py --save
+python3 -I projects/<slug>/design/build.py
+python3 -I projects/<slug>/design/build.py --no-save
 python3 -I scripts/figcraft/test_figcraft_client.py
 ```
 

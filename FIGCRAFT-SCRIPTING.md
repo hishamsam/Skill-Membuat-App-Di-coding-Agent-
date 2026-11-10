@@ -33,11 +33,11 @@ The script attaches on its own, so no MCP server is needed in the session.
 3. Copy `templates/figcraft/figcraft_build.py` to `projects/<slug>/design/build.py` and
    replace its sample screens.
 4. `python3 -I projects/<slug>/design/build.py --check` — connection only.
-5. `python3 -I projects/<slug>/design/build.py --rehearsal` — clean throwaway
-   document, PNGs in `exports/rehearsal/`.
-6. `python3 -I projects/<slug>/design/build.py --save` — real document, PNGs in
-   `exports/`, saved to `design/design.figcraft`.
-7. Inspect the PNGs, fix the script, rerun. `python3 -I scripts/figcraft/test_figcraft_client.py`
+5. `python3 -I projects/<slug>/design/build.py` — build, export PNGs to
+   `exports/`, and save `design/design.figcraft` in one clean run. There is no
+   rehearsal document: the first run is the design.
+6. Inspect the PNGs, fix the script, rerun. `--no-save` builds and exports
+   without overwriting the saved file. `python3 -I scripts/figcraft/test_figcraft_client.py`
    checks the helper library itself (headless, no app needed).
 
 ## 2. Write the script
@@ -65,7 +65,7 @@ export_node(root, "shots/card.png", 1)
 Run it with `python3 -I build.py`. The `-I` flag drops the script's folder from
 `sys.path`, which is why the snippet adds the helpers folder explicitly. Copy
 `templates/figcraft/figcraft_build.py` instead of writing the path logic by hand: it walks
-up to the repo root and adds `--check`, `--rehearsal`, and `--save`.
+up to the repo root and adds `--check` and `--no-save` (a normal run saves).
 
 ### Low-level client (`f`)
 
@@ -102,8 +102,8 @@ helper to `figcraft_client.py` first.
 ## 3. Verify, fix, rerun
 
 1. Export what you built (`export_node` / `screenshot`) and look at the PNG before reporting.
-2. Rehearse in a throwaway document (`--rehearsal`, or `f.cmd('file.new', name='Rehearsal')`). Fixing the script and rerunning into a fresh document is faster than patching layers one by one.
-3. Do the final run in a clean `file.new` document. Never save without asking: tell the user the document is unsaved.
+2. Every run starts a clean document (`file.new`), so fixing the script and rerunning never duplicates layers. Prefer one corrected run over patching layers by one.
+3. The project template saves to `design/design.figcraft` on each successful run. Outside the project template, never save over a document without asking: tell the user the document is unsaved.
 4. To edit an existing document instead, read it once (`inspect_document` / `get_node`), then make every change in one script. Use `f.cmd('batch', ...)` when the changes should be one undo step.
 
 ## 4. Live / recording mode

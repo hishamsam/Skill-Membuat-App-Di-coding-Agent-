@@ -48,22 +48,37 @@ Rule: more than 10 layers → write a script, do not call tools one by one.
    python3 -I projects/<slug>/design/build.py --check
    ```
 
-5. Rehearsal — clean throwaway document, PNGs into `exports/rehearsal/`:
+5. Build the design in one clean run:
 
    ```bash
-   python3 -I projects/<slug>/design/build.py --rehearsal
+   python3 -I projects/<slug>/design/build.py
    ```
 
-6. Real run + export + save:
+   This is the design run: it starts a new document, builds every screen,
+   exports PNGs to `exports/`, and saves `design/design.figcraft`. There is no
+   rehearsal document. Use `--no-save` only when you want the PNGs without
+   overwriting the saved file.
+6. Check the PNG files in `projects/<slug>/design/exports/`.
+   Fix the script and rerun. Do not paste layers one by one.
+7. Update `STATUS.md`: mark Phase 2 done.
 
-   ```bash
-   python3 -I projects/<slug>/design/build.py --save
-   ```
+## Design quality bar
 
-   Without `--save` the document stays unsaved and the script says so.
-7. Check the PNG files in `projects/<slug>/design/exports/`.
-   Fix the script, repeat. Do not paste layers one by one.
-8. Update `STATUS.md`: mark Phase 2 done.
+One run does not mean a rough draft. Settle these before running `build.py`:
+
+- Choose one anatomy from `SKILL.md` 2D and one visual direction from
+  `SKILL.md` 2E. Record both in `DESIGN-DNA.md`.
+- One accent, one radius scale, one spacing scale (4/8/12/16/24/32), at most two
+  fonts.
+- At most five type sizes per screen; headings one weight and one colour.
+- One primary action per screen. Secondary actions neutral; destructive red.
+- Real PRD content and real numbers, or `—` when the PRD has none. No lorem
+  ipsum, no invented metrics, no generic copy.
+- No fake chrome, no dark mode, no `rounded` on everything, no card-in-card, no
+  icons inside coloured tiles.
+- Body text contrast at least 4.5:1; muted text at least 4.5:1 on its surface.
+- Mobile and desktop differ in structure, not a stretched copy.
+- Every screen and state in PRD Chapter 12.4 is present before the run.
 
 ## What a run does
 
@@ -74,8 +89,8 @@ Rule: more than 10 layers → write a script, do not call tools one by one.
   each next one 100 px after the previous frame's right edge. Pass `x` only
   when you want a specific position; passing any `x` or `y` turns autoplace off
   for that frame.
-- `--rehearsal` and `--save` are mutually exclusive. Use `--save` only for the
-  real document.
+- A normal run saves `design/design.figcraft` after exporting. `--no-save`
+  skips the save; it does not create a second document.
 
 ## Errors
 
@@ -127,7 +142,6 @@ projects/<slug>/design/
 ├── build.py
 ├── design.figcraft
 └── exports/
-    ├── rehearsal/          # from --rehearsal, safe to delete
     ├── S-01-login-mobile.png
     ├── S-01-login-desktop.png
     └── ...

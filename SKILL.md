@@ -141,10 +141,10 @@ Full guide: `workflow/02-design-figcraft.md` and `FIGCRAFT-SCRIPTING.md`.
 2. Write `design/DESIGN-DNA.md`.
 3. Write ONE `design/build.py` script using `scripts/figcraft/figcraft_client.py`.
    More than 10 layers: a script, not one-by-one tool calls.
-4. `--check` (connection only) → `--rehearsal` (clean throwaway document, PNGs
-   in `exports/rehearsal/`) → `--save` (real document, PNGs in `exports/`,
-   saved to `design/design.figcraft`) → review the PNGs → fix → repeat.
-   Each run starts a clean document, so reruns never duplicate screens.
+4. `--check` (connection only) → `python3 -I projects/<slug>/design/build.py`
+   (one clean run: builds every screen, exports PNGs to `exports/`, saves
+   `design/design.figcraft`) → review the PNGs → fix → rerun. There is no
+   rehearsal document; every run starts clean, so reruns never duplicate screens.
 5. Save `design/design.figcraft` in the project folder.
 
 If the reference is mobile-only, still build the desktop frame. The mobile
