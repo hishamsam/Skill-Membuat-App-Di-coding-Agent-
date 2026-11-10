@@ -131,7 +131,10 @@ Full guide: `aliran-kerja/02-design-figcraft.md` and `figcraft-fast-SKILL.md`.
 2. Write `design/DESIGN-DNA.md`.
 3. Write ONE `design/build.py` script using `skrip/figcraft/fclib.py`.
    More than 10 layers: a script, not one-by-one tool calls.
-4. Rehearsal → live run → PNG export → review → fix → repeat.
+4. `--check` (connection only) → `--rehearsal` (clean throwaway document, PNGs
+   in `exports/rehearsal/`) → `--save` (real document, PNGs in `exports/`,
+   saved to `design/design.figcraft`) → review the PNGs → fix → repeat.
+   Each run starts a clean document, so reruns never duplicate screens.
 5. Save `design/design.figcraft` in the project folder.
 
 If the reference is mobile-only, still build the desktop frame. The mobile

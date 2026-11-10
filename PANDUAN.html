@@ -436,6 +436,7 @@ cp ~/Downloads/ref.png projek/sistem-tempahan/refs/
 
 # 5. After PRD approval, start FigCraft
 figcraft --control 7979 &amp;
+python3 -I projek/sistem-tempahan/design/build.py --check
 python3 -I projek/sistem-tempahan/design/build.py --rehearsal
 
 # 6. After UI approval, generate code and test
@@ -475,13 +476,23 @@ asks the interview questions one at a time, and stops before deploy.</p>
 </tr>
 <tr>
 <td>2</td>
+<td><code>python3 -I projek/&lt;slug&gt;/design/build.py --check</code></td>
+<td>Verify the live connection; changes nothing</td>
+</tr>
+<tr>
+<td>2</td>
 <td><code>python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal</code></td>
-<td>Rehearse the FigCraft build without saving</td>
+<td>Rehearse in a clean throwaway document, PNGs in <code>exports/rehearsal/</code></td>
 </tr>
 <tr>
 <td>2</td>
 <td><code>python3 -I projek/&lt;slug&gt;/design/build.py --save</code></td>
-<td>Build and save <code>design.figcraft</code></td>
+<td>Build in a clean document and save <code>design.figcraft</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>python3 -I skrip/figcraft/selftest.py</code></td>
+<td>Test the FigCraft helper library, headless, no files written</td>
 </tr>
 <tr>
 <td>3</td>
@@ -783,15 +794,22 @@ or "build" to continue.</p>
 <li>Save the native file as <code>design/design.figcraft</code>.</li>
 </ul>
 <h3 id="phase-2-commands">Phase 2 commands<a class="anchor" href="#phase-2-commands" aria-label="Link to this section">#</a></h3>
-<pre><code class="language-bash"># Rehearse in a throwaway document
+<pre><code class="language-bash"># Check the live connection (changes nothing)
+python3 -I projek/&lt;slug&gt;/design/build.py --check
+
+# Rehearse in a clean throwaway document, PNGs in exports/rehearsal/
 python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal
 
-# Build for real
+# Build in a clean document, export to exports/ (unsaved)
 python3 -I projek/&lt;slug&gt;/design/build.py
 
 # Build and save design.figcraft
 python3 -I projek/&lt;slug&gt;/design/build.py --save
 </code></pre>
+<p><code>--rehearsal</code> and <code>--save</code> are mutually exclusive. Each run starts a clean
+document and reuses the single empty page (renamed to <code>UI</code>), so rerunning never
+duplicates screens and no <code>Page 1</code> is left behind. Top-level frames are placed
+left to right automatically; pass <code>x</code> only for a deliberate position.</p>
 <h3 id="frame-sizes">Frame sizes<a class="anchor" href="#frame-sizes" aria-label="Link to this section">#</a></h3>
 <table>
 <thead>
@@ -826,6 +844,7 @@ S-01 / Desktop 1440
 <pre><code class="language-text">design/design.figcraft
 design/exports/S-01-mobile.png
 design/exports/S-01-desktop.png
+design/exports/rehearsal/          # from --rehearsal, safe to delete
 </code></pre>
 <h2 id="8-phase-3-responsive-code">8. Phase 3 — Responsive code<a class="anchor" href="#8-phase-3-responsive-code" aria-label="Link to this section">#</a></h2>
 <p>Files: <code>aliran-kerja/03-codegen.md</code>.</p>
@@ -1197,6 +1216,10 @@ real personal data.</p>
 <td>FigCraft Python helpers</td>
 </tr>
 <tr>
+<td><code>skrip/figcraft/selftest.py</code></td>
+<td>Headless regression test for the helpers</td>
+</tr>
+<tr>
 <td><code>templat/figcraft/build.py</code></td>
 <td>Starter FigCraft build script</td>
 </tr>
@@ -1208,7 +1231,10 @@ real personal data.</p>
 </table>
 <p>Useful flags:</p>
 <pre><code class="language-bash">bash skrip/test-local.sh &lt;slug&gt; --port 8080
-python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal --save
+python3 -I projek/&lt;slug&gt;/design/build.py --check
+python3 -I projek/&lt;slug&gt;/design/build.py --rehearsal
+python3 -I projek/&lt;slug&gt;/design/build.py --save
+python3 -I skrip/figcraft/selftest.py
 </code></pre>
 <h2 id="12-documentation-map">12. Documentation map<a class="anchor" href="#12-documentation-map" aria-label="Link to this section">#</a></h2>
 <table>

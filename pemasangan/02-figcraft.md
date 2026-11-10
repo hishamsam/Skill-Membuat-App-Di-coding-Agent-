@@ -28,10 +28,13 @@ opened with `--control 7979`. Do not change the config; reopen the app.
 ## Checking the installation
 
 ```bash
-/usr/bin/figcraft-cli --version
+/usr/bin/figcraft-cli --version         # verified here with 0.17.0
 /usr/bin/figcraft-cli info <file.figcraft>
 /usr/bin/figcraft-cli commands | head
 ```
+
+The helper scripts in this repo run against `figcraft-cli` 0.10 and newer; the
+commands below were verified on 0.17.0.
 
 ## Quick script (many layers)
 
@@ -41,16 +44,38 @@ library is included in the repo:
 ```text
 skrip/figcraft/fclib.py
 templat/figcraft/build.py
+skrip/figcraft/selftest.py
 ```
 
 Example:
 
 ```bash
-python3 -I projek/<slug>/design/build.py
+python3 -I projek/<slug>/design/build.py --check       # connect only
+python3 -I projek/<slug>/design/build.py --rehearsal   # clean doc, exports/rehearsal/
+python3 -I projek/<slug>/design/build.py --save        # build + save design.figcraft
 ```
 
 The script connects to `figcraft-cli mcp --attach 7979` by itself. No MCP
 server needs to be registered in the session for this script.
+
+Each run starts a clean document (`file.new`) and reuses the single empty page,
+renamed to `UI`, so reruns never duplicate screens or leave `Page 1` behind.
+Top-level frames are placed left to right automatically; pass `x` only when a
+specific position is wanted. `--rehearsal` and `--save` are mutually exclusive.
+
+The regression test for the helper library needs no app and writes no files:
+
+```bash
+python3 -I skrip/figcraft/selftest.py     # figcraft selftest: ok
+```
+
+### Environment overrides
+
+| Variable | Default | Use |
+| --- | --- | --- |
+| `FIGCRAFT_CLI` | `figcraft-cli` on `PATH` | Full path to the CLI |
+| `FIGCRAFT_PORT` | `7979` | Live control port |
+| `FIGCRAFT_TIMEOUT` | `120` | Seconds to wait for one request |
 
 ## Saving & export
 
@@ -78,6 +103,12 @@ Use ABSOLUTE paths for `export` and `file.save`.
 | Symptom | Cause | Solution |
 | --- | --- | --- |
 | `can't reach 127.0.0.1:7979` | App is not in live mode | Open `figcraft --control 7979` |
+| `error: FigCraft live mode is not listening on 127.0.0.1:7979...` | App is not in live mode | Open the app, rerun |
+| `error: figcraft-cli not found...` | CLI not on `PATH` | Install FigCraft or set `FIGCRAFT_CLI` |
+| `error: <tool> did not answer within 120s` | App busy or frozen | Check the window, rerun, raise `FIGCRAFT_TIMEOUT` |
+| `unknown argument \`fill\`` | Paint/layout passed top-level | Pass them in `props`; `box()`/`txt()` do this |
+| Frames overlapping at `(0,0)` | Old `fclib.py` | Update `fclib.py`; `box()` places top-level frames |
+| Duplicate screens after rerun | Old `build.py` added a page per run | Update the template; it calls `new_document()`/`use_page()` |
 | FigCraft tool missing | Old OpenCode session | Close & reopen OpenCode |
 | Frame becomes auto-layout despite `layout=None` | API limitation | Use `box()` from `fclib`; it resets `layout=None` |
 | Text in a scaled group does not scale | FigCraft limitation | Build at the final size |
