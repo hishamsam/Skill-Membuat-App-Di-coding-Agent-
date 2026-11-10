@@ -1,32 +1,32 @@
 # 03 — Google Apps Script (GAS)
 
-## Ringkasan
+## Overview
 
-GAS tidak mempunyai MCP server rasmi. Pemasangan dibuat melalui pelayar
-(Google Sheets → Extensions → Apps Script) atau CLI `clasp`.
+GAS has no official MCP server. Installation is done through the browser
+(Google Sheets → Extensions → Apps Script) or the `clasp` CLI.
 
-| Perkara | Nilai |
+| Item | Value |
 | --- | --- |
-| Pangkalan data | Google Sheets |
+| Database | Google Sheets |
 | Backend | `Code.gs` (Web App / JSON API) |
-| Frontend | `index.html` (Vercel atau Web App) |
-| Ujian tempatan | Mod pratonton (`IS_PREVIEW = true`) |
-| MCP | Tiada |
+| Frontend | `index.html` (Vercel or Web App) |
+| Local testing | Preview mode (`IS_PREVIEW = true`) |
+| MCP | None |
 
-## Pemasangan
+## Installation
 
-1. Buka [sheets.new](https://sheets.new).
+1. Open [sheets.new](https://sheets.new).
 2. **Extensions → Apps Script**.
-3. Tampal `Code.gs`, jalankan `setupDatabase()`.
+3. Paste `Code.gs`, run `setupDatabase()`.
 4. **Project Settings → Script Properties**:
-   - `TOKEN_SECRET` (teks rawak panjang)
-   - `SPREADSHEET_ID` (jika standalone)
+   - `TOKEN_SECRET` (long random text)
+   - `SPREADSHEET_ID` (if standalone)
 5. **Deploy → New deployment → Web app**:
    - Execute as: **Me**
    - Who has access: **Anyone**
-6. Salin URL berakhir `/exec`.
+6. Copy the URL ending in `/exec`.
 
-## Pilihan CLI (clasp)
+## CLI option (clasp)
 
 ```bash
 npx @google/clasp login
@@ -34,34 +34,34 @@ npx @google/clasp clone <scriptId>
 npx @google/clasp push
 ```
 
-`clasp` bukan MCP; ia hanya muat naik fail.
+`clasp` is not MCP; it only uploads files.
 
-## Ujian tempatan
+## Local testing
 
-GAS tidak berjalan di tempatan. Uji dua lapisan:
+GAS does not run locally. Test two layers:
 
-1. **Frontend mod pratonton**
+1. **Frontend in preview mode**
    ```bash
    cd projek/<slug>/app && python3 -m http.server 4173
    ```
-   Set `IS_PREVIEW = true`, data demo mesti lengkap.
+   Set `IS_PREVIEW = true`; the demo data must be complete.
 
-2. **Backend sebenar**
+2. **Real backend**
    ```bash
    curl -L -X POST "<GAS_URL>" \
      -H "Content-Type: text/plain;charset=utf-8" \
      -d '{"action":"ping","data":{}}'
    ```
 
-## Rahsia
+## Secrets
 
-- Jangan hardcode `TOKEN_SECRET`, `SPREADSHEET_ID`, atau URL dalam kod.
-- Guna `PropertiesService.getScriptProperties().getProperties()` sekali.
-- Frontend tidak menyimpan rahsia; hanya URL Web App.
+- Do not hardcode `TOKEN_SECRET`, `SPREADSHEET_ID`, or the URL in the code.
+- Use `PropertiesService.getScriptProperties().getProperties()` once.
+- The frontend stores no secrets; only the Web App URL.
 
-## Had yang perlu dicatat dalam PRD
+## Limits to note in the PRD
 
-- Kuota harian GAS (panggilan, masa jalan, e-mel).
-- Google Sheets bukan pangkalan data transaksi; had baris dan kunci.
-- Masa jalan 6 minit setiap pelaksanaan.
-- Tidak sesuai untuk trafik tinggi atau data besar.
+- GAS daily quotas (calls, runtime, email).
+- Google Sheets is not a transactional database; row and lock limits.
+- 6-minute runtime per execution.
+- Not suitable for high traffic or large data.

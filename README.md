@@ -1,142 +1,215 @@
-# WebApp Builder — PRD → FigCraft → Kod → Ujian → Serahan
+# WebApp Builder — PRD → FigCraft → Code → Test → Handoff
 
-Satu aliran kerja untuk membina aplikasi daripada idea kasar:
+One workflow for building an application from a rough idea:
 
 ```text
-Idea + imej rujukan
-   ↓  Fasa 1  TEMPLATE_PRD_MS.md
+Idea + reference images
+   ↓  Phase 1  TEMPLATE_PRD_MS.md
 PRD (Single Source of Truth)
-   ↓  Fasa 2  FigCraft live MCP
-Reka bentuk + eksport PNG
-   ↓  Fasa 3  kod responsif
-Aplikasi
-   ↓  Fasa 4  ujian tempatan
-   ↓  Fasa 5  HANDOFF + deploy
-Siap
+   ↓  Phase 2  FigCraft live MCP
+Design + PNG export
+   ↓  Phase 3  responsive code
+Application
+   ↓  Phase 4  local test
+   ↓  Phase 5  HANDOFF + deploy
+Done
 ```
 
-Backend boleh GAS, Supabase, Cloudflare Worker, Firebase, Neon, Next.js,
-Node/Express, Laravel, atau FastAPI/Django.
-Frontend kekal satu aplikasi responsif 360px–1920px.
+The backend can be GAS, Supabase, Cloudflare Worker, Firebase, Neon, Next.js,
+Node/Express, Laravel, FastAPI/Django, or Flutter (Web + Android/iOS).
+The frontend stays one responsive app from 360px to 1920px.
 
-**Panduan penggunaan penuh: [`PANDUAN.html`](PANDUAN.html) (HTML) · [`PANDUAN.md`](PANDUAN.md) (Markdown). English + Bahasa Melayu.**
+**Full usage guide: [`PANDUAN.html`](PANDUAN.html) (HTML) · [`PANDUAN.md`](PANDUAN.md) (Markdown).**
 
 ---
 
-## Cara guna — 3 langkah
+## How to use — 3 steps
 
-### 1. Clone repo
+### 1. Download the repo
 
 ```bash
 git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
 cd Skill-Membuat-App-Di-coding-Agent-
 ```
 
-Tiada git? Muat turun ZIP:
+No git? Use the GitHub CLI or the ZIP:
 
 ```bash
+gh repo clone hishamsam/Skill-Membuat-App-Di-coding-Agent-
+
 curl -L -o skill.zip https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
 unzip skill.zip
 cd Skill-Membuat-App-Di-coding-Agent--main
 ```
 
-### 2. Buka AI agent dalam folder itu
+Windows PowerShell, no unzip needed:
 
-Mana-mana agent: opencode, Claude Code, Codex, Cursor, Gemini CLI.
-Agent baca fail arahan repo secara automatik (`AGENTS.md`, `CLAUDE.md`).
-
-Jika agent tidak baca automatik, taip sekali:
-
-```text
-Baca AGENTS.md dan ikut sepenuhnya.
+```powershell
+Invoke-WebRequest -Uri https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip -OutFile skill.zip
+Expand-Archive -Path skill.zip -DestinationPath .
+Set-Location Skill-Membuat-App-Di-coding-Agent--main
 ```
 
-### 3. Taip `mula`
+### 2. Open an AI agent in that folder
+
+Any agent: opencode, Claude Code, Codex, Cursor, Gemini CLI.
+The agent reads the repo instruction files automatically (`AGENTS.md`,
+`CLAUDE.md`, `GEMINI.md`, `.cursor/rules/mula.mdc`).
+
+If the agent does not read them automatically, type this once:
+
+```text
+Read AGENTS.md and follow it completely.
+```
+
+### 3. Type `mula` or `start`
 
 ```text
 mula
 ```
 
-Atau terus dengan idea:
+Or go straight to the idea:
 
 ```text
-mula bina sistem tempahan kenderaan pejabat
+mula build an office vehicle booking system
 ```
 
-Agent akan tanya soalan satu-satu sehingga projek siap:
+The agent then asks one question at a time until the project is finished:
 
 ```text
-Soalan → PRD → kelulusan → reka bentuk → kod → ujian → serahan
+Question → PRD → approval → design → code → test → handoff
 ```
 
-Agent berhenti sebelum deploy dan minta kebenaran.
+The agent stops before deploy and asks for permission.
 
 ---
 
-## Cara jawab soalan
+## What `mula` does
 
-| Anda taip | Agent buat |
+| Step | Action |
 | --- | --- |
-| `A` / `B` / `C` | Ambil pilihan itu, tanya soalan seterusnya |
-| `B, sebab dalam Google Workspace` | Pilihan + nota masuk PRD |
-| `D: pelajar, guru, pentadbir` | Guna senarai anda |
-| `A1:A, A2:C, A4:B` | Jawab banyak soalan sekali gus |
-| `ikut cadangan` | Pilih nilai munasabah, tanda `[ANDAIAN]` |
-| Jawapan terperinci | `Tempahan perlu kelulusan penyelia; simpan 5 tahun` | PRD lebih tepat, kurang andaian |
-| `PRD OK` | Lulus PRD, terus ke reka bentuk dan kod |
+| 1 | Scans the machine (`bash skrip/preflight.sh --install --json`, or `skrip/preflight.ps1` on Windows) |
+| 2 | Installs the missing tools it can install unattended; never prompts for a password |
+| 3 | Reports every tool with status, version, action, and hint |
+| 4 | Continues to the PRD interview — no tooling is needed for Phase 1 |
+| 5 | After the A6 stack answer, reruns with `--stack <CODE>` for the stack tools |
+| 6 | Asks for one agent-session restart when a tool was installed but `PATH` is stale |
 
-Jawab satu soalan satu mesej. Agent tidak akan gabung soalan, dan akan tanya
-susulan jika jawapan kabur. Temubual penuh menghasilkan sistem yang lebih baik.
+Installable automatically: git, curl, unzip, node, npm, python3, java, psql,
+php, composer (apt, dnf, pacman, zypper, apk, Homebrew, or winget).
+Reported but manual: FigCraft + `figcraft-cli`, Docker, Flutter.
+Details: [`aliran-kerja/00-mula.md`](aliran-kerja/00-mula.md).
 
-Mod `auto` tidak melangkau temubual. Ia hanya membuang gerbang kelulusan
-antara fasa selepas PRD siap:
+---
+
+## How to answer questions
+
+| You type | The agent does |
+| --- | --- |
+| `A` / `B` / `C` | Takes that option, asks the next question |
+| `B, reason is Google Workspace` | Option plus a note that goes into the PRD |
+| `D: students, teachers, admins` | Uses your list |
+| `A1:A, A2:C, A4:B` | Answers several questions at once |
+| `follow your recommendation` | Picks reasonable values, marks `[ASSUMPTION]` |
+| A detailed answer (e.g. "Bookings need supervisor approval; keep 5 years") | More precise PRD, fewer assumptions |
+| `PRD OK` | Approves the PRD, continues to design and code |
+
+Answer one question per message. The agent never merges questions, and it asks
+follow-ups when an answer is vague. A full interview produces a better system.
+
+`auto` mode does not skip the interview. It only removes the approval gates
+between phases after the PRD is complete:
 
 ```text
-auto bina sistem tempahan kenderaan, rujukan projek/booking/refs/dashboard.png
+auto build a vehicle booking system, reference projek/booking/refs/dashboard.png
 ```
 
-Prompt penuh: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
+Full prompt: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
 
 ---
 
-## Perintah manual (pilihan)
+## Manual commands (optional)
 
-Agent buat semua ini sendiri. Guna hanya jika mahu kawal langkah.
+The agent does all of this itself. Use these only if you want to control a step.
 
-| Perintah | Fungsi |
+| Command | Purpose |
 | --- | --- |
-| `bash skrip/check-setup.sh` | Semak alat dan MCP |
-| `bash skrip/new-project.sh <slug> A` | Cipta folder projek (A–J) |
-| `bash skrip/qa-check.sh <slug>` | Semak kualiti kod |
-| `bash skrip/test-local.sh <slug> --check` | Uji app tempatan |
-| `bash skrip/setup-dokploy.sh` | Pilihan: pasang Dokploy untuk ujian local (tanya kebenaran) |
-| `bash skrip/jalankan-semua.sh <slug> A` | Semua sekali gus |
+| `bash skrip/preflight.sh [--install] [--json] [--stack A-K]` | Scan (and install) tools, FigCraft, port 7979, MCP |
+| `powershell -NoProfile -ExecutionPolicy Bypass -File skrip/preflight.ps1 -Install -Json` | Same, for native Windows |
+| `bash skrip/new-project.sh <slug> A` | Create the project folder (A–K) |
+| `bash skrip/qa-check.sh <slug>` | Check code quality |
+| `bash skrip/security-audit.sh <slug> [--deps]` | Static security gate before handoff |
+| `bash skrip/test-local.sh <slug> --check [--path /route]` | Test the app, per module route |
+| `bash skrip/git-save.sh <slug> "<message>"` | Commit the project's local git repository |
+| `bash skrip/setup-dokploy.sh` | Optional: install Dokploy for local testing (asks permission) |
+| `bash skrip/jalankan-semua.sh <slug> A` | Everything at once |
 
-Rujukan penuh: [`PANDUAN.html`](PANDUAN.html).
+Full reference: [`PANDUAN.html`](PANDUAN.html).
 
 ---
 
-## Struktur repo
+## Module loop: test and commit every module
+
+Build one module at a time — one screen plus its handler, endpoint, and data.
+For each module, in this order:
+
+```bash
+# 2. test it (repeat --path per module route)
+bash skrip/test-local.sh <slug> --check --path / --path /orders
+
+# 3. commit it to the project's own repository
+bash skrip/git-save.sh <slug> "feat(module-3): orders list + tests"
+```
+
+A module is finished only when its test passes and the commit exists. The real
+output and the commit id go into the `STATUS.md` Modules table.
+
+Each project gets its own git repository at `projek/<slug>/.git`, created by
+`new-project.sh`. The skill repo ignores `projek/*`, so project history never
+mixes with skill history, and every change is traceable to a module, a fix, or an
+audit finding.
+
+## Security gate (Phase 4.5)
+
+Before handoff, the project must pass the gate in
+[`aliran-kerja/06-security-audit.md`](aliran-kerja/06-security-audit.md):
+
+```bash
+bash skrip/security-audit.sh <slug>    # static rules: secrets, injection, RLS, CORS, cookies, authz, CSRF, uploads
+```
+
+- `FAIL` blocks handoff: fix it and rerun.
+- `WARN` is a candidate: confirm or reject it with a source trace.
+- Then write `security/THREAT-MODEL.md`, hunt by attack class (OWASP WSTG/ASVS),
+  record `confirmed` / `needs_validation` / `rejected` findings with CVSS severity,
+  and write `security/REPORT.md`.
+- Never test production, third parties, or real personal data.
+
+## Repository layout
 
 ```text
 GAS Skill/
-├── AGENTS.md                 # arahan mula untuk AI agent
-├── CLAUDE.md                 # alias untuk Claude Code
-├── GEMINI.md                 # alias untuk Gemini CLI
-├── SKILL.md                  # skill utama (arahan agent)
-├── TEMPLATE_PRD_MS.md        # penjana PRD: temubual + templat
-├── figcraft-fast-SKILL.md    # cara tulis FigCraft laju
-├── README.md                 # fail ini
-├── PANDUAN.md                # panduan lengkap EN + MS
-├── PANDUAN.html              # versi HTML, carian + tukar bahasa
+├── AGENTS.md                 # start instructions for the AI agent
+├── CLAUDE.md                 # alias for Claude Code
+├── GEMINI.md                 # alias for Gemini CLI
+├── .cursor/rules/mula.mdc    # alias for Cursor
+├── SKILL.md                  # main skill (agent instructions)
+├── TEMPLATE_PRD_MS.md        # PRD generator: interview + template
+├── figcraft-fast-SKILL.md    # how to script FigCraft fast
+├── README.md                 # this file
+├── LICENSE                   # MIT
+├── PANDUAN.md                # complete usage guide
+├── PANDUAN.html              # HTML version with search
 ├── aliran-kerja/
+│   ├── 00-mula.md            # Phase 0 bootstrap (mula / start)
 │   ├── 00-auto.md
 │   ├── 01-prd.md
 │   ├── 02-design-figcraft.md
 │   ├── 03-codegen.md
 │   ├── 04-local-test.md
-│   └── 05-handoff.md
-├── pemasangan/                    # pemasangan MCP (folder berasingan)
+│   ├── 05-handoff.md
+│   └── 06-security-audit.md
+├── pemasangan/                    # MCP setup (separate folder)
 │   ├── 01-opencode-mcp.md
 │   ├── 02-figcraft.md
 │   ├── 03-gas.md
@@ -149,13 +222,18 @@ GAS Skill/
 │   ├── 10-node-express.md
 │   ├── 11-laravel.md
 │   ├── 12-python.md
+│   ├── 13-flutter.md
 │   └── mcp.opencode.example.json
 ├── skrip/
-│   ├── check-setup.sh
+│   ├── tools.tsv              # one catalog for every tool
+│   ├── preflight.sh           # scan and install (Linux/macOS/Git Bash)
+│   ├── preflight.ps1          # scan and install (native Windows)
 │   ├── jalankan-semua.sh
 │   ├── new-project.sh
 │   ├── test-local.sh
 │   ├── qa-check.sh
+│   ├── security-audit.sh
+│   ├── git-save.sh
 │   ├── setup-dokploy.sh
 │   ├── build-panduan-html.py
 │   └── figcraft/fclib.py
@@ -163,164 +241,173 @@ GAS Skill/
 │   ├── HANDOFF.md
 │   ├── PROMPT-AUTO.md
 │   └── figcraft/build.py
-└── projek/                 # hasil setiap projek
+└── projek/                 # output of each project
 ```
 
-Setiap projek disimpan dalam folder sendiri:
+Each project is stored in its own folder:
 
 ```text
 projek/<slug>/
 ├── STATUS.md
+├── STACK                     # A–K
 ├── prd/PRD-v0.1.md
-├── refs/                     # gambar rujukan
+├── refs/                     # reference images
 ├── design/
 │   ├── DESIGN-DNA.md
 │   ├── build.py
 │   ├── design.figcraft
 │   └── exports/*.png
-├── app/                      # kod aplikasi
+├── app/                      # application code
+├── security/                 # THREAT-MODEL.md, REPORT.md, findings.json, evidence/
+├── tests/                    # test scripts/lists
+├── .git/                     # local history: one commit per module
 └── HANDOFF.md
 ```
 
 ---
 
-## Mod auto (one-shot)
+## Auto mode (one-shot)
 
-Beri idea sekali, agent jalankan Fasa 1–4 tanpa gerbang kelulusan antara
-fasa. Temubual PRD tetap penuh dan terperinci.
+Give the idea once, and the agent runs Phases 1–4 without approval gates
+between phases. The PRD interview stays full and detailed.
 
-Cetus dengan frasa: `auto`, `auto penuh`, `buat semua`, `siapkan terus`,
-`one-shot`.
+Trigger phrases: `auto`, `full auto`, `do everything`, `finish it right away`,
+`one-shot`. The equivalent Malay phrases work too.
 
 ```text
-Bina sistem tempahan kenderaan pejabat dalam mod auto penuh.
-Rujukan: projek/booking/refs/dashboard.png
-Kod responsif 360-1920px. Jalankan qa-check dan test-local --check.
-Berhenti sebelum deploy.
+Build an office vehicle booking system in full auto mode.
+Reference: projek/booking/refs/dashboard.png
+Responsive code 360-1920px. Run qa-check and test-local --check.
+Stop before deploy.
 ```
 
-Prompt penuh: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
-Protokol: [`aliran-kerja/00-auto.md`](aliran-kerja/00-auto.md).
+Full prompt: [`templat/PROMPT-AUTO.md`](templat/PROMPT-AUTO.md).
+Protocol: [`aliran-kerja/00-auto.md`](aliran-kerja/00-auto.md).
 
-Yang agent buat sendiri:
+What the agent does by itself:
 
-| Fasa | Auto |
+| Phase | Auto |
 | --- | --- |
-| 1 PRD | Temubual penuh satu-satu, pilih stack, tanda `[ANDAIAN]` |
-| 2 FigCraft | Live edit sahaja; minta pengguna buka port 7979 jika perlu |
-| 3 Kod | Jana responsif, tiada butang mati |
-| 4 Ujian | Jalankan, betulkan maksimum 3 pusingan |
-| 5 Deploy | BERHENTI, tunggu kebenaran |
+| 1 PRD | Full one-by-one interview, choose the stack, mark `[ASSUMPTION]` |
+| 2 FigCraft | Live edit only; ask the user to open port 7979 if needed |
+| 3 Code | Generate responsive code, no dead buttons |
+| 4 Test | Run, fix up to 3 rounds |
+| 5 Deploy | STOP, wait for permission |
 
-Yang masih perlukan kebenaran berasingan: deploy production, akaun baharu,
-pembayaran, tukar DNS, padam data production.
+Still requires separate permission: production deploy, new accounts,
+payments, DNS changes, production data deletion.
 
 ---
 
-## 5 fasa
+## The 5 phases
 
-| Fasa | Panduan | Output | Gerbang |
+| Phase | Guide | Output | Gate |
 | --- | --- | --- | --- |
-| 1 PRD | `aliran-kerja/01-prd.md` | `prd/PRD-v0.1.md` | Lulus PRD |
-| 2 Reka bentuk | `aliran-kerja/02-design-figcraft.md` | `design/design.figcraft` + PNG | UI disemak |
-| 3 Kod | `aliran-kerja/03-codegen.md` | `app/` | `qa-check` lulus |
-| 4 Ujian | `aliran-kerja/04-local-test.md` | bukti ujian | semua kes lulus |
-| 5 Serahan | `aliran-kerja/05-handoff.md` | `HANDOFF.md` + deploy | smoke test |
+| 1 PRD | `aliran-kerja/01-prd.md` | `prd/PRD-v0.1.md` | PRD approved |
+| 2 Design | `aliran-kerja/02-design-figcraft.md` | `design/design.figcraft` + PNG | UI reviewed |
+| 3 Code | `aliran-kerja/03-codegen.md` | `app/` | `qa-check` passes |
+| 4 Test | `aliran-kerja/04-local-test.md` | test evidence | all cases pass |
+| 4.5 Security | `aliran-kerja/06-security-audit.md` | `security/REPORT.md` | 0 `FAIL`, no open high/critical |
+| 5 Handoff | `aliran-kerja/05-handoff.md` | `HANDOFF.md` + deploy | smoke test |
 
-### Fasa 1 — PRD
+### Phase 1 — PRD
 
-`TEMPLATE_PRD_MS.md` ada dua bahagian:
+`TEMPLATE_PRD_MS.md` has two parts:
 
-- **Bahagian A:** 10 soalan temubual, satu soalan per mesej.
-- **Bahagian B:** templat PRD 17 bab.
+- **Part A:** 10 interview questions, one question per message.
+- **Part B:** a 17-chapter PRD template.
 
-Soalan teknologi (A6) wajib sebelum PRD ditulis:
+The technology question (A6) is mandatory before the PRD is written:
 
-| Kod | Pilihan | Sesuai |
+| Code | Option | Best for |
 | --- | --- | --- |
-| A | GAS + Google Sheets | Dalaman, data kecil |
+| A | GAS + Google Sheets | Internal, small data |
 | B | Supabase | Postgres + Auth + RLS |
-| C | Cloudflare Worker | API edge + D1/KV/R2 |
+| C | Cloudflare Worker | Edge API + D1/KV/R2 |
 | D | Firebase | Firestore + Auth + realtime |
-| E | Neon | Postgres serverless |
-| F | Hibrid | Gabungan, nyatakan lapisan |
+| E | Neon | Serverless Postgres |
+| F | Hybrid | Combination, state the layers |
 | G | Next.js + Postgres | SSR + API routes, Vercel |
-| H | Node/Express + Postgres | VPS/Dokploy, kawalan penuh |
+| H | Node/Express + Postgres | VPS/Dokploy, full control |
 | I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
-| J | FastAPI/Django + Postgres | API Python, VPS/Dokploy |
+| J | FastAPI/Django + Postgres | Python API, VPS/Dokploy |
+| K | Flutter Web + Android/iOS | One Dart codebase; responsive web + mobile |
 
-Bab 12 PRD mengunci skrin, token, dan rujukan untuk FigCraft.
-Bab 13 mengunci perintah ujian dan kriteria terima.
+PRD Chapter 12 locks the screens, tokens, and references for FigCraft.
+Chapter 13 locks the test commands and acceptance criteria.
 
-### Fasa 2 — FigCraft
+### Phase 2 — FigCraft
 
-- **WAJIB live edit** (`figcraft-app`, port 7979). Jangan guna headless.
-  Jika app belum dibuka, minta pengguna jalankan `figcraft --control 7979`.
-- Untuk banyak layer: satu skrip `design/build.py`, bukan tool call satu-satu.
-- Eksport PNG dan simpan `design.figcraft` dalam folder projek.
-- Rujukan mobile ≠ kod mobile-only. Frame desktop tetap dibina.
+- **Live edit is MANDATORY** (`figcraft-app`, port 7979). Never use headless.
+  If the app is not open, ask the user to run `figcraft --control 7979`.
+- For many layers: one `design/build.py` script, not one tool call per layer.
+- Export PNGs and save `design.figcraft` in the project folder.
+- A mobile reference does not mean mobile-only code. Desktop frames are built too.
 
-### Fasa 3 — Kod
+### Phase 3 — Code
 
-- Token dari `DESIGN-DNA.md` masuk satu konfigurasi.
-- Responsif: 360–639 / 640–1023 / 1024–1439 / ≥1440.
-- Mobile: bottom nav + 1 kolum + `pb-24`.
-- Desktop: sidebar/top nav + 2–3 kolum.
-- Zero dead buttons, zero placeholder, zero rahsia di klien.
+- Tokens from `DESIGN-DNA.md` go into one configuration.
+- Responsive: 360–639 / 640–1023 / 1024–1439 / ≥1440.
+- Mobile: bottom nav + 1 column + `pb-24`.
+- Desktop: sidebar/top nav + 2–3 columns.
+- Zero dead buttons, zero placeholders, zero secrets in the client.
 
-### Fasa 4 — Ujian
+### Phase 4 — Test
 
-| Stack | Perintah |
+| Stack | Command |
 | --- | --- |
 | GAS | `IS_PREVIEW=true` + `python3 -m http.server` |
-| Supabase | projek dev (Docker tiada di mesin ini) |
+| Supabase | dev project (no Docker on this machine) |
 | Worker | `npx wrangler dev` |
 | Firebase | `npx firebase-tools emulators:start` |
-| Neon | `npx wrangler dev` + branch dev |
+| Neon | `npx wrangler dev` + dev branch |
 | Next.js | `npm run dev -- -p 4173` |
 | Node/Express | `npm run dev` / `npm start` |
 | Laravel | `php artisan serve` |
 | FastAPI/Django | `uvicorn` / `manage.py runserver` |
+| Flutter | `flutter build web` + static server (`test-local` script) |
 
 ```bash
 bash skrip/test-local.sh <slug> --check
 bash skrip/qa-check.sh <slug>
+bash skrip/security-audit.sh <slug>
 ```
 
-Pilihan: `bash skrip/setup-dokploy.sh` untuk ujian local melalui Dokploy.
-Tanya kebenaran dahulu; jika ditolak, langkau dan uji manual.
+Optional: `bash skrip/setup-dokploy.sh` for local testing through Dokploy.
+Ask permission first; if declined, skip it and test manually.
 
-### Fasa 5 — Serahan
+### Phase 5 — Handoff
 
-- Isi `HANDOFF.md`.
-- Deploy ikut stack.
-- Smoke test production.
-- Tanda `STATUS.md` selesai.
+- Fill in `HANDOFF.md`.
+- Deploy per stack.
+- Production smoke test.
+- Mark `STATUS.md` as done.
 
 ---
 
-## Setup MCP
+## MCP setup
 
-Semua arahan pemasangan dalam folder berasingan: **`pemasangan/`**.
+Every setup instruction lives in a separate folder: **`pemasangan/`**.
 
-| Dokumen | Isi |
+| Document | Content |
 | --- | --- |
-| `pemasangan/01-opencode-mcp.md` | Format `opencode.json`, daftar server |
-| `pemasangan/02-figcraft.md` | Live mode (wajib), port 7979 |
-| `pemasangan/03-gas.md` | GAS, clasp, mod pratonton |
-| `pemasangan/04-supabase.md` | MCP Supabase, projek dev, RLS |
-| `pemasangan/05-cloudflare-worker.md` | MCP Cloudflare, wrangler, D1 |
-| `pemasangan/06-firebase.md` | MCP Firebase, emulator, rules |
-| `pemasangan/07-neon.md` | MCP Neon, serverless driver |
-| `pemasangan/08-dokploy.md` | Dokploy untuk ujian local (pilihan) |
+| `pemasangan/01-opencode-mcp.md` | `opencode.json` format, registering servers |
+| `pemasangan/02-figcraft.md` | Live mode (required), port 7979 |
+| `pemasangan/03-gas.md` | GAS, clasp, preview mode |
+| `pemasangan/04-supabase.md` | Supabase MCP, dev project, RLS |
+| `pemasangan/05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 |
+| `pemasangan/06-firebase.md` | Firebase MCP, emulators, rules |
+| `pemasangan/07-neon.md` | Neon MCP, serverless driver |
+| `pemasangan/08-dokploy.md` | Dokploy for local testing (optional) |
 | `pemasangan/09-nextjs.md` | Next.js + Postgres, Vercel |
 | `pemasangan/10-node-express.md` | Node/Express + Postgres, VPS/Dokploy |
 | `pemasangan/11-laravel.md` | Laravel + MySQL, VPS/Dokploy |
 | `pemasangan/12-python.md` | FastAPI/Django + Postgres |
+| `pemasangan/13-flutter.md` | Flutter Web + Android/iOS, web testing |
 
-Config siap tampal: `pemasangan/mcp.opencode.example.json`.
+Ready-to-paste config: `pemasangan/mcp.opencode.example.json`.
 
-Semak:
+Check:
 
 ```bash
 opencode mcp list
@@ -329,59 +416,72 @@ ss -ltnp | grep 7979
 
 ---
 
-## Mod rujukan imej
+## Image reference modes
 
-| Mod | Maksud | Bila |
+| Mode | Meaning | When |
 | --- | --- | --- |
-| Structural (lalai) | Ambil struktur, density, navigasi; warna boleh ubah | Branding sendiri |
-| Pixel-faithful | Ikut grid, skala, radius hampir 1:1 | Mahu hampir sama |
-| Mood | Ambil nada/warna/material sahaja | Vibe sahaja |
+| Structural (default) | Take structure, density, navigation; colours may change | Own branding |
+| Pixel-faithful | Follow grid, scale, radius almost 1:1 | Want it almost identical |
+| Mood | Take tone/colour/material only | Vibe only |
 
-Apa diambil: sistem visual. Apa tidak: logo, trademark, ilustrasi, foto stok,
-avatar, teks berhak cipta.
-
----
-
-## Contoh prompt
-
-**Mula projek:**
-
-> Bina sistem tempahan kenderaan. Rujuk `refs/dashboard.png`. Guna
-> `TEMPLATE_PRD_MS.md`, stack Supabase. Jana PRD dahulu.
-
-**Pindaan PRD:**
-
-> Tambah peranan "Penyelia" dan medan `no_plat`. Jana semula PRD.
-
-**Lulus:**
-
-> PRD OK. Teruskan Fasa 2 FigCraft.
-
-**Semak UI:**
-
-> Skrin S-02 desktop terlalu padat. Kurangkan kad, kekalkan jadual.
-> Eksport semula.
-
-**Kod:**
-
-> UI lulus. Teruskan Fasa 3. Pastikan responsif 360–1920 dan tiada butang mati.
-
-**Ujian:**
-
-> Jalankan `qa-check.sh` dan `test-local.sh --check`, tunjuk keputusan.
+What is taken: the visual system. What is not: logos, trademarks, illustrations,
+stock photos, avatars, copyrighted text.
 
 ---
 
-## Standard ringkas
+## Example prompts
 
-| Perkara | Standard |
+**Start a project:**
+
+> `mula` Build a vehicle booking system. Reference `refs/dashboard.png`. Use
+> `TEMPLATE_PRD_MS.md`, stack Supabase. Generate the PRD first.
+
+**Start with the short trigger:**
+
+> `start`
+
+**Amend the PRD:**
+
+> Add a "Supervisor" role and a `plate_no` field. Regenerate the PRD.
+
+**Approve:**
+
+> PRD OK. Continue to Phase 2 FigCraft.
+
+**Review the UI:**
+
+> Screen S-02 desktop is too dense. Remove cards, keep the table.
+> Export again.
+
+**Code:**
+
+> UI approved. Continue to Phase 3. Make sure it is responsive 360–1920 and has
+> no dead buttons.
+
+**Test:**
+
+> Run `qa-check.sh` and `test-local.sh --check`, show the results.
+
+---
+
+## Brief standards
+
+| Item | Standard |
 | --- | --- |
-| PRD | Satu sumber kebenaran; tiada kod sebelum lulus |
-| Responsif | 360px–1920px; tiada scroll mendatar |
-| Navigasi | Bottom nav mobile; sidebar/top nav desktop |
-| Butang | Semua hidup, `data-action` + handler |
-| Keadaan UI | default, loading, empty, error |
-| Tema | Light mode sahaja |
-| Ikon | Satu pustaka (Lucide) |
-| Keselamatan | Auth/izin di server; tiada rahsia di klien |
-| Ujian | `qa-check` + `test-local` sebelum serah |
+| PRD | Single source of truth; no code before approval |
+| Responsive | 360px–1920px; no horizontal scroll |
+| Navigation | Bottom nav on mobile; sidebar/top nav on desktop |
+| Buttons | All live, `data-action` + handler |
+| UI states | default, loading, empty, error |
+| Theme | Light mode only |
+| Icons | One library (Lucide) |
+| Security | Auth/permissions on the server; no secrets in the client |
+| Test | `qa-check` + `test-local --check` per module before handoff |
+| History | One local git commit per module, fix, or audit finding |
+| Security | `security-audit.sh` 0 `FAIL`, no open high/critical finding |
+
+---
+
+## License
+
+MIT — see [`LICENSE`](LICENSE).

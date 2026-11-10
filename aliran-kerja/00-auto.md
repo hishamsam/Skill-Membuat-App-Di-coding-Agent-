@@ -1,165 +1,198 @@
-# Fasa 0 — Mod Auto (One-Shot)
+# Phase 0 — Auto Mode (One-Shot)
 
-Mod auto membenarkan pengguna beri idea sekali, kemudian agent jalankan
-Fasa 1–4 tanpa gerbang kelulusan antara fasa. Workflow tidak berubah.
-Temubual PRD tetap WAJIB dan mesti terperinci; mod auto hanya membuang
-gerbang kelulusan selepas PRD.
+Auto mode lets the user give the idea once, then the agent runs
+Phases 1–4 without approval gates between phases. The workflow does not change.
+The PRD interview stays MANDATORY and must be detailed; auto mode only removes
+the approval gates after the PRD.
 
-## Cetus
+## Trigger
 
-Frasa yang membolehkan mod auto:
+`mula` / `start` starts the workflow. The phrases that enable auto mode:
 
 ```text
 auto
-auto penuh
-buat semua
-siapkan terus
+full auto
+do everything
+finish it right away
 one-shot
 ```
 
-Jika mesej pertama mengandungi frasa ini, agent mengesahkan dalam SATU baris:
+Phase 0 preflight runs once before the interview; auto mode never skips it.
 
-> "Mod auto: temubual penuh, Fasa 1–4, berhenti sebelum deploy. Andaian akan direkod."
+The agent also accepts the equivalent Malay phrases for these triggers.
 
-Kemudian mulakan temubual PRD: satu soalan setiap mesej. Selepas jawapan
-lengkap, terus bekerja tanpa gerbang kelulusan antara fasa.
+If the first message contains these phrases, the agent confirms in ONE line:
 
-## Prinsip
+> "Auto mode: full interview, Phases 1–4, stop before deploy. Assumptions will be recorded."
 
-1. **Idea = titik mula temubual.** Agent mesti tanya soalan terperinci satu
-   demi satu sebelum menulis PRD.
-2. **Temubual wajib.** Tiada langkauan walaupun pengguna menulis `auto`.
-   Butiran tepat menghasilkan sistem yang lebih baik.
-3. **Workflow sama.** PRD → FigCraft → kod → ujian. Tiada fasa dilangkau.
-4. **Andaian mesti kelihatan.** Setiap lompang ditanda `[ANDAIAN]` dalam PRD
-   Bab 5 dan disenaraikan dalam ringkasan akhir.
-5. **Berhenti sebelum tindakan tidak boleh pulang.** Deploy production,
-   pembayaran, DNS, padam data, dan kredensial production perlukan
-   kebenaran berasingan.
-6. **Bukti, bukan dakwaan.** Jangan lapor siap tanpa output `qa-check` dan
-   `test-local`.
-7. **Blocker dihadkan.** Jika sesuatu gagal, cuba betulkan maksimum 3 kali,
-   kemudian berhenti dan lapor blocker sebenar.
+Then start the PRD interview: one question per message. After the answers are
+complete, keep working without approval gates between phases.
 
-## Langkah auto
+## Principles
 
-### 1. Cipta projek
+1. **Idea = interview starting point.** The agent must ask detailed questions
+   one by one before writing the PRD.
+2. **Interview is mandatory.** No skipping even if the user writes `auto`.
+   Exact details produce a better system.
+3. **Same workflow.** PRD → FigCraft → code → test. No phase is skipped.
+4. **Assumptions must be visible.** Every gap is marked `[ASSUMPTION]` in PRD
+   Chapter 5 and listed in the final summary.
+5. **Stop before irreversible actions.** Production deploy,
+   payments, DNS, data deletion, and production credentials need
+   separate permission.
+6. **Evidence, not claims.** Never report done without `qa-check` and
+   `test-local` output.
+7. **Blockers are capped.** If something fails, try to fix it at most 3 times,
+   then stop and report the real blocker.
+
+## Auto steps
+
+### 1. Create the project
 
 ```bash
-bash skrip/new-project.sh <slug> [A-J]
+bash skrip/new-project.sh <slug> [A-K]
 ```
 
-Slug dijana daripada idea. Jika stack tidak dinyatakan, pilih menggunakan
-jadual di bawah dan rekod sebabnya.
+The slug is generated from the idea. If the stack is not stated, choose using
+the table below and record the reason.
 
-### 2. Pilih stack
+### 2. Choose the stack
 
-| Isyarat daripada idea | Stack |
+| Signal from the idea | Stack |
 | --- | --- |
-| Alat dalaman, Google Workspace, data kecil, tiada auth kompleks | A GAS |
-| Perlu auth + Postgres + RLS + Storage + realtime | B Supabase |
-| API edge, trafik global, D1/KV/R2, static assets | C Worker |
-| Realtime sync, auth pantas, hosting mudah | D Firebase |
-| Postgres serverless, branching, API berasingan | E Neon |
-| Dua keperluan jelas daripada senarai di atas | F Hibrid |
-| SSR, SEO, UI + API dalam satu projek Next.js | G Next.js |
-| API Node tersuai, deploy VPS/Dokploy | H Node/Express |
+| Internal tool, Google Workspace, small data, no complex auth | A GAS |
+| Needs auth + Postgres + RLS + Storage + realtime | B Supabase |
+| Edge API, global traffic, D1/KV/R2, static assets | C Worker |
+| Realtime sync, fast auth, simple hosting | D Firebase |
+| Serverless Postgres, branching, separate API | E Neon |
+| Two clear requirements from the list above | F Hybrid |
+| SSR, SEO, UI + API in one Next.js project | G Next.js |
+| Custom Node API, VPS/Dokploy deploy | H Node/Express |
 | PHP, admin panel, MySQL, VPS/Dokploy | I Laravel |
-| API Python, admin Django atau FastAPI | J FastAPI/Django |
+| Python API, Django or FastAPI admin | J FastAPI/Django |
+| One Flutter codebase for responsive web and Android/iOS | K Flutter |
 
-Jika dua pilihan hampir sama, pilih yang paling sedikit servis untuk dijaga.
-Rekod pilihan dan alternatif ditolak dalam PRD Bab 6.
+If two choices are nearly equal, pick the one with the fewest services to
+maintain. Record the choice and the rejected alternatives in PRD Chapter 6.
 
-### 3. PRD auto
+### 3. Auto PRD
 
-- Jalankan Bahagian A `TEMPLATE_PRD_MS.md`: satu soalan setiap mesej,
-  termasuk soalan susulan A8. Jangan gabung atau langkau soalan.
-- Gali jawapan kabur dengan soalan susulan sebelum pindah.
-- Jawab A1–A10 berdasarkan jawapan sebenar pengguna, bukan nilai lalai.
-- Tanda `[ANDAIAN]` hanya untuk perkara yang pengguna sengaja serahkan.
-- Perkara yang benar-benar tidak boleh diputuskan masuk Bab 16 (TBD).
-- Simpan `prd/PRD-v0.1.md`.
-- Selepas jawapan lengkap, jana PRD dan teruskan Fasa 2–4 tanpa berhenti.
-- Tetap papar ringkasan PRD dan senarai andaian dalam laporan akhir.
+- Run Part A of `TEMPLATE_PRD_MS.md`: one question per message,
+  including the A8 follow-up questions. Do not merge or skip questions.
+- Dig into vague answers with follow-up questions before moving on.
+- Answer A1–A10 based on the user's real answers, not default values.
+- Mark `[ASSUMPTION]` only for things the user deliberately leaves to you.
+- Things that truly cannot be decided go into Chapter 16 (TBD).
+- Save `prd/PRD-v0.1.md`.
+- After the answers are complete, generate the PRD and continue Phases 2–4 without stopping.
+- Still show the PRD summary and the assumption list in the final report.
 
-### 4. FigCraft auto
+### 4. Auto FigCraft
 
-- FigCraft WAJIB guna mod **live edit**: `figcraft-app` / `figcraft-cli mcp
+- FigCraft MUST use **live edit** mode: `figcraft-app` / `figcraft-cli mcp
   --attach 7979`.
-- Jika port 7979 tidak aktif, berhenti dan minta pengguna buka
-  `figcraft --control 7979`. Jangan guna headless sebagai ganti.
-- Baca PRD Bab 12 dan imej dalam `refs/` sendiri.
-- Bina semua skrin dengan satu skrip.
-- Eksport PNG dan semak imej. Betulkan sehingga tiada teks bertindih atau
-  terpotong.
-- Simpan `design/design.figcraft`.
+- If port 7979 is not active, stop and ask the user to open
+  `figcraft --control 7979`. Do not use headless as a substitute.
+- Read PRD Chapter 12 and the images in `refs/` yourself.
+- Build all screens with one script.
+- Export PNG and check the images. Fix until no text overlaps or
+  is cut off.
+- Save `design/design.figcraft`.
 
-### 5. Kod auto
+### 5. Auto code
 
-- Ikut `aliran-kerja/03-codegen.md`.
-- Responsif 360–1920px, walaupun rujukan mobile.
-- Tiada butang mati, tiada placeholder, tiada rahsia dalam frontend.
-- Semua skrin ada loading, empty, error.
+- Follow `aliran-kerja/03-codegen.md`.
+- Responsive 360–1920px, even if the reference is mobile.
+- No dead buttons, no placeholders, no secrets in the frontend.
+- Every screen has loading, empty, error.
+- One module at a time: build it, test it, commit it, record it in the
+  `STATUS.md` Modules table.
 
-### 6. Ujian auto
+```bash
+bash skrip/test-local.sh <slug> --check --path /<module-route>
+bash skrip/git-save.sh <slug> "feat(module-<n>): <name> + tests"
+```
+
+- A module is finished only when its test passes and the commit exists.
+- `projek/<slug>/.git` is the project's own repository; never commit `.env`,
+  `.dev.vars`, keys, or personal data.
+
+### 6. Auto test
 
 ```bash
 bash skrip/qa-check.sh <slug>
+bash skrip/security-audit.sh <slug>
 bash skrip/test-local.sh <slug> --check
 ```
 
-- `qa-check` mesti 0 gagal.
-- `test-local --check` mesti HTTP 200.
-- Semak responsif pada 390 / 768 / 1024 / 1440 jika ada pelayar.
-- Jika gagal: betulkan punca, ulang. Maksimum 3 pusingan.
-- Jika masih gagal: simpan kerja, tulis blocker, berhenti.
+- `qa-check` must show 0 failures.
+- `security-audit` must show 0 `FAIL`; every `WARN` needs a recorded decision.
+- `test-local --check` must return HTTP 200 for every module route.
+- Check responsiveness at 390 / 768 / 1024 / 1440 if a browser is available.
+- If it fails: fix the cause, repeat. At most 3 rounds.
+- If it still fails: save the work, write the blocker, stop.
 
-### 7. Laporan akhir
+### 6b. Auto security gate
 
-Sebelum berhenti, laporkan:
+Follow `aliran-kerja/06-security-audit.md` — Phase 4.5 never runs in the
+background:
 
-| Perkara | Isi |
+- Write `security/THREAT-MODEL.md`, then hunt the attack classes that apply.
+- Record `confirmed` / `needs_validation` / `rejected` findings in
+  `security/findings.json` with CVSS severity, and write `security/REPORT.md`.
+- Fix at the last trusted decision point, add a regression test, and commit with
+  `bash skrip/git-save.sh <slug> "fix(security): ..."`.
+- Never test production, shared services, third parties, or real personal data.
+- Auto mode does not lower this bar; it only removes per-phase approval gates.
+
+### 7. Final report
+
+Before stopping, report:
+
+| Item | Content |
 | --- | --- |
-| Slug & stack | `projek/<slug>`, kod stack |
-| PRD | pautan fail + 3 andaian utama |
-| Reka bentuk | pautan `.figcraft` + bilangan PNG |
-| Kod | senarai fail utama |
-| Ujian | output ringkas `qa-check` + `test-local` |
-| Blocker | apa yang menghalang, langkah seterusnya |
-| Belum dibuat | deploy, akaun, domain |
+| Slug & stack | `projek/<slug>`, stack code |
+| PRD | file link + 3 main assumptions |
+| Design | `.figcraft` link + PNG count |
+| Code | list of main files |
+| Modules | module, route, test evidence, commit id |
+| Test | brief `qa-check` + `security-audit` + `test-local` output |
+| Security | findings fixed, remaining `WARN` decisions, `security/REPORT.md` |
+| Blocker | what is blocking, next step |
+| Not done | deploy, accounts, domain |
 
-## Had mod auto
+## Limits of auto mode
 
-Yang TIDAK boleh dilakukan tanpa input pengguna:
+What CANNOT be done without user input:
 
-- Cipta akaun Google / Supabase / Cloudflare / Firebase / Neon.
-- Log masuk CLI yang memerlukan pelayar.
-- Masukkan kad pembayaran atau naik taraf pelan.
-- Deploy production ke akaun pengguna.
-- Tukar DNS atau domain.
-- Padam data production.
-- Meneka kredensial atau URL sebenar.
-- Menjalankan ujian interaksi manusia sepenuhnya tanpa alat pelayar.
+- Create Google / Supabase / Cloudflare / Firebase / Neon accounts.
+- Log in to CLIs that require a browser.
+- Enter payment cards or upgrade plans.
+- Deploy production to the user's account.
+- Change DNS or the domain.
+- Delete production data.
+- Guess real credentials or URLs.
+- Run fully human-interaction tests without a browser tool.
 
-Jika salah satu diperlukan, berhenti dan tanya SATU soalan yang
-menggabungkan semua keperluan, bukan satu soalan berulang.
+If one of these is needed, stop and ask ONE question that
+combines all the requirements, not one repeated question.
 
-## Mod `auto deploy`
+## `auto deploy` mode
 
-Hanya jika pengguna menulis `auto deploy` DAN kredensial sudah wujud:
+Only if the user writes `auto deploy` AND the credentials already exist:
 
-1. Jalankan Fasa 5.
-2. Deploy staging dahulu jika ada.
+1. Run Phase 5.
+2. Deploy staging first if one exists.
 3. Smoke test production.
-4. Jangan cipta sumber berbayar baru tanpa kebenaran.
-5. Jika login diperlukan, berhenti dan minta pengguna log masuk.
+4. Do not create new paid resources without permission.
+5. If login is needed, stop and ask the user to log in.
 
-## Ringkasan gerbang
+## Gate summary
 
-| Fasa | Mod manual | Mod auto |
+| Phase | Manual mode | Auto mode |
 | --- | --- | --- |
-| PRD | Temubual penuh, tunjuk, tunggu lulus | Temubual penuh, jana, teruskan selepas jawapan lengkap |
-| FigCraft | Tunjuk, tunggu semakan | Bina, semak PNG sendiri, teruskan |
-| Kod | Tunggu arahan | Teruskan |
-| Ujian | Jalankan, lapor | Jalankan, betulkan, lapor |
-| Deploy | Tunggu arahan | Berhenti sebelum deploy |
+| PRD | Full interview, show, wait for pass | Full interview, generate, continue after complete answers |
+| FigCraft | Show, wait for review | Build, check PNG yourself, continue |
+| Code | Wait for instructions | Continue |
+| Test | Run, report | Run, fix, report |
+| Deploy | Wait for instructions | Stop before deploy |

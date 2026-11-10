@@ -2,12 +2,12 @@
 
 ## MCP
 
-Cloudflare menyediakan beberapa server remote. Yang berguna di sini:
+Cloudflare provides several remote servers. The useful ones here:
 
-| Server | URL | Fungsi |
+| Server | URL | Function |
 | --- | --- | --- |
-| Docs | `https://docs.mcp.cloudflare.com/mcp` | Cari dokumentasi Workers |
-| Observability | `https://observability.mcp.cloudflare.com/mcp` | Log, exception, debug production |
+| Docs | `https://docs.mcp.cloudflare.com/mcp` | Search Workers documentation |
+| Observability | `https://observability.mcp.cloudflare.com/mcp` | Logs, exceptions, production debugging |
 
 ```bash
 opencode mcp add cloudflare-docs --global \
@@ -17,19 +17,19 @@ opencode mcp add cloudflare-observability --global \
   --url "https://observability.mcp.cloudflare.com/mcp"
 ```
 
-Jika server meminta auth, jalankan `opencode mcp auth <nama>` atau daftar
-semula dengan header token Cloudflare.
+If a server asks for auth, run `opencode mcp auth <name>` or register it again
+with a Cloudflare token header.
 
-## Pemasangan
+## Installation
 
 ```bash
 npx wrangler login
 npx wrangler --version
 ```
 
-Tiada pemasangan global diperlukan; `npx wrangler` mencukupi.
+No global installation is required; `npx wrangler` is enough.
 
-## Struktur projek
+## Project structure
 
 ```text
 projek/<slug>/app/
@@ -37,10 +37,10 @@ projek/<slug>/app/
 ├── src/index.js       # fetch handler / API
 ├── migrations/0001_init.sql
 ├── wrangler.jsonc
-└── .dev.vars          # rahsia tempatan, jangan commit
+└── .dev.vars          # local secrets, do not commit
 ```
 
-`wrangler.jsonc` asas:
+Basic `wrangler.jsonc`:
 
 ```jsonc
 {
@@ -63,16 +63,16 @@ projek/<slug>/app/
 }
 ```
 
-## Ujian tempatan
+## Local testing
 
 ```bash
 cd projek/<slug>/app
 npx wrangler dev          # http://localhost:8787
 ```
 
-- D1 tempatan disimpan dalam `.wrangler/state`.
-- Rahsia tempatan dalam `.dev.vars`.
-- Jalankan migrasi:
+- The local D1 database is stored in `.wrangler/state`.
+- Local secrets are in `.dev.vars`.
+- Run migrations:
   ```bash
   npx wrangler d1 execute {{SLUG}}-db --local --file=migrations/0001_init.sql
   ```
@@ -81,18 +81,18 @@ npx wrangler dev          # http://localhost:8787
 
 ```bash
 npx wrangler d1 execute {{SLUG}}-db --remote --file=migrations/0001_init.sql
-npx wrangler secret put <NAMA_RAHSIA>
+npx wrangler secret put <SECRET_NAME>
 npx wrangler deploy
 ```
 
-## Rahsia
+## Secrets
 
-- `.dev.vars` untuk tempatan; `wrangler secret put` untuk production.
-- Jangan letak token dalam `wrangler.jsonc`.
-- Tambah `.dev.vars` ke `.gitignore`.
+- `.dev.vars` for local; `wrangler secret put` for production.
+- Do not put tokens in `wrangler.jsonc`.
+- Add `.dev.vars` to `.gitignore`.
 
-## Had
+## Limits
 
-- D1 bukan Postgres penuh; had saiz dan query.
-- Worker ada had CPU masa dan saiz bundle.
-- KV bersifat eventually consistent.
+- D1 is not full Postgres; size and query limits.
+- Workers have CPU time and bundle size limits.
+- KV is eventually consistent.

@@ -1,13 +1,8 @@
-# Complete Usage Guide / Panduan Penggunaan Lengkap
+# Complete Usage Guide
 
 **HTML version (recommended): [`PANDUAN.html`](PANDUAN.html)**
 
-- [Part 1 — English](#part-1--english)
-- [Bahagian 2 — Bahasa Melayu](#bahagian-2--bahasa-melayu)
-
 ---
-
-# Part 1 — English
 
 ## 1. What this tool is
 
@@ -27,7 +22,7 @@ Responsive app
 Finished app
 ```
 
-It supports five backends:
+It supports eleven stacks:
 
 | Code | Stack | Best for |
 | --- | --- | --- |
@@ -37,23 +32,23 @@ It supports five backends:
 | D | Firebase | Firestore, Auth, realtime, Hosting |
 | E | Neon | Serverless Postgres with a separate API |
 | F | Hybrid | Explicit combination of the above |
+| G | Next.js + Postgres | SSR, SEO, UI and API in one project |
+| H | Node/Express + Postgres | Custom Node API, VPS/Dokploy |
+| I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
+| J | FastAPI/Django + Postgres | Python API, Django admin, VPS/Dokploy |
+| K | Flutter (Web + Android/iOS) | One Dart codebase: responsive web and mobile apps |
 
 The frontend is always one responsive app, from 360px to 1920px.
 
 ## 2. Requirements
 
-Tested on this machine:
+Tool versions are not documented here; `skrip/preflight.sh` (or
+`skrip/preflight.ps1` on Windows) reports the versions actually installed on
+your machine:
 
-| Component | Status |
-| --- | --- |
-| Node.js | v24.22.1 |
-| npm | 11.19.1 |
-| Python | 3.12.3 |
-| Java | OpenJDK 17 (Firebase emulators) |
-| FigCraft CLI | `/usr/bin/figcraft-cli` 0.16.0 |
-| Docker | Not installed — Supabase local stack unavailable |
-| `psql` | Not installed — use a Node client for Neon |
-| Supabase / Neon / Firebase / Wrangler / clasp | Run through `npx` |
+```bash
+bash skrip/preflight.sh
+```
 
 Required for all projects:
 
@@ -63,7 +58,7 @@ Required for all projects:
 
 ## 3. Installation
 
-### 3.1 Get the repo and check the machine
+### 3.1 Get the repo
 
 ```bash
 # Git (recommended)
@@ -80,17 +75,57 @@ unzip gas-skill.zip
 cd Skill-Membuat-App-Di-coding-Agent--main
 ```
 
-Allow the scripts to run, then check the machine:
+Windows PowerShell, no git needed:
+
+```powershell
+Invoke-WebRequest -Uri https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip -OutFile gas-skill.zip
+Expand-Archive -Path gas-skill.zip -DestinationPath .
+Set-Location Skill-Membuat-App-Di-coding-Agent--main
+```
+
+Allow the scripts to run:
 
 ```bash
 chmod +x skrip/*.sh
-bash skrip/check-setup.sh
 ```
 
-This reports Node, npm, Python, Java, FigCraft CLI, port 7979, MCP
-registration, Docker, and `psql`.
+### 3.2 Install the tools with preflight
 
-### 3.2 Register the MCP servers
+```bash
+bash skrip/preflight.sh --install
+```
+
+On native Windows, in PowerShell:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File skrip/preflight.ps1 -Install
+```
+
+The scanner reads `skrip/tools.tsv` and reports every selected tool. With
+`--install` (or `-Install`) it installs what can be installed unattended:
+
+| Tool | Linux | macOS | Windows |
+| --- | --- | --- | --- |
+| git, curl, unzip, node, npm, python3 | apt/dnf/pacman/zypper/apk | Homebrew | winget |
+| java | Package manager | Package manager | `Microsoft.OpenJDK.17` |
+| psql, php, composer | Package manager | Package manager | none |
+| docker, flutter, FigCraft | Manual | Manual | Manual |
+
+Rules it follows:
+
+- It never prompts for a sudo password. When `sudo -n` is unavailable the row
+  is reported as `manual` with the exact command to run yourself.
+- It never upgrades an existing runtime. An old Node is reported as `outdated`
+  with the exact NodeSource commands.
+- Docker, Flutter, and FigCraft are never installed unattended.
+- Each install is attempted once per run. A failure is reported, not retried.
+- `restartRequired: true` means a tool is installed but not on `PATH` yet:
+  restart the agent session.
+
+The last line of output is `PREFLIGHT_JSON <json>`; `--json` prints only that
+object. Full contract: `aliran-kerja/00-mula.md`.
+
+### 3.3 Register the MCP servers
 
 Config file: `~/.config/opencode/opencode.json`
 
@@ -127,7 +162,7 @@ opencode mcp auth neon
 
 Never commit tokens. Use `{file:~/.secrets/<name>}` in the config or OAuth.
 
-### 3.3 Start FigCraft in live mode
+### 3.4 Start FigCraft in live mode
 
 ```bash
 figcraft --control 7979 &
@@ -141,14 +176,27 @@ Do not edit the OpenCode config to work around this; open the app in live mode.
 
 ```text
 GAS Skill/
+├── AGENTS.md                 # agent start instructions
+├── CLAUDE.md                 # alias for Claude Code
+├── GEMINI.md                 # alias for Gemini CLI
+├── .cursor/rules/mula.mdc    # alias for Cursor
 ├── SKILL.md                  # main agent instructions
 ├── TEMPLATE_PRD_MS.md        # PRD generator (interview + template)
 ├── figcraft-fast-SKILL.md    # fast FigCraft scripting rules
 ├── PANDUAN.md                # this guide
+├── PANDUAN.html              # rendered guide with search
 ├── README.md                 # short quick start
+├── LICENSE                   # MIT
 ├── aliran-kerja/             # phase-by-phase workflows
+│   ├── 00-mula.md            # Phase 0 bootstrap (mula / start)
+│   └── 00-auto.md … 06-security-audit.md
 ├── pemasangan/               # MCP and stack setup
-├── skrip/                    # automation scripts
+├── skrip/                    # preflight scanner + automation scripts
+│   ├── tools.tsv             # one catalog for every tool
+│   ├── preflight.sh          # scan and install (Linux/macOS/Git Bash)
+│   ├── preflight.ps1         # scan and install (native Windows)
+│   ├── security-audit.sh     # static security gate
+│   └── git-save.sh           # commit the project's local repository
 ├── templat/                  # HANDOFF + FigCraft build template
 └── projek/                   # one folder per project
 ```
@@ -158,7 +206,7 @@ Each project:
 ```text
 projek/<slug>/
 ├── STATUS.md                 # phase checkboxes
-├── STACK                     # A–J
+├── STACK                     # A–K
 ├── prd/PRD-v0.1.md
 ├── refs/                     # reference images
 ├── design/
@@ -167,18 +215,20 @@ projek/<slug>/
 │   ├── design.figcraft
 │   └── exports/*.png
 ├── app/                      # code
+├── security/                 # THREAT-MODEL.md, REPORT.md, findings.json, evidence/
 ├── tests/
+├── .git/                     # local history: one commit per module
 └── HANDOFF.md
 ```
 
 ## 5. Quick start
 
 ```bash
-# 1. Check the environment
-bash skrip/check-setup.sh
+# 1. Scan the machine and install the missing tools
+bash skrip/preflight.sh --install
 
 # 2. Create a project (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon,
-#    F=Hybrid, G=Next.js, H=Node, I=Laravel, J=Python)
+#    F=Hybrid, G=Next.js, H=Node, I=Laravel, J=Python, K=Flutter)
 bash skrip/new-project.sh sistem-tempahan A
 
 # 3. Put reference images here
@@ -199,19 +249,27 @@ bash skrip/test-local.sh sistem-tempahan --check
 bash skrip/jalankan-semua.sh sistem-tempahan A
 ```
 
+Or skip the manual steps: open any coding agent in this folder and type
+`mula` (or `start`), then describe the idea. The agent runs preflight itself,
+asks the interview questions one at a time, and stops before deploy.
+
 ### All script commands
 
 | Step | Command | Purpose |
 | --- | --- | --- |
-| 0 | `bash skrip/check-setup.sh` | Check Node, Python, Java, FigCraft, port 7979, MCP, Docker, `psql` |
-| 1 | `bash skrip/new-project.sh <slug> [A-J]` | Create `projek/<slug>/` with starter files |
+| 0 | `bash skrip/preflight.sh [--install] [--json] [--stack A-K]` | Report (and install) git, curl, unzip, node, npm, python3, java, psql, php, composer, FigCraft, port 7979, MCP |
+| 0 | `powershell -NoProfile -ExecutionPolicy Bypass -File skrip/preflight.ps1 -Install -Json` | Same, for native Windows through winget |
+| 1 | `bash skrip/new-project.sh <slug> [A-K]` | Create `projek/<slug>/` with starter files |
 | 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Rehearse the FigCraft build without saving |
 | 2 | `python3 -I projek/<slug>/design/build.py --save` | Build and save `design.figcraft` |
 | 3 | `bash skrip/qa-check.sh <slug>` | Static quality gate |
 | 4 | `bash skrip/test-local.sh <slug>` | Serve the app locally |
+| 3 | `bash skrip/git-save.sh <slug> "<message>"` | Commit the module to the project's local git |
 | 4 | `bash skrip/test-local.sh <slug> --check` | Smoke-test HTTP 200 and stop |
+| 4 | `bash skrip/test-local.sh <slug> --check --path /orders` | Also require a module route to answer 200 |
 | 4 | `bash skrip/test-local.sh <slug> --port 8080` | Use another port |
-| All | `bash skrip/jalankan-semua.sh <slug> [A-J]` | check-setup, new-project, qa-check, test-local --check |
+| 4.5 | `bash skrip/security-audit.sh <slug> [--deps]` | Static security gate, `SECURITY_JSON` last |
+| All | `bash skrip/jalankan-semua.sh <slug> [A-K]` | preflight, new-project, qa-check, security-audit, test-local --check |
 | Docs | `python3 skrip/build-panduan-html.py` | Rebuild `PANDUAN.html` from `PANDUAN.md` |
 
 ### Auto mode (one-shot)
@@ -219,8 +277,8 @@ bash skrip/jalankan-semua.sh sistem-tempahan A
 Give the idea once and let the agent run Phases 1–4 without approval gates
 between phases. The PRD interview stays full and detailed.
 
-Trigger phrases: `auto`, `auto penuh`, `buat semua`, `siapkan terus`,
-`one-shot`.
+Trigger phrases: `auto`, `full auto`, `do everything`, `finish it right away`,
+`one-shot`. The equivalent Malay phrases work too.
 
 ```text
 Build an office vehicle booking system in full auto mode.
@@ -342,7 +400,7 @@ Files: `aliran-kerja/02-design-figcraft.md`, `figcraft-fast-SKILL.md`.
 - Export PNGs and look at them. Fix the script and rerun.
 - Save the native file as `design/design.figcraft`.
 
-### Commands
+### Phase 2 commands
 
 ```bash
 # Rehearse in a throwaway document
@@ -375,7 +433,7 @@ S-01 / Desktop 1440
 
 Use the screen IDs from PRD Chapter 12.
 
-### Output
+### Phase 2 output
 
 ```text
 design/design.figcraft
@@ -423,6 +481,7 @@ Hard rules:
 | H Node/Express | `app/src/`, `app/server.js`, `package.json`, `.env.example` |
 | I Laravel | `app/`, `app/routes/`, `app/resources/views/`, `composer.json` |
 | J FastAPI/Django | `app/main.py` or `app/manage.py`, `requirements.txt` |
+| K Flutter | `app/lib/main.dart`, `app/pubspec.yaml`, `app/build/web/` |
 
 ### Quality gate
 
@@ -434,11 +493,29 @@ The script checks viewport, dark mode, placeholders, buttons vs `data-action`,
 responsive classes, secret patterns, PRD presence, and design exports. It
 exits non-zero on failures.
 
+### Module loop (test and commit per module)
+
+A module is one screen plus its handler, endpoint, and data. Build it, test it,
+commit it, then start the next one:
+
+```bash
+bash skrip/test-local.sh <slug> --check --path / --path /<module-route>
+bash skrip/git-save.sh <slug> "feat(module-<n>): <module name> + tests"
+```
+
+`--path` repeats. Each route must answer 200; a non-200 fails the run. The real
+output and the commit id go into the `STATUS.md` Modules table. A module without
+a passing test and a commit is not finished.
+
+Each project has its own repository at `projek/<slug>/.git`, created by
+`new-project.sh`. The skill repo ignores `projek/*`, so project history stays
+separate and every change is traceable to a module, a fix, or an audit finding.
+
 ## 9. Phase 4 — Local test
 
 Files: `aliran-kerja/04-local-test.md`.
 
-### Commands
+### Phase 4 commands
 
 ```bash
 bash skrip/test-local.sh <slug>
@@ -459,6 +536,7 @@ bash skrip/test-local.sh <slug> --check
 | H Node/Express | `npm run dev` or `npm start` |
 | I Laravel | `php artisan serve --host=127.0.0.1 --port=4173` |
 | J FastAPI/Django | `uvicorn main:app` or `manage.py runserver` |
+| K Flutter | `flutter run -d chrome --web-port 4173`; `--check` builds web and serves `build/web` |
 
 ### Optional: Dokploy for local testing
 
@@ -472,6 +550,35 @@ bash skrip/setup-dokploy.sh        # asks y/N
 The script installs Docker (if missing) and Dokploy on a Linux dev/VPS machine.
 It needs root and free ports 80, 443, and 3000. Never run it on production.
 If installation fails, report it and continue manual testing.
+
+### Exit criteria for Phase 4
+
+- `test-local --check` returns HTTP 200 for every module route.
+- `qa-check` reports 0 failed.
+- `security-audit` reports 0 `FAIL`; every `WARN` has a recorded decision.
+- The browser checks below are done at 360, 768, 1024, and 1440.
+
+### Security gate (Phase 4.5)
+
+Full contract: `aliran-kerja/06-security-audit.md`. The five workflow phases do not
+change; this gate sits between Phase 4 and Phase 5.
+
+```bash
+bash skrip/security-audit.sh <slug>          # static rules
+bash skrip/security-audit.sh <slug> --deps   # plus npm audit (needs the network)
+```
+
+| Level | Meaning | Action |
+| --- | --- | --- |
+| `FAIL` | A control gap visible in source: secret in client, concatenated SQL, missing RLS | Fix it and rerun; the gate stays blocked |
+| `WARN` | A candidate needing a human trace | Confirm or reject it with source evidence and record the decision |
+| `PASS` | Rule evaluated, no pattern found | none |
+
+Then write `security/THREAT-MODEL.md`, hunt by attack class (OWASP WSTG/ASVS),
+record `confirmed` / `needs_validation` / `rejected` findings with CVSS v3.1
+severity, fix at the last trusted decision point with a regression test, and write
+`security/REPORT.md`. Never test production, shared services, third parties, or
+real personal data.
 
 ### Browser checks
 
@@ -509,6 +616,7 @@ Files: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
 | Firebase | `npx firebase-tools deploy --only hosting,firestore:rules,firestore:indexes` |
 | Neon | Deploy the API, run migrations on the production branch |
 | Hybrid | Deploy each layer separately |
+| Flutter | `flutter build web` → Vercel/Pages; `flutter build appbundle`; `flutter build ipa` (macOS) |
 
 ### Handoff contents
 
@@ -519,6 +627,9 @@ Files: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
 - Backup and rollback steps.
 - Known limits and future work.
 - Links to PRD, design file, and exports.
+- Security summary: findings fixed, decisions on remaining `WARN`s, any
+  `needs_validation` lead, and the path to `security/REPORT.md`.
+- The module table from `STATUS.md`: module, route, test evidence, commit id.
 
 ### Production smoke test
 
@@ -531,12 +642,16 @@ Files: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
 
 | Script | Purpose |
 | --- | --- |
-| `skrip/check-setup.sh` | Check tools, FigCraft, port, MCP, Docker, `psql` |
-| `skrip/jalankan-semua.sh <slug> [A–J]` | Run setup, project creation, QA, and local test in one command |
+| `skrip/tools.tsv` | Single tool catalog read by both preflight scanners |
+| `skrip/preflight.sh` | Scan and install tools (Linux, macOS, Git Bash) |
+| `skrip/preflight.ps1` | Scan and install tools (native Windows, winget) |
+| `skrip/jalankan-semua.sh <slug> [A–K]` | Run preflight, project creation, QA, and local test in one command |
 | `skrip/setup-dokploy.sh` | Optional: install Dokploy for local testing (asks permission first) |
-| `skrip/new-project.sh <slug> [A–J]` | Create the project folder and starter files |
+| `skrip/new-project.sh <slug> [A–K]` | Create the project folder and starter files |
 | `skrip/qa-check.sh <slug>` | Static quality gate |
-| `skrip/test-local.sh <slug> [--check]` | Run the local server, optionally smoke-test and stop |
+| `skrip/security-audit.sh <slug> [--json] [--deps]` | Static security gate before handoff |
+| `skrip/git-save.sh <slug> "<message>"` | Commit the project's local git repository |
+| `skrip/test-local.sh <slug> [--check] [--path /route]` | Run the local server, optionally smoke-test routes and stop |
 | `skrip/figcraft/fclib.py` | FigCraft Python helpers |
 | `templat/figcraft/build.py` | Starter FigCraft build script |
 | `skrip/build-panduan-html.py` | Regenerate `PANDUAN.html` from this file |
@@ -553,15 +668,19 @@ python3 -I projek/<slug>/design/build.py --rehearsal --save
 | Document | Read it when |
 | --- | --- |
 | `README.md` | First overview |
+| `PANDUAN.html` | Rendered guide with search |
 | `SKILL.md` | Agent behaviour and engineering standards |
+| `figcraft-fast-SKILL.md` | Fast FigCraft scripting rules |
 | `TEMPLATE_PRD_MS.md` | Phase 1 interview and PRD format |
+| `aliran-kerja/00-mula.md` | Phase 0 bootstrap: trigger, preflight, result rules |
 | `aliran-kerja/00-auto.md` | Auto mode: trigger, limits, report |
 | `aliran-kerja/01-prd.md` | Step-by-step Phase 1 |
 | `aliran-kerja/02-design-figcraft.md` | Step-by-step Phase 2 |
 | `aliran-kerja/03-codegen.md` | Phase 3 rules and file layouts |
 | `aliran-kerja/04-local-test.md` | Phase 4 test matrix |
 | `aliran-kerja/05-handoff.md` | Phase 5 deploy and handoff |
-| `templat/PROMPT-AUTO.md` | Copy-paste auto mode prompt (EN + MS) |
+| `aliran-kerja/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
+| `templat/PROMPT-AUTO.md` | Copy-paste auto mode prompt |
 | `pemasangan/01-opencode-mcp.md` | OpenCode MCP config |
 | `pemasangan/02-figcraft.md` | FigCraft live mode (required) and headless reference |
 | `pemasangan/03-gas.md` | GAS setup |
@@ -574,6 +693,7 @@ python3 -I projek/<slug>/design/build.py --rehearsal --save
 | `pemasangan/10-node-express.md` | Node/Express + Postgres |
 | `pemasangan/11-laravel.md` | Laravel + MySQL |
 | `pemasangan/12-python.md` | FastAPI/Django + Postgres |
+| `pemasangan/13-flutter.md` | Flutter Web + Android/iOS setup |
 
 ## 13. Troubleshooting
 
@@ -590,14 +710,30 @@ python3 -I projek/<slug>/design/build.py --rehearsal --save
 | Wrangler deploy asks for login | No Cloudflare session | `npx wrangler login` |
 | FigCraft text looks wrong | Missing font | `f.cmd('text.missingFonts')` |
 | Renamed folder breaks a path | Scripts resolve from repo root | Run commands from the repo, or use full paths |
+| `flutter: command not found` | Flutter SDK missing from PATH | Install the SDK, then `flutter config --enable-web` |
+| `preflight` reports `manual` | The tool needs a password, a GUI, or a manual package | Run the printed `action` command yourself, then rerun preflight |
+| `preflight` reports `restartRequired: true` | A tool was installed but `PATH` is stale | Restart the agent session, then type `mula` again |
+| FigCraft is missing on native Windows | No Windows build of FigCraft here | Run Phase 2 in WSL2 Ubuntu or on a Linux/macOS host |
+| `security-audit` reports `FAIL` | A control gap is visible in source | Fix it, then rerun the audit; the gate stays blocked |
+| `security-audit` reports `WARN` | Candidate needing a human trace | Confirm or reject it with source evidence and record the decision |
+| Module test fails with 404 | Route not implemented or wrong path | Build the route or fix `--path`, then rerun |
+| `git-save` says "No changes to commit" | Nothing changed since the last commit | Continue with the next module |
+| `preflight` reports `outdated` for node | Node older than 20 is installed | Run the printed NodeSource commands; preflight never upgrades it |
 
 ## 14. Example prompts
 
 **Start a project**
 
-> Build an office vehicle booking system. Use `TEMPLATE_PRD_MS.md` and stack
-> Supabase. Reference `projek/booking/refs/dashboard.png`. Generate the PRD
-> first.
+> `mula` Build an office vehicle booking system. Use `TEMPLATE_PRD_MS.md` and
+> stack Supabase. Reference `projek/booking/refs/dashboard.png`. Generate the
+> PRD first.
+
+**Start with the short trigger**
+
+> `start`
+
+The agent runs the Phase 0 preflight, reports what it installed, then asks the
+first interview question.
 
 **Amend the PRD**
 
@@ -626,635 +762,12 @@ python3 -I projek/<slug>/design/build.py --rehearsal --save
 - [ ] PRD approved and saved.
 - [ ] Design file and PNG exports saved.
 - [ ] Code passes `qa-check.sh`.
+- [ ] Every module has a passing test and a local git commit.
+- [ ] `security-audit.sh` exits 0 and `security/REPORT.md` is written.
+- [ ] No open `confirmed` high or critical finding.
 - [ ] Local smoke test passes.
 - [ ] All mandatory PRD requirements work.
 - [ ] Responsive verified at 390 / 768 / 1024 / 1440.
 - [ ] Production smoke test passes.
 - [ ] `HANDOFF.md` complete.
 - [ ] No secrets in the repository.
-
----
-
-# Bahagian 2 — Bahasa Melayu
-
-## 1. Apa alat ini
-
-Repositori ini ialah satu aliran kerja lengkap untuk menukar idea kasar
-menjadi aplikasi web yang berfungsi:
-
-```text
-Idea + imej rujukan
-        ↓  Fasa 1  PRD
-PRD diluluskan (satu sumber kebenaran)
-        ↓  Fasa 2  FigCraft
-Fail reka bentuk + skrin dieksport
-        ↓  Fasa 3  Kod
-Aplikasi responsif
-        ↓  Fasa 4  Ujian tempatan
-        ↓  Fasa 5  Serahan + deploy
-Aplikasi siap
-```
-
-Lima pilihan backend:
-
-| Kod | Stack | Sesuai untuk |
-| --- | --- | --- |
-| A | Google Apps Script + Google Sheets | Alat dalaman, data kecil, Google Workspace |
-| B | Supabase | Postgres, Auth, RLS, Storage, aplikasi SaaS |
-| C | Cloudflare Worker | API edge, D1/KV/R2, static assets |
-| D | Firebase | Firestore, Auth, realtime, Hosting |
-| E | Neon | Postgres serverless dengan API berasingan |
-| F | Hibrid | Gabungan di atas dengan sempadan jelas |
-
-Frontend sentiasa satu aplikasi responsif, dari 360px hingga 1920px.
-
-## 2. Keperluan
-
-Diuji pada mesin ini:
-
-| Komponen | Status |
-| --- | --- |
-| Node.js | v24.22.1 |
-| npm | 11.19.1 |
-| Python | 3.12.3 |
-| Java | OpenJDK 17 (emulator Firebase) |
-| FigCraft CLI | `/usr/bin/figcraft-cli` 0.16.0 |
-| Docker | Tiada — Supabase local stack tidak boleh guna |
-| `psql` | Tiada — guna klien Node untuk Neon |
-| Supabase / Neon / Firebase / Wrangler / clasp | Jalankan melalui `npx` |
-
-Keperluan untuk semua projek:
-
-- FigCraft dipasang dan boleh berjalan dalam mod live.
-- OpenCode dengan server MCP FigCraft didaftar.
-- Terminal, Node.js, dan Python 3.
-
-## 3. Pemasangan
-
-### 3.1 Dapatkan repo dan semak mesin
-
-```bash
-# Git (disyorkan)
-git clone https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-.git
-cd "Skill-Membuat-App-Di-coding-Agent-"
-
-# Atau GitHub CLI
-gh repo clone hishamsam/Skill-Membuat-App-Di-coding-Agent-
-
-# Atau ZIP tanpa git
-curl -L -o gas-skill.zip \
-  https://github.com/hishamsam/Skill-Membuat-App-Di-coding-Agent-/archive/refs/heads/main.zip
-unzip gas-skill.zip
-cd Skill-Membuat-App-Di-coding-Agent--main
-```
-
-Benarkan skrip berjalan, kemudian semak mesin:
-
-```bash
-chmod +x skrip/*.sh
-bash skrip/check-setup.sh
-```
-
-Skrip melaporkan Node, npm, Python, Java, FigCraft CLI, port 7979,
-pendaftaran MCP, Docker, dan `psql`.
-
-### 3.2 Daftar server MCP
-
-Fail config: `~/.config/opencode/opencode.json`
-
-```bash
-opencode mcp add figcraft --global -- /usr/bin/figcraft-cli mcp
-opencode mcp add figcraft-app --global -- /usr/bin/figcraft-cli mcp --attach 7979
-opencode mcp list
-```
-
-Atau salin blok berkenaan daripada `pemasangan/mcp.opencode.example.json`.
-Buka semula OpenCode selepas mengubah config.
-
-Servis awan pilihan:
-
-```bash
-# Supabase — OAuth atau token akses peribadi
-opencode mcp add supabase --global \
-  --url "https://mcp.supabase.com/mcp?project_ref=<ref>"
-opencode mcp auth supabase
-
-# Cloudflare
-opencode mcp add cloudflare-docs --global \
-  --url "https://docs.mcp.cloudflare.com/mcp"
-opencode mcp add cloudflare-observability --global \
-  --url "https://observability.mcp.cloudflare.com/mcp"
-
-# Firebase
-opencode mcp add firebase --global -- npx -y firebase-tools@latest mcp
-
-# Neon
-opencode mcp add neon --global --url "https://mcp.neon.tech/mcp"
-opencode mcp auth neon
-```
-
-Jangan commit token. Guna `{file:~/.secrets/<nama>}` dalam config atau OAuth.
-
-### 3.3 Buka FigCraft mod live
-
-```bash
-figcraft --control 7979 &
-ss -ltnp | grep 7979
-```
-
-Jika port tidak aktif, server MCP `figcraft-app` tidak boleh menyambung.
-Jangan ubah config OpenCode untuk mengelak masalah ini; buka app dalam mod live.
-
-## 4. Susunan repositori
-
-```text
-GAS Skill/
-├── SKILL.md                  # arahan utama agent
-├── TEMPLATE_PRD_MS.md        # penjana PRD (temubual + templat)
-├── figcraft-fast-SKILL.md    # peraturan skrip FigCraft pantas
-├── PANDUAN.md                # panduan ini
-├── README.md                 # mula pantas
-├── aliran-kerja/             # panduan setiap fasa
-├── pemasangan/               # pemasangan MCP dan stack
-├── skrip/                    # skrip automasi
-├── templat/                  # HANDOFF + templat bina FigCraft
-└── projek/                   # satu folder setiap projek
-```
-
-Setiap projek:
-
-```text
-projek/<slug>/
-├── STATUS.md                 # senarai semak fasa
-├── STACK                     # A–J
-├── prd/PRD-v0.1.md
-├── refs/                     # imej rujukan
-├── design/
-│   ├── DESIGN-DNA.md
-│   ├── build.py
-│   ├── design.figcraft
-│   └── exports/*.png
-├── app/                      # kod
-├── tests/
-└── HANDOFF.md
-```
-
-## 5. Mula pantas
-
-```bash
-# 1. Semak persekitaran
-bash skrip/check-setup.sh
-
-# 2. Cipta projek (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon,
-#    F=Hibrid, G=Next.js, H=Node, I=Laravel, J=Python)
-bash skrip/new-project.sh sistem-tempahan A
-
-# 3. Letak imej rujukan di sini
-cp ~/Downloads/ref.png projek/sistem-tempahan/refs/
-
-# 4. Minta agent jalankan Fasa 1
-#    "Baca idea dan refs/. Guna TEMPLATE_PRD_MS.md. Jana PRD."
-
-# 5. Selepas PRD diluluskan, buka FigCraft
-figcraft --control 7979 &
-python3 -I projek/sistem-tempahan/design/build.py --rehearsal
-
-# 6. Selepas UI disemak, jana kod dan uji
-bash skrip/qa-check.sh sistem-tempahan
-bash skrip/test-local.sh sistem-tempahan --check
-
-# 7. Atau jalankan langkah 1, 2, 6 sekali gus
-bash skrip/jalankan-semua.sh sistem-tempahan A
-```
-
-### Semua perintah skrip
-
-| Langkah | Perintah | Fungsi |
-| --- | --- | --- |
-| 0 | `bash skrip/check-setup.sh` | Semak Node, Python, Java, FigCraft, port 7979, MCP, Docker, `psql` |
-| 1 | `bash skrip/new-project.sh <slug> [A-J]` | Cipta `projek/<slug>/` dengan fail permulaan |
-| 2 | `python3 -I projek/<slug>/design/build.py --rehearsal` | Cuba bina FigCraft tanpa simpan |
-| 2 | `python3 -I projek/<slug>/design/build.py --save` | Bina dan simpan `design.figcraft` |
-| 3 | `bash skrip/qa-check.sh <slug>` | Gerbang kualiti statik |
-| 4 | `bash skrip/test-local.sh <slug>` | Hidang app secara tempatan |
-| 4 | `bash skrip/test-local.sh <slug> --check` | Uji HTTP 200 kemudian henti |
-| 4 | `bash skrip/test-local.sh <slug> --port 8080` | Guna port lain |
-| Semua | `bash skrip/jalankan-semua.sh <slug> [A-J]` | check-setup, new-project, qa-check, test-local --check |
-| Dok | `python3 skrip/build-panduan-html.py` | Jana semula `PANDUAN.html` daripada `PANDUAN.md` |
-
-### Mod auto (one-shot)
-
-Beri idea sekali, agent jalankan Fasa 1–4 tanpa gerbang kelulusan antara
-fasa. Temubual PRD tetap penuh dan terperinci.
-
-Frasa cetus: `auto`, `auto penuh`, `buat semua`, `siapkan terus`, `one-shot`.
-
-```text
-Bina sistem tempahan kenderaan pejabat dalam mod auto penuh.
-Rujukan: projek/booking/refs/dashboard.png
-Kod mesti responsif 360-1920px. Jalankan qa-check dan test-local --check.
-Berhenti sebelum deploy.
-```
-
-| Fasa | Tingkah laku auto |
-| --- | --- |
-| 1 PRD | Temubual penuh satu-satu, pilih stack, tanda setiap lompang `[ANDAIAN]` |
-| 2 FigCraft | Live edit sahaja; minta pengguna buka port 7979 jika tiada |
-| 3 Kod | Jana aplikasi responsif, tiada butang mati |
-| 4 Ujian | Jalankan, betulkan maksimum 3 pusingan, lapor output sebenar |
-| 5 Deploy | Berhenti dan tunggu kebenaran jelas |
-
-Masih perlukan kebenaran berasingan: deploy production, akaun baharu,
-pembayaran, tukar DNS, padam data production, kredensial production.
-
-Fail: `aliran-kerja/00-auto.md` dan `templat/PROMPT-AUTO.md`.
-
-## 6. Fasa 1 — PRD
-
-Fail: `TEMPLATE_PRD_MS.md`, `aliran-kerja/01-prd.md`.
-
-### Apa yang berlaku
-
-1. Agent mencipta folder projek dan membaca imej rujukan.
-2. Ia menjalankan temubual berstruktur, satu soalan per mesej: sepuluh soalan
-   utama serta maksimum empat soalan susulan khusus stack.
-3. Soalan A6 mengunci teknologi.
-4. PRD penuh ditulis ke `projek/<slug>/prd/PRD-v0.1.md`.
-5. Agent berhenti dan menunggu kelulusan.
-
-Jika mahu laju, tetap jawab satu soalan setiap mesej. Frasa "jana terus"
-tidak melangkau temubual; ia hanya bermaksud agent teruskan tanpa gerbang
-kelulusan selepas PRD lengkap.
-
-Dalam mod auto, temubual tidak dilangkau. Agent bertanya semua soalan satu
-demi satu, kemudian menulis PRD dan terus ke Fasa 2 tanpa menunggu kelulusan.
-
-### Soalan temubual
-
-| ID | Topik |
-| --- | --- |
-| A1 | Masalah dan pengguna |
-| A2 | Peranan dan kebenaran |
-| A3 | Aliran teras |
-| A4 | Entiti data utama |
-| A5 | Skop MVP |
-| A6 | Teknologi (wajib) |
-| A7 | Hosting dan domain |
-| A8 | Soalan susulan khusus stack (maksimum 4) |
-| A9 | Rujukan visual dan peranti sasaran |
-| A10 | Definisi siap dan ujian |
-
-Format jawapan:
-
-- Balas satu huruf: `A`, `B`, `C`, atau `D`.
-- Tambah nota: `C, perlu dua peranan`.
-- Jawab banyak sekali: `A1:A, A2:C, A4:B`.
-- Terima cadangan: `ikut cadangan` (direkod sebagai `[ANDAIAN]`).
-- `auto` tidak melangkau temubual; ia membuang gerbang kelulusan antara fasa.
-
-### Pilihan teknologi
-
-| Kod | Stack | Pilih bila |
-| --- | --- | --- |
-| A | GAS + Sheets | Dalaman, bawah ~10k baris, ekosistem Google |
-| B | Supabase | Postgres, Auth, RLS, Storage, realtime |
-| C | Cloudflare Worker | API global, D1/KV/R2, latensi rendah |
-| D | Firebase | Realtime sync, auth pantas, web/mobile |
-| E | Neon | Postgres serverless, branching, API berasingan |
-| F | Hibrid | Dua servis atau lebih dengan sempadan jelas |
-| G | Next.js + Postgres | SSR, SEO, UI + API dalam satu projek |
-| H | Node/Express + Postgres | API Node tersuai, kawalan penuh, VPS/Dokploy |
-| I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
-| J | FastAPI/Django + Postgres | API Python, admin Django, VPS/Dokploy |
-
-PRD merekod pilihan dan alternatif yang ditolak dalam Bab 6.
-
-### Bab PRD
-
-| Bab | Kandungan |
-| --- | --- |
-| 1–5 | Masalah, tujuan, pengguna, skop, andaian |
-| 6 | Keputusan teknologi, env, seni bina |
-| 7 | Keperluan fungsian ber-ID dan keutamaan |
-| 8 | Aliran pengguna |
-| 9 | Model data + implementasi fizikal ikut stack |
-| 10 | Keperluan bukan fungsian termasuk responsif |
-| 11 | Integrasi pihak ketiga |
-| 12 | Kontrak UI dan handoff FigCraft (wajib) |
-| 13 | Pelan ujian tempatan dan kriteria terima (wajib) |
-| 14–17 | Ciri masa depan, luar skop, soalan terbuka, glosarium |
-
-Bab 12 mesti menyenaraikan setiap skrin dengan empat keadaan: default,
-loading, empty, error. Bab 13 mesti menyenaraikan perintah ujian dan
-semakan penerimaan.
-
-### Gerbang kelulusan
-
-Jangan tulis kod sebelum PRD diluluskan. Balas "lulus", "ok proceed", atau
-"buat kod" untuk teruskan.
-
-## 7. Fasa 2 — Reka bentuk FigCraft
-
-Fail: `aliran-kerja/02-design-figcraft.md`, `figcraft-fast-SKILL.md`.
-
-### Peraturan
-
-- Baca PRD Bab 12 dan imej sebenar dalam `refs/`. MCP FigCraft tidak boleh
-  melihat imej; agent mesti membuka fail itu.
-- Guna **mod live edit sahaja** (`figcraft-app`, port 7979). Jika tiada, berhenti
-  dan minta pengguna jalankan `figcraft --control 7979`. Jangan guna headless.
-- Tulis `design/DESIGN-DNA.md`: grid, tipografi, palette, spacing, radius,
-  density, elemen signature.
-- Bina dengan SATU skrip Python, bukan satu panggilan MCP setiap layer.
-- Eksport PNG dan lihat. Betulkan skrip, ulang.
-- Simpan fail asal sebagai `design/design.figcraft`.
-
-### Perintah
-
-```bash
-# Rehearsal dalam dokumen buangan
-python3 -I projek/<slug>/design/build.py --rehearsal
-
-# Bina sebenar
-python3 -I projek/<slug>/design/build.py
-
-# Bina dan simpan design.figcraft
-python3 -I projek/<slug>/design/build.py --save
-```
-
-### Saiz frame
-
-| Peranti | Saiz |
-| --- | --- |
-| Mobile | 390 × 844 |
-| Tablet | 768 × 1024 |
-| Desktop | 1440 × 900 |
-
-Bina frame desktop walaupun rujukan hanya mobile. Rujukan mobile ialah
-panduan komposisi, bukan kunci lebar kod.
-
-### Penamaan skrin
-
-```text
-S-01 / Mobile 390
-S-01 / Desktop 1440
-```
-
-Guna ID skrin daripada PRD Bab 12.
-
-### Output
-
-```text
-design/design.figcraft
-design/exports/S-01-mobile.png
-design/exports/S-01-desktop.png
-```
-
-## 8. Fasa 3 — Kod responsif
-
-Fail: `aliran-kerja/03-codegen.md`.
-
-### Kontrak responsif
-
-| Julat | Sasaran | Navigasi | Grid kandungan |
-| --- | --- | --- | --- |
-| 360–639px | Telefon | Bottom nav, 3–5 item | 1 kolum |
-| 640–1023px | Tablet | Top bar atau rail | 1–2 kolum |
-| 1024–1439px | Laptop | Sidebar atau top nav penuh | 2–3 kolum |
-| ≥ 1440px | Desktop | Sama, container terhad | 3–4 kolum |
-
-Peraturan keras:
-
-- Meta `viewport` ada.
-- Tiada scroll mendatar pada root.
-- Jadual guna `overflow-x-auto` atau jadi senarai kad di mobile.
-- Modal: `w-[calc(100%-2rem)] max-w-lg max-h-[85vh] overflow-y-auto`.
-- Butang dan input sekurang-kurangnya 44px tinggi.
-- Kandungan mobile ada `pb-24` untuk ruang bottom nav.
-- Tiada dark mode.
-- Tiada butang mati: setiap butang ada handler sebenar.
-- Setiap skrin ada keadaan loading, empty, error.
-- Tiada rahsia dalam fail frontend.
-
-### Fail mengikut stack
-
-| Stack | Fail utama |
-| --- | --- |
-| A GAS | `app/index.html`, `app/Code.gs`, `app/appsscript.json` |
-| B Supabase | `app/public/index.html`, `app/supabase/migrations/*.sql`, `.env.example` |
-| C Worker | `app/public/`, `app/src/index.js`, `app/wrangler.jsonc` |
-| D Firebase | `app/public/index.html`, `firestore.rules`, `firebase.json` |
-| E Neon | `app/public/index.html`, `app/api/`, `app/db/migrations/*.sql` |
-| F Hibrid | Gabungan; jangan ulang logik |
-| G Next.js | `app/`, `app/api/`, `package.json`, `.env.example` |
-| H Node/Express | `app/src/`, `app/server.js`, `package.json`, `.env.example` |
-| I Laravel | `app/`, `app/routes/`, `app/resources/views/`, `composer.json` |
-| J FastAPI/Django | `app/main.py` atau `app/manage.py`, `requirements.txt` |
-
-### Gerbang kualiti
-
-```bash
-bash skrip/qa-check.sh <slug>
-```
-
-Skrip menyemak viewport, dark mode, placeholder, nisbah butang vs
-`data-action`, kelas responsif, corak rahsia, kewujudan PRD, dan eksport
-reka bentuk. Ia keluar dengan kod bukan sifar jika gagal.
-
-## 9. Fasa 4 — Ujian tempatan
-
-Fail: `aliran-kerja/04-local-test.md`.
-
-### Perintah
-
-```bash
-bash skrip/test-local.sh <slug>
-bash skrip/test-local.sh <slug> --check
-```
-
-### Mengikut stack
-
-| Stack | Ujian tempatan |
-| --- | --- |
-| A GAS | `IS_PREVIEW=true`, kemudian `python3 -m http.server`; uji backend selepas deploy dengan `curl` |
-| B Supabase | Guna projek dev percuma; Docker tiada di mesin ini |
-| C Worker | `npx wrangler dev` |
-| D Firebase | `npx firebase-tools emulators:start` |
-| E Neon | `npx wrangler dev` dalam `app/api` dengan branch dev |
-| F Hibrid | Jalankan setiap servis dalam terminal sendiri |
-| G Next.js | `npm run dev -- -p 4173` |
-| H Node/Express | `npm run dev` atau `npm start` |
-| I Laravel | `php artisan serve --host=127.0.0.1 --port=4173` |
-| J FastAPI/Django | `uvicorn main:app` atau `manage.py runserver` |
-
-### Pilihan: Dokploy untuk ujian local
-
-Dokploy adalah pilihan. Tanya kebenaran pengguna sebelum memasang. Jika
-pengguna menolak, langkau dan teruskan perintah manual di atas.
-
-```bash
-bash skrip/setup-dokploy.sh        # tanya y/N
-```
-
-Skrip memasang Docker (jika tiada) dan Dokploy pada mesin Linux dev/VPS.
-Perlu root dan port 80, 443, 3000 bebas. Jangan jalankan pada produksi.
-Jika pemasangan gagal, lapor dan teruskan ujian manual.
-
-### Semakan pelayar
-
-Uji pada 360×800, 390×844, 768×1024, 1024×768, dan 1440×900.
-
-Semak:
-
-- Tiada ralat konsol.
-- Setiap butang melakukan tindakan nyata.
-- CRUD berfungsi dengan data seed.
-- Keadaan loading, empty, error boleh dicetuskan.
-- Refresh tidak memaksa logout.
-- Tiada scroll mendatar pada 360px.
-- Tiada string rahsia dalam frontend yang dibina.
-
-### Semakan backend GAS
-
-```bash
-curl -L -X POST "<GAS_URL>" \
-  -H "Content-Type: text/plain;charset=utf-8" \
-  -d '{"action":"ping","data":{}}'
-```
-
-## 10. Fasa 5 — Serahan dan deploy
-
-Fail: `aliran-kerja/05-handoff.md`, `templat/HANDOFF.md`.
-
-### Perintah deploy
-
-| Stack | Deploy |
-| --- | --- |
-| GAS | Deploy `Code.gs` sebagai Web App; muat naik `index.html` ke Vercel |
-| Supabase | `npx supabase link --project-ref <ref>` kemudian `npx supabase db push` |
-| Worker | `npx wrangler d1 execute ... --remote`, `npx wrangler secret put`, `npx wrangler deploy` |
-| Firebase | `npx firebase-tools deploy --only hosting,firestore:rules,firestore:indexes` |
-| Neon | Deploy API, jalankan migrasi pada branch production |
-| Hibrid | Deploy setiap lapisan secara berasingan |
-
-### Kandungan serahan
-
-- URL production dan staging.
-- Akaun admin dan cara tukar kata laluan.
-- Nama pemboleh ubah persekitaran, bukan nilai.
-- Perintah jalan tempatan dan deploy.
-- Langkah backup dan rollback.
-- Had diketahui dan kerja masa depan.
-- Pautan ke PRD, fail reka bentuk, dan eksport.
-
-### Smoke test production
-
-1. Buka URL production.
-2. Log masuk dengan akaun sebenar.
-3. Lakukan satu create, read, update, dan delete.
-4. Hantar satu input tidak sah dan pastikan ralat jelas.
-
-## 11. Rujukan skrip
-
-| Skrip | Tujuan |
-| --- | --- |
-| `skrip/check-setup.sh` | Semak alat, FigCraft, port, MCP, Docker, `psql` |
-| `skrip/jalankan-semua.sh <slug> [A–J]` | Jalankan semakan, cipta projek, QA dan ujian tempatan sekali gus |
-| `skrip/setup-dokploy.sh` | Pilihan: pasang Dokploy untuk ujian local (tanya kebenaran dahulu) |
-| `skrip/new-project.sh <slug> [A–J]` | Cipta folder projek dan fail permulaan |
-| `skrip/qa-check.sh <slug>` | Gerbang kualiti statik |
-| `skrip/test-local.sh <slug> [--check]` | Jalankan server tempatan, uji dan henti jika `--check` |
-| `skrip/figcraft/fclib.py` | Pembantu Python FigCraft |
-| `templat/figcraft/build.py` | Skrip permulaan bina FigCraft |
-| `skrip/build-panduan-html.py` | Jana semula `PANDUAN.html` daripada fail ini |
-
-Flag berguna:
-
-```bash
-bash skrip/test-local.sh <slug> --port 8080
-python3 -I projek/<slug>/design/build.py --rehearsal --save
-```
-
-## 12. Peta dokumentasi
-
-| Dokumen | Baca bila |
-| --- | --- |
-| `README.md` | Gambaran pertama |
-| `SKILL.md` | Tingkah laku agent dan standard kejuruteraan |
-| `TEMPLATE_PRD_MS.md` | Temubual Fasa 1 dan format PRD |
-| `aliran-kerja/00-auto.md` | Mod auto: cetusan, had, laporan |
-| `aliran-kerja/01-prd.md` | Langkah Fasa 1 |
-| `aliran-kerja/02-design-figcraft.md` | Langkah Fasa 2 |
-| `aliran-kerja/03-codegen.md` | Peraturan dan susunan fail Fasa 3 |
-| `aliran-kerja/04-local-test.md` | Matriks ujian Fasa 4 |
-| `aliran-kerja/05-handoff.md` | Deploy dan serahan Fasa 5 |
-| `templat/PROMPT-AUTO.md` | Prompt mod auto sedia salin (EN + MS) |
-| `pemasangan/01-opencode-mcp.md` | Config MCP OpenCode |
-| `pemasangan/02-figcraft.md` | FigCraft live (wajib) dan rujukan headless |
-| `pemasangan/03-gas.md` | Pemasangan GAS |
-| `pemasangan/04-supabase.md` | Pemasangan Supabase |
-| `pemasangan/05-cloudflare-worker.md` | Pemasangan Cloudflare |
-| `pemasangan/06-firebase.md` | Pemasangan Firebase |
-| `pemasangan/07-neon.md` | Pemasangan Neon |
-| `pemasangan/08-dokploy.md` | Dokploy pilihan untuk ujian local |
-| `pemasangan/09-nextjs.md` | Next.js + Postgres |
-| `pemasangan/10-node-express.md` | Node/Express + Postgres |
-| `pemasangan/11-laravel.md` | Laravel + MySQL |
-| `pemasangan/12-python.md` | FastAPI/Django + Postgres |
-
-## 13. Penyelesaian masalah
-
-| Gejala | Punca | Penyelesaian |
-| --- | --- | --- |
-| `can't reach 127.0.0.1:7979` | App bukan mod live | `figcraft --control 7979 &` |
-| Tool FigCraft tiada dalam OpenCode | Sesi bermula sebelum MCP sedia | Buka semula OpenCode |
-| Port 4173 sedang digunakan | Server ujian lama masih hidup | `bash skrip/test-local.sh <slug> --port 4174` |
-| `qa-check` gagal pada placeholder | PRD atau kod masih ada `{{...}}` / `TODO` | Ganti dengan kandungan sebenar |
-| `qa-check` gagal pada butang mati | Bilangan `<button>` lebih daripada `data-action` | Tambah handler |
-| Supabase local gagal | Docker tiada | Guna projek dev awan percuma |
-| Sambungan Neon gagal | `psql` tiada | Guna skrip migrasi Node |
-| Emulator Firebase tidak mula | Java tiada atau versi salah | Pasang Java 17+ |
-| Wrangler minta login | Tiada sesi Cloudflare | `npx wrangler login` |
-| Teks FigCraft kelihatan salah | Font tiada | `f.cmd('text.missingFonts')` |
-| Folder dinamakan semula memecahkan path | Skrip mengira root repo | Jalankan dari root repo atau guna path penuh |
-
-## 14. Contoh prompt
-
-**Mula projek**
-
-> Bina sistem tempahan kenderaan pejabat. Guna `TEMPLATE_PRD_MS.md` dan
-> stack Supabase. Rujuk `projek/booking/refs/dashboard.png`. Jana PRD dahulu.
-
-**Pinda PRD**
-
-> Tambah peranan "Penyelia" dan medan `plate_no`. Jana semula PRD.
-
-**Lulus**
-
-> PRD diluluskan. Teruskan Fasa 2 di FigCraft.
-
-**Semak UI**
-
-> Skrin S-02 desktop terlalu padat. Buang dua kad, kekalkan jadual. Eksport
-> semula.
-
-**Bina kod**
-
-> UI diluluskan. Teruskan Fasa 3. Wajib responsif 360–1920 dan tiada butang
-> mati.
-
-**Ujian**
-
-> Jalankan `qa-check.sh` dan `test-local.sh --check`. Tunjuk keputusan.
-
-## 15. Definisi siap
-
-- [ ] PRD diluluskan dan disimpan.
-- [ ] Fail reka bentuk dan eksport PNG disimpan.
-- [ ] Kod lulus `qa-check.sh`.
-- [ ] Ujian tempatan lulus.
-- [ ] Semua keperluan wajib PRD berfungsi.
-- [ ] Responsif disahkan pada 390 / 768 / 1024 / 1440.
-- [ ] Smoke test production lulus.
-- [ ] `HANDOFF.md` lengkap.
-- [ ] Tiada rahsia dalam repositori.

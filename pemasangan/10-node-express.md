@@ -1,8 +1,8 @@
-# Stack H — Node/Express + Postgres
+# 10 — Stack H: Node/Express + Postgres
 
-Sesuai: API tersuai, kawalan penuh, deploy VPS/Dokploy.
+Suitable for: custom API, full control, VPS/Dokploy deploy.
 
-## Cipta projek
+## Create a project
 
 ```bash
 cd projek/<slug>/app
@@ -11,10 +11,10 @@ npm i express pg dotenv
 npm i -D nodemon
 ```
 
-Struktur cadangan:
+Suggested structure:
 
 ```text
-app/
+projek/<slug>/app/
 ├── src/
 │   ├── index.js
 │   ├── routes/
@@ -44,7 +44,7 @@ PORT=3000
 JWT_SECRET="..."
 ```
 
-## Ujian tempatan
+## Local testing
 
 ```bash
 cd projek/<slug>/app
@@ -52,22 +52,22 @@ npm install
 npm run dev
 ```
 
-Atau:
+Or:
 
 ```bash
 bash skrip/test-local.sh <slug> --check
 ```
 
-## Deploy VPS/Dokploy
+## VPS/Dokploy deploy
 
-1. Tambah `Dockerfile` atau gunakan buildpack Node Dokploy.
-2. Tetapkan env var di Dokploy.
-3. Deploy + jalankan migrasi DB.
-4. Uji `/api/health`.
+1. Add a `Dockerfile` or use the Dokploy Node buildpack.
+2. Set the env vars in Dokploy.
+3. Deploy + run the DB migration.
+4. Test `/api/health`.
 
-## Semakan
+## Checks
 
-- [ ] Auth dan kebenaran di server.
-- [ ] Tiada rahsia dalam kod klien.
-- [ ] Input disahkan di server.
-- [ ] `qa-check.sh` lulus.
+- [ ] Auth and authorisation on the server.
+- [ ] No secrets in client code.
+- [ ] Input validated on the server.
+- [ ] `qa-check.sh` passes.

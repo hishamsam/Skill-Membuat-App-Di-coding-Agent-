@@ -1,87 +1,99 @@
-# Fasa 5 — Serahan & Deploy
+# Phase 5 — Handoff & Deploy
 
-Tujuan: serah app yang sudah diuji, dengan arahan jalan, tetapan, dan
-rollback yang jelas.
+Purpose: hand over the tested app, with clear run instructions, settings, and
+rollback.
 
-## Output wajib
+## Mandatory output
 
 ```text
 projek/<slug>/
 ├── HANDOFF.md
 ├── prd/PRD-v0.1.md
 ├── design/design.figcraft + exports/
-├── app/                  # kod siap
-└── tests/                # skrip/senarai ujian
+├── app/                  # finished code
+├── security/             # THREAT-MODEL.md, REPORT.md, findings.json, evidence/
+├── tests/                # test scripts/checklist
+└── .git/                 # local history: one commit per module and fix
 ```
 
-## Langkah
+Do not start Phase 5 while the security gate is open: `security-audit.sh` must
+report 0 `FAIL` and no `confirmed` high/critical record may remain open
+(`aliran-kerja/06-security-audit.md`).
 
-1. Isi `HANDOFF.md` daripada templat `templat/HANDOFF.md`.
-2. Jalankan semula:
+## Steps
+
+1. Fill `HANDOFF.md` from the `templat/HANDOFF.md` template.
+2. Run again:
 
    ```bash
    bash skrip/qa-check.sh <slug>
+   bash skrip/security-audit.sh <slug>
    bash skrip/test-local.sh <slug> --check
    ```
 
-3. Deploy mengikut stack:
+   Every module's test result and commit id from `STATUS.md` goes into
+   `HANDOFF.md`, together with the security summary (findings fixed, decisions on
+   remaining `WARN`s, any `needs_validation` lead).
 
-   | Stack | Arahan deploy |
+3. Deploy per stack:
+
+   | Stack | Deploy instruction |
    | --- | --- |
-   | GAS + static | Deploy `Code.gs` sebagai Web App; upload `index.html` ke Vercel |
-   | Supabase | Deploy frontend (Vercel/Pages); `npx supabase db push`; tetapkan env |
-   | Cloudflare Worker | `npx wrangler deploy`; `wrangler secret put` untuk rahsia |
+   | GAS + static | Deploy `Code.gs` as a Web App; upload `index.html` to Vercel |
+   | Supabase | Deploy the frontend (Vercel/Pages); `npx supabase db push`; set env |
+   | Cloudflare Worker | `npx wrangler deploy`; `wrangler secret put` for secrets |
    | Firebase | `npx firebase-tools deploy --only hosting,firestore:rules` |
-   | Neon | Deploy API (Worker/Vercel); `db/migrations` dijalankan pada DB produksi |
-   | Hibrid | Deploy setiap lapisan ikut jadual di atas |
-   | Next.js | Deploy Vercel (import repo) + env Postgres |
-   | Node/Express | Deploy VPS/Dokploy (Docker/buildpack) + env DB |
+   | Neon | Deploy the API (Worker/Vercel); `db/migrations` run on the production DB |
+   | Hybrid | Deploy each layer per the table above |
+   | Next.js | Deploy Vercel (import repo) + Postgres env |
+   | Node/Express | Deploy VPS/Dokploy (Docker/buildpack) + DB env |
    | Laravel | Deploy VPS/Dokploy; document root `public/`; `php artisan migrate --force` |
-   | FastAPI/Django | Deploy VPS/Dokploy; jalankan migrasi; matikan debug |
+   | FastAPI/Django | Deploy VPS/Dokploy; run migrations; turn off debug |
+   | Flutter | `flutter build web` → upload `build/web` to Vercel/Pages; Android: `flutter build appbundle`; iOS: `flutter build ipa` (needs macOS) |
 
-4. Uji production (smoke test):
-   - buka URL production;
-   - login akaun sebenar;
-   - satu CRUD;
-   - satu kes ralat (input tidak sah).
-5. Tanda `STATUS.md` selesai dan serahkan.
+4. Test production (smoke test):
+   - open the production URL;
+   - log in with a real account;
+   - one CRUD;
+   - one error case (invalid input).
+5. Mark `STATUS.md` complete and hand over.
 
-## HANDOFF.md mesti ada
+## HANDOFF.md must contain
 
-- URL production + URL staging (jika ada).
-- Akaun admin pertama dan cara tukar kata laluan.
-- Senarai env var / rahsia (nama sahaja, bukan nilai).
-- Arahan jalan tempatan.
-- Arahan deploy semula.
+- Production URL + staging URL (if any).
+- The first admin account and how to change the password.
+- The env var / secret list (names only, not values).
+- Local run instructions.
+- Redeploy instructions.
 - Backup & rollback.
-- Had yang diketahui (kuota, had stack, kerja Fasa 2).
-- Pautan ke PRD, design, dan eksport PNG.
+- Known limits (quotas, stack limits, Phase 2 work).
+- Links to the PRD, design, and PNG exports.
 
 ## Backup & rollback
 
 | Stack | Backup | Rollback |
 | --- | --- | --- |
-| GAS | Salinan Sheet + versi deployment | Deploy semula versi lama di Deployment ID sama |
-| Supabase | `supabase db dump` / backup harian | Restore snapshot / `db reset` pada projek dev |
+| GAS | Sheet copy + deployment version | Redeploy the old version at the same Deployment ID |
+| Supabase | `supabase db dump` / daily backup | Restore a snapshot / `db reset` on the dev project |
 | Worker | Git + `wrangler deployments` | `wrangler rollback` |
-| Firebase | Backup Firestore / Git rules | Deploy semula rules + hosting versi lama |
-| Neon | Neon branch / restore | Restore branch atau PITR |
-| Next.js | Git + Vercel deployment history | Promote deployment lama |
-| Node/Express | Backup DB + imej Docker/Git | Deploy semula imej lama |
-| Laravel | `mysqldump` + Git | Restore dump + deploy lama |
-| FastAPI/Django | `pg_dump` + Git | Restore dump + deploy lama |
+| Firebase | Firestore backup / rules in Git | Redeploy the rules + the old hosting version |
+| Neon | Neon branch / restore | Restore a branch or PITR |
+| Next.js | Git + Vercel deployment history | Promote the old deployment |
+| Node/Express | DB backup + Docker/Git image | Redeploy the old image |
+| Laravel | `mysqldump` + Git | Restore the dump + deploy the old build |
+| FastAPI/Django | `pg_dump` + Git | Restore the dump + deploy the old build |
 
-## Definisi siap
+## Definition of done
 
-- [ ] PRD diluluskan dan disimpan.
-- [ ] Fail FigCraft + eksport PNG disimpan.
-- [ ] Kod lulus `qa-check` dan ujian tempatan.
-- [ ] Semua keperluan **Wajib** PRD berfungsi.
-- [ ] Ujian production lulus.
-- [ ] HANDOFF.md lengkap.
-- [ ] Tiada rahsia dalam repo.
+- [ ] PRD approved and saved.
+- [ ] FigCraft file + PNG exports saved.
+- [ ] Code passes `qa-check` and the local tests.
+- [ ] All **Mandatory** PRD requirements work.
+- [ ] Production test passes.
+- [ ] HANDOFF.md is complete.
+- [ ] No secrets in the repo.
 
-## Selepas serahan
+## After handoff
 
-Perubahan seterusnya: kemas kini PRD dahulu jika keperluan berubah, kemudian
-kod. Jangan ubah kod yang tidak berkaitan tanpa sebab.
+Next changes: update the PRD first if the requirements change, then
+the code. Do not change unrelated code without a reason.

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Jalankan semua skrip semakan sekali gus.
-# Guna: bash skrip/jalankan-semua.sh [slug] [A-J]
+# Run every check script in one go.
+# Usage: bash skrip/jalankan-semua.sh [slug] [A-K]
 #
-# Tanpa slug: hanya semak persekitaran.
-# Dengan slug: semak persekitaran, cipta projek jika belum ada, kemudian
-# jalankan qa-check dan test-local --check. Kegagalan dilaporkan, bukan
-# dihentikan, supaya semua langkah tetap berjalan.
+# Without a slug: only the environment preflight runs.
+# With a slug: preflight, create the project if it does not exist yet, then run
+# qa-check, security-audit, and test-local --check. Failures are reported, not
+# fatal, so every step still runs.
 set -uo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -15,49 +15,53 @@ FAIL=0
 
 banner() { echo; echo "=== $1 ==="; }
 mark() {
-  if [ "$1" -eq 0 ]; then echo "  LULUS  $2"; else echo "  GAGAL  $2"; FAIL=$((FAIL+1)); fi
+  if [ "$1" -eq 0 ]; then echo "  PASS  $2"; else echo "  FAIL  $2"; FAIL=$((FAIL+1)); fi
 }
 
-banner "1/4 Semak persekitaran"
-bash "$ROOT/skrip/check-setup.sh"
-echo "  Nota: AMARAN dalam check-setup bukan penghalang."
+banner "1/5 Environment preflight"
+bash "$ROOT/skrip/preflight.sh"
+echo "  Note: preflight findings are not blockers."
 
 if [ -z "$SLUG" ]; then
   echo
-  echo "Selesai semakan persekitaran."
-  echo "Untuk jalankan semua langkah projek:"
-  echo "  bash skrip/jalankan-semua.sh <slug> [A-J]"
+  echo "Environment check finished."
+  echo "To run every project step:"
+  echo "  bash skrip/jalankan-semua.sh <slug> [A-K]"
   exit 0
 fi
 
 PROJ="$ROOT/projek/$SLUG"
 
-banner "2/4 Sediakan projek: $SLUG"
+banner "2/5 Prepare project: $SLUG"
 if [ -d "$PROJ" ]; then
-  echo "  Projek sudah wujud: projek/$SLUG"
-  mark 0 "new-project.sh (dilangkau)"
+  echo "  Project already exists: projek/$SLUG"
+  mark 0 "new-project.sh (skipped)"
 else
   bash "$ROOT/skrip/new-project.sh" "$SLUG" "$STACK"
   mark $? "new-project.sh"
 fi
 
 if [ ! -f "$PROJ/app/index.html" ] && [ ! -f "$PROJ/app/public/index.html" ] && [ ! -f "$PROJ/app/dist/index.html" ]; then
-  echo "  Nota: app belum ada index.html. Fasa 1-3 belum siap."
+  echo "  Note: app has no index.html yet. Phases 1-3 are not finished."
 fi
 
-banner "3/4 Semakan kualiti (qa-check)"
+banner "3/5 Quality check (qa-check)"
 bash "$ROOT/skrip/qa-check.sh" "$SLUG"
 mark $? "qa-check.sh"
 
-banner "4/4 Ujian tempatan (test-local --check)"
+banner "4/5 Security audit (security-audit)"
+bash "$ROOT/skrip/security-audit.sh" "$SLUG"
+mark $? "security-audit.sh"
+
+banner "5/5 Local test (test-local --check)"
 bash "$ROOT/skrip/test-local.sh" "$SLUG" --check
 mark $? "test-local.sh --check"
 
 echo
 if [ "$FAIL" -eq 0 ]; then
-  echo "SEMUA LULUS untuk projek/$SLUG."
+  echo "ALL PASSED for projek/$SLUG."
 else
-  echo "SELESAI dengan $FAIL langkah gagal. Betulkan, kemudian ulang:"
+  echo "FINISHED with $FAIL failed step(s). Fix them, then rerun:"
   echo "  bash skrip/jalankan-semua.sh $SLUG $STACK"
 fi
 exit "$FAIL"

@@ -1,51 +1,46 @@
-# Setup — Pemasangan MCP & Persekitaran
+# Setup — MCP & Environment Installation
 
-Folder ini mengumpul semua arahan pemasangan. Ia berasingan daripada
-`aliran-kerja/` supaya aliran kerja kekal bersih.
+This folder collects all installation instructions. It is separate from
+`aliran-kerja/` so the workflow stays clean.
 
-## Susunan
+## Layout
 
-| Fail | Isi |
+| File | Content |
 | --- | --- |
-| `01-opencode-mcp.md` | Format `opencode.json`, daftar MCP, semak status |
-| `02-figcraft.md` | FigCraft live (wajib), port 7979, eksport |
-| `03-gas.md` | Google Apps Script, clasp, mod pratonton |
-| `04-supabase.md` | MCP Supabase, projek dev, RLS |
-| `05-cloudflare-worker.md` | MCP Cloudflare, wrangler, D1 |
-| `06-firebase.md` | MCP Firebase, emulator, rules |
-| `07-neon.md` | MCP Neon, Postgres serverless, API |
-| `08-dokploy.md` | Dokploy untuk ujian local (pilihan, perlu kebenaran) |
+| `01-opencode-mcp.md` | `opencode.json` format, register MCP, check status |
+| `02-figcraft.md` | FigCraft live (required), port 7979, export |
+| `03-gas.md` | Google Apps Script, clasp, preview mode |
+| `04-supabase.md` | Supabase MCP, dev project, RLS |
+| `05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 |
+| `06-firebase.md` | Firebase MCP, emulator, rules |
+| `07-neon.md` | Neon MCP, serverless Postgres, API |
+| `08-dokploy.md` | Dokploy for local testing (optional, requires permission) |
 | `09-nextjs.md` | Next.js + Postgres, Vercel |
 | `10-node-express.md` | Node/Express + Postgres, VPS/Dokploy |
 | `11-laravel.md` | Laravel + MySQL, VPS/Dokploy |
 | `12-python.md` | FastAPI/Django + Postgres, VPS/Dokploy |
-| `mcp.opencode.example.json` | Salinan tampal ke `~/.config/opencode/opencode.json` |
+| `13-flutter.md` | Flutter Web + Android/iOS, web testing |
+| `mcp.opencode.example.json` | Copy to paste into `~/.config/opencode/opencode.json` |
 
-## Urutan pemasangan disyorkan
+## Recommended installation order
 
-1. `bash skrip/check-setup.sh` — semak status mesin.
-2. `01-opencode-mcp.md` — asas.
-2. `02-figcraft.md` — wajib untuk Fasa 2.
-3. Pilih satu: `03-gas.md`, `04-supabase.md`, `05-cloudflare-worker.md`,
+1. `bash skrip/preflight.sh --install` — check machine status.
+2. `01-opencode-mcp.md` — basics.
+3. `02-figcraft.md` — required for Phase 2.
+4. Pick one stack: `03-gas.md`, `04-supabase.md`, `05-cloudflare-worker.md`,
    `06-firebase.md`, `07-neon.md`, `09-nextjs.md`, `10-node-express.md`,
-   `11-laravel.md`, `12-python.md`.
-4. Pilihan ujian local: `08-dokploy.md` (tanya kebenaran dahulu).
-5. Uji dengan `bash skrip/test-local.sh <slug> --check`.
+   `11-laravel.md`, `12-python.md`, `13-flutter.md`.
+5. Optional local testing: `08-dokploy.md` (ask for permission first).
+6. Test with `bash skrip/test-local.sh <slug> --check`.
 
-## Peraturan rahsia
+## Secret rules
 
-- Jangan commit token, service role key, connection string, atau `.dev.vars`.
-- Guna `{file:~/.secrets/<nama>}` dalam `opencode.json`, bukan token mentah.
-- `.gitignore` sudah mengecualikan `projek/*/app/.env*` dan `.dev.vars`.
+- Do not commit tokens, service role keys, connection strings, or `.dev.vars`.
+- Use `{file:~/.secrets/<name>}` in `opencode.json`, not raw tokens.
+- `.gitignore` excludes `.env`, `.env.*` (except `.env.example`) and
+  `.dev.vars` across the whole repo, including `projek/`.
 
-## Mesin ini — status ringkas
+## This machine — status summary
 
-| Alat | Status |
-| --- | --- |
-| Node / npm | v24.22.1 / 11.19.1 |
-| Python | 3.12.3 |
-| FigCraft CLI | `/usr/bin/figcraft-cli` (0.16.0) |
-| Java | OpenJDK 17 (emulator Firebase boleh guna) |
-| Docker | TIADA — Supabase local stack tidak boleh guna |
-| psql | TIADA — guna klien Node untuk Neon |
-| Supabase / Neon / Firebase / Wrangler CLI | Belum dipasang; guna `npx` |
+Tool versions and status are maintained in `PANDUAN.md` §2 (Requirements) so
+that there is no second, conflicting source.

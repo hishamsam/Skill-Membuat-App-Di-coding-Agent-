@@ -1,55 +1,55 @@
-# Dokploy untuk Ujian Local (Pilihan)
+# Dokploy for Local Testing (Optional)
 
-Dokploy ialah platform deploy sendiri (self-hosted) yang guna Docker + Traefik.
-Dalam repo ini, Dokploy digunakan sebagai persekitaran ujian local/dev
-**hanya jika pengguna membenarkan**.
+Dokploy is a self-hosted deployment platform that uses Docker + Traefik.
+In this repo, Dokploy is used as a local/dev test environment
+**only if the user permits it**.
 
-## Peraturan
+## Rules
 
-1. Agent mesti minta kebenaran pengguna sebelum memasang Dokploy.
-2. Jika pengguna menolak, **langkau** dan jalankan ujian manual:
+1. The agent must ask the user's permission before installing Dokploy.
+2. If the user declines, **skip** it and run manual testing:
    `bash skrip/test-local.sh <slug> --check`.
-3. Jangan pasang Dokploy pada mesin produksi.
-4. Jangan simpan `DOKPLOY_API_KEY` dalam repo.
+3. Do not install Dokploy on a production machine.
+4. Do not keep `DOKPLOY_API_KEY` in the repo.
 
-## Semak status
+## Check status
 
 ```bash
 bash skrip/setup-dokploy.sh --check
 ```
 
-## Pasang dengan kebenaran
+## Install with permission
 
 ```bash
-bash skrip/setup-dokploy.sh           # tanya y/N dahulu
-sudo bash skrip/setup-dokploy.sh --yes  # lulus tanpa prompt, root diperlukan
+bash skrip/setup-dokploy.sh           # asks y/N first
+sudo bash skrip/setup-dokploy.sh --yes  # passes without a prompt, root required
 ```
 
-Skrip memasang Docker jika tiada, kemudian menjalankan skrip rasmi:
+The script installs Docker if missing, then runs the official script:
 
 ```bash
 curl -sSL https://dokploy.com/install.sh | sh
 ```
 
-Keperluan:
+Requirements:
 
-- Linux (bukan container).
-- Akses root.
-- Port 80, 443, dan 3000 bebas.
-- Mesin dev/VPS, bukan produksi.
+- Linux (not a container).
+- Root access.
+- Ports 80, 443, and 3000 free.
+- A dev/VPS machine, not production.
 
-Selepas pasang:
+After installing:
 
-1. Buka `http://localhost:3000`.
-2. Cipta akaun admin pertama.
-3. Tetapkan environment (jangan commit):
+1. Open `http://localhost:3000`.
+2. Create the first admin account.
+3. Set the environment (do not commit):
 
 ```bash
 export DOKPLOY_URL="http://localhost:3000"
-export DOKPLOY_API_KEY="<kunci-dari-settings>"
+export DOKPLOY_API_KEY="<key-from-settings>"
 ```
 
-4. Pilihan: daftar MCP Dokploy dalam `opencode.json`:
+4. Optional: register the Dokploy MCP in `opencode.json`:
 
 ```json
 {
@@ -59,20 +59,20 @@ export DOKPLOY_API_KEY="<kunci-dari-settings>"
       "command": ["npx", "-y", "@dokploy/mcp"],
       "environment": {
         "DOKPLOY_URL": "http://localhost:3000",
-        "DOKPLOY_API_KEY": "<kunci>"
+        "DOKPLOY_API_KEY": "<key>"
       }
     }
   }
 }
 ```
 
-## Jika ditolak atau gagal
+## If declined or it fails
 
-Tiada masalah. Ujian local berjalan tanpa Dokploy:
+No problem. Local testing runs without Dokploy:
 
 ```bash
 bash skrip/test-local.sh <slug> --check
 bash skrip/qa-check.sh <slug>
 ```
 
-Deploy production tetap berasingan dan memerlukan kebenaran.
+Production deployment remains separate and requires permission.

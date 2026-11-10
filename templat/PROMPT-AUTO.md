@@ -1,32 +1,11 @@
-# Prompt Mod Auto
+# Auto Mode Prompt
 
-Salin, ganti bahagian dalam `[...]`, hantar sebagai mesej pertama.
+Copy, replace the parts inside `[...]`, and send it as your first message.
 
-## Bahasa Melayu
-
-```text
-Bina [idea aplikasi] dalam mod auto penuh.
-
-Keperluan:
-- Guna aliran kerja repo ini: Fasa 1 PRD -> Fasa 2 FigCraft -> Fasa 3 kod
-  responsif -> Fasa 4 ujian tempatan.
-- Jangan langkau temubual PRD. Tanya satu soalan setiap mesej, termasuk
-  soalan susulan stack, sehingga jawapan cukup terperinci.
-- Pilih stack daripada jawapan A6; rekod andaian hanya untuk perkara yang
-  saya serahkan kepada anda.
-- Rujukan imej: [projek/<slug>/refs/ atau tiada].
-- Kod mesti responsif 360-1920px, tiada butang mati, tiada dark mode.
-- Jalankan qa-check.sh dan test-local.sh --check; jangan lapor siap tanpa
-  output sebenar.
-- Berhenti sebelum deploy, pembayaran, DNS, atau akaun production.
-
-Laporkan pada akhir: PRD, design, fail kod, keputusan ujian, blocker.
-```
-
-## English
+Start with `mula` or `start` (both mean the same thing), then paste the prompt below.
 
 ```text
-Build [app idea] in full auto mode.
+Build [app idea] in full auto mode (auto / full auto / do everything / finish it right away / one-shot).
 
 Requirements:
 - Follow this repo's workflow: Phase 1 PRD -> Phase 2 FigCraft -> Phase 3

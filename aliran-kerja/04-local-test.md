@@ -1,50 +1,73 @@
-# Fasa 4 — Ujian Tempatan
+# Phase 4 — Local Test
 
-Tujuan: buktikan app berjalan pada mesin ini sebelum deploy. Jangan lapor
-"siap" tanpa bukti.
+Purpose: prove the app runs on this machine before deploy. Never report
+"done" without evidence.
 
-## Perintah utama
+## Main commands
 
 ```bash
-bash skrip/test-local.sh <slug>          # jalankan server tempatan
-bash skrip/test-local.sh <slug> --check  # start, uji HTTP, stop
-bash skrip/qa-check.sh <slug>            # semakan statik
+bash skrip/test-local.sh <slug>                        # start the local server
+bash skrip/test-local.sh <slug> --check                # start, test HTTP, stop
+bash skrip/test-local.sh <slug> --check --path /orders # also require /orders to answer 200
+bash skrip/qa-check.sh <slug>                          # static check
+bash skrip/security-audit.sh <slug>                    # security gate (Phase 4.5)
 ```
 
-Skrip membaca `projek/<slug>/STACK` yang ditulis oleh `skrip/new-project.sh`.
+The script reads `projek/<slug>/STACK`, written by `skrip/new-project.sh`.
 
-## Mengikut stack
+## Module tests
+
+Every finished module is tested before the next one starts:
+
+```bash
+bash skrip/test-local.sh <slug> --check --path / --path /<module-route>
+bash skrip/git-save.sh <slug> "feat(module-<n>): <module name> + tests"
+```
+
+`--path` may be repeated. Each route must answer 200; anything else fails the
+run. Paste the real output into the `STATUS.md` Modules table. A module without
+a passing test and a commit is not finished.
+
+## Exit criteria for Phase 4
+
+- `test-local --check` returns HTTP 200 for every module route.
+- `qa-check` reports 0 failed.
+- `security-audit` reports 0 `FAIL`, and every `WARN` has a recorded decision
+  (see `aliran-kerja/06-security-audit.md`).
+- The browser checklist below is done at 360, 768, 1024, and 1440.
+
+## Per stack
 
 ### A — GAS
 
-GAS tidak boleh dijalankan sepenuhnya di tempatan. Dua lapisan ujian:
+GAS cannot be fully run locally. Two test layers:
 
-1. **Mod pratonton (wajib):** `IS_PREVIEW = true` dengan data demo lengkap.
+1. **Preview mode (required):** `IS_PREVIEW = true` with complete demo data.
    ```bash
    cd projek/<slug>/app && python3 -m http.server 4173
    ```
-   Buka `http://localhost:4173` dan uji semua skrin/aliran.
-2. **Backend sebenar:** deploy ke Apps Script, kemudian uji endpoint.
+   Open `http://localhost:4173` and test every screen/flow.
+2. **Real backend:** deploy to Apps Script, then test the endpoint.
    ```bash
    curl -L -X POST "<GAS_URL>" \
      -H "Content-Type: text/plain;charset=utf-8" \
      -d '{"action":"ping","data":{}}'
    ```
-   Pilihan CLI: `npx @google/clasp push` (perlu login).
+   CLI option: `npx @google/clasp push` (needs login).
 
-Lulus bila: aliran demo berfungsi, tiada ralat konsol, dan sekurang-kurangnya
-satu panggilan backend sebenar berjaya.
+Pass when: the demo flow works, there are no console errors, and at least
+one real backend call succeeds.
 
 ### B — Supabase
 
-Mesin ini TIADA Docker, jadi `supabase start` tidak boleh guna.
+This machine has NO Docker, so `supabase start` cannot be used.
 
-1. Guna projek dev Supabase (percuma) + kunci anon.
+1. Use a Supabase dev project (free) + the anon key.
 2. `public/index.html` + `python3 -m http.server 4173`.
-3. Uji auth, RLS, CRUD melalui klien.
-4. Uji RLS negatif: pengguna A tidak boleh baca data pengguna B.
+3. Test auth, RLS, CRUD through the client.
+4. Negative RLS test: user A must not be able to read user B's data.
 
-Jika Docker dipasang kemudian:
+If Docker is installed later:
 
 ```bash
 npx supabase@latest start
@@ -55,49 +78,52 @@ npx supabase@latest db reset
 
 ```bash
 cd projek/<slug>/app
-npx wrangler dev            # lalai http://localhost:8787
+npx wrangler dev            # default http://localhost:8787
 ```
 
-- Data D1 tempatan disimpan dalam `.wrangler/state`.
-- Rahsia tempatan dalam `.dev.vars` (jangan commit).
-- Uji `GET /api/health` (jika ada) dan sekurang-kurangnya satu CRUD.
+- Local D1 data is stored in `.wrangler/state`.
+- Local secrets in `.dev.vars` (do not commit).
+- Test `GET /api/health` (if present) and at least one CRUD.
 
 ### D — Firebase
 
-Java 17 tersedia pada mesin ini.
+Java 17 is available on this machine.
 
 ```bash
 cd projek/<slug>/app
 npx firebase-tools emulators:start
 ```
 
-- Sambung aplikasi ke emulator (`connectAuthEmulator`,
-  `connectFirestoreEmulator`) dalam mod ujian sahaja.
-- Uji rules: pengguna tanpa kebenaran mesti ditolak.
-- Untuk ujian automatik: `npx firebase-tools emulators:exec "./tests/smoke.sh"`.
+- Connect the app to the emulator (`connectAuthEmulator`,
+  `connectFirestoreEmulator`) in test mode only.
+- Test rules: a user without permission must be rejected.
+- For automated tests: `npx firebase-tools emulators:exec "./tests/smoke.sh"`.
+
+For an automated check: `bash skrip/test-local.sh <slug> --check` starts
+the hosting emulator only and confirms HTTP 200.
 
 ### E — Neon
 
-Tiada `psql` pada mesin ini.
+There is no `psql` on this machine.
 
-1. Uji API secara tempatan:
+1. Test the API locally:
    ```bash
    cd projek/<slug>/app/api
    npx wrangler dev
    ```
-   Connection string dalam `.dev.vars`.
-2. Uji migrasi dengan skrip Node:
+   Connection string in `.dev.vars`.
+2. Test migrations with a Node script:
    ```bash
    cd projek/<slug>/app
    npm i @neondatabase/serverless
    node db/migrate.mjs
    ```
-3. Jangan sekali-kali letak connection string dalam frontend.
+3. Never put the connection string in the frontend.
 
-### F — Hibrid
+### F — Hybrid
 
-Jalankan setiap servis yang terlibat, kemudian uji aliran hujung ke hujung.
-Contoh: `wrangler dev` (API) + `python3 -m http.server` (frontend).
+Run every service involved, then test the end-to-end flow.
+Example: `wrangler dev` (API) + `python3 -m http.server` (frontend).
 
 ### G — Next.js
 
@@ -107,19 +133,19 @@ npm install
 npm run dev -- -p 4173
 ```
 
-- Uji route server dan route API.
-- `npm run build` mesti lulus sebelum serahan.
+- Test the server routes and API routes.
+- `npm run build` must pass before handoff.
 
 ### H — Node/Express
 
 ```bash
 cd projek/<slug>/app
 npm install
-npm run dev        # atau npm start
+npm run dev        # or npm start
 ```
 
-- Uji `/api/health` dan satu CRUD.
-- Pastikan `.env` tidak di-commit.
+- Test `/api/health` and one CRUD.
+- Make sure `.env` is not committed.
 
 ### I — Laravel
 
@@ -130,8 +156,8 @@ php artisan migrate
 php artisan serve --host=127.0.0.1 --port=4173
 ```
 
-- Uji login, CRUD, dan validation.
-- `APP_DEBUG=false` untuk ujian production-like.
+- Test login, CRUD, and validation.
+- `APP_DEBUG=false` for production-like testing.
 
 ### J — FastAPI/Django
 
@@ -150,40 +176,40 @@ python3 manage.py migrate
 python3 manage.py runserver 127.0.0.1:4173
 ```
 
-## Pilihan: Dokploy untuk ujian local
+## Optional: Dokploy for local testing
 
-Dokploy hanya dipasang **jika pengguna membenarkan**. Tanya dahulu, kemudian:
+Dokploy is installed **only if the user allows it**. Ask first, then:
 
 ```bash
 bash skrip/setup-dokploy.sh
 ```
 
-Jika pengguna menolak atau pemasangan gagal, langkau dan teruskan ujian
-manual di atas. Jangan jadikan Dokploy syarat lulus.
+If the user declines or the install fails, skip it and continue with the manual
+tests above. Do not make Dokploy a pass condition.
 
-## Senarai semak ujian (semua stack)
+## Test checklist (all stacks)
 
-- [ ] Skrin login / skrin utama dibuka tanpa ralat konsol.
-- [ ] Setiap butang dalam senarai PRD menghasilkan tindakan.
-- [ ] CRUD berfungsi dengan data seed.
-- [ ] Keadaan loading, empty, error boleh dicetuskan.
-- [ ] Refresh halaman tidak log keluar paksa.
-- [ ] Responsif disemak: 390, 768, 1024, 1440.
-- [ ] Tiada scroll mendatar pada 360px.
-- [ ] Tiada rahsia dalam `index.html` / bundle frontend.
-- [ ] `qa-check.sh` lulus.
-- [ ] Semua kes ujian PRD Bab 13.3 lulus.
+- [ ] The login screen / main screen opens with no console errors.
+- [ ] Every button in the PRD list produces an action.
+- [ ] CRUD works with seed data.
+- [ ] Loading, empty, error states can be triggered.
+- [ ] Refreshing the page does not force a logout.
+- [ ] Responsiveness checked: 390, 768, 1024, 1440.
+- [ ] No horizontal scroll at 360px.
+- [ ] No secrets in `index.html` / the frontend bundle.
+- [ ] `qa-check.sh` passes.
+- [ ] All PRD Chapter 13.3 test cases pass.
 
-## Cara semak responsif
+## How to check responsiveness
 
-1. Buka DevTools → Toggle device toolbar.
-2. Uji 360×800, 390×844, 768×1024, 1024×768, 1440×900.
-3. Periksa: tiada elemen terkeluar, teks tidak bertindih, nav tidak bertindih
-   kandungan, modal tidak terpotong.
+1. Open DevTools → Toggle device toolbar.
+2. Test 360×800, 390×844, 768×1024, 1024×768, 1440×900.
+3. Check: no element overflows, text does not overlap, nav does not overlap
+   content, modal is not clipped.
 
-## Bila ujian gagal
+## When a test fails
 
-1. Catat langkah reproduce + mesej ralat sebenar.
-2. Betulkan punca, bukan gejala.
-3. Jalankan semula ujian yang sama.
-4. Jangan teruskan ke Fasa 5 selagi senarai semak belum lulus.
+1. Record the reproduce steps + the real error message.
+2. Fix the cause, not the symptom.
+3. Run the same test again.
+4. Do not continue to Phase 5 while the checklist has not passed.

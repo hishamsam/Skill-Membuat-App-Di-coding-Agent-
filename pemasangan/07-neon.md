@@ -2,10 +2,10 @@
 
 ## MCP
 
-Dua cara:
+Two ways:
 
 ```bash
-# 1. Wizard (tulis config untuk agent yang dikesan)
+# 1. Wizard (writes the config for detected agents)
 npx neon@latest mcp
 
 # 2. Remote MCP
@@ -13,7 +13,7 @@ opencode mcp add neon --global --url "https://mcp.neon.tech/mcp"
 opencode mcp auth neon
 ```
 
-Dengan token API:
+With an API token:
 
 ```bash
 opencode mcp add neon --global \
@@ -21,10 +21,10 @@ opencode mcp add neon --global \
   --header "Authorization=Bearer {file:~/.secrets/neon-token}"
 ```
 
-Jika `{file:...}` tidak dihurai oleh klien, guna OAuth (`opencode mcp auth`)
-atau letak token terus dalam config peribadi (jangan commit).
+If `{file:...}` is not parsed by the client, use OAuth (`opencode mcp auth`) or
+put the token directly in a private config (do not commit).
 
-## Projek
+## Project
 
 ```bash
 npx neonctl@latest auth
@@ -32,18 +32,18 @@ npx neonctl@latest projects list
 npx neonctl@latest connection-string <project-id>
 ```
 
-Simpan connection string dalam `.dev.vars` / env server. JANGAN letak dalam
+Keep the connection string in `.dev.vars` / server env. Do NOT put it in the
 frontend.
 
-## Seni bina
+## Architecture
 
-Browser tidak boleh bercakap terus dengan Postgres. Pilih satu:
+The browser cannot talk to Postgres directly. Choose one:
 
-| Laluan | Bila |
+| Path | When |
 | --- | --- |
-| Cloudflare Worker + `@neondatabase/serverless` | API edge, projek Worker |
-| Vercel Function / Node API | Frontend Vercel |
-| Neon Data API (PostgREST + JWT) | CRUD ringkas tanpa API sendiri |
+| Cloudflare Worker + `@neondatabase/serverless` | Edge API, Worker project |
+| Vercel Function / Node API | Vercel frontend |
+| Neon Data API (PostgREST + JWT) | Simple CRUD without your own API |
 
 ```js
 // api/src/index.js (Worker)
@@ -58,13 +58,13 @@ export default {
 };
 ```
 
-## Migrasi
+## Migrations
 
 ```text
 projek/<slug>/app/db/migrations/0001_init.sql
 ```
 
-Skrip Node ringkas (tiada `psql` pada mesin ini):
+A simple Node script (this machine has no `psql`):
 
 ```js
 // db/migrate.mjs
@@ -74,7 +74,7 @@ import { readFileSync } from "node:fs";
 const sql = neon(process.env.DATABASE_URL);
 const text = readFileSync(new URL("./migrations/0001_init.sql", import.meta.url), "utf8");
 await sql.query(text);
-console.log("migrasi selesai");
+console.log("migration complete");
 ```
 
 ```bash
@@ -83,24 +83,24 @@ npm i @neondatabase/serverless
 DATABASE_URL="postgres://..." node db/migrate.mjs
 ```
 
-## Ujian tempatan
+## Local testing
 
 ```bash
 cd projek/<slug>/app/api
-npx wrangler dev            # API + DB Neon dev branch
+npx wrangler dev            # API + Neon dev branch DB
 ```
 
-Guna branch Neon untuk `dev`, `staging`, `main`. Jangan uji pada branch
-production.
+Use Neon branches for `dev`, `staging`, `main`. Do not test on the production
+branch.
 
 ## Deploy
 
-- Deploy API (Worker/Vercel), tetapkan `DATABASE_URL` sebagai rahsia.
-- Jalankan migrasi pada branch production sekali sahaja.
-- Simpan salinan skema dalam repo.
+- Deploy the API (Worker/Vercel), set `DATABASE_URL` as a secret.
+- Run migrations on the production branch once only.
+- Keep a copy of the schema in the repo.
 
-## Had
+## Limits
 
-- Cold start jika scale-to-zero aktif.
-- Perlu connection pooling untuk sambungan banyak.
-- Auth bukan sebahagian Neon; pilih Supabase Auth / Firebase Auth / sendiri.
+- Cold start if scale-to-zero is active.
+- Connection pooling is needed for many connections.
+- Auth is not part of Neon; choose Supabase Auth / Firebase Auth / your own.

@@ -1,8 +1,8 @@
-# Stack I — Laravel + MySQL
+# 11 — Stack I: Laravel + MySQL
 
-Sesuai: projek PHP, admin panel, hosting biasa atau VPS/Dokploy.
+Suitable for: PHP projects, admin panels, ordinary hosting or VPS/Dokploy.
 
-## Prasyarat
+## Prerequisites
 
 ```bash
 php -v          # PHP 8.2+
@@ -10,16 +10,16 @@ composer -V
 mysql --version
 ```
 
-## Cipta projek
+## Create a project
 
 ```bash
 cd projek/<slug>/app
-composer create-project laravel/laravel . 
+composer create-project laravel/laravel .
 ```
 
-Jika folder ada fail, cipta dalam folder sementara kemudian salin.
+If the folder has files, create it in a temporary folder then copy.
 
-## Pangkalan data
+## Database
 
 ```bash
 cp .env.example .env
@@ -30,38 +30,38 @@ php artisan key:generate
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=<nama>
+DB_DATABASE=<name>
 DB_USERNAME=<user>
-DB_PASSWORD=<kata-laluan>
+DB_PASSWORD=<password>
 ```
 
 ```bash
 php artisan migrate
 ```
 
-## Ujian tempatan
+## Local testing
 
 ```bash
 cd projek/<slug>/app
 php artisan serve --host=127.0.0.1 --port=4173
 ```
 
-Atau:
+Or:
 
 ```bash
 bash skrip/test-local.sh <slug> --check
 ```
 
-## Deploy VPS/Dokploy
+## VPS/Dokploy deploy
 
-1. Tetapkan document root ke `public/`.
-2. Tetapkan env production di Dokploy.
-3. Jalankan `php artisan migrate --force`.
-4. `php artisan config:cache` dan `route:cache`.
+1. Set the document root to `public/`.
+2. Set the production env in Dokploy.
+3. Run `php artisan migrate --force`.
+4. `php artisan config:cache` and `route:cache`.
 
-## Semakan
+## Checks
 
-- [ ] `APP_DEBUG=false` di production.
-- [ ] `.env` tidak di-commit.
-- [ ] Validation di Form Request, bukan hanya klien.
-- [ ] `qa-check.sh` lulus.
+- [ ] `APP_DEBUG=false` in production.
+- [ ] `.env` is not committed.
+- [ ] Validation in Form Request, not only on the client.
+- [ ] `qa-check.sh` passes.

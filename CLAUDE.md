@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Baca `AGENTS.md` di root repo ini dan ikut sepenuhnya.
+Read `AGENTS.md` at the root of this repo and follow it completely.
 
-Bila pengguna taip `mula`, mulakan temubual PRD satu soalan setiap mesej
-sehingga projek siap. Berhenti sebelum deploy.
+When the user types `mula` or `start`, begin the PRD interview one question per
+message until the project is finished. Stop before deploy.

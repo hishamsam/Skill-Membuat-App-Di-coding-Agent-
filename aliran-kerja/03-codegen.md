@@ -1,89 +1,132 @@
-# Fasa 3 — Penjanaan Kod Responsif
+# Phase 3 — Responsive Code Generation
 
-Tujuan: tukar PRD + skrin FigCraft menjadi aplikasi yang berfungsi, responsif,
-dan selamat. Reka bentuk FigCraft ialah rujukan komposisi, bukan kunci lebar.
+Purpose: turn the PRD + FigCraft screens into an application that works, is responsive,
+and is secure. The FigCraft design is a composition reference, not a width lock.
 
 ## Input
 
-- `projek/<slug>/prd/PRD-v0.1.md` (Bab 6, 7, 9, 12, 13)
+- `projek/<slug>/prd/PRD-v0.1.md` (Chapters 6, 7, 9, 12, 13)
 - `projek/<slug>/design/exports/*.png`
 - `projek/<slug>/design/DESIGN-DNA.md`
-- Stack dalam PRD Bab 6.
+- The stack in PRD Chapter 6.
 
-## Kontrak responsif (WAJIB)
+## Responsive contract (MANDATORY)
 
-Reka bentuk mobile dalam FigCraft TIDAK bermaksud kod mobile-only.
-Kod mesti berfungsi dari 360px hingga 1920px.
+A mobile design in FigCraft does NOT mean mobile-only code.
+The code must work from 360px to 1920px.
 
-| Julat | Sasaran | Navigasi | Grid kandungan |
+| Range | Target | Navigation | Content grid |
 | --- | --- | --- | --- |
-| 360–639px | Telefon | Bottom nav 3–5 item | 1 kolum |
-| 640–1023px | Tablet | Top bar ringkas / rail | 1–2 kolum |
-| 1024–1439px | Laptop | Sidebar / top nav penuh | 2–3 kolum |
-| ≥ 1440px | Desktop | Sama, container terhad | 3–4 kolum |
+| 360–639px | Phone | Bottom nav with 3–5 items | 1 column |
+| 640–1023px | Tablet | Simple top bar / rail | 1–2 columns |
+| 1024–1439px | Laptop | Sidebar / full top nav | 2–3 columns |
+| ≥ 1440px | Desktop | Same, constrained container | 3–4 columns |
 
-Peraturan keras:
+Hard rules:
 
-- `viewport` meta ada.
-- Tiada scroll mendatar pada `body` / root.
-- Jadual: `overflow-x-auto` ATAU tukar jadi senarai kad di bawah `md`.
+- The `viewport` meta is present.
+- No horizontal scroll on `body` / root.
+- Tables: `overflow-x-auto` OR switch to a card list below `md`.
 - Modal: `w-[calc(100%-2rem)] max-w-lg max-h-[85vh] overflow-y-auto`.
-- Butang/input: tinggi minimum 44px, teks butang `whitespace-nowrap`.
-- Navigasi mobile: bottom nav dengan padding selamat + `pb-24` pada `<main>`.
-- Navigasi desktop: sidebar/top bar biasa; JANGAN papar bottom nav di desktop.
-- Teks: `clamp()` atau kelas `text-sm md:text-base`; tiada teks terpotong.
-- Reka bentuk mesti tunjuk desktop, bukan mobile yang diregang.
+- Buttons/inputs: minimum height 44px, button text `whitespace-nowrap`.
+- Mobile navigation: bottom nav with safe padding + `pb-24` on `<main>`.
+- Desktop navigation: normal sidebar/top bar; do NOT show the bottom nav on desktop.
+- Text: `clamp()` or the class `text-sm md:text-base`; no clipped text.
+- The design must show desktop, not a stretched mobile.
 
-## Langkah
+## Steps
 
-1. Jana jadual pelaksanaan daripada PRD:
+1. Generate the implementation table from the PRD:
 
    ```text
-   | # | Keperluan PRD | Skrin | Fail | Status |
+   | # | PRD requirement | Screen | File | Status |
    |---|---------------|-------|------|--------|
    | 1 | AUTH-1        | S-01  | app  | [ ]    |
    ```
 
-2. Ekstrak token dari `DESIGN-DNA.md` ke satu tempat:
-   - Tailwind `tailwind.config` atau blok `:root` CSS variables.
-   - Nama peranan (`ink`, `surface`, `line`, `accent`), bukan hex bertaburan.
+2. Extract the tokens from `DESIGN-DNA.md` into one place:
+   - Tailwind `tailwind.config` or a `:root` CSS variables block.
+   - Role names (`ink`, `surface`, `line`, `accent`), not scattered hex.
 
-3. Bina fail mengikut stack (lihat bawah).
+3. Build the files per stack (see below).
 
-4. Semak setiap butang ada `data-action` dan cabang logik sebenar.
+4. Check every button has a `data-action` and a real logic branch.
 
-5. Jalankan `bash skrip/qa-check.sh <slug>` sehingga lulus.
+5. Work module by module. For each module: write the code, run its test, commit
+   it, then start the next one (see below).
 
-6. Kemas kini `STATUS.md`: Fasa 3 siap.
+6. Run `bash skrip/qa-check.sh <slug>` until it passes.
 
-## Susunan fail mengikut stack
+7. Run `bash skrip/security-audit.sh <slug>` and clear every `FAIL` before the
+   security gate (Phase 4.5).
+
+8. Update `STATUS.md`: Phase 3 done.
+
+## Module loop (MANDATORY)
+
+A module is one screen plus the handler, endpoint, and data it needs. Never build
+the whole app before testing anything.
+
+For every module:
+
+1. **Build** the module end to end: UI, handler or endpoint, validation, and the
+   loading, empty, and error states.
+2. **Test** it against the running app:
+
+   ```bash
+   bash skrip/test-local.sh <slug> --check --path <route>
+   bash skrip/qa-check.sh <slug>
+   ```
+
+   `--path` repeats; one flag per module route. A non-200 response fails the run.
+   Record the real output in the `STATUS.md` Modules table.
+3. **Fix** failures before moving on. Do not stack unverified modules.
+4. **Commit** the module in the project's local repository:
+
+   ```bash
+   bash skrip/git-save.sh <slug> "feat(module-<n>): <module name> + tests"
+   ```
+
+5. **Record** the module row in `STATUS.md`: module, screen/route, test evidence,
+   commit id.
+
+Rules:
+
+- A module is not done until its test passes and the commit exists.
+- Commit messages: `feat(module-<n>): ...`, `fix(...)`, `chore(...)`,
+  `security(...)`, `test(...)`.
+- `projek/<slug>/.git` is a separate local repository; the skill repo ignores
+  `projek/*` so project history never pollutes the skill history.
+- Never commit `.env`, `.dev.vars`, keys, or exports with personal data.
+
+## File layout per stack
 
 ### A — GAS
 
 ```text
 projek/<slug>/app/
-├── index.html          # satu fail utuh: HTML + Tailwind CDN + JS
-├── Code.gs             # router doPost, auth, LockService, batch sheet
+├── index.html          # one whole file: HTML + Tailwind CDN + JS
+├── Code.gs             # doPost router, auth, LockService, batch sheet
 └── appsscript.json     # timezone, webapp access
 ```
 
-Ikut standard GAS dalam `SKILL.md` (batch `getValues`, `LockService`,
-SHA-256 + salt, token HMAC, `setupDatabase()`).
+Follow the GAS standard in `SKILL.md` (batch `getValues`, `LockService`,
+SHA-256 + salt, HMAC token, `setupDatabase()`).
 
 ### B — Supabase
 
 ```text
 projek/<slug>/app/
-├── public/index.html   # atau index.html satu fail
+├── public/index.html   # or a single-file index.html
 ├── supabase/migrations/0001_init.sql
 ├── supabase/migrations/0002_rls.sql
 └── .env.example        # SUPABASE_URL, SUPABASE_ANON_KEY
 ```
 
-- Klien guna `@supabase/supabase-js` (CDN atau bundler).
-- RLS WAJIB aktif untuk setiap jadual.
-- `service_role` hanya dalam Edge Function / server; tidak pernah di klien.
-- Auth: guna Supabase Auth, jangan bina semula hash password sendiri.
+- The client uses `@supabase/supabase-js` (CDN or bundler).
+- RLS is MANDATORY on for every table.
+- `service_role` only in an Edge Function / server; never in the client.
+- Auth: use Supabase Auth, do not rebuild password hashing yourself.
 
 ### C — Cloudflare Worker
 
@@ -93,12 +136,12 @@ projek/<slug>/app/
 ├── src/index.js        # fetch handler / API
 ├── migrations/0001_init.sql
 ├── wrangler.jsonc
-└── .dev.vars           # rahsia tempatan (jangan commit)
+└── .dev.vars           # local secrets (do not commit)
 ```
 
-- Binding D1/KV/R2 ikut PRD Bab 9.2.
-- `wrangler.jsonc` ada `assets.directory` untuk frontend static.
-- Input disahkan di server; jangan percaya body mentah.
+- D1/KV/R2 bindings per PRD Chapter 9.2.
+- `wrangler.jsonc` has `assets.directory` for the static frontend.
+- Input is validated on the server; do not trust the raw body.
 
 ### D — Firebase
 
@@ -110,9 +153,9 @@ projek/<slug>/app/
 └── firestore.indexes.json
 ```
 
-- `firestore.rules` mengunci baca/tulis per peranan.
-- Guna Firebase Auth; jangan simpan password sendiri.
-- Emulator hanya untuk ujian; konfigurasi production dalam fail berasingan.
+- `firestore.rules` locks read/write per role.
+- Use Firebase Auth; do not store passwords yourself.
+- Emulator only for tests; production configuration in a separate file.
 
 ### E — Neon
 
@@ -125,14 +168,14 @@ projek/<slug>/app/
 └── .dev.vars
 ```
 
-- Browser TIDAK boleh sambung terus ke Neon dengan connection string.
-- Semua query melalui API; sahkan sesi di API.
-- Guna connection pooling / serverless driver.
+- The browser must NOT connect directly to Neon with a connection string.
+- All queries go through the API; verify the session in the API.
+- Use connection pooling / the serverless driver.
 
-### F — Hibrid
+### F — Hybrid
 
-Gabung susunan di atas. Tulis dalam PRD Bab 6.3 lapisan mana buat apa.
-Jangan ulang logik yang sama dalam dua servis.
+Combine the layouts above. Write in PRD Chapter 6.3 which layer does what.
+Do not repeat the same logic in two services.
 
 ### G — Next.js
 
@@ -148,9 +191,9 @@ projek/<slug>/app/
 └── .env.example
 ```
 
-- Server component untuk data; client component hanya untuk interaksi.
-- Auth dan query DB di server, bukan dalam bundle klien.
-- Jangan letak `DATABASE_URL` dalam `NEXT_PUBLIC_*`.
+- Server components for data; client components only for interaction.
+- Auth and DB queries on the server, not in the client bundle.
+- Do not put `DATABASE_URL` in `NEXT_PUBLIC_*`.
 
 ### H — Node/Express
 
@@ -159,13 +202,13 @@ projek/<slug>/app/
 ├── src/index.js
 ├── src/routes/
 ├── src/db.js
-├── public/             # frontend static jika ada
+├── public/             # static frontend if any
 ├── package.json
 └── .env.example
 ```
 
-- Validation dan auth di middleware server.
-- Frontend static boleh dihidang oleh Express atau servis berasingan.
+- Validation and auth in server middleware.
+- The static frontend can be served by Express or a separate service.
 
 ### I — Laravel
 
@@ -180,40 +223,40 @@ projek/<slug>/app/
 └── .env.example
 ```
 
-- Guna Form Request untuk validation.
-- Blade + Tailwind untuk UI; elak logik dalam view.
-- Document root production mesti `public/`.
+- Use Form Requests for validation.
+- Blade + Tailwind for the UI; avoid logic in views.
+- The production document root must be `public/`.
 
 ### J — FastAPI/Django
 
 ```text
 projek/<slug>/app/
 ├── main.py / manage.py
-├── app/                # FastAPI routers atau Django apps
-├── templates/          # jika ada UI
+├── app/                # FastAPI routers or Django apps
+├── templates/          # if there is a UI
 ├── requirements.txt
 └── .env.example
 ```
 
-- FastAPI: Pydantic untuk validation, dependency untuk auth.
-- Django: form/model validation, template + Tailwind.
-- Debug mesti mati di production.
+- FastAPI: Pydantic for validation, dependencies for auth.
+- Django: form/model validation, templates + Tailwind.
+- Debug must be off in production.
 
-## Peraturan kod (semua stack)
+## Code rules (all stacks)
 
-- Satu fail frontend yang boleh terus dijalankan; jangan pecah kepada
-  "Bahagian 1/2".
-- Tiada `TODO`, fungsi kosong, atau `console.log` sebagai pengganti logik.
-- Tiada butang mati: setiap butang ada tindakan nyata.
-- Setiap skrin ada keadaan loading / empty / error.
-- Light mode sahaja. Tiada kelas `dark:`.
-- Ikon satu pustaka (Lucide). Tiada emoji sebagai ikon.
-- Borang: label, mesej ralat, dan fokus jelas.
-- Jangan letak rahsia dalam fail frontend.
-- Jangan reka endpoint atau URL deploy yang tidak wujud.
+- One frontend file that can run straight away; do not split it into
+  "Part 1/2".
+- No `TODO`, empty functions, or `console.log` as a substitute for logic.
+- No dead buttons: every button has a real action.
+- Every screen has a loading / empty / error state.
+- Light mode only. No `dark:` classes.
+- Icons from one library (Lucide). No emoji as icons.
+- Forms: label, error message, and clear focus.
+- Do not put secrets in frontend files.
+- Do not invent endpoints or deploy URLs that do not exist.
 
 ## Output
 
-- Fail aplikasi dalam `projek/<slug>/app/`.
-- Jadual pelaksanaan dikemas kini.
-- Senarai fail + bilangan baris dilaporkan.
+- Application files in `projek/<slug>/app/`.
+- Implementation table updated.
+- File list + line counts reported.

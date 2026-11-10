@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Jana PANDUAN.html daripada PANDUAN.md.
+"""Build PANDUAN.html from PANDUAN.md.
 
-Guna: python3 skrip/build-panduan-html.py
+Usage: python3 skrip/build-panduan-html.py
 """
 
 import html
 import re
 from pathlib import Path
 
-import markdown
+try:
+    import markdown
+except ModuleNotFoundError:
+    raise SystemExit("The 'markdown' module is required: python3 -m pip install markdown")
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "PANDUAN.md"
@@ -21,22 +24,12 @@ def strip_first_h1(text: str) -> str:
     return re.sub(r"^# .*\n", "", text, count=1, flags=re.M)
 
 
-def prefix_ids(body: str, prefix: str) -> str:
-    body = re.sub(
-        r'(<h[1-6][^>]*\bid=")([^"]+)(")',
-        lambda m: f'{m.group(1)}{prefix}-{m.group(2)}{m.group(3)}',
-        body,
-    )
-    body = body.replace('href="#', f'href="#{prefix}-')
-    return body
-
-
 def add_anchors(body: str) -> str:
     def repl(m):
         tag, ident, inner = m.group(1), m.group(2), m.group(3)
         return (
             f'<{tag} id="{ident}">{inner}'
-            f'<a class="anchor" href="#{ident}" aria-label="Pautan ke bahagian ini">#</a>'
+            f'<a class="anchor" href="#{ident}" aria-label="Link to this section">#</a>'
             f"</{tag}>"
         )
 
@@ -50,7 +43,7 @@ def task_lists(body: str) -> str:
     return body
 
 
-def build_toc(body: str, prefix: str) -> str:
+def build_toc(body: str) -> str:
     items = []
     for m in re.finditer(r"<(h[23]) id=\"([^\"]+)\">(.*?)</\1>", body, flags=re.S):
         level, ident, inner = m.group(1), m.group(2), m.group(3)
@@ -67,20 +60,11 @@ def build_toc(body: str, prefix: str) -> str:
     return "\n".join(items)
 
 
-def section(md_text: str, prefix: str) -> tuple[str, str]:
+def section(md_text: str) -> tuple[str, str]:
     body = markdown.markdown(strip_first_h1(md_text), extensions=MD_EXT)
-    body = prefix_ids(body, prefix)
     body = task_lists(body)
     body = add_anchors(body)
-    return body, build_toc(body, prefix)
-
-
-def split_source(src: str) -> tuple[str, str]:
-    en_marker = "# Part 1 — English"
-    ms_marker = "# Bahagian 2 — Bahasa Melayu"
-    en_start = src.index(en_marker)
-    ms_start = src.index(ms_marker)
-    return src[en_start:ms_start], src[ms_start:]
+    return body, build_toc(body)
 
 
 CSS = r"""
@@ -106,9 +90,6 @@ a:hover{text-decoration:underline}
 .search input{width:260px;max-width:38vw;height:40px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:0 12px 0 34px;font:inherit;font-size:14px;color:var(--ink);outline:none}
 .search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,107,79,.14)}
 .search svg{position:absolute;left:11px;top:11px;width:18px;height:18px;opacity:.55}
-.lang{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
-.lang button{border:0;background:#fff;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:9px 13px;cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--accent);color:#fff}
 .progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:transparent}
 .progress span{display:block;height:100%;width:0;background:var(--accent)}
 .layout{display:flex;align-items:flex-start}
@@ -151,7 +132,6 @@ tr:last-child td{border-bottom:0}
 tbody tr:hover{background:#fafbf8}
 .content input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);margin-right:6px;vertical-align:-2px}
 .footer{max-width:940px;margin:60px auto 0;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;display:flex;gap:16px;flex-wrap:wrap}
-html[data-lang="en"] [data-lang="ms"],html[data-lang="ms"] [data-lang="en"]{display:none!important}
 .overlay{display:none;position:fixed;inset:var(--topbar) 0 0;background:rgba(20,30,24,.35);z-index:35}
 body.nav-open .overlay{display:block}
 @media(max-width:1024px){
@@ -166,7 +146,6 @@ body.nav-open .overlay{display:block}
   .search{flex:1;margin-left:0}
   .search input{width:100%;max-width:none}
   .topbar{gap:9px;padding:0 12px}
-  .lang button{padding:8px 10px}
   .content pre{font-size:12.5px}
 }
 @media(max-width:540px){
@@ -176,7 +155,6 @@ body.nav-open .overlay{display:block}
   .topbar,.sidebar,.overlay,.copy{display:none!important}
   .main{padding:0}
   .doc{max-width:none}
-  html[data-lang="en"] [data-lang="ms"],html[data-lang="ms"] [data-lang="en"]{display:none!important}
   .content pre{background:#f4f6f0;color:#17211c;border:1px solid #ddd}
   .content a{color:inherit}
   body{background:#fff}
@@ -185,41 +163,12 @@ body.nav-open .overlay{display:block}
 
 JS = r"""
 (function(){
-  var root=document.documentElement;
   var body=document.body;
   var input=document.getElementById('search');
   var links=[].slice.call(document.querySelectorAll('.toc-link'));
   var noResult=document.querySelector('.no-result');
   var bar=document.getElementById('bar');
   var menu=document.getElementById('menu');
-
-  function setLang(lang){
-    root.setAttribute('data-lang',lang);
-    root.lang=lang;
-    document.title=(lang==='ms'?'Panduan Penggunaan':'Usage Guide')+' — WebApp Builder';
-    document.querySelectorAll('.lang button').forEach(function(b){
-      b.setAttribute('aria-pressed',String(b.dataset.setLang===lang));
-    });
-    document.querySelectorAll('[data-en]').forEach(function(el){
-      el.textContent=lang==='en'?el.dataset.en:el.dataset.ms;
-    });
-    var searchBox=document.getElementById('search');
-    searchBox.placeholder=lang==='en'?searchBox.dataset.placeholderEn:searchBox.dataset.placeholderMs;
-    searchBox.setAttribute('aria-label',lang==='en'?'Search sections':'Cari bahagian');
-    menu.setAttribute('aria-label',lang==='en'?'Open menu':'Buka menu');
-    try{localStorage.setItem('panduan-lang',lang);}catch(e){}
-    body.classList.remove('nav-open');
-    menu.setAttribute('aria-expanded','false');
-    observe();
-  }
-  document.querySelectorAll('.lang button').forEach(function(b){
-    b.addEventListener('click',function(){setLang(b.dataset.setLang);});
-  });
-  var saved=null;
-  try{saved=localStorage.getItem('panduan-lang');}catch(e){}
-  var fromUrl=null;
-  try{fromUrl=new URLSearchParams(location.search).get('lang');}catch(e){}
-  setLang(fromUrl==='en'||saved==='en'?'en':'ms');
 
   menu.addEventListener('click',function(){
     var open=body.classList.toggle('nav-open');
@@ -231,7 +180,7 @@ JS = r"""
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'){body.classList.remove('nav-open');menu.setAttribute('aria-expanded','false');}
   });
-  document.querySelectorAll('.toc-link').forEach(function(a){
+  links.forEach(function(a){
     a.addEventListener('click',function(){
       body.classList.remove('nav-open');menu.setAttribute('aria-expanded','false');
     });
@@ -276,22 +225,17 @@ JS = r"""
     if(!h.id||h.querySelector('.anchor'))return;
     var a=document.createElement('a');
     a.className='anchor';a.href='#'+h.id;a.textContent='#';
-    a.setAttribute('aria-label','Pautan ke bahagian ini');
+    a.setAttribute('aria-label','Link to this section');
     h.appendChild(a);
   });
 
   var current=null;
-  var visibleLinks=[];
-  function activeLinks(){
-    var lang=root.getAttribute('data-lang');
-    visibleLinks=[].slice.call(document.querySelectorAll('[data-lang="'+lang+'"] .toc-link'));
-  }
   function onScroll(){
     var max=document.documentElement.scrollHeight-window.innerHeight;
     bar.style.width=(max>0?Math.min(100,window.scrollY/max*100):0)+'%';
-    if(!visibleLinks.length)return;
-    var mark=window.scrollY+120,best=null;
-    visibleLinks.forEach(function(a){
+    if(!links.length)return;
+    var best=null;
+    links.forEach(function(a){
       var id=a.getAttribute('href').slice(1);
       var h=document.getElementById(id);
       if(h&&h.getBoundingClientRect().top<=140)best=a;
@@ -306,10 +250,7 @@ JS = r"""
   window.addEventListener('resize',onScroll);
 
   var io;
-  function observe(){
-    activeLinks();
-    if(io)io.disconnect();
-    if(!('IntersectionObserver'in window)){onScroll();return;}
+  if('IntersectionObserver'in window){
     io=new IntersectionObserver(function(entries){
       entries.forEach(function(en){
         if(en.isIntersecting){
@@ -318,76 +259,54 @@ JS = r"""
         }
       });
     },{rootMargin:'-90px 0px -70% 0px',threshold:0});
-    document.querySelectorAll('[data-lang="'+root.getAttribute('data-lang')+'"] .content h2').forEach(function(h){io.observe(h);});
-    onScroll();
+    document.querySelectorAll('.content h2').forEach(function(h){io.observe(h);});
   }
-  observe();
+  onScroll();
 })();
 """
 
 
 def main() -> None:
     src = SRC.read_text(encoding="utf-8")
-    en_md, ms_md = split_source(src)
-    en_body, en_toc = section(en_md, "en")
-    ms_body, ms_toc = section(ms_md, "ms")
+    body, toc = section(src)
 
     doc = f"""<!DOCTYPE html>
-<html lang="ms" data-lang="ms">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Panduan penggunaan lengkap WebApp Builder: PRD, FigCraft, kod responsif, ujian tempatan, serahan. English and Bahasa Melayu.">
-<title>Panduan Penggunaan — WebApp Builder</title>
+<meta name="description" content="Complete WebApp Builder usage guide: PRD, FigCraft, responsive code, local testing, handoff.">
+<title>Usage Guide — WebApp Builder</title>
 <style>{CSS}</style>
 </head>
 <body>
-<a class="skip" href="#main" data-en="Skip to content" data-ms="Lompat ke kandungan">Lompat ke kandungan</a>
+<a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <button class="icon-btn" id="menu" aria-label="Buka menu" aria-expanded="false" aria-controls="sidebar">☰</button>
-  <a class="brand" href="#main">WebApp Builder <span data-en="· Guide" data-ms="· Panduan">· Panduan</span></a>
+  <button class="icon-btn" id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="#main">WebApp Builder <span>· Guide</span></a>
   <div class="search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-    <input id="search" type="search" placeholder="Cari bahagian…" aria-label="Cari bahagian" data-placeholder-en="Search sections…" data-placeholder-ms="Cari bahagian…">
-  </div>
-  <div class="lang" role="group" aria-label="Bahasa / Language">
-    <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
-    <button type="button" data-set-lang="ms" aria-pressed="true">MS</button>
+    <input id="search" type="search" placeholder="Search sections…" aria-label="Search sections">
   </div>
   <div class="progress" aria-hidden="true"><span id="bar"></span></div>
 </header>
 <div class="overlay" id="overlay"></div>
 <div class="layout">
   <aside class="sidebar" id="sidebar">
-    <div data-lang="en">
-      <h2>Contents</h2>
-      <nav aria-label="Contents">{en_toc}</nav>
-    </div>
-    <div data-lang="ms">
-      <h2>Kandungan</h2>
-      <nav aria-label="Kandungan">{ms_toc}</nav>
-    </div>
-    <p class="no-result" data-en="No matching sections." data-ms="Tiada bahagian sepadan.">Tiada bahagian sepadan.</p>
+    <h2>Contents</h2>
+    <nav aria-label="Contents">{toc}</nav>
+    <p class="no-result">No matching sections.</p>
   </aside>
   <main class="main" id="main">
     <div class="doc">
-      <div data-lang="en">
-        <header class="doc-head">
-          <h1>Complete Usage Guide</h1>
-          <p>From a rough idea to a tested, deployed application. Includes PRD, FigCraft design, responsive code, local testing, and handoff.</p>
-        </header>
-        <div class="content">{en_body}</div>
-      </div>
-      <div data-lang="ms">
-        <header class="doc-head">
-          <h1>Panduan Penggunaan Lengkap</h1>
-          <p>Daripada idea kasar kepada aplikasi yang diuji dan dilancarkan. Merangkumi PRD, reka bentuk FigCraft, kod responsif, ujian tempatan, dan serahan.</p>
-        </header>
-        <div class="content">{ms_body}</div>
-      </div>
+      <header class="doc-head">
+        <h1>Complete Usage Guide</h1>
+        <p>From a rough idea to a tested, deployed application. Includes PRD, FigCraft design, responsive code, local testing, and handoff.</p>
+      </header>
+      <div class="content">{body}</div>
       <footer class="footer">
         <span>WebApp Builder · 2026</span>
-        <a href="PANDUAN.md"><span data-en="Source: PANDUAN.md" data-ms="Sumber: PANDUAN.md">Sumber: PANDUAN.md</span></a>
+        <a href="PANDUAN.md">Source: PANDUAN.md</a>
       </footer>
     </div>
   </main>
@@ -397,7 +316,7 @@ def main() -> None:
 </html>
 """
     OUT.write_text(doc, encoding="utf-8")
-    print(f"ditulis: {OUT.relative_to(ROOT)} ({len(doc):,} aksara)")
+    print(f"wrote: {OUT.relative_to(ROOT)} ({len(doc):,} characters)")
 
 
 if __name__ == "__main__":

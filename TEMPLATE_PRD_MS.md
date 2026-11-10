@@ -1,491 +1,496 @@
 <!--
 =====================================================================
-TEMPLATE PRD + PENJANA PRD (PRD GENERATOR) — BAHASA MELAYU
+PRD TEMPLATE + PRD GENERATOR — ENGLISH
 =====================================================================
-Fail ini ialah DUA perkara sekali gus:
-1. PROTOKOL TEMUBUAL untuk mengumpul maklumat projek.
-2. TEMPLAT PRD yang diisi selepas temubual.
+This file is TWO things at once:
+1. INTERVIEW PROTOCOL for collecting project information.
+2. PRD TEMPLATE filled in after the interview.
 
-ARAHAN UNTUK AI — BACA SEMUA SEBELUM MULA
+INSTRUCTIONS FOR THE AI — READ EVERYTHING BEFORE STARTING
 ---------------------------------------------------------------------
-Anda ialah Product Manager + Solution Architect yang menyusun PRD.
+You are the Product Manager + Solution Architect who assembles the PRD.
 
 INPUT:
-- Idea kasar pengguna, nota mesyuarat, transkrip, atau dokumen sedia ada.
-- Gambar rujukan UI (pilihan): screenshot, mockup Figma, imej Dribbble/Mobbin.
+- The user's rough idea, meeting notes, transcript, or existing document.
+- UI reference images (optional): screenshots, Figma mockups, Dribbble/Mobbin images.
 
-TUGAS:
-1. Jalankan MODE TEMUBUAL (Bahagian A) sehingga cukup maklumat.
-2. Isi SEMUA pemegang tempat {{...}} dalam Bahagian B.
-3. Simpan hasil ke: projek/<slug>/prd/PRD-v0.1.md
-   (rujuk aliran-kerja/01-prd.md untuk langkah folder).
-4. Tunjuk PRD penuh, kemudian BERHENTI dan tunggu kelulusan pengguna.
+TASK:
+1. Run INTERVIEW MODE (Part A) until there is enough information.
+2. Fill ALL {{...}} placeholders in Part B.
+3. Save the result to: projek/<slug>/prd/PRD-v0.1.md
+   (see aliran-kerja/01-prd.md for the folder steps).
+4. Show the full PRD, then STOP and wait for user approval.
 
-PERATURAN KERAS:
-- JANGAN reka fakta. Yang tidak diputuskan masuk Bab 16 (Soalan Terbuka).
-- Andaian teknikal yang wajar: letak di Bab 5, tandakan "ANDAIAN".
-- Satu soalan sahaja setiap mesej. Jangan banjirkan pengguna.
-- Setiap soalan mesti ada pilihan A/B/C (+ "Nyatakan" ditambah automatik).
-- Jika pengguna jawab beberapa soalan sekali gus, terima dan langkau yang sudah dijawab.
-- JANGAN gabungkan soalan. Jangan tunjuk senarai A1–A10 sekali gus.
-- Jawapan kabur: tanya soalan susulan dahulu sebelum pindah.
-- Jika pengguna berkata "jana terus" / "auto", jelaskan bahawa temubual
-  ringkas tetap perlu, kemudian teruskan satu soalan setiap mesej.
+HARD RULES:
+- DO NOT invent facts. Anything not decided goes into Chapter 16 (Open Questions).
+- Reasonable technical assumptions: put them in Chapter 5, mark them "ASSUMPTION".
+- One question only per message. Do not flood the user.
+- Every question must have options A/B/C (+ "Specify" added automatically).
+- If the user answers several questions at once, accept it and skip the ones already answered.
+- DO NOT merge questions. Do not show the whole A1–A10 list at once.
+- Vague answer: ask a follow-up question first before moving on.
+- If the user says "just generate" / "auto", explain that a short interview
+  is still required, then continue one question per message.
 
-MOD AUTO (ONE-SHOT):
-- Jika pengguna menulis "auto", "auto penuh", "buat semua", "siapkan terus",
-  atau "one-shot", temubual Bahagian A TETAP WAJIB.
-- Tanya satu soalan setiap mesej sehingga semua jawapan lengkap.
-- Mod auto hanya membuang gerbang kelulusan selepas PRD: selepas soalan
-  terakhir, jana PRD dan teruskan Fasa 2-4, kemudian lapor.
-- Pilih stack daripada jawapan A6. Jika A6 tidak dijawab, syorkan satu dan
-  minta pengesahan sebelum meneruskan.
-- Isi semua 17 bab. Tanda [ANDAIAN] hanya untuk perkara yang pengguna
-  sengaja serahkan kepada agent.
-- Tetap papar ringkasan PRD dan senarai andaian dalam laporan akhir.
-- Bahasa Melayu formal, ringkas, tanpa ayat pemasaran.
-- Keperluan fungsian guna ID unik PREFIX-N (contoh: AUTH-1, TRX-2).
-- Keutamaan hanya: **Wajib** / **Penting** / **Fasa 2**.
-- Versi pertama sentiasa v0.1 (Draf Sementara).
-- Komen arahan <!-- --> TIDAK boleh muncul dalam dokumen akhir.
+AUTO MODE (ONE-SHOT):
+- If the user writes "auto", "full auto", "do everything", "finish it",
+  or "one-shot", the Part A interview is STILL MANDATORY.
+- Ask one question per message until all answers are complete.
+- Auto mode only removes the approval gate after the PRD: after the last
+  question, generate the PRD and continue with Phases 2-4, then report.
+- Pick the stack from the A6 answer. If A6 was not answered, suggest one and
+  ask for confirmation before continuing.
+- Fill all 17 chapters. Mark [ASSUMPTION] only for items the user
+  deliberately leaves to the agent.
+- Still show the PRD summary and the assumptions list in the final report.
+- Formal, concise English, no marketing sentences.
+- Functional requirements use unique IDs PREFIX-N (example: AUTH-1, TRX-2).
+- Priority only: **Mandatory** / **Important** / **Phase 2**.
+- First version is always v0.1 (Provisional Draft).
+- Instruction comments <!-- --> MUST NOT appear in the final document.
 
-KELULUSAN:
-- Mod manual: selepas menunjuk PRD, tanya: "Terima PRD ini, atau ada pindaan?"
-  Jangan tulis kod sehingga pengguna beri kelulusan jelas.
-- Mod auto: PRD ditunjukkan dalam laporan akhir; teruskan Fasa 2-4.
+APPROVAL:
+- Manual mode: after showing the PRD, ask: "Do you accept this PRD, or are there changes?"
+  Do not write code until the user gives clear approval.
+- Auto mode: the PRD is shown in the final report; continue with Phases 2-4.
 =====================================================================
 -->
 
-# BAHAGIAN A — PROTOKOL TEMUBUAL (10 SOALAN)
+# PART A — INTERVIEW PROTOCOL (10 QUESTIONS)
 
-Tanya mengikut urutan. Berhenti selepas SATU soalan. Tunggu jawapan.
+Ask in order. Stop after ONE question. Wait for the answer.
 
-## A1. Masalah & pengguna
-"Siapa guna sistem ini, dan masalah apa yang hendak diselesaikan?"
-- A. Staf dalaman syarikat (operasi harian)
-- B. Pelanggan luar / awam
-- C. Dua-dua: staf mengurus, pelanggan mengakses
-- D. Pengguna khusus: pelajar / guru / ahli / pesakit (nyatakan)
+## A1. Problem & users
+"Who uses this system, and what problem should it solve?"
+- A. Internal company staff (daily operations)
+- B. External customers / public
+- C. Both: staff manage, customers access
+- D. Specific users: students / teachers / members / patients (specify)
 
-## A2. Peranan & kebenaran
-"Peranan apa yang perlu ada?"
-- A. Admin sahaja
-- B. Admin + pengguna biasa
-- C. Admin + pengurus + pengguna
-- D. Lebih daripada tiga (nyatakan)
+## A2. Roles & permissions
+"What roles must exist?"
+- A. Admin only
+- B. Admin + regular user
+- C. Admin + manager + user
+- D. More than three (specify)
 
-## A3. Aliran kerja teras
-"Apakah satu aliran utama dari mula hingga selesai?"
-- A. Rekod dibuat → disemak → diluluskan → laporan
-- B. Tempahan / pesanan → bayar → selesai
-- C. Aduan / permohonan → tindakan → tutup
-- D. Pendaftaran → pengesahan → akses kandungan
-- E. Lain (nyatakan dalam satu ayat)
+## A3. Core workflow
+"What is the one main flow from start to finish?"
+- A. Record created → reviewed → approved → report
+- B. Booking / order → pay → done
+- C. Complaint / request → action → close
+- D. Registration → verification → content access
+- E. Other (specify in one sentence)
 
-## A4. Data utama
-"Apakah 3–5 entiti utama yang disimpan?"
-- A. Pengguna, rekod transaksi, status, laporan
-- B. Pengguna, produk/stok, pesanan, pembayaran
-- C. Pengguna, permohonan, lampiran, komen
-- D. Nyatakan senarai entiti sendiri
+## A4. Main data
+"What are the 3–5 main entities stored?"
+- A. User, transaction record, status, report
+- B. User, product/stock, order, payment
+- C. User, request, attachment, comment
+- D. Specify your own entity list
 
-## A5. Skop MVP
-"Apa yang wajib ada pada versi pertama?"
-- A. Auth + CRUD + carian + laporan asas
-- B. Auth + CRUD + kelulusan + notifikasi
-- C. Auth + CRUD + pembayaran + resit
-- D. Nyatakan senarai ciri MVP
+## A5. MVP scope
+"What must exist in the first version?"
+- A. Auth + CRUD + search + basic report
+- B. Auth + CRUD + approval + notification
+- C. Auth + CRUD + payment + receipt
+- D. Specify the MVP feature list
 
-## A6. TEKNOLOGI — SOALAN WAJIB
-"Pilih teknologi backend/data. Pilih satu, atau lebih jika hibrid."
+## A6. TECHNOLOGY — MANDATORY QUESTION
+"Choose the backend/data technology. Pick one, or more if hybrid."
 
-| Pilihan | Teknologi | Sesuai bila | Kos / had |
+| Option | Technology | Best when | Cost / limits |
 | --- | --- | --- | --- |
-| **A** | **Google Apps Script (GAS) + Google Sheets** | Aplikasi dalaman, pengguna < 100, baris < ~10,000, sedia ada dalam Google Workspace | Percuma; kuota harian GAS; bukan DB sebenar |
-| **B** | **Supabase** | Perlu Postgres, Auth, RLS, Storage, Realtime; SaaS sebenar | Free tier terhad; projek idle boleh pause |
-| **C** | **Cloudflare Worker** (+ D1 / KV / R2) | API global, trafik tinggi, latensi rendah, static assets | Free tier harian; D1 had saiz; bukan Postgres penuh |
-| **D** | **Firebase** (Firestore + Auth + Hosting) | Realtime sync, aplikasi mudah alih/web, auth pantas | Free tier; kos baca/tulis boleh naik; vendor lock-in |
-| **E** | **Neon** (serverless Postgres) | Perlu Postgres sebenar, branching, scale-to-zero | Perlu lapisan API (Worker/Vercel); cold start |
-| **F** | **Hibrid** | Contoh: frontend static + Neon + Worker API | Dua servis untuk dijaga |
-| **G** | **Next.js + Postgres** (Vercel + Neon/Supabase) | SSR, API routes, SEO, satu projek untuk UI + API | Vendor Vercel; Postgres berasingan |
-| **H** | **Node/Express + Postgres** (VPS/Dokploy) | Kawalan penuh, API tersuai, deploy sendiri | Perlu jaga server, backup, TLS |
-| **I** | **Laravel + MySQL** (VPS/Dokploy) | Projek PHP, admin panel, hosting biasa | Perlu PHP + MySQL; deploy lebih manual |
-| **J** | **FastAPI/Django + Postgres** (VPS/Dokploy) | API Python, data science, admin Django | Perlu Python runtime; deploy lebih manual |
+| **A** | **Google Apps Script (GAS) + Google Sheets** | Internal app, users < 100, rows < ~10,000, already on Google Workspace | Free; GAS daily quota; not a real DB |
+| **B** | **Supabase** | Need Postgres, Auth, RLS, Storage, Realtime; a real SaaS | Limited free tier; idle projects can pause |
+| **C** | **Cloudflare Worker** (+ D1 / KV / R2) | Global API, high traffic, low latency, static assets | Daily free tier; D1 size limit; not full Postgres |
+| **D** | **Firebase** (Firestore + Auth + Hosting) | Realtime sync, mobile/web apps, fast auth | Free tier; read/write cost can grow; vendor lock-in |
+| **E** | **Neon** (serverless Postgres) | Need real Postgres, branching, scale-to-zero | Needs an API layer (Worker/Vercel); cold start |
+| **F** | **Hybrid** | Example: static frontend + Neon + Worker API | Two services to maintain |
+| **G** | **Next.js + Postgres** (Vercel + Neon/Supabase) | SSR, API routes, SEO, one project for UI + API | Vercel vendor; separate Postgres |
+| **H** | **Node/Express + Postgres** (VPS/Dokploy) | Full control, custom API, self-deploy | Must maintain server, backup, TLS |
+| **I** | **Laravel + MySQL** (VPS/Dokploy) | PHP project, admin panel, ordinary hosting | Needs PHP + MySQL; more manual deploy |
+| **J** | **FastAPI/Django + Postgres** (VPS/Dokploy) | Python API, data science, Django admin | Needs a Python runtime; more manual deploy |
+| **K** | **Flutter** (Web + Android/iOS) | One Dart codebase for responsive web and mobile apps; backend follows B/D/E/F | Needs Flutter SDK; larger web bundle; iOS needs macOS |
 
-Tanya juga: "Kenapa pilihan itu?" Jawapan masuk Bab 6.1.
-Jika pengguna tiada pilihan, syorkan satu dan beri sebab dalam satu ayat.
+Also ask: "Why that choice?" The answer goes into Chapter 6.1.
+If the user has no preference, suggest one and give the reason in one sentence.
 
 ## A7. Deployment & domain
-"Di mana aplikasi akan dihosting?"
-- A. Vercel (frontend static) + backend pilihan di A6
+"Where will the app be hosted?"
+- A. Vercel (static frontend) + backend chosen in A6
 - B. Cloudflare Pages/Workers
 - C. Firebase Hosting
 - D. Google Apps Script Web App
-- E. Belum pasti — cadangkan yang paling murah
-- F. VPS sendiri (Dokploy) — deploy terkawal, kos tetap
+- E. Not sure yet — recommend the cheapest
+- F. Own VPS (Dokploy) — controlled deploy, fixed cost
 
-## A8. Soalan susulan teknologi (bertanya mengikut pilihan A6 — MAKSIMUM 4)
+## A8. Technology follow-up questions (ask according to the A6 choice — MAXIMUM 4)
 
-### Jika A — GAS
-1. Guna akaun Google Workspace atau akaun peribadi?
-2. Anggaran baris data setahun? (< 1k / 1k–10k / > 10k)
-3. Pengguna serentak pada waktu puncak?
-4. Perlu muat naik fail (Google Drive) atau hantar e-mel (MailApp)?
+### If A — GAS
+1. Use a Google Workspace account or a personal account?
+2. Estimated data rows per year? (< 1k / 1k–10k / > 10k)
+3. Concurrent users at peak time?
+4. Need file upload (Google Drive) or email sending (MailApp)?
 
-### Jika B — Supabase
-1. Kaedah log masuk: e-mel+kata laluan / magic link / Google OAuth?
-2. Perlu Storage (gambar/dokumen) dan Realtime?
-3. Peranan RLS: siapa boleh baca/tulis baris mana?
-4. Ada Edge Function, atau logik di frontend + RLS sahaja?
+### If B — Supabase
+1. Login method: email+password / magic link / Google OAuth?
+2. Need Storage (images/documents) and Realtime?
+3. RLS roles: who may read/write which rows?
+4. Any Edge Function, or logic in the frontend + RLS only?
 
-### Jika C — Cloudflare Worker
-1. Data di D1, KV, R2, atau Durable Object?
-2. Perlu cron trigger / queue / webhook?
-3. Static assets di Worker yang sama atau Cloudflare Pages?
-4. Ada domain sendiri?
+### If C — Cloudflare Worker
+1. Data in D1, KV, R2, or Durable Object?
+2. Need cron trigger / queue / webhook?
+3. Static assets on the same Worker or Cloudflare Pages?
+4. Any custom domain?
 
-### Jika D — Firebase
-1. Firestore atau Realtime Database?
-2. Penyedia auth: e-mel, Google, telefon, atau anonymous?
-3. Perlu Cloud Functions? (rantau?)
-4. Perlu Storage untuk fail?
+### If D — Firebase
+1. Firestore or Realtime Database?
+2. Auth provider: email, Google, phone, or anonymous?
+3. Need Cloud Functions? (region?)
+4. Need Storage for files?
 
-### Jika E — Neon
-1. Neon jadi DB sahaja; API melalui Worker, Vercel Function, atau Neon Data API?
-2. Auth diurus oleh siapa? (Supabase Auth / Firebase Auth / sendiri / tiada)
-3. Perlu branching untuk dev/staging/prod?
-4. Anggaran saiz DB dan trafik bulanan?
+### If E — Neon
+1. Neon is DB only; API through Worker, Vercel Function, or Neon Data API?
+2. Who handles Auth? (Supabase Auth / Firebase Auth / own / none)
+3. Need branching for dev/staging/prod?
+4. Estimated DB size and monthly traffic?
 
-### Jika F — Hibrid
-1. Lapisan mana buat apa? (frontend / API / DB / auth)
-2. Servis mana yang memegang data utama?
-3. Servis mana yang boleh gagal tanpa mematikan app?
+### If F — Hybrid
+1. Which layer does what? (frontend / API / DB / auth)
+2. Which service holds the primary data?
+3. Which service may fail without taking the app down?
 
-### Jika G — Next.js + Postgres
-1. App Router atau Pages Router?
-2. Auth: NextAuth/Auth.js, Clerk, Supabase Auth, atau sendiri?
-3. API dalam Next.js (`app/api`) atau servis berasingan?
-4. Deploy Vercel + Postgres Neon/Supabase, atau VPS?
+### If G — Next.js + Postgres
+1. App Router or Pages Router?
+2. Auth: NextAuth/Auth.js, Clerk, Supabase Auth, or own?
+3. API inside Next.js (`app/api`) or a separate service?
+4. Deploy Vercel + Postgres Neon/Supabase, or VPS?
 
-### Jika H — Node/Express + Postgres
-1. Bahasa: JavaScript atau TypeScript?
-2. Auth: JWT sendiri, session, atau penyedia luar?
-3. ORM: Prisma, Drizzle, Kysely, atau SQL terus?
-4. Deploy VPS/Dokploy: Docker atau proses Node terus?
+### If H — Node/Express + Postgres
+1. Language: JavaScript or TypeScript?
+2. Auth: own JWT, session, or external provider?
+3. ORM: Prisma, Drizzle, Kysely, or raw SQL?
+4. Deploy VPS/Dokploy: Docker or a direct Node process?
 
-### Jika I — Laravel + MySQL
-1. Versi Laravel dan PHP?
-2. Auth: Breeze/Jetstream/Filament, atau tersuai?
-3. MySQL di server sama atau DB berasingan?
-4. Deploy VPS/Dokploy atau hosting PHP biasa?
+### If I — Laravel + MySQL
+1. Laravel and PHP version?
+2. Auth: Breeze/Jetstream/Filament, or custom?
+3. MySQL on the same server or a separate DB?
+4. Deploy VPS/Dokploy or ordinary PHP hosting?
 
-### Jika J — FastAPI/Django + Postgres
-1. FastAPI atau Django?
-2. Auth: JWT, session Django, atau penyedia luar?
-3. ORM: SQLAlchemy/Alembic atau Django ORM?
-4. Deploy VPS/Dokploy dengan Docker atau proses Python terus?
+### If J — FastAPI/Django + Postgres
+1. FastAPI or Django?
+2. Auth: JWT, Django session, or external provider?
+3. ORM: SQLAlchemy/Alembic or Django ORM?
+4. Deploy VPS/Dokploy with Docker or a direct Python process?
 
-## A9. Rujukan visual & peranti
-"Ada gambar rujukan? Di mana failnya?"
-- A. Tiada — pilih arah visual yang sesuai dengan domain
-- B. Ada screenshot / mockup (letak dalam projek/<slug>/refs/)
-- C. Ada URL aplikasi langsung
-- D. Ada beberapa rujukan bercampur
+### If K — Flutter (Web + Android/iOS)
+1. State management: Riverpod, Bloc, or setState?
+2. Backend: Supabase, Firebase, Neon/Worker API, or own REST?
+3. Auth: backend SDK, provider OAuth, or custom?
+4. Target platforms: web only, Android only, or web + Android + iOS?
 
-Jika ada imej, tanya SATU soalan lanjut:
-"Mod kesetiaan? A. Structural (lalai) B. Pixel-faithful C. Mood"
-Dan: "Peranti utama? mobile / desktop / dua-dua"
+## A9. Visual references & devices
+"Any reference images? Where are the files?"
+- A. None — pick a visual direction that suits the domain
+- B. Screenshot / mockup available (place in projek/<slug>/refs/)
+- C. Live app URL available
+- D. Several mixed references
 
-## A10. Definisi siap & ujian
-"Apakah yang mesti lulus sebelum app dianggap siap?"
-- A. Semua skrin utama boleh dibuka, CRUD berfungsi, tiada ralat konsol
-- B. A + auth berfungsi + data sebenar dari backend
-- C. A + B + ujian responsif 390/768/1440 + deploy staging
-- D. Nyatakan senarai semak sendiri
+If there are images, ask ONE further question:
+"Fidelity mode? A. Structural (default) B. Pixel-faithful C. Mood"
+And: "Primary device? mobile / desktop / both"
 
-Selepas A10: jana PRD penuh (Bahagian B), simpan fail, tunjuk, tunggu kelulusan.
+## A10. Definition of done & testing
+"What must pass before the app counts as done?"
+- A. All main screens open, CRUD works, no console errors
+- B. A + auth works + real data from the backend
+- C. A + B + responsive test at 390/768/1440 + staging deploy
+- D. Specify your own checklist
+
+After A10: generate the full PRD (Part B), save the file, show it, wait for approval.
 
 ---
 
-# BAHAGIAN B — TEMPLAT PRD
+# PART B — PRD TEMPLATE
 
-# PRODUCT REQUIREMENTS DOCUMENT (PRD)
-
-## {{NAMA_PRODUK}}
+# PRODUCT REQUIREMENTS DOCUMENT — {{NAMA_PRODUK}}
 
 **STATUS: {{STATUS_DOKUMEN}}**
 
 | | |
 | --- | --- |
-| **Nama Produk** | {{NAMA_PRODUK_LENGKAP}} |
-| **Versi Dokumen** | v0.1 |
-| **Disediakan oleh** | {{NAMA_PENGEMBANG}} |
-| **Untuk** | {{NAMA_KLIEN}} |
-| **Tarikh** | {{TANGGAL_DOKUMEN}} |
-| **Folder Projek** | `projek/{{SLUG}}/` |
-| **Teknologi** | {{TEKNOLOGI_TERPILIH}} |
-| **Dokumen Berkaitan** | {{DOKUMEN_TERKAIT}} |
+| **Product Name** | {{NAMA_PRODUK_LENGKAP}} |
+| **Document Version** | v0.1 |
+| **Prepared by** | {{NAMA_PENGEMBANG}} |
+| **For** | {{NAMA_KLIEN}} |
+| **Date** | {{TANGGAL_DOKUMEN}} |
+| **Project Folder** | `projek/{{SLUG}}/` |
+| **Technology** | {{TEKNOLOGI_TERPILIH}} |
+| **Related Documents** | {{DOKUMEN_TERKAIT}} |
 
 ---
 
-# 1. Ringkasan Produk
+## 1. Product Summary
 
-<!-- 2 perenggan. P1: masalah semasa. P2: penyelesaian + modul utama + matlamat. -->
+<!-- 2 paragraphs. P1: the current problem. P2: the solution + main modules + goals. -->
 
 {{RINGKASAN_PRODUK}}
 
-# 2. Tujuan & Sasaran
+## 2. Goals & Objectives
 
-<!-- 4–6 bulet. Hasil perniagaan, bukan senarai ciri. -->
+<!-- 4–6 bullets. Business outcomes, not a feature list. -->
 
 - {{TUJUAN_1}}
 - {{TUJUAN_2}}
 - {{TUJUAN_3}}
 
-# 3. Pengguna & Peranan
+## 3. Users & Roles
 
-<!-- Satu bulet setiap peranan: **Peranan :** hak dan aktiviti utama. -->
+<!-- One bullet per role: **Role :** rights and main activities. -->
 
 - **{{PERAN_1}} :** {{DESKRIPSI_PERAN_1}}
 - **{{PERAN_2}} :** {{DESKRIPSI_PERAN_2}}
 
-# 4. Skop
+## 4. Scope
 
-## 4.1 Termasuk (MVP)
+### 4.1 Included (MVP)
 
 - {{LINGKUP_MVP_1}}
 - {{LINGKUP_MVP_2}}
 
-## 4.2 Di Luar Skop Awal / Fasa Lanjutan
+### 4.2 Out of Early Scope / Later Phase
 
 {{LINGKUP_DILUAR_MVP}}
 
-# 5. Andaian & Kekangan
+## 5. Assumptions & Constraints
 
-<!-- Sertakan: bajet, masa, bahasa, peranti, akaun/perkhidmatan sedia ada,
-dan setiap ANDAIAN yang dibuat AI. Tandakan [ANDAIAN] dengan jelas. -->
+<!-- Include: budget, time, language, devices, existing accounts/services,
+and every ASSUMPTION the AI makes. Mark [ASSUMPTION] clearly. -->
 
 - {{ASUMSI_1}}
 - {{ASUMSI_2}}
 
-# 6. Keputusan Teknologi (Tech Stack Decision)
+## 6. Technology Decision (Tech Stack Decision)
 
-<!-- WAJIB. Bahagian ini mengunci stack sebelum reka bentuk dan kod. -->
+<!-- MANDATORY. This section locks the stack before design and code. -->
 
-## 6.1 Pilihan & Justifikasi
+### 6.1 Choice & Justification
 
-| Lapisan | Teknologi | Sebab | Alternatif ditolak |
+| Layer | Technology | Reason | Rejected alternative |
 | --- | --- | --- | --- |
 | Frontend | {{FE_TECH}} | {{FE_SEBAB}} | {{FE_ALT}} |
 | Backend / API | {{BE_TECH}} | {{BE_SEBAB}} | {{BE_ALT}} |
-| Pangkalan data | {{DB_TECH}} | {{DB_SEBAB}} | {{DB_ALT}} |
+| Database | {{DB_TECH}} | {{DB_SEBAB}} | {{DB_ALT}} |
 | Auth | {{AUTH_TECH}} | {{AUTH_SEBAB}} | {{AUTH_ALT}} |
 | Hosting | {{HOST_TECH}} | {{HOST_SEBAB}} | {{HOST_ALT}} |
 
-## 6.2 Perkhidmatan & Konfigurasi
+### 6.2 Services & Configuration
 
-| Perkara | Nilai |
+| Item | Value |
 | --- | --- |
-| Projek / Region | {{PROJEK_REGION}} |
-| Pemboleh ubah env | {{ENV_VARS}} |
-| Rahsia server-side | {{SECRETS}} |
+| Project / Region | {{PROJEK_REGION}} |
+| Env variables | {{ENV_VARS}} |
+| Server-side secrets | {{SECRETS}} |
 | Domain | {{DOMAIN}} |
-| Mod tempatan | {{LOCAL_MODE}} |
+| Local mode | {{LOCAL_MODE}} |
 
-**Peraturan rahsia:** kunci `service_role` / admin / DB URL TIDAK BOLEH masuk
-ke fail frontend. Hanya kunci awam (anon/publishable) dibenarkan di klien.
+**Secret rule:** `service_role` / admin / DB URL keys MUST NOT be placed in
+frontend files. Only public keys (anon/publishable) are allowed on the client.
 
-## 6.3 Seni Bina Ringkas
+### 6.3 Architecture Sketch
 
 ```text
 {{ALIRAN_ARKITEKTUR}}
 ```
 
-# 7. Keperluan Fungsian
+## 7. Functional Requirements
 
-<!-- Kelompokkan ikut modul: 7.1, 7.2, ... Pola nama: "Aktor — Modul".
-Jadual TEPAT seperti di bawah. Ayat keupayaan: "Admin boleh...", "Sistem memaparkan..." -->
+<!-- Group by module: 7.1, 7.2, ... Naming pattern: "Actor — Module".
+Table EXACTLY as below. Capability sentences: "Admin can...", "The system displays..." -->
 
-## 7.1 {{NAMA_MODUL_1}}
+### 7.1 {{NAMA_MODUL_1}}
 
-| **ID** | **Keperluan Fungsian** | **Keutamaan** |
+| **ID** | **Functional Requirement** | **Priority** |
 | --- | --- | --- |
-| **{{PREFIX}}-1** | {{DESKRIPSI_KEBUTUHAN}} | **Wajib** |
-| **{{PREFIX}}-2** | {{DESKRIPSI_KEBUTUHAN}} | **Penting** |
+| **{{PREFIX}}-1** | {{DESKRIPSI_KEBUTUHAN}} | **Mandatory** |
+| **{{PREFIX}}-2** | {{DESKRIPSI_KEBUTUHAN}} | **Important** |
 
-# 8. Aliran Pengguna Utama
+## 8. Main User Flows
 
-<!-- 3–5 aliran. Langkah bernombor. Sertakan status sistem dalam petik. -->
+<!-- 3–5 flows. Numbered steps. Include the system state in quotes. -->
 
-## 8.1 {{NAMA_ALUR_1}}
+### 8.1 {{NAMA_ALUR_1}}
 
 1. {{LANGKAH_1}}
 2. {{LANGKAH_2}}
 
-# 9. Model Data
+## 9. Data Model
 
-## 9.1 Entiti & Medan
+### 9.1 Entities & Fields
 
-| Entiti | Medan Utama | Keterangan |
+| Entity | Main Fields | Description |
 | --- | --- | --- |
 | **{{ENTITAS_1}}** | {{FIELD_UTAMA}} | {{KETERANGAN}} |
 
-**Nota:** medan dalam [kurungan siku] ialah ciri Fasa Lanjutan (Bab 14).
+**Note:** fields in [square brackets] are Later Phase features (Chapter 14).
 
-## 9.2 Implementasi Fizikal
+### 9.2 Physical Implementation
 
-<!-- Pilih SATU blok mengikut Bab 6. Padam blok yang tidak digunakan. -->
+<!-- Choose ONE block according to Chapter 6. Delete unused blocks. -->
 
-**Jika GAS:**
-- Sheet: `Users`, `{{SHEET_UTAMA}}`, `Pengaturan`
-- Lajur tepat, jenis data, PK/FK, enum status.
-- ID rekod = `timestamp + random`, bukan nombor baris.
+**If GAS:**
+- Sheets: `Users`, `{{SHEET_UTAMA}}`, `Settings`
+- Exact columns, data types, PK/FK, status enums.
+- Record ID = `timestamp + random`, not the row number.
 
-**Jika Supabase / Neon (Postgres):**
-- Skema SQL: `public.{{TABLE}}`
-- Kunci utama, FK, `created_at`, `updated_at`.
-- Polisi RLS per peranan (Supabase) atau peranan DB (Neon).
-- Index untuk carian dan senarai.
+**If Supabase / Neon (Postgres):**
+- SQL schema: `public.{{TABLE}}`
+- Primary keys, FK, `created_at`, `updated_at`.
+- RLS policies per role (Supabase) or DB roles (Neon).
+- Indexes for search and lists.
 
-**Jika Cloudflare Worker (D1):**
-- Skema D1 (`migrations/0001_init.sql`), jenis SQLite.
-- Binding: `DB`, `KV`, `BUCKET` (nyatakan yang digunakan).
+**If Cloudflare Worker (D1):**
+- D1 schema (`migrations/0001_init.sql`), SQLite types.
+- Bindings: `DB`, `KV`, `BUCKET` (state which are used).
 
-**Jika Firebase:**
-- Koleksi Firestore: `{{COLLECTION}}`
-- Struktur dokumen, subkoleksi, index komposit.
-- Peraturan keselamatan (`firestore.rules`) per peranan.
+**If Firebase:**
+- Firestore collections: `{{COLLECTION}}`
+- Document structure, subcollections, composite indexes.
+- Security rules (`firestore.rules`) per role.
 
-# 10. Keperluan Bukan Fungsian
+## 10. Non-Functional Requirements
 
-<!-- Sertakan responsif, keselamatan, prestasi, privasi, dan had stack. -->
+<!-- Include responsive, security, performance, privacy, and stack limits. -->
 
-- **Responsif :** {{NFR_RESPONSIF}}
-- **Keselamatan :** {{NFR_KESELAMATAN}}
-- **Prestasi :** {{NFR_PRESTASI}}
-- **Privasi :** {{NFR_PRIVASI}}
-- **Had teknologi :** {{NFR_HAD}}
+- **Responsive :** {{NFR_RESPONSIF}}
+- **Security :** {{NFR_KESELAMATAN}}
+- **Performance :** {{NFR_PRESTASI}}
+- **Privacy :** {{NFR_PRIVASI}}
+- **Technology limits :** {{NFR_HAD}}
 
-# 11. Integrasi Pihak Ketiga
+## 11. Third-Party Integrations
 
-| Perkhidmatan | Fungsi | Catatan |
+| Service | Function | Notes |
 | --- | --- | --- |
 | **{{LAYANAN_1}}** | {{FUNGSI_1}} | {{CATATAN_1}} |
 
-# 12. Kontrak UI & Handoff FigCraft
+## 12. UI Contract & FigCraft Handoff
 
-<!-- WAJIB. Bab ini ialah input terus untuk fasa reka bentuk FigCraft.
-MCP FigCraft tidak boleh membaca teks PRD; manusia/AI yang akan membina.
-Tulis cukup tepat supaya skrip design boleh dijana tanpa tanya semula. -->
+<!-- MANDATORY. This chapter is direct input for the FigCraft design phase.
+FigCraft MCP cannot read PRD text; a human/AI will do the building.
+Write precisely enough that the design script can be generated without asking again. -->
 
-## 12.1 Rujukan Imej
+### 12.1 Image References
 
-| Perkara | Nilai |
+| Item | Value |
 | --- | --- |
-| Mod kesetiaan | `Tiada` / `Structural` / `Pixel-faithful` / `Mood` |
-| Fail rujukan | `projek/{{SLUG}}/refs/{{NAMA_FAIL}}` |
-| URL rujukan | {{URL_RUJUKAN}} |
-| Peranti rujukan | Mobile / Desktop / Dua-dua |
-| Apa diambil | {{APA_DIAMBIL}} |
-| Apa diganti | {{APA_DIGANTI}} |
-| Had undang-undang | Tiada logo/ilustrasi/foto berhak cipta disalin |
+| Fidelity mode | `None` / `Structural` / `Pixel-faithful` / `Mood` |
+| Reference file | `projek/{{SLUG}}/refs/{{NAMA_FAIL}}` |
+| Reference URL | {{URL_RUJUKAN}} |
+| Reference device | Mobile / Desktop / Both |
+| What is taken | {{APA_DIAMBIL}} |
+| What is replaced | {{APA_DIGANTI}} |
+| Legal limits | No copyrighted logo/illustration/photo copied |
 
-## 12.2 Design DNA
+### 12.2 Design DNA
 
-| Aspek | Nilai |
+| Aspect | Value |
 | --- | --- |
 | Grid & container | {{DNA_GRID}} |
-| Hierarki layout | {{DNA_LAYOUT}} |
-| Tipografi | {{DNA_TIPOGRAFI}} |
+| Layout hierarchy | {{DNA_LAYOUT}} |
+| Typography | {{DNA_TIPOGRAFI}} |
 | Palette | {{DNA_PALETTE}} |
 | Spacing & radius | {{DNA_SPACING}} |
-| Komponen | {{DNA_KOMPONEN}} |
+| Components | {{DNA_KOMPONEN}} |
 | Density | {{DNA_DENSITY}} |
 | Motion | {{DNA_MOTION}} |
 | Signature app | {{SIGNATURE}} |
 
-## 12.3 Peta Token
+### 12.3 Token Map
 
-| Token | Nilai | Kegunaan |
+| Token | Value | Usage |
 | --- | --- | --- |
-| `ink` | {{TOKEN_INK}} | Teks utama |
-| `surface` | {{TOKEN_SURFACE}} | Latar kad |
-| `line` | {{TOKEN_LINE}} | Sempadan |
-| `accent` | {{TOKEN_ACCENT}} | Tindakan utama |
+| `ink` | {{TOKEN_INK}} | Primary text |
+| `surface` | {{TOKEN_SURFACE}} | Card background |
+| `line` | {{TOKEN_LINE}} | Border |
+| `accent` | {{TOKEN_ACCENT}} | Primary action |
 
-## 12.4 Senarai Skrin
+### 12.4 Screen List
 
-<!-- Setiap skrin mesti ada 4 keadaan: default, loading, empty, error.
+<!-- Every screen must have 4 states: default, loading, empty, error.
 Viewport: Mobile 390×844 / Desktop 1440×900. -->
 
-| ID | Skrin | Peranan | Isi utama | Keadaan | Viewport |
+| ID | Screen | Role | Main content | States | Viewport |
 | --- | --- | --- | --- | --- | --- |
 | `S-01` | {{NAMA_SKRIN_1}} | {{PERAN_SKRIN_1}} | {{ISI_SKRIN_1}} | default, loading, empty, error | 390 + 1440 |
 | `S-02` | {{NAMA_SKRIN_2}} | {{PERAN_SKRIN_2}} | {{ISI_SKRIN_2}} | default, loading, empty, error | 390 + 1440 |
 
-## 12.5 Navigasi & Responsif
+### 12.5 Navigation & Responsive
 
 - **Desktop (≥ 1024px):** {{NAV_DESKTOP}}
 - **Tablet (768–1023px):** {{NAV_TABLET}}
 - **Mobile (< 768px):** {{NAV_MOBILE}}
-- **Peraturan:** reka bentuk mobile TIDAK bermakna kod mobile-only.
-  Kod mesti responsif dari 360px hingga 1920px.
+- **Rule:** mobile design does NOT mean mobile-only code.
+  Code must be responsive from 360px to 1920px.
 - **Touch target:** minimum 44×44px.
-- **Larangan:** tiada dark mode, tiada scroll mendatar pada root.
+- **Prohibitions:** no dark mode, no horizontal scroll on the root.
 
-# 13. Pelan Ujian Tempatan & Kriteria Terima
+## 13. Local Test Plan & Acceptance Criteria
 
-## 13.1 Perintah Tempatan
+### 13.1 Local Commands
 
 ```bash
-# diisi mengikut stack, contoh:
+# filled per stack, for example:
 bash skrip/test-local.sh {{SLUG}}
 ```
 
-## 13.2 Data Ujian
+### 13.2 Test Data
 
-| Perkara | Nilai |
+| Item | Value |
 | --- | --- |
-| Akaun demo | {{AKAUN_DEMO}} |
+| Demo account | {{AKAUN_DEMO}} |
 | Seed data | {{SEED_DATA}} |
-| Mod pratonton | {{MOD_PRATONTON}} |
+| Preview mode | {{MOD_PRATONTON}} |
 
-## 13.3 Kes Ujian
+### 13.3 Test Cases
 
-| ID | Skenario | Langkah | Jangkaan |
+| ID | Scenario | Steps | Expectation |
 | --- | --- | --- | --- |
 | `T-01` | {{SKENARIO_1}} | {{LANGKAH_UJIAN_1}} | {{JANGKAAN_1}} |
 | `T-02` | {{SKENARIO_2}} | {{LANGKAH_UJIAN_2}} | {{JANGKAAN_2}} |
 
-## 13.4 Kriteria Terima
+### 13.4 Acceptance Criteria
 
-- [ ] Semua skrin Bab 12.4 boleh dibuka tanpa ralat konsol.
-- [ ] Semua keperluan **Wajib** Bab 7 lulus.
-- [ ] CRUD berfungsi dengan data sebenar atau seed.
-- [ ] Responsif disemak pada 390, 768, 1024, 1440.
-- [ ] Tiada butang mati.
-- [ ] Tiada rahsia dalam fail frontend.
-- [ ] `bash skrip/qa-check.sh {{SLUG}}` lulus.
+- [ ] All screens in Chapter 12.4 open without console errors.
+- [ ] All **Mandatory** requirements in Chapter 7 pass.
+- [ ] CRUD works with real or seed data.
+- [ ] Responsive checked at 390, 768, 1024, 1440.
+- [ ] No dead buttons.
+- [ ] No secrets in frontend files.
+- [ ] `bash skrip/qa-check.sh {{SLUG}}` passes.
 
-# 14. Ciri Cadangan / Fasa Lanjutan
+## 14. Proposed Features / Later Phase
 
 - **{{FITUR_USULAN_1}}.** {{PENJELASAN_FITUR_1}}
 
-# 15. Ciri Yang Ditolak (Out of Scope)
+## 15. Rejected Features (Out of Scope)
 
-<!-- Senarai ciri yang sengaja tidak dibuat, supaya tidak dibangkitkan semula. -->
+<!-- List of features deliberately not built, so they are not raised again. -->
 
 - {{DITOLAK_1}}
 
-# 16. Soalan Terbuka / TBD
+## 16. Open Questions / TBD
 
 - {{PERTANYAAN_1}}
 - {{PERTANYAAN_2}}
 
-# 17. Glosarium
+## 17. Glossary
 
 - **{{ISTILAH_1}} :** {{DEFINISI_1}}
 
 ---
 
-*Dokumen ini ialah draf sementara dan boleh berubah selaras dengan perbincangan lanjut.*
+*This document is a provisional draft and may change as further discussion continues.*

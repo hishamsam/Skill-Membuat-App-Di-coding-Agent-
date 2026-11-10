@@ -12,7 +12,7 @@
     },
     "supabase": {
       "type": "remote",
-      "url": "https://mcp.supabase.com/mcp?project_ref=GANTI_PROJECT_REF",
+      "url": "https://mcp.supabase.com/mcp?project_ref=REPLACE_PROJECT_REF",
       "enabled": false,
       "headers": {
         "Authorization": "Bearer {file:~/.secrets/supabase-token}"

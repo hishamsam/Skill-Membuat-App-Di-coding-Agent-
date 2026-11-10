@@ -1,95 +1,95 @@
-# Fasa 2 — Reka Bentuk UI di FigCraft (Live MCP)
+# Phase 2 — UI Design in FigCraft (Live MCP)
 
-Tujuan: tukar PRD Bab 12 + imej rujukan menjadi skrin FigCraft yang boleh
-dilihat, dieksport, dan dijadikan rujukan kod. Semua fail disimpan dalam
-folder projek.
+Purpose: turn PRD Chapter 12 + reference images into FigCraft screens that can be
+seen, exported, and used as a code reference. All files are stored in the project
+folder.
 
-## Prasyarat
+## Prerequisites
 
 ```bash
-figcraft-cli --version                 # mesti ada
-ss -ltnp | grep 7979                   # live mode aktif?
+figcraft-cli --version                 # must exist
+ss -ltnp | grep 7979                   # live mode active?
 ```
 
-Jika port 7979 tiada, buka FigCraft live:
+If port 7979 is not there, open FigCraft live:
 
 ```bash
 figcraft --control 7979 &
 ```
 
-**FigCraft live edit WAJIB.** Jangan guna MCP `figcraft` headless untuk
-menggantikan app. Jika app belum dibuka, berhenti dan minta pengguna buka
+**FigCraft live edit is MANDATORY.** Do not use the headless `figcraft` MCP to
+replace the app. If the app is not open yet, stop and ask the user to open
 `figcraft --control 7979`.
 
-| Laluan | Bila guna |
+| Approach | When to use |
 | --- | --- |
-| MCP `figcraft-app` | Sedikit perubahan, nampak live dalam app |
-| Skrip `figcraft-cli mcp --attach 7979` | Banyak layer — SATU skrip, satu larian |
+| `figcraft-app` MCP | Small changes, visible live in the app |
+| `figcraft-cli mcp --attach 7979` script | Many layers — ONE script, one run |
 
-Peraturan: lebih daripada 10 layer → tulis skrip, jangan panggil tool satu-satu.
+Rule: more than 10 layers → write a script, do not call tools one by one.
 
-## Langkah
+## Steps
 
-1. Baca input:
-   - `projek/<slug>/prd/PRD-v0.1.md` Bab 12.
-   - Imej dalam `projek/<slug>/refs/` (buka imej, jangan teka).
-2. Tulis `projek/<slug>/design/DESIGN-DNA.md`:
-   - grid, tipografi, palette, spacing, radius, density, signature.
-   - apa diambil / diganti / sengaja berbeza.
-3. Tulis `projek/<slug>/design/build.py` menggunakan
-   `skrip/figcraft/fclib.py` (lihat `templat/figcraft/build.py`).
-4. Rehearsal dalam dokumen buangan (masih dalam app live):
+1. Read the input:
+   - `projek/<slug>/prd/PRD-v0.1.md` Chapter 12.
+   - Images in `projek/<slug>/refs/` (open the images, do not guess).
+2. Write `projek/<slug>/design/DESIGN-DNA.md`:
+   - grid, typography, palette, spacing, radius, density, signature.
+   - what is taken / replaced / deliberately different.
+3. Write `projek/<slug>/design/build.py` using
+   `skrip/figcraft/fclib.py` (see `templat/figcraft/build.py`).
+4. Rehearsal in a throwaway document (still inside the live app):
 
    ```bash
    python3 -I projek/<slug>/design/build.py --rehearsal
    ```
 
-5. Larian sebenar + eksport:
+5. Real run + export:
 
    ```bash
    python3 -I projek/<slug>/design/build.py
    ```
 
-6. Semak PNG dalam `projek/<slug>/design/exports/`.
-   Betulkan skrip, ulang. Jangan tampal layer satu-satu.
-7. Simpan fail FigCraft:
+6. Check the PNG files in `projek/<slug>/design/exports/`.
+   Fix the script, repeat. Do not paste layers one by one.
+7. Save the FigCraft file:
 
    ```text
    projek/<slug>/design/design.figcraft
    ```
 
-8. Kemas kini `STATUS.md`: tandakan Fasa 2 siap.
+8. Update `STATUS.md`: mark Phase 2 done.
 
-## Konvensyen dalam fail FigCraft
+## Conventions inside the FigCraft file
 
-- Satu page: `UI`.
-- Frame dinamakan ikut ID PRD: `S-01 Login / Mobile 390`, `S-01 Login / Desktop 1440`.
-- Setiap skrin ada 4 keadaan jika PRD minta: `default`, `loading`, `empty`, `error`.
-- Token warna guna hex yang sama seperti PRD Bab 12.3.
-- Teks sebenar, bukan lorem ipsum.
-- Tiada chrome palsu (bingkai telefon/browser) — frame FigCraft sudah jadi frame.
+- One page: `UI`.
+- Frames named by PRD ID: `S-01 Login / Mobile 390`, `S-01 Login / Desktop 1440`.
+- Every screen has 4 states if the PRD asks: `default`, `loading`, `empty`, `error`.
+- Colour tokens use the same hex as PRD Chapter 12.3.
+- Real text, not lorem ipsum.
+- No fake chrome (phone/browser frame) — the FigCraft frame is already the frame.
 
-## Saiz frame
+## Frame size
 
-| Peranti | Saiz |
+| Device | Size |
 | --- | --- |
 | Mobile | 390 × 844 |
 | Tablet | 768 × 1024 |
 | Desktop | 1440 × 900 |
 
-Jika rujukan hanya mobile, tetap hasilkan frame desktop. Kod nanti wajib
-responsif; reka bentuk mesti tunjuk tingkah laku desktop, bukan regangan
+If the reference is mobile only, still produce a desktop frame. The code later must be
+responsive; the design must show desktop behaviour, not a stretched
 mobile.
 
-## Semakan hasil
+## Result check
 
-- [ ] Semua skrin PRD Bab 12.4 ada.
-- [ ] 4 keadaan lengkap jika diminta.
-- [ ] Teks tidak terpotong / bertindih.
-- [ ] Kontras teks lulus (≥ 4.5:1 untuk teks biasa).
-- [ ] Tiada dark mode.
-- [ ] Eksport PNG dinamakan ikut ID skrin.
-- [ ] Fail `.figcraft` disimpan dalam folder projek.
+- [ ] All screens in PRD Chapter 12.4 are present.
+- [ ] 4 states complete if requested.
+- [ ] Text is not cut off / overlapping.
+- [ ] Text contrast passes (≥ 4.5:1 for body text).
+- [ ] No dark mode.
+- [ ] PNG exports are named by screen ID.
+- [ ] The `.figcraft` file is saved in the project folder.
 
 ## Output
 
@@ -104,4 +104,4 @@ projek/<slug>/design/
     └── ...
 ```
 
-Fasa 3 hanya bermula selepas eksport disemak dan pengguna setuju dengan UI.
+Phase 3 starts only after the export is reviewed and the user agrees with the UI.

@@ -2,24 +2,24 @@
 
 ## MCP
 
-Firebase menyediakan MCP melalui Firebase CLI:
+Firebase provides MCP through the Firebase CLI:
 
 ```bash
 npx -y firebase-tools@latest login
 npx -y firebase-tools@latest mcp
 ```
 
-Daftar dalam OpenCode:
+Register in OpenCode:
 
 ```bash
 opencode mcp add firebase --global -- \
   npx -y firebase-tools@latest mcp
 ```
 
-Server ini membolehkan agent mengurus projek, Firestore, Auth, Hosting, dan
-membaca dokumentasi Firebase.
+This server lets the agent manage projects, Firestore, Auth, Hosting, and read
+the Firebase documentation.
 
-## Projek
+## Project
 
 ```bash
 npx firebase-tools@latest login
@@ -27,7 +27,7 @@ npx firebase-tools@latest projects:list
 npx firebase-tools@latest use <project-id>
 ```
 
-## Struktur projek
+## Project structure
 
 ```text
 projek/<slug>/app/
@@ -38,7 +38,7 @@ projek/<slug>/app/
 └── firestore.indexes.json
 ```
 
-`firebase.json` asas:
+Basic `firebase.json`:
 
 ```json
 {
@@ -60,16 +60,16 @@ projek/<slug>/app/
 }
 ```
 
-## Ujian tempatan
+## Local testing
 
-Java 17 tersedia pada mesin ini.
+Java 17 is available on this machine.
 
 ```bash
 cd projek/<slug>/app
 npx firebase-tools emulators:start
 ```
 
-Aplikasi mesti menyambung ke emulator dalam mod ujian sahaja:
+The application must connect to the emulator in test mode only:
 
 ```js
 import { connectAuthEmulator } from "firebase/auth";
@@ -81,7 +81,7 @@ if (location.hostname === "localhost") {
 }
 ```
 
-Jalankan ujian automatik:
+Run the automated test:
 
 ```bash
 npx firebase-tools emulators:exec --only firestore,auth "./tests/smoke.sh"
@@ -89,9 +89,9 @@ npx firebase-tools emulators:exec --only firestore,auth "./tests/smoke.sh"
 
 ## Rules
 
-- Setiap koleksi mesti ada peraturan baca/tulis.
-- Uji kes negatif: pengguna tanpa kebenaran mesti ditolak.
-- Jangan gunakan `allow read, write: if true`.
+- Every collection must have read/write rules.
+- Test negative cases: a user without permission must be rejected.
+- Do not use `allow read, write: if true`.
 
 ```js
 rules_version = '2';
@@ -112,8 +112,8 @@ service cloud.firestore {
 npx firebase-tools deploy --only hosting,firestore:rules,firestore:indexes
 ```
 
-## Had
+## Limits
 
-- Kos baca/tulis Firestore meningkat dengan penggunaan.
-- Model dokumen berbeza daripada SQL; rancang koleksi dalam PRD.
-- Vendor lock-in tinggi.
+- Firestore read/write costs grow with usage.
+- The document model differs from SQL; plan collections in the PRD.
+- High vendor lock-in.

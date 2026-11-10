@@ -1,22 +1,23 @@
-# Stack G — Next.js + Postgres
+# 09 — Stack G: Next.js + Postgres
 
-Sesuai: SSR, SEO, UI dan API dalam satu projek. Deploy Vercel + Neon/Supabase.
+Suitable for: SSR, SEO, UI and API in a single project. Deploy with Vercel +
+Neon/Supabase.
 
-## Cipta projek
+## Create a project
 
 ```bash
 cd projek/<slug>/app
-npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir=false
+npx create-next-app@latest . --ts --tailwind --eslint --app --no-src-dir
 ```
 
-Atau jika folder tidak kosong, cipta dalam folder sementara kemudian salin.
+Or if the folder is not empty, create it in a temporary folder then copy.
 
 ## Postgres
 
-Pilih satu:
+Choose one:
 
-- Neon: cipta projek di `neon.tech`, salin `DATABASE_URL`.
-- Supabase: cipta projek, salin connection string.
+- Neon: create a project at `neon.tech`, copy `DATABASE_URL`.
+- Supabase: create a project, copy the connection string.
 
 ```bash
 # .env.local
@@ -24,9 +25,9 @@ DATABASE_URL="postgres://..."
 NEXTAUTH_SECRET="..."
 ```
 
-Jangan commit `.env.local`.
+Do not commit `.env.local`.
 
-## Ujian tempatan
+## Local testing
 
 ```bash
 cd projek/<slug>/app
@@ -34,7 +35,7 @@ npm install
 npm run dev -- -p 4173
 ```
 
-Atau melalui repo:
+Or through the repo:
 
 ```bash
 bash skrip/test-local.sh <slug> --check
@@ -42,15 +43,15 @@ bash skrip/test-local.sh <slug> --check
 
 ## Deploy
 
-1. Push ke GitHub.
-2. Import repo di Vercel.
-3. Tetapkan env var di Vercel.
-4. Jalankan migrasi DB (Prisma/Drizzle) sebelum deploy production.
+1. Push to GitHub.
+2. Import the repo in Vercel.
+3. Set the env vars in Vercel.
+4. Run the DB migration (Prisma/Drizzle) before the production deploy.
 
-## Semakan
+## Checks
 
-- [ ] `npm run build` lulus.
-- [ ] Auth berfungsi di server, bukan hanya klien.
-- [ ] Tiada `DATABASE_URL` dalam bundle klien.
-- [ ] Responsif 360–1920px.
-- [ ] `qa-check.sh` lulus.
+- [ ] `npm run build` passes.
+- [ ] Auth works on the server, not only on the client.
+- [ ] No `DATABASE_URL` in the client bundle.
+- [ ] Responsive 360–1920px.
+- [ ] `qa-check.sh` passes.

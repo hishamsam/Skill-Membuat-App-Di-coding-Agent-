@@ -1,8 +1,7 @@
 import subprocess
 import json
 import os
-import sys
-import time
+import atexit
 
 class FigcraftClient:
     def __init__(self, port=7979):
@@ -93,6 +92,14 @@ def get_client():
     if f is None:
         init_client()
     return f
+
+def _close_client():
+    global f
+    if f is not None:
+        f.close()
+        f = None
+
+atexit.register(_close_client)
 
 def node(node_type, parent=None, **props):
     client = get_client()
@@ -216,7 +223,7 @@ def rect(parent, w, h, fill=None, radius=0, stroke=None, strokeWeight=1, name='R
     p.update(props)
     return node('rectangle', parent=parent, **p)
 
-def screenshot(path=None, ids=None):
+def screenshot(ids=None):
     client = get_client()
     args = {}
     if ids:

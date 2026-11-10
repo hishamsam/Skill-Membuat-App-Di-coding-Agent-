@@ -87,7 +87,7 @@ Page commands: `f.cmd('page.add', name='UI')`, `f.cmd('page.select', id=...)`,
 
 ## 3. Project workflow (PRD → design)
 
-1. Read `prd/PRD-v0.1.md` Bab 12 (skrin, token, rujukan).
+1. Read `prd/PRD-v0.1.md` Chapter 12 (screens, tokens, references).
 2. Open reference images in `refs/` yourself; FigCraft MCP cannot see images.
 3. Write `design/DESIGN-DNA.md` (grid, type, palette, spacing, signature).
 4. Edit `design/build.py` for the real screens.

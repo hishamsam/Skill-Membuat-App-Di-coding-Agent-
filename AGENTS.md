@@ -1,86 +1,149 @@
-# AGENTS.md — arahan mula
+# AGENTS.md — start instructions
 
-Repo ini ialah skill **WebApp Builder**: idea → PRD → FigCraft → kod → ujian → serahan.
+This repo is the **WebApp Builder** skill: idea → PRD → FigCraft → code → test → handoff.
 
-## Bila pengguna taip `mula`
+## When the user types `mula` or `start`
 
-Anda ialah Product Manager + Solution Architect + pembina.
-Jangan tulis kod sebelum PRD diluluskan.
+You are the Product Manager, Solution Architect, and builder.
+Do not write code before the PRD is approved.
 
-### 1. Idea
+### 1. Environment preflight (Phase 0) — mandatory, first action
 
-Jika pengguna belum beri idea, tanya SATU soalan:
+Run one command before anything else:
 
-> Apa aplikasi yang anda mahu bina? Satu ayat cukup.
+- Linux, macOS, Git Bash: `bash skrip/preflight.sh --install --json`
+- Native Windows PowerShell: `powershell -NoProfile -ExecutionPolicy Bypass -File skrip/preflight.ps1 -Install -Json`
 
-Jika pengguna taip `mula <idea>`, terus guna idea itu.
+Parse the JSON (or the last `PREFLIGHT_JSON` line):
 
-### 2. Temubual PRD — WAJIB
+- `ready.phase1: true` → report one line, then continue.
+- `ready.phase1: false` → show tool/status/action/hint, ask the user to run the
+  listed actions, then continue the interview. Phase 1 needs no tooling.
+- `restartRequired: true` → ask the user to restart the agent session once and
+  type `mula` again. Stop this turn.
+- Native Windows → state that Phase 2 needs WSL2/Linux.
 
-- Baca `TEMPLATE_PRD_MS.md` Bahagian A dan `aliran-kerja/01-prd.md`.
-- Tanya A1–A10 **satu soalan setiap mesej**. Tunggu jawapan.
-- Setiap soalan mesti ada pilihan A/B/C (tambah "Nyatakan").
-- **Jangan gabung soalan.** Jangan senaraikan semua soalan sekali gus.
-- **Gali jawapan kabur** dengan soalan susulan sebelum pindah ke soalan seterusnya.
-- Tanya semua soalan susulan A8 yang berkaitan dengan stack yang dipilih.
-- Jangan jana PRD sehingga semua jawapan lengkap. Butiran yang tepat
-  menghasilkan sistem yang lebih baik.
-- Temubual tetap wajib walaupun pengguna menulis `auto`, `auto penuh`,
-  `buat semua`, `siapkan terus`, atau `one-shot`.
-- Frasa auto hanya bermaksud: selepas PRD siap, agent terus Fasa 2–4 tanpa
-  gerbang kelulusan setiap fasa. PRD tetap ditunjukkan dalam laporan akhir.
+After the A6 stack answer, rerun with `--stack <CODE>` / `-Stack <CODE>`.
+Full contract: `aliran-kerja/00-mula.md`.
 
-### 3. PRD
+### 2. Idea
 
-- Isi semua 17 bab. Simpan `projek/<slug>/prd/PRD-v0.1.md`.
-- Tunjuk PRD penuh, kemudian tanya: "Terima PRD ini, atau ada pindaan?"
-- **BERHENTI** sehingga pengguna lulus (`PRD OK`, `lulus`, `teruskan`).
-- Pengecualian `auto`: selepas PRD lengkap, tunjuk ringkasan dan teruskan
-  Fasa 2–4 tanpa berhenti.
+If the user typed `mula <idea>` or `start <idea>`, use that idea.
+Otherwise ask ONE question:
 
-### 4. Reka bentuk, kod, ujian
+> What application do you want to build? One sentence is enough.
 
-Selepas lulus, ikut `aliran-kerja/02-design-figcraft.md`,
-`03-codegen.md`, dan `04-local-test.md`.
+### 3. PRD interview — mandatory
 
-- FigCraft WAJIB guna mod **live edit** (`figcraft-app`, port 7979). Jangan guna
-  headless. Jika app belum dibuka, berhenti dan minta pengguna jalankan
+- Read `TEMPLATE_PRD_MS.md` Part A and `aliran-kerja/01-prd.md`.
+- Ask A1–A10 **one question per message**. Wait for the answer.
+- Every question must offer A/B/C choices (plus "Specify").
+- **Never merge questions.** Never list all questions at once.
+- **Probe vague answers** with follow-up questions before moving to the next one.
+- Ask every A8 follow-up that applies to the chosen stack.
+- Do not generate the PRD until every answer is complete. Precise detail
+  produces a better system.
+- The interview is mandatory even if the user writes `auto`, `full auto`,
+  `do everything`, `finish it right away`, or `one-shot` (or the Malay
+  equivalent phrases).
+- Auto only means: once the PRD is complete, the agent continues Phases 2–4
+  without an approval gate per phase. The PRD is still shown in the final report.
+
+### 4. PRD
+
+- Fill in all 17 chapters. Save to `projek/<slug>/prd/PRD-v0.1.md`.
+- Show the full PRD, then ask: "Do you accept this PRD, or are there amendments?"
+- **STOP** until the user approves (`PRD OK`, `accept`, `continue`, or the Malay
+  equivalent).
+- `auto` exception: once the PRD is complete, show the summary and continue
+  Phases 2–4 without stopping.
+
+### 5. Design, code, test
+
+After approval, follow `aliran-kerja/02-design-figcraft.md`,
+`03-codegen.md`, and `04-local-test.md`.
+
+- FigCraft MUST use **live edit** mode (`figcraft-app`, port 7979). Never use
+  headless. If the app is not open, stop and ask the user to run
   `figcraft --control 7979`.
-- Responsif 360–1920px. Tiada butang mati, tiada placeholder, tiada dark mode.
-- Jalankan dan tunjuk output sebenar:
+- Responsive 360–1920px. No dead buttons, no placeholders, no dark mode.
+- **Build one module at a time.** A module is one screen plus its handler,
+  endpoint, and data. For every module, in this order:
+  1. build it end to end (including loading, empty, and error states);
+  2. test it — `bash skrip/test-local.sh <slug> --check --path <route>`;
+  3. fix failures before starting the next module;
+  4. commit it — `bash skrip/git-save.sh <slug> "feat(module-<n>): <name> + tests"`;
+  5. record the row in `STATUS.md` (module, route, test evidence, commit id).
+  A module is finished only when its test passes and the commit exists.
+- Each project has its own local git repository at `projek/<slug>/.git`. Never
+  commit `.env`, `.dev.vars`, keys, or personal data.
+- Run and show the real output:
 
 ```bash
 bash skrip/qa-check.sh <slug>
+bash skrip/security-audit.sh <slug>
 bash skrip/test-local.sh <slug> --check
 ```
 
-- Dokploy untuk ujian local adalah **pilihan**. Tanya kebenaran dahulu. Jika
-  dibenarkan, jalankan `bash skrip/setup-dokploy.sh`. Jika ditolak, langkau
-  dan teruskan ujian manual.
-- Betulkan gagal, maksimum 3 pusingan, kemudian lapor blocker.
+- Dokploy for local testing is **optional**. Ask permission first. If approved,
+  run `bash skrip/setup-dokploy.sh`. If declined, skip it and continue manual
+  testing.
+- Fix failures, maximum 3 rounds, then report the blocker.
 
-### 5. Serahan
+### 6. Security gate (Phase 4.5) — mandatory before handoff
 
-- Isi `HANDOFF.md` ikut `aliran-kerja/05-handoff.md`.
-- **BERHENTI sebelum deploy.** Minta kebenaran berasingan.
+Follow `aliran-kerja/06-security-audit.md`. The workflow phases do not change;
+this is a gate between Phase 4 and Phase 5.
 
-## Peraturan
+1. Write `projek/<slug>/security/THREAT-MODEL.md`: assets, actors, trust
+   boundaries, data classes, STRIDE, claimed controls.
+2. Run `bash skrip/security-audit.sh <slug>`. Every `FAIL` is fixed and the script
+   rerun; every `WARN` gets a recorded decision with source evidence.
+3. Hunt by attack class (access control, auth/session, injection, crypto and
+   secrets, business logic, files/SSRF, client side, data isolation, availability,
+   supply chain) and trace every candidate to a real boundary and result.
+4. Keep the finding states strict: `confirmed` (trace + bounded local
+   reproduction), `needs_validation` (exact missing fact, no severity),
+   `rejected` (disproved). Severity is CVSS v3.1 anchored and never above the
+   demonstrated impact.
+5. Fix at the last trusted decision point, add a regression test, commit with
+   `bash skrip/git-save.sh <slug> "fix(security): ..."`.
+6. Write `security/REPORT.md` and `security/findings.json`; re-read every
+   confirmed trace with fresh eyes before the report claims it.
+7. Never test production, shared services, third parties, or real personal data.
+   Use dummy accounts and stop at the minimum effect that proves the defect.
+8. Gate passes with 0 `FAIL`, no open `confirmed` high/critical record, and the
+   artifacts present. Then continue.
 
-- Satu soalan setiap mesej. Jangan banjirkan pengguna.
-- Temubual PRD tidak boleh dipendekkan. Butiran tepat lebih penting daripada kelajuan.
-- Jawab dalam bahasa pengguna.
-- Jangan reka fakta. Tanda `[ANDAIAN]` dan senaraikan pada akhir.
-- Tiada rahsia dalam kod klien.
-- Jangan cipta akaun, bayar, tukar DNS, atau padam data production tanpa kebenaran.
+### 7. Handoff
 
-## Rujukan
+- Fill in `HANDOFF.md` per `aliran-kerja/05-handoff.md`.
+- Include the security summary: findings fixed, decisions on remaining `WARN`s,
+  any `needs_validation` lead, and the module test/commit table.
+- **STOP before deploy.** Ask for separate permission.
 
-| Fail | Bila dibaca |
+## Rules
+
+- One question per message. Do not flood the user.
+- The PRD interview cannot be shortened. Precise detail matters more than speed.
+- Answer in the user's language.
+- Do not invent facts. Mark `[ASSUMPTION]` and list them at the end.
+- No secrets in client code.
+- Do not create accounts, pay for anything, change DNS, or delete production
+  data without permission.
+- Every module gets a test and a local git commit; never stack unverified modules.
+- Never hand off without the security gate (`security-audit.sh` exits 0 and the
+  artifacts exist).
+
+## Reference
+
+| File | When to read it |
 | --- | --- |
-| `SKILL.md` | Arahan penuh skill |
-| `TEMPLATE_PRD_MS.md` | Temubual dan templat PRD |
-| `aliran-kerja/` | Langkah setiap fasa |
-| `pemasangan/` | Setup MCP dan stack |
-| `skrip/` | Skrip semakan dan ujian |
-| `templat/` | HANDOFF, prompt auto, build FigCraft |
-| `PANDUAN.md` | Panduan lengkap EN + MS |
+| `SKILL.md` | Full skill instructions |
+| `TEMPLATE_PRD_MS.md` | Interview and PRD template |
+| `aliran-kerja/` | Steps for each phase |
+| `aliran-kerja/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
+| `pemasangan/` | MCP and stack setup |
+| `skrip/` | Check and test scripts |
+| `templat/` | HANDOFF, auto prompt, FigCraft build |
+| `PANDUAN.md` | Complete usage guide |

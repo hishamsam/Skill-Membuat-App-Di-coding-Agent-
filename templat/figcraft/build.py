@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Templat skrip FigCraft untuk projek __SLUG__.
+FigCraft script template for the __SLUG__ project.
 
-Guna:
+Usage:
     python3 -I projek/__SLUG__/design/build.py
     python3 -I projek/__SLUG__/design/build.py --rehearsal
     python3 -I projek/__SLUG__/design/build.py --save
 
-Prasyarat: FigCraft live pada port 7979.
-Ganti isi build_mobile() dan build_desktop() dengan skrin sebenar
-daripada PRD Bab 12.4. Kekalkan pola: satu skrip, satu larian.
+Prerequisite: FigCraft live on port 7979.
+Replace the contents of build_mobile() and build_desktop() with the real
+screens from PRD Chapter 12.4. Keep the pattern: one script, one run.
 """
 
 import sys
@@ -72,11 +72,11 @@ def button(parent, label):
 
 def build_mobile():
     fr = frame("S-01 / Mobile 390", 390, 844)
-    header(fr, "Ringkasan", "Hari ini")
-    txt(fr, "Skrin contoh", 26, "Bold", INK)
-    card(fr, "Kad pertama", "Ganti teks ini dengan kandungan sebenar daripada PRD Bab 12.4.")
-    card(fr, "Kad kedua", "Setiap skrin perlu keadaan default, loading, empty, dan error.")
-    button(fr, "Tindakan utama")
+    header(fr, "Overview", "Today")
+    txt(fr, "Sample screen", 26, "Bold", INK)
+    card(fr, "First card", "Replace this text with the real content from PRD Chapter 12.4.")
+    card(fr, "Second card", "Every screen needs default, loading, empty, and error states.")
+    button(fr, "Primary action")
     return fr
 
 
@@ -85,27 +85,27 @@ def build_desktop():
 
     side = box(fr, "Sidebar", layout="vertical", gap=12, padding=24,
                fill=SURFACE, stroke=LINE, w=260, sizingV="fill")
-    txt(side, "Aplikasi", 16, "Bold", INK)
-    for item in ["Ringkasan", "Rekod", "Laporan", "Tetapan"]:
+    txt(side, "App", 16, "Bold", INK)
+    for item in ["Overview", "Records", "Reports", "Settings"]:
         txt(side, item, 13, "Medium", MUTED)
 
     main = box(fr, "Main", layout="vertical", gap=16, padding=32,
                fill=CANVAS, sizingH="fill", sizingV="fill")
-    header(main, "Ringkasan", "Desktop 1440")
-    txt(main, "Skrin contoh", 32, "Bold", INK)
+    header(main, "Overview", "Desktop 1440")
+    txt(main, "Sample screen", 32, "Bold", INK)
     row = box(main, "Cards", layout="horizontal", gap=16, sizingH="fill")
-    card(row, "Kad pertama", "Susun atur desktop berbeza daripada mobile.")
-    card(row, "Kad kedua", "Guna grid 2–3 kolum pada lebar ini.")
-    button(main, "Tindakan utama")
+    card(row, "First card", "The desktop layout differs from mobile.")
+    card(row, "Second card", "Use a 2–3 column grid at this width.")
+    button(main, "Primary action")
     return fr
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rehearsal", action="store_true",
-                    help="Bina dalam dokumen baharu (buangan)")
+                    help="Build into a new (throwaway) document")
     ap.add_argument("--save", action="store_true",
-                    help="Simpan ke design.figcraft selepas siap")
+                    help="Save to design.figcraft when finished")
     args = ap.parse_args()
 
     if args.rehearsal:
@@ -125,11 +125,11 @@ def main():
     if args.save:
         f.cmd("file.save", path=FILE)
 
-    print("siap")
+    print("done")
     print("mobile :", mobile)
     print("desktop:", desktop)
-    print("eksport:", OUT)
-    print("fail   :", FILE if args.save else "(belum disimpan)")
+    print("export :", OUT)
+    print("file   :", FILE if args.save else "(not saved)")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
-# Stack J — FastAPI / Django + Postgres
+# 12 — Stack J: FastAPI / Django + Postgres
 
-Sesuai: API Python, data science, admin Django.
+Suitable for: Python API, data science, Django admin.
 
-## Pilih satu
+## Choose one
 
 ### FastAPI
 
@@ -22,7 +22,7 @@ app/
 └── .env.example
 ```
 
-Jalan:
+Run:
 
 ```bash
 python3 -m uvicorn main:app --host 127.0.0.1 --port 4173
@@ -39,7 +39,7 @@ django-admin startproject config .
 python3 manage.py startapp core
 ```
 
-Jalan:
+Run:
 
 ```bash
 python3 manage.py migrate
@@ -54,22 +54,22 @@ SECRET_KEY="..."
 DEBUG=false
 ```
 
-## Ujian tempatan
+## Local testing
 
 ```bash
 bash skrip/test-local.sh <slug> --check
 ```
 
-## Deploy VPS/Dokploy
+## VPS/Dokploy deploy
 
-1. Tambah `Dockerfile` Python atau gunakan buildpack Python Dokploy.
-2. Tetapkan env var di Dokploy.
-3. Jalankan migrasi: `alembic upgrade head` atau `python manage.py migrate`.
-4. Uji `/api/health` atau `/admin/`.
+1. Add a Python `Dockerfile` or use the Dokploy Python buildpack.
+2. Set the env vars in Dokploy.
+3. Run the migration: `alembic upgrade head` or `python manage.py migrate`.
+4. Test `/api/health` or `/admin/`.
 
-## Semakan
+## Checks
 
-- [ ] `DEBUG=false` di production.
-- [ ] Tiada `DATABASE_URL` dalam kod klien.
-- [ ] Validation di server.
-- [ ] `qa-check.sh` lulus.
+- [ ] `DEBUG=false` in production.
+- [ ] No `DATABASE_URL` in client code.
+- [ ] Validation on the server.
+- [ ] `qa-check.sh` passes.

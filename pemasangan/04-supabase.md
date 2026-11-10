@@ -2,17 +2,17 @@
 
 ## MCP
 
-URL rasmi: `https://mcp.supabase.com/mcp`
+Official URL: `https://mcp.supabase.com/mcp`
 
-Skop server dengan parameter:
+Scope the server with parameters:
 
-| Parameter | Fungsi |
+| Parameter | Function |
 | --- | --- |
-| `project_ref=<id>` | Hadkan kepada satu projek |
-| `read_only=true` | Hanya query baca |
-| `features=database,docs` | Hadkan kumpulan tool |
+| `project_ref=<id>` | Limit to a single project |
+| `read_only=true` | Read queries only |
+| `features=database,docs` | Limit the tool set |
 
-### Daftar (OAuth)
+### Register (OAuth)
 
 ```bash
 opencode mcp add supabase --global \
@@ -20,28 +20,29 @@ opencode mcp add supabase --global \
 opencode mcp auth supabase
 ```
 
-### Daftar (token peribadi)
+### Register (personal token)
 
 ```bash
-# ~/.secrets/supabase-token — jangan commit
+# ~/.secrets/supabase-token — do not commit
 opencode mcp add supabase --global \
   --url "https://mcp.supabase.com/mcp?project_ref=<ref>" \
   --header "Authorization=Bearer {file:~/.secrets/supabase-token}"
 ```
 
-Beri token skop projek dan kebenaran minimum.
+Give the token a project scope and minimum permissions.
 
-Nota: jika klien tidak menghurai `{file:...}` dalam header, guna OAuth
-(`opencode mcp auth supabase`) atau letak token terus dalam config peribadi
-yang tidak di-commit.
+Note: if the client does not parse `{file:...}` in headers, use OAuth
+(`opencode mcp auth supabase`) or put the token directly in a private config
+that is not committed.
 
-## Projek
+## Project
 
-1. Cipta projek di [supabase.com/dashboard](https://supabase.com/dashboard).
-2. Salin:
-   - `Project URL` (contoh `https://xxxx.supabase.co`)
-   - `anon` / publishable key (selamat untuk klien + RLS)
-3. `service_role` key **hanya** untuk server. Jangan letak dalam frontend.
+1. Create a project at [supabase.com/dashboard](https://supabase.com/dashboard).
+2. Copy:
+   - `Project URL` (example `https://xxxx.supabase.co`)
+   - `anon` / publishable key (safe for the client + RLS)
+3. The `service_role` key is for the server **only**. Do not put it in the
+   frontend.
 
 ## Schema & RLS
 
@@ -50,9 +51,9 @@ projek/<slug>/app/supabase/migrations/0001_init.sql
 projek/<slug>/app/supabase/migrations/0002_rls.sql
 ```
 
-- Setiap jadual: `id`, `created_at`, `updated_at`, kunci asing.
-- Aktifkan RLS pada SEMUA jadual.
-- Tulis polisi per peranan; uji kes negatif.
+- Every table: `id`, `created_at`, `updated_at`, foreign keys.
+- Enable RLS on ALL tables.
+- Write policies per role; test negative cases.
 
 ```sql
 alter table public.items enable row level security;
@@ -62,16 +63,16 @@ on public.items for select
 using (auth.uid() = owner_id);
 ```
 
-## Ujian tempatan
+## Local testing
 
-Mesin ini TIADA Docker, jadi `supabase start` tidak berfungsi.
+This machine has NO Docker, so `supabase start` does not work.
 
-**Laluan A (disyorkan):** projek dev Supabase + kunci anon.
+**Path A (recommended):** Supabase dev project + anon key.
 ```bash
 cd projek/<slug>/app && python3 -m http.server 4173
 ```
 
-**Laluan B:** jika Docker dipasang kemudian.
+**Path B:** if Docker is installed later.
 ```bash
 npx supabase@latest start
 npx supabase@latest db reset
@@ -84,11 +85,11 @@ npx supabase@latest link --project-ref <ref>
 npx supabase@latest db push
 ```
 
-Frontend: Vercel / Cloudflare Pages. Tetapkan `SUPABASE_URL` dan
-`SUPABASE_ANON_KEY` pada persekitaran binaan.
+Frontend: Vercel / Cloudflare Pages. Set `SUPABASE_URL` and
+`SUPABASE_ANON_KEY` in the build environment.
 
-## Semak
+## Check
 
-- Auth berfungsi (daftar, login, logout, refresh sesi).
-- RLS: pengguna A tidak nampak data pengguna B.
-- Tiada `service_role` dalam bundle frontend.
+- Auth works (sign up, login, logout, session refresh).
+- RLS: user A cannot see user B's data.
+- No `service_role` in the frontend bundle.

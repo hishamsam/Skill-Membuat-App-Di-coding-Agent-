@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Pasang Dokploy untuk ujian local/dev — HANYA dengan kebenaran pengguna.
-# Guna: bash skrip/setup-dokploy.sh [--check] [--yes]
+# Install Dokploy for local/dev testing — ONLY with the user's permission.
+# Usage: bash skrip/setup-dokploy.sh [--check] [--yes]
 #
-# Tanpa --yes, skrip berhenti dan menunggu jawapan y/n. Jawapan selain y
-# bermaksud langkau: ujian diteruskan secara manual.
+# Without --yes, the script stops and waits for a y/n answer. Any answer other
+# than y means skip: continue with manual testing.
 set -uo pipefail
 
 CHECK=0
@@ -13,7 +13,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --check) CHECK=1 ;;
     --yes) ASSUME_YES=1 ;;
-    *) echo "Guna: bash skrip/setup-dokploy.sh [--check] [--yes]"; exit 1 ;;
+    *) echo "Usage: bash skrip/setup-dokploy.sh [--check] [--yes]"; exit 1 ;;
   esac
   shift
 done
@@ -25,67 +25,67 @@ installed() {
 
 if [ "$CHECK" -eq 1 ]; then
   if installed; then
-    echo "Dokploy: aktif di http://localhost:3000"
+    echo "Dokploy: active at http://localhost:3000"
   else
-    echo "Dokploy: tidak dikesan"
+    echo "Dokploy: not detected"
   fi
   exit 0
 fi
 
 if installed; then
-  echo "Dokploy sudah aktif: http://localhost:3000"
-  echo "Langkah seterusnya: buka URL itu, cipta admin, kemudian simpan"
-  echo "DOKPLOY_URL dan DOKPLOY_API_KEY dalam environment (jangan commit)."
+  echo "Dokploy is already active: http://localhost:3000"
+  echo "Next step: open that URL, create the admin account, then store"
+  echo "DOKPLOY_URL and DOKPLOY_API_KEY in the environment (never commit them)."
   exit 0
 fi
 
 cat <<'EOF'
-Dokploy akan memasang:
-  - Docker (jika belum ada)
-  - Dokploy + Traefik, guna port 80, 443, dan 3000
-  - Perlu Linux, akses root, dan mesin dev/VPS (bukan mesin produksi)
+Dokploy installs:
+  - Docker (if not present already)
+  - Dokploy + Traefik, using ports 80, 443, and 3000
+  - Requires Linux, root access, and a dev machine/VPS (not a production machine)
 
-Ia mengubah sistem dan memuat turun skrip rasmi:
+It modifies the system and downloads the official script:
   https://dokploy.com/install.sh
 
-Jika tidak mahu, skrip ini akan langkau dan ujian tempatan dibuat manual.
+If you decline, this script skips it and local testing is done manually.
 EOF
 
 if [ "$ASSUME_YES" -ne 1 ]; then
-  printf 'Teruskan pasang Dokploy? [y/N] '
+  printf 'Install Dokploy now? [y/N] '
   read -r answer || answer=""
   case "$answer" in
     y|Y|ya|YA|Ya) ;;
-    *) echo "Dilangkau. Ujian manual: bash skrip/test-local.sh <slug> --check"
+    *) echo "Skipped. Manual testing: bash skrip/test-local.sh <slug> --check"
        exit 0 ;;
   esac
 fi
 
 if [ "$(uname -s)" != "Linux" ]; then
-  echo "GAGAL: Dokploy hanya untuk Linux. Ujian manual sahaja."
+  echo "FAIL: Dokploy is Linux only. Manual testing only."
   exit 1
 fi
 
 if [ "$(id -u)" -ne 0 ]; then
-  echo "GAGAL: pasang sebagai root. Jalankan:"
+  echo "FAIL: install as root. Run:"
   echo "  sudo bash skrip/setup-dokploy.sh"
   exit 1
 fi
 
 for port in 80 443 3000; do
   if ss -ltn 2>/dev/null | grep -q ":$port "; then
-    echo "GAGAL: port $port sedang digunakan. Hentikan servis itu dahulu."
+    echo "FAIL: port $port is in use. Stop that service first."
     exit 1
   fi
 done
 
-echo "Memasang Dokploy..."
+echo "Installing Dokploy..."
 if curl -sSL https://dokploy.com/install.sh | sh; then
   echo
-  echo "Dokploy dipasang. Buka http://localhost:3000 dan cipta akaun admin."
-  echo "Selepas itu tetapkan DOKPLOY_URL dan DOKPLOY_API_KEY dalam environment."
-  echo "Jangan simpan kunci dalam repo."
+  echo "Dokploy installed. Open http://localhost:3000 and create the admin account."
+  echo "Then set DOKPLOY_URL and DOKPLOY_API_KEY in the environment."
+  echo "Do not store keys in the repo."
 else
-  echo "GAGAL: pemasangan Dokploy tidak selesai. Ujian manual sahaja."
+  echo "FAIL: Dokploy installation did not finish. Manual testing only."
   exit 1
 fi

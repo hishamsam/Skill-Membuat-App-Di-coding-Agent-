@@ -1,6 +1,6 @@
-# 01 — Daftar MCP dalam OpenCode
+# 01 — Registering MCP in OpenCode
 
-Fail config: `~/.config/opencode/opencode.json`
+Config file: `~/.config/opencode/opencode.json`
 
 ## Format
 
@@ -8,14 +8,14 @@ Fail config: `~/.config/opencode/opencode.json`
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "nama-server": {
+    "server-name": {
       "type": "local",
       "command": ["/usr/bin/figcraft-cli", "mcp"],
       "enabled": true
     },
-    "nama-remote": {
+    "remote-name": {
       "type": "remote",
-      "url": "https://contoh.com/mcp",
+      "url": "https://example.com/mcp",
       "enabled": true,
       "headers": {
         "Authorization": "Bearer {file:~/.secrets/token}"
@@ -25,18 +25,18 @@ Fail config: `~/.config/opencode/opencode.json`
 }
 ```
 
-Peraturan:
+Rules:
 
-- `local`: `command` ialah array; elemen pertama fail boleh laku.
-- `remote`: `url` mesti berakhir dengan `/mcp` atau `/sse` ikut penyedia.
-- `enabled: false` = didaftar tetapi tidak dimuatkan.
-- Token guna `{file:...}`. Jangan tulis token dalam fail config.
-- Selepas ubah config, tutup dan buka semula OpenCode.
+- `local`: `command` is an array; the first element is an executable file.
+- `remote`: `url` must end with `/mcp` or `/sse` depending on the provider.
+- `enabled: false` = registered but not loaded.
+- Tokens use `{file:...}`. Do not write tokens in the config file.
+- After changing the config, close and reopen OpenCode.
 
-## Daftar server
+## Registering a server
 
-Edit `opencode.json`, tambah blok daripada
-`pemasangan/mcp.opencode.example.json`. Contoh FigCraft:
+Edit `opencode.json`, add a block from
+`pemasangan/mcp.opencode.example.json`. FigCraft example:
 
 ```json
 "figcraft": {
@@ -51,39 +51,41 @@ Edit `opencode.json`, tambah blok daripada
 }
 ```
 
-## Semak
+## Checking
 
 ```bash
 opencode mcp list
 ```
 
-Atau dalam sesi OpenCode, lihat senarai tool MCP. Jika server tidak muncul:
+Or inside an OpenCode session, look at the MCP tool list. If a server does not
+appear:
 
-1. Pastikan JSON sah: `python3 -m json.tool ~/.config/opencode/opencode.json`.
-2. Pastikan `command` wujud: `which figcraft-cli`.
-3. Tutup semua sesi OpenCode, buka semula.
-4. Untuk server remote, uji URL dengan `curl -I`.
+1. Make sure the JSON is valid: `python3 -m json.tool ~/.config/opencode/opencode.json`.
+2. Make sure `command` exists: `which figcraft-cli`.
+3. Close all OpenCode sessions, open them again.
+4. For remote servers, test the URL with `curl -I`.
 
-## Tambah melalui CLI
+## Adding via CLI
 
 ```bash
-# Server local
+# Local server
 opencode mcp add figcraft --global -- /usr/bin/figcraft-cli mcp
 
-# Server remote (OAuth)
+# Remote server (OAuth)
 opencode mcp add supabase --global --url "https://mcp.supabase.com/mcp?project_ref=<ref>"
 opencode mcp auth supabase
 
-# Server remote (token dalam header)
+# Remote server (token in header)
 opencode mcp add neon --global --url "https://mcp.neon.tech/mcp" \
   --header "Authorization=Bearer <token>"
 ```
 
-Semak semula dengan `opencode mcp list`. Command `add` menulis ke config
-projek secara lalai; `--global` menulis ke `~/.config/opencode/opencode.json`.
+Check again with `opencode mcp list`. The `add` command writes to the project
+config by default; `--global` writes to `~/.config/opencode/opencode.json`.
 
-## Keselamatan
+## Security
 
-- Server MCP boleh baca/tulis projek. Aktifkan hanya yang perlu.
-- Untuk projek produksi, skop server ke satu projek dan mod read-only.
-- Jangan simpan config yang mengandungi token dalam repo projek.
+- MCP servers can read/write the project. Enable only the ones you need.
+- For production projects, scope the server to a single project and read-only
+  mode.
+- Do not keep a config containing tokens in the project repo.
