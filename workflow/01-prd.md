@@ -36,8 +36,12 @@ for all later phases.
 
 3. Run the interview according to Part A of `TEMPLATE_PRD_MS.md`:
    - ONE question per message. Do not merge questions.
-   - Every question has options A/B/C.
+   - Write for a layperson: no jargon, everyday examples.
+   - Every question has 3–4 ready options A/B/C(/D) plus **Other**, and ONE
+     recommendation with a reason. The recommendation is not an answer.
    - Dig into vague answers with follow-up questions before moving on.
+   - An unanswered question stops the interview. Re-ask it in simpler words;
+     never continue with a gap.
    - Question A6 (technology) is MANDATORY before the PRD is written.
    - Ask all relevant A8 follow-up questions.
 
@@ -61,18 +65,21 @@ for all later phases.
 
 ## Technology options (A6)
 
-| Code | Stack | When chosen | Phase 4 (local test) |
+| Code | Stack | In plain words: choose when | Phase 4 (local test) |
 | --- | --- | --- | --- |
-| A | GAS + Google Sheets | Internal, small data, Google ecosystem | Preview mode + `python3 -m http.server` |
-| B | Supabase | Postgres + Auth + RLS + Storage | Supabase dev project (no Docker on this machine) |
-| C | Cloudflare Worker | Edge API, D1/KV/R2, static assets | `npx wrangler dev` |
-| D | Firebase | Firestore + Auth + Hosting, realtime | `firebase emulators:start` |
-| E | Neon | Serverless Postgres + separate API | Worker/Vercel function + `wrangler dev` |
-| F | Hybrid | A combination of two or more services | Follow the chosen services |
-| G | Next.js + Postgres | SSR, SEO, UI + API in one project | `npm run dev` |
-| H | Node/Express + Postgres | Custom API, full control | `npm run dev` / `npm start` |
-| I | Laravel + MySQL | PHP, admin panel, ordinary hosting | `php artisan serve` |
-| J | FastAPI/Django + Postgres | Python API, Django admin | `uvicorn` / `manage.py runserver` |
+| A | GAS + Google Sheets | A spreadsheet with an app on top; internal team, under ~100 users, under ~10,000 rows | Preview mode + `python3 -m http.server` |
+| B | Supabase | A ready-made online database with login and file storage; most web apps | Supabase dev project (no Docker on this machine) |
+| C | Cloudflare Worker | Answers fast worldwide; high traffic, small data, static pages | `npx wrangler dev` |
+| D | Firebase | Google's app platform; live updates, mobile apps, easy login | `firebase emulators:start` |
+| E | Neon | Database only; a small program still sits in front | Worker/Vercel function + `wrangler dev` |
+| F | Hybrid | Two or more services, each doing one job | Follow the chosen services |
+| G | Next.js + Postgres | Pages and data in one project; pages can be found on Google | `npm run dev` |
+| H | Node/Express + Postgres | Your own server program; full control | `npm run dev` / `npm start` |
+| I | Laravel + MySQL | PHP framework with a ready admin page | `php artisan serve` |
+| J | FastAPI/Django + Postgres | Python framework with a ready admin page | `uvicorn` / `manage.py runserver` |
+| K | Flutter | One code base for website + Android + iPhone | Varies with the backend |
+
+When asking A6, read the third column to the user, not the product names.
 
 Rule: choose ONE main stack. Hybrid only if the user states
 clearly which layer does what.

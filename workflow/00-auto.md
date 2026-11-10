@@ -33,16 +33,19 @@ complete, keep working without approval gates between phases.
 1. **Idea = interview starting point.** The agent must ask detailed questions
    one by one before writing the PRD.
 2. **Interview is mandatory.** No skipping even if the user writes `auto`.
-   Exact details produce a better system.
-3. **Same workflow.** PRD → FigCraft → code → test. No phase is skipped.
-4. **Assumptions must be visible.** Every gap is marked `[ASSUMPTION]` in PRD
+   Exact details produce a better system. Ask in everyday words, give 3–4
+   options plus **Other**, and one recommendation with a reason.
+3. **No answer, no progress.** If a question is unanswered or vague, re-ask the
+   same question in simpler words. Never write a PRD with a gap.
+4. **Same workflow.** PRD → FigCraft → code → test. No phase is skipped.
+5. **Assumptions must be visible.** Every gap is marked `[ASSUMPTION]` in PRD
    Chapter 5 and listed in the final summary.
-5. **Stop before irreversible actions.** Production deploy,
+6. **Stop before irreversible actions.** Production deploy,
    payments, DNS, data deletion, and production credentials need
    separate permission.
-6. **Evidence, not claims.** Never report done without `qa-check` and
+7. **Evidence, not claims.** Never report done without `qa-check` and
    `test-local` output.
-7. **Blockers are capped.** If something fails, try to fix it at most 3 times,
+8. **Blockers are capped.** If something fails, try to fix it at most 3 times,
    then stop and report the real blocker.
 
 ## Auto steps

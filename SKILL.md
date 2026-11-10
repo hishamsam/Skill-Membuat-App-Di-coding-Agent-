@@ -106,7 +106,12 @@ AI actions:
 2. **Run the structured interview** following Part A of `TEMPLATE_PRD_MS.md`.
    - The interview is MANDATORY in all modes, including auto mode.
    - ONE question per message. Do not merge questions or show a list all at once.
+   - Plain language for non-technical users: no jargon, everyday examples.
+   - Every question: 3–4 ready options plus **Other**, and ONE recommendation
+     with a reason. A recommendation never counts as the answer.
    - Probe vague answers with follow-up questions before moving on.
+   - Unanswered question → re-ask the same question in simpler words. Never
+     continue with a gap and never generate a partial PRD.
    - Question A6 (technology) is MANDATORY: GAS / Supabase / Cloudflare Worker /
      Firebase / Neon / Hybrid / Next.js / Node / Laravel / FastAPI-Django / Flutter.
    - Technology follow-up questions (A8), maximum 4, according to the chosen stack.

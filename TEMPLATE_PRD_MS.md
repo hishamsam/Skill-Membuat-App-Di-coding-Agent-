@@ -25,10 +25,16 @@ HARD RULES:
 - DO NOT invent facts. Anything not decided goes into Chapter 16 (Open Questions).
 - Reasonable technical assumptions: put them in Chapter 5, mark them "ASSUMPTION".
 - One question only per message. Do not flood the user.
-- Every question must have options A/B/C (+ "Specify" added automatically).
+- Write every question for a non-technical person. No jargon; explain any
+  unavoidable technical word in brackets in everyday words.
+- Every question must have 3-4 ready options A/B/C(/D) plus a final
+  "Other — describe" option, and ONE recommendation with a reason.
+- An answer counts only when the user picks a letter or writes a clear answer.
+  Recommendation text is advice, not an answer.
+- Unanswered or vague: re-ask the same question in simpler words with one
+  example. Do not move on and do not generate a partial PRD.
 - If the user answers several questions at once, accept it and skip the ones already answered.
 - DO NOT merge questions. Do not show the whole A1–A10 list at once.
-- Vague answer: ask a follow-up question first before moving on.
 - If the user says "just generate" / "auto", explain that a short interview
   is still required, then continue one question per message.
 
@@ -58,159 +64,511 @@ APPROVAL:
 
 # PART A — INTERVIEW PROTOCOL (10 QUESTIONS)
 
-Ask in order. Stop after ONE question. Wait for the answer.
+Ask in order. Send ONE question per message and wait for the answer.
 
-## A1. Problem & users
-"Who uses this system, and what problem should it solve?"
-- A. Internal company staff (daily operations)
-- B. External customers / public
-- C. Both: staff manage, customers access
-- D. Specific users: students / teachers / members / patients (specify)
+## How to ask (mandatory)
 
-## A2. Roles & permissions
-"What roles must exist?"
-- A. Admin only
-- B. Admin + regular user
-- C. Admin + manager + user
-- D. More than three (specify)
+Every question must:
 
-## A3. Core workflow
-"What is the one main flow from start to finish?"
-- A. Record created → reviewed → approved → report
-- B. Booking / order → pay → done
-- C. Complaint / request → action → close
-- D. Registration → verification → content access
-- E. Other (specify in one sentence)
+1. Be written for a person who is not technical. No jargon. When a technical
+   word cannot be avoided, explain it in brackets in everyday words.
+2. Give 3–4 ready-made options labelled A, B, C (D when needed), plus a final
+   **Other** option: "Other — tell me in one sentence".
+3. Give ONE recommendation: "Recommended if you are not sure: B — <reason>".
+   A recommendation is advice, never an automatic answer.
+4. Ask about ONE thing only. Never merge two questions in one message and never
+   show the whole A1–A10 list at once.
 
-## A4. Main data
-"What are the 3–5 main entities stored?"
-- A. User, transaction record, status, report
-- B. User, product/stock, order, payment
-- C. User, request, attachment, comment
-- D. Specify your own entity list
+## Completeness gate (do not skip)
 
-## A5. MVP scope
-"What must exist in the first version?"
-- A. Auth + CRUD + search + basic report
-- B. Auth + CRUD + approval + notification
-- C. Auth + CRUD + payment + receipt
-- D. Specify the MVP feature list
+- A question is answered only when the user picks a letter or writes a clear
+  answer of their own. Silence, "whatever", "up to you", or a dodge does not
+  count as an answer.
+- If the answer is missing or vague: re-ask the SAME question in shorter words
+  with one concrete example. Do not move to the next question.
+- Do not treat a recommendation as the user's answer unless the user says
+  "use your recommendation" / "ikut cadangan". Record such a reply as
+  `[ASSUMPTION]` with the reason.
+- A6 plus its A8 follow-ups must be answered. With no A6 answer, no PRD.
+- Never write the PRD while any of A1–A10 is unanswered. Never fill a gap from
+  the recommendation and present it as the user's decision.
 
-## A6. TECHNOLOGY — MANDATORY QUESTION
-"Choose the backend/data technology. Pick one, or more if hybrid."
+## A1. Who will use it, and what problem does it solve?
 
-| Option | Technology | Best when | Cost / limits |
+**Recommended if you are not sure:** A — start with the smallest group that
+already has this problem; opening it to outsiders later is easy.
+
+- A. My own staff, for daily work (records, approvals, reports)
+- B. Customers or the public (people outside the company)
+- C. Both: staff manage the data, customers use part of it
+- D. A specific group: students, teachers, members, patients, volunteers
+- E. Other — describe the user and the problem in one sentence
+
+If the answer is vague, ask: "What is that person doing today, and what goes
+wrong with it?"
+
+## A2. Who is allowed to do what inside the app?
+
+Said another way: who can see everything, and who only sees their own part?
+
+**Recommended if you are not sure:** B — one admin plus ordinary users covers
+most first versions without over-building.
+
+- A. One kind of user only: everyone sees and does the same thing
+- B. Two kinds: an admin (manages everything) and a normal user (own data)
+- C. Three kinds: admin, manager who approves, normal user
+- D. Rights differ per department, branch, or customer company
+- E. Other — describe who may see and change what
+
+## A3. What is the one main job the app must finish, start to end?
+
+Think of the single most important thing a user must complete. Give the steps
+in order.
+
+**Recommended if you are not sure:** A — record → check → approve → report
+fits most office and admin systems.
+
+- A. Create a record → someone checks or approves it → it appears in a report
+- B. Choose something (booking/order) → pay → receive confirmation
+- C. Submit a complaint or request → staff act on it → it is closed
+- D. Sign up → get verified → unlock content or a service
+- E. Other — write the steps in one sentence, with arrows
+
+## A4. What are the 3–5 main "things" the app keeps?
+
+Not screens: the items in the list. Example for a shop: customer, product,
+order, payment.
+
+**Recommended if you are not sure:** B if you sell anything; A for records,
+requests, or internal processes.
+
+- A. Person, record/entry, status, report
+- B. Person, product or stock item, order, payment
+- C. Person, request/ticket, attached file, comment or reply
+- D. Person, course/event, registration, attendance
+- E. Other — list your items, separated by commas
+
+## A5. What must work in the first version, and what can wait?
+
+"First version" means the smallest release that is genuinely useful. Everything
+else moves to a later phase.
+
+**Recommended if you are not sure:** A — sign in, add/edit/delete/view data,
+search, one simple report. Ship that, then add approval and notifications.
+
+- A. Sign in, add/edit/delete/view data, search, one simple report
+- B. A + an approval step + email or message notification
+- C. A + online payment + receipt or invoice
+- D. A + file upload + export to Excel/PDF
+- E. Other — list the must-haves, one per line
+
+## A6. Where should the app and its data live? (MANDATORY)
+
+This answer decides which tools are used later. Ask the user the plain
+question first: "Who will use the app, roughly how many people at once, and
+about how much data will it hold in the first year?" Then use this table to
+map the answer to a code. Read the second column to the user, not the product
+names.
+
+**Recommended if you are not sure:** A — it is free, nothing needs installing
+or maintaining, and it is the fastest way to ship for up to about 100 internal
+users. Move to B as soon as customers sign in, files are uploaded, or real
+growth is expected.
+
+| Code | What it is, in plain words | Good for | Watch out for |
 | --- | --- | --- | --- |
-| **A** | **Google Apps Script (GAS) + Google Sheets** | Internal app, users < 100, rows < ~10,000, already on Google Workspace | Free; GAS daily quota; not a real DB |
-| **B** | **Supabase** | Need Postgres, Auth, RLS, Storage, Realtime; a real SaaS | Limited free tier; idle projects can pause |
-| **C** | **Cloudflare Worker** (+ D1 / KV / R2) | Global API, high traffic, low latency, static assets | Daily free tier; D1 size limit; not full Postgres |
-| **D** | **Firebase** (Firestore + Auth + Hosting) | Realtime sync, mobile/web apps, fast auth | Free tier; read/write cost can grow; vendor lock-in |
-| **E** | **Neon** (serverless Postgres) | Need real Postgres, branching, scale-to-zero | Needs an API layer (Worker/Vercel); cold start |
-| **F** | **Hybrid** | Example: static frontend + Neon + Worker API | Two services to maintain |
-| **G** | **Next.js + Postgres** (Vercel + Neon/Supabase) | SSR, API routes, SEO, one project for UI + API | Vercel vendor; separate Postgres |
-| **H** | **Node/Express + Postgres** (VPS/Dokploy) | Full control, custom API, self-deploy | Must maintain server, backup, TLS |
-| **I** | **Laravel + MySQL** (VPS/Dokploy) | PHP project, admin panel, ordinary hosting | Needs PHP + MySQL; more manual deploy |
-| **J** | **FastAPI/Django + Postgres** (VPS/Dokploy) | Python API, data science, Django admin | Needs a Python runtime; more manual deploy |
-| **K** | **Flutter** (Web + Android/iOS) | One Dart codebase for responsive web and mobile apps; backend follows B/D/E/F | Needs Flutter SDK; larger web bundle; iOS needs macOS |
+| **A** | A Google spreadsheet with an app on top (Google Apps Script) | A small internal team, under ~100 users, under ~10,000 rows | Google's daily limits; it is not a real database |
+| **B** | A ready-made online database with login, file storage, and access rules (Supabase) | Most web apps, customers, uploaded files | Small free tier; an idle project can pause |
+| **C** | A service that answers requests fast, anywhere in the world (Cloudflare Worker) | Public apps with high traffic and small data | Storage size limits; fewer ready features |
+| **D** | Google's app platform with instant sync and easy login (Firebase) | Chat-like, live-updating, mobile apps | Cost grows with reads and writes |
+| **E** | A database only; a small program still has to sit in front (Neon) | A real database without running a server | Needs a second service and more setup |
+| **F** | Two or more of the above combined (Hybrid) | Mixed needs, for example files here and data there | Two things to maintain |
+| **G** | One project that builds both pages and data access, good for Google search (Next.js) | Marketing sites plus an app; SEO matters | Tied to one host; separate database |
+| **H** | Your own server program with full control (Node/Express) | Custom logic, unusual requirements | Someone must keep the server running and backed up |
+| **I** | A PHP framework with a ready admin page (Laravel) | PHP teams, shared hosting | More manual deployment |
+| **J** | A Python framework with a ready admin page (FastAPI/Django) | Python teams, reports, data work | More manual deployment |
+| **K** | One code base that ships website + Android + iPhone (Flutter) | You need phone apps from day one | Larger download; iPhone builds need a Mac |
 
-Also ask: "Why that choice?" The answer goes into Chapter 6.1.
-If the user has no preference, suggest one and give the reason in one sentence.
+**Other — describe:** if none of the codes fits, ask the user to describe the
+app in one sentence. The agent then picks the closest code, states which one it
+is and why, and asks for an explicit yes before continuing.
 
-## A7. Deployment & domain
-"Where will the app be hosted?"
-- A. Vercel (static frontend) + backend chosen in A6
-- B. Cloudflare Pages/Workers
-- C. Firebase Hosting
-- D. Google Apps Script Web App
-- E. Not sure yet — recommend the cheapest
-- F. Own VPS (Dokploy) — controlled deploy, fixed cost
+After the choice, ask ONE follow-up: "Why that one?" The answer goes into
+Chapter 6.1. If the user has no preference, state your recommendation, ask for
+an explicit yes or no, and only then continue. Do not silently pick for them.
 
-## A8. Technology follow-up questions (ask according to the A6 choice — MAXIMUM 4)
+## A7. Where will the website live, and what address will people type?
 
-### If A — GAS
-1. Use a Google Workspace account or a personal account?
-2. Estimated data rows per year? (< 1k / 1k–10k / > 10k)
-3. Concurrent users at peak time?
-4. Need file upload (Google Drive) or email sending (MailApp)?
+Use everyday words: "the address people open in their browser".
 
-### If B — Supabase
-1. Login method: email+password / magic link / Google OAuth?
-2. Need Storage (images/documents) and Realtime?
-3. RLS roles: who may read/write which rows?
-4. Any Edge Function, or logic in the frontend + RLS only?
+**Recommended if you are not sure:** E — the agent picks the cheapest option
+that matches A6 and says which one and why in one sentence.
 
-### If C — Cloudflare Worker
-1. Data in D1, KV, R2, or Durable Object?
-2. Need cron trigger / queue / webhook?
-3. Static assets on the same Worker or Cloudflare Pages?
-4. Any custom domain?
+- A. A managed website host (Vercel) — simple, free for small use
+- B. Cloudflare Pages or Workers — fast everywhere, generous free tier
+- C. Firebase Hosting — Google, pairs with D
+- D. Google Apps Script web app — nothing extra to host, pairs with A
+- E. Not sure — recommend the cheapest option that fits A6
+- F. Own server (VPS with Dokploy) — fixed monthly cost, full control
+- G. Other — describe where it should live, or the domain already owned
 
-### If D — Firebase
-1. Firestore or Realtime Database?
-2. Auth provider: email, Google, phone, or anonymous?
-3. Need Cloud Functions? (region?)
-4. Need Storage for files?
+Then ask, as its own message: "Do you already own a domain name?"
+- A. No — use the free address from the host
+- B. Yes — say which one
+- C. Not sure what a domain is — explain in one line, then re-ask
+- D. Other — write the address wanted
 
-### If E — Neon
-1. Neon is DB only; API through Worker, Vercel Function, or Neon Data API?
-2. Who handles Auth? (Supabase Auth / Firebase Auth / own / none)
-3. Need branching for dev/staging/prod?
-4. Estimated DB size and monthly traffic?
+## A8. Follow-up questions for the chosen stack (ask MAXIMUM 4)
 
-### If F — Hybrid
-1. Which layer does what? (frontend / API / DB / auth)
-2. Which service holds the primary data?
-3. Which service may fail without taking the app down?
+Ask only the block that matches the A6 code. Each follow-up keeps the same
+rules: plain words, ready options, one recommendation, and an Other option.
+Record answers in the user's words; technical internals (routers, ORMs,
+languages, containers) are your decision and go into Chapter 5 marked
+`[ASSUMPTION]` unless the user already answered them.
 
-### If G — Next.js + Postgres
-1. App Router or Pages Router?
-2. Auth: NextAuth/Auth.js, Clerk, Supabase Auth, or own?
-3. API inside Next.js (`app/api`) or a separate service?
-4. Deploy Vercel + Postgres Neon/Supabase, or VPS?
+### If A — Google spreadsheet app
+1. Which Google account will run it?
+   - A. A company Google Workspace account
+   - B. A personal Gmail account
+   - C. Both kinds of users
+   - D. Other — describe
+   Recommended if unsure: A — company data should not depend on one person's Gmail.
+2. About how much data in the first year?
+   - A. Under 1,000 rows
+   - B. 1,000–10,000 rows
+   - C. More than 10,000 rows
+   - D. Other — give an estimate
+   Recommended if unsure: B. If the answer is C, say that A may be too small and
+   offer to switch to B or E before continuing.
+3. How many people use it at the same moment?
+   - A. 1–5
+   - B. 6–20
+   - C. More than 20
+   - D. Other — give a number
+   Recommended if unsure: A.
+4. Does it need to send email or store files?
+   - A. Email only
+   - B. Files only
+   - C. Both
+   - D. Neither
+   - E. Other — describe
+   Recommended if unsure: D — add it only when a screen needs it.
 
-### If H — Node/Express + Postgres
-1. Language: JavaScript or TypeScript?
-2. Auth: own JWT, session, or external provider?
-3. ORM: Prisma, Drizzle, Kysely, or raw SQL?
-4. Deploy VPS/Dokploy: Docker or a direct Node process?
+### If B — ready-made online database with login (Supabase)
+1. How should people sign in?
+   - A. Email and password
+   - B. A one-time link sent by email (no password to remember)
+   - C. A Google account
+   - D. No sign-in; anyone can open it
+   - E. Other — describe
+   Recommended if unsure: C — fewer passwords to support.
+2. Will people upload files?
+   - A. No
+   - B. Small pictures
+   - C. Documents (PDF, Excel)
+   - D. Both pictures and documents
+   - E. Other — describe
+   Recommended if unsure: A — start without uploads.
+3. Who may see which data?
+   - A. Everyone sees everything
+   - B. Each person sees only their own data
+   - C. Staff see all, customers see their own
+   - D. Anyone may read, only staff may change
+   - E. Other — describe
+   Recommended if unsure: C.
+4. Any automatic work in the background?
+   - A. None
+   - B. Send an email/notification when something happens
+   - C. A scheduled summary or report
+   - D. Other — describe
+   Recommended if unsure: A.
 
-### If I — Laravel + MySQL
-1. Laravel and PHP version?
-2. Auth: Breeze/Jetstream/Filament, or custom?
-3. MySQL on the same server or a separate DB?
-4. Deploy VPS/Dokploy or ordinary PHP hosting?
+### If C — fast global service (Cloudflare Worker)
+1. What does it store?
+   - A. Small settings or counters
+   - B. Records, up to about 100,000
+   - C. Pictures or files
+   - D. Other — describe
+   Recommended if unsure: B.
+2. Must it run on a schedule or react to another service?
+   - A. No
+   - B. A daily summary
+   - C. React instantly when another service sends an event
+   - D. Other — describe
+   Recommended if unsure: A.
+3. Where do the pages come from?
+   - A. The same service
+   - B. A separate website host
+   - C. Not sure — pick one and say why
+   - D. Other — describe
+   Recommended if unsure: A — one place to deploy.
+4. Do you already own a domain name?
+   - A. No, use the free address
+   - B. Yes — say which one
+   - C. Want a free subdomain
+   - D. Other — describe
+   Recommended if unsure: A.
 
-### If J — FastAPI/Django + Postgres
-1. FastAPI or Django?
-2. Auth: JWT, Django session, or external provider?
-3. ORM: SQLAlchemy/Alembic or Django ORM?
-4. Deploy VPS/Dokploy with Docker or a direct Python process?
+### If D — Google app platform with live sync (Firebase)
+1. When one person changes data, how fast must others see it?
+   - A. Instantly
+   - B. Within a few seconds
+   - C. On the next refresh is fine
+   - D. Other — describe
+   Recommended if unsure: C — live sync costs more and is rarely required.
+2. How should people sign in?
+   - A. Email and password
+   - B. A Google account
+   - C. A phone number
+   - D. No sign-in
+   - E. Other — describe
+   Recommended if unsure: B.
+3. Uploaded files?
+   - A. None
+   - B. Pictures
+   - C. Documents
+   - D. Both
+   - E. Other — describe
+   Recommended if unsure: A.
+4. Notifications?
+   - A. None
+   - B. Inside the app only
+   - C. Push to phone or browser
+   - D. Other — describe
+   Recommended if unsure: B.
 
-### If K — Flutter (Web + Android/iOS)
-1. State management: Riverpod, Bloc, or setState?
-2. Backend: Supabase, Firebase, Neon/Worker API, or own REST?
-3. Auth: backend SDK, provider OAuth, or custom?
-4. Target platforms: web only, Android only, or web + Android + iOS?
+### If E — database only (Neon)
+1. The database needs a small program in front. Where should it run?
+   - A. Together with the pages
+   - B. As a separate small service
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A — fewer moving parts.
+2. Who handles sign-in?
+   - A. Supabase
+   - B. Firebase
+   - C. Built into the app itself
+   - D. No sign-in
+   - E. Other — describe
+   Recommended if unsure: C — one less account to manage.
+3. Do you need a separate copy of the database for testing?
+   - A. Yes
+   - B. No
+   - C. Not sure — explain in one line, then re-ask
+   - D. Other — describe
+   Recommended if unsure: A — test data never touches real data.
+4. About how much data and traffic?
+   - A. Small: under 1 GB, few users
+   - B. Medium: a few GB, daily use
+   - C. Large or unknown
+   - D. Other — estimate
+   Recommended if unsure: A.
 
-## A9. Visual references & devices
-"Any reference images? Where are the files?"
-- A. None — pick a visual direction that suits the domain
-- B. Screenshot / mockup available (place in projects/<slug>/refs/)
-- C. Live app URL available
-- D. Several mixed references
+### If F — two or more services combined (Hybrid)
+1. What does each part do?
+   - A. Pages in one place, data and login in another
+   - B. Pages and login together, data elsewhere
+   - C. Not sure — recommend one split
+   - D. Other — one sentence per part
+   Recommended if unsure: A.
+2. Which service holds the main data?
+   - A. One clear database
+   - B. It is split across services
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A — one source of truth.
+3. If one part fails, what may still work?
+   - A. Pages still open, data is unavailable
+   - B. Everything can go down, that is acceptable
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A.
+4. Who keeps it running after launch?
+   - A. Me or my team
+   - B. Nobody — prefer the least maintenance
+   - C. A hosting provider
+   - D. Other — describe
+   Recommended if unsure: B.
 
-If there are images, ask ONE further question:
-"Fidelity mode? A. Structural (default) B. Pixel-faithful C. Mood"
-And: "Primary device? mobile / desktop / both"
+### If G — pages and data in one project (Next.js)
+1. Must pages be found on Google?
+   - A. Yes, that matters
+   - B. No, it is a private app
+   - C. Not sure — explain the trade-off
+   - D. Other — describe
+   Recommended if unsure: B.
+2. How should people sign in?
+   - A. Email and password
+   - B. A Google account
+   - C. A one-time link by email
+   - D. No sign-in
+   - E. Other — describe
+   Recommended if unsure: B.
+3. One project or separate front and back?
+   - A. One project
+   - B. Separate
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A.
+4. Where should it be published?
+   - A. Vercel
+   - B. My own server
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A.
 
-## A10. Definition of done & testing
-"What must pass before the app counts as done?"
-- A. All main screens open, CRUD works, no console errors
-- B. A + auth works + real data from the backend
-- C. A + B + responsive test at 390/768/1440 + staging deploy
-- D. Specify your own checklist
+### If H — own server program (Node/Express)
+1. Who keeps the server running after launch?
+   - A. Someone on my team
+   - B. Nobody — prefer a managed service
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: B.
+2. How should people sign in?
+   - A. Email and password
+   - B. A Google account
+   - C. No sign-in
+   - D. Other — describe
+   Recommended if unsure: A.
+3. How should the app talk to the database?
+   - A. Through a standard helper that handles the details
+   - B. With hand-written database commands
+   - C. Let the agent decide and record it
+   - D. Other — describe
+   Recommended if unsure: A or C.
+4. Should the server be packaged so it starts the same way on any machine
+   (this packaging is called Docker)?
+   - A. Yes
+   - B. No
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: C.
 
-After A10: generate the full PRD (Part B), save the file, show it, wait for approval.
+### If I — PHP framework with admin page (Laravel)
+1. Do you need a ready-made admin panel?
+   - A. Yes
+   - B. No
+   - C. Not sure — explain in one line
+   - D. Other — describe
+   Recommended if unsure: A.
+2. How should people sign in?
+   - A. Email and password
+   - B. A Google account
+   - C. Both
+   - D. Other — describe
+   Recommended if unsure: A.
+3. Should the database sit on the same server?
+   - A. Yes
+   - B. Separate
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A.
+4. Where will it be hosted?
+   - A. My own server (VPS)
+   - B. Shared PHP hosting
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A.
+
+### If J — Python framework with admin page (FastAPI/Django)
+1. Do you need a ready-made admin panel?
+   - A. Yes
+   - B. No
+   - C. Not sure — explain in one line
+   - D. Other — describe
+   Recommended if unsure: A.
+2. How should people sign in?
+   - A. Email and password
+   - B. A Google account
+   - C. Both
+   - D. No sign-in
+   - E. Other — describe
+   Recommended if unsure: A.
+3. Any heavy data work?
+   - A. No
+   - B. Reports and charts
+   - C. Predictions or machine learning
+   - D. Other — describe
+   Recommended if unsure: B.
+4. Where will it be hosted?
+   - A. My own server (VPS)
+   - B. A managed platform
+   - C. Not sure — recommend one
+   - D. Other — describe
+   Recommended if unsure: A.
+
+### If K — one code base for web and phones (Flutter)
+1. Which platforms first?
+   - A. Web only
+   - B. Android only
+   - C. Web and Android
+   - D. Web, Android and iPhone
+   - E. Other — describe
+   Recommended if unsure: C.
+2. Where do data and login live?
+   - A. Supabase
+   - B. Firebase
+   - C. My own API
+   - D. Not sure — recommend one
+   - E. Other — describe
+   Recommended if unsure: A.
+3. How should people sign in?
+   - A. Email and password
+   - B. A Google account
+   - C. A phone number
+   - D. No sign-in
+   - E. Other — describe
+   Recommended if unsure: B.
+4. Should it work without internet?
+   - A. No, always online is fine
+   - B. Read offline
+   - C. Full offline with sync later
+   - D. Other — describe
+   Recommended if unsure: A.
+
+## A9. Do you have pictures of how it should look?
+
+**Recommended if you are not sure:** A — the agent proposes a direction that
+fits the domain, and you review the result in Phase 2.
+
+- A. No references — propose a direction
+- B. Screenshots or mockups — I will put them in projects/<slug>/refs/
+- C. A live website or app I like — I will send the link
+- D. A mix of the above
+- E. Other — describe the look in words (colours, mood, brand)
+
+If references exist, ask these as separate messages, one at a time:
+
+1. "Should the design follow the reference closely?"
+   - A. Keep the structure only (default)
+   - B. Copy it closely, pixel by pixel
+   - C. Take only the mood and colours
+   - D. Other — describe
+   Recommended if unsure: A.
+2. "Which device matters most?"
+   - A. Phone first
+   - B. Desktop first
+   - C. Both equally
+   - D. Other — describe
+   Recommended if unsure: C.
+
+## A10. How will we know it is finished and good enough?
+
+In plain terms: what must you be able to do in front of the app before you say
+"yes, this works"?
+
+**Recommended if you are not sure:** B — every screen opens, sign-in works, and
+saved data is still there after a reload.
+
+- A. Every main screen opens; add, edit, and delete work without errors
+- B. A + sign-in works + saved data appears again after a reload
+- C. B + looks right on phone, tablet, and desktop + a test copy online
+- D. B + the staff who will really use it try it and approve
+- E. Other — write your own checklist, one item per line
+
+After A10 is answered: generate the full PRD (Part B), save the file, show it,
+and wait for approval. If any answer is still missing, go back to that question
+first; do not generate a partial PRD.
 
 ---
 

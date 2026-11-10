@@ -109,12 +109,15 @@ Details: [`workflow/00-start.md`](workflow/00-start.md).
 | `B, reason is Google Workspace` | Option plus a note that goes into the PRD |
 | `D: students, teachers, admins` | Uses your list |
 | `A1:A, A2:C, A4:B` | Answers several questions at once |
+| `Other, <one sentence>` | Your own answer when none of the options fit |
 | `follow your recommendation` | Picks reasonable values, marks `[ASSUMPTION]` |
 | A detailed answer (e.g. "Bookings need supervisor approval; keep 5 years") | More precise PRD, fewer assumptions |
 | `PRD OK` | Approves the PRD, continues to design and code |
 
-Answer one question per message. The agent never merges questions, and it asks
-follow-ups when an answer is vague. A full interview produces a better system.
+Answer one question per message. The agent never merges questions, writes each
+one in everyday words, offers an **Other** option, and gives one recommendation
+with a reason. A recommendation is not an answer. If a question is unanswered,
+the agent re-asks it and does not move on.
 
 `auto` mode does not skip the interview. It only removes the approval gates
 between phases after the PRD is complete:

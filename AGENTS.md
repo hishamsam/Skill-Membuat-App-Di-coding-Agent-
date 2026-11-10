@@ -37,9 +37,15 @@ Otherwise ask ONE question:
 
 - Read `TEMPLATE_PRD_MS.md` Part A and `workflow/01-prd.md`.
 - Ask A1–A10 **one question per message**. Wait for the answer.
-- Every question must offer A/B/C choices (plus "Specify").
+- Write each question for a layperson: no jargon, examples in everyday words.
+- Every question must offer 3–4 ready options A/B/C(/D), a final **Other**
+  option ("Other — describe"), and ONE recommendation with a reason.
+- A recommendation is not an answer. Use it only when the user says
+  "use your recommendation" / "ikut cadangan", then record `[ASSUMPTION]`.
 - **Never merge questions.** Never list all questions at once.
 - **Probe vague answers** with follow-up questions before moving to the next one.
+- **Unanswered means stop.** If the user skips or dodges a question, re-ask the
+  same question in simpler words. Do not continue and do not generate the PRD.
 - Ask every A8 follow-up that applies to the chosen stack.
 - Do not generate the PRD until every answer is complete. Precise detail
   produces a better system.

@@ -320,41 +320,54 @@ waiting for approval.
 
 ### Interview questions
 
-| ID | Topic |
+Questions are written for non-technical users: everyday words, an example, and
+one recommendation per question. Each question also has an **Other** option.
+
+| ID | Topic, in plain words |
 | --- | --- |
-| A1 | Problem and users |
-| A2 | Roles and permissions |
-| A3 | Core flow |
-| A4 | Main data entities |
-| A5 | MVP scope |
-| A6 | Technology stack (mandatory) |
-| A7 | Hosting and domain |
-| A8 | Stack-specific follow-ups (max 4) |
-| A9 | Visual references and target device |
-| A10 | Definition of done and tests |
+| A1 | Who will use it, and what problem does it solve |
+| A2 | Who may see and change what |
+| A3 | The one main job, start to end |
+| A4 | The main "things" the app keeps (customer, order, request) |
+| A5 | What must work in the first version, and what can wait |
+| A6 | Where the app and its data should live (mandatory) |
+| A7 | Where the website lives, and its address |
+| A8 | Up to four follow-ups for the chosen option |
+| A9 | Pictures of how it should look, and the main device |
+| A10 | How we know it is finished and good enough |
 
 Answer format:
 
-- Reply with a letter: `A`, `B`, `C`, or `D`.
+- Reply with a letter: `A`, `B`, `C`, or `D` (A–K for the A6 technology table).
 - Add a note: `C, needs two roles`.
 - Answer several at once: `A1:A, A2:C, A4:B`.
-- Accept defaults: `follow your recommendation` (recorded as `[ASSUMPTION]`).
+- Accept the suggestion: `follow your recommendation` (recorded as `[ASSUMPTION]`).
+- Your own answer: pick **Other** and write one sentence.
 - `auto` does not skip the interview; it removes per-phase approval gates.
+
+Rules the agent must follow:
+
+- One question per message. No merged questions, no full list at once.
+- No jargon. Technical words are explained in brackets in everyday words.
+- A recommendation is advice, not an answer. It is used only when you say so.
+- If a question is not answered, the agent re-asks it in simpler words and does
+  not move on. The PRD is never written with a missing answer.
 
 ### Technology choices
 
 | Code | Stack | Choose when |
 | --- | --- | --- |
-| A | GAS + Sheets | Internal, under ~10k rows, Google ecosystem |
-| B | Supabase | Postgres, Auth, RLS, Storage, realtime |
-| C | Cloudflare Worker | Global API, D1/KV/R2, low latency |
-| D | Firebase | Realtime sync, fast auth, mobile/web |
-| E | Neon | Postgres serverless, branching, separate API |
-| F | Hybrid | Two or more services with clear boundaries |
-| G | Next.js + Postgres | SSR, SEO, UI + API in one Next.js project |
-| H | Node/Express + Postgres | Custom Node API, full control, VPS/Dokploy |
-| I | Laravel + MySQL | PHP, admin panel, VPS/Dokploy |
-| J | FastAPI/Django + Postgres | Python API, Django admin, VPS/Dokploy |
+| A | GAS + Sheets | Internal team, under ~100 users, under ~10k rows, Google account |
+| B | Supabase | Customers sign in, files are uploaded, most web apps |
+| C | Cloudflare Worker | Public app, high traffic, small data, fast everywhere |
+| D | Firebase | Live updates, mobile apps, easy Google login |
+| E | Neon | A real database, with a small program in front |
+| F | Hybrid | Two or more services, each doing one clear job |
+| G | Next.js + Postgres | Pages plus data in one project; pages found on Google |
+| H | Node/Express + Postgres | Own server program, custom logic, full control |
+| I | Laravel + MySQL | PHP team, ready admin page |
+| J | FastAPI/Django + Postgres | Python team, ready admin page, reports |
+| K | Flutter | One code base for website, Android and iPhone |
 
 The PRD records the choice and the rejected alternatives in Chapter 6.
 

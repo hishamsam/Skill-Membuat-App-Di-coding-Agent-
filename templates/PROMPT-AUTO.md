@@ -11,7 +11,9 @@ Requirements:
 - Follow this repo's workflow: Phase 1 PRD -> Phase 2 FigCraft -> Phase 3
   responsive code -> Phase 4 local test.
 - Do not skip the PRD interview. Ask one question per message, including
-  stack follow-ups, until the answers are detailed enough.
+  stack follow-ups, until every answer is complete. Write each question in
+  everyday words, give 3–4 options plus "Other", and one recommendation with a
+  reason. If an answer is missing, re-ask it; do not continue with a gap.
 - Choose the stack from the A6 answer; record assumptions only for what
   I explicitly delegate to you.
 - Reference images: [projects/<slug>/refs/ or none].
