@@ -12,7 +12,7 @@ You are the Product Manager + Solution Architect who assembles the PRD.
 
 INPUT:
 - The user's rough idea, meeting notes, transcript, or existing document.
-- UI reference images (optional): screenshots, Figma mockups, Dribbble/Mobbin images.
+- UI reference images (optional, used as visual reference only): screenshots, Figma mockups, Dribbble/Mobbin images. Confirm that you own the image or hold a licence before reproducing its assets or trade dress.
 
 TASK:
 1. Run INTERVIEW MODE (Part A) until there is enough information.
@@ -547,7 +547,7 @@ If references exist, ask these as separate messages, one at a time:
 
 1. "Should the design follow the reference closely?"
    - A. Keep the structure only (default)
-   - B. Copy it closely, pixel by pixel
+   - B. Match the layout and spacing closely, using original assets
    - C. Take only the mood and colours
    - D. Other — describe
    Recommended if unsure: A.
@@ -784,8 +784,8 @@ first; do not generate a partial PRD.
 #### Capabilities & Functional Matrix
 | ID | Requirement Description | Priority | Business Logic & Rules |
 | --- | --- | --- | --- |
-| **{{PREFIX2}}-1** | {{DESKRIPSI_KEBUTUHAN_2_1}} | **Mandatory** | {{ATURAN_BISNIS_2_1}} |
-| **{{PREFIX2}}-2** | {{DESKRIPSI_KEBUTUHAN_2_2}} | **Important** | {{ATURAN_BISNIS_2_2}} |
+| **{{PREFIX_2}}-1** | {{DESKRIPSI_KEBUTUHAN_2_1}} | **Mandatory** | {{ATURAN_BISNIS_2_1}} |
+| **{{PREFIX_2}}-2** | {{DESKRIPSI_KEBUTUHAN_2_2}} | **Important** | {{ATURAN_BISNIS_2_2}} |
 
 #### Input Validation Matrix
 | Field Name | Type | Required | Validation Constraints / Regex | Error Message |
@@ -986,7 +986,7 @@ CREATE INDEX idx_{{TABLE_NAME}}_user_id ON {{TABLE_NAME}}(user_id);
 
 ---
 
-## 12. UI Contract & Design System Blueprint (Lampiran Images)
+## 12. UI Contract & Design System Blueprint (Image Attachments)
 
 <!-- MANDATORY. This section bridges directly into Phase 2 (UI Designer) and Phase 3 (Codegen).
 All specifications must comply with the UI/UX Technical Dictionary standard rules. -->
@@ -994,12 +994,12 @@ All specifications must comply with the UI/UX Technical Dictionary standard rule
 ### 12.1 Image References & Visual Strategy
 | Item | Specification |
 | --- | --- |
-| **Fidelity Mode** | `Pixel-faithful` / `Structural` / `Mood-only` |
+| **Fidelity Mode** | `Pixel-faithful` (owned references only) / `Structural` / `Mood-only` |
 | **Reference Files** | `projects/{{SLUG}}/refs/{{NAMA_FAIL}}` |
 | **Target Device Orientation** | Mobile First (390px) + Desktop Master (1440px) |
 | **Extracted Elements** | {{APA_DIAMBIL}} |
 | **Replaced / Localized Elements** | {{APA_DIGANTI}} |
-| **Copyright & Legal Protection** | 100% original vectors, no copyrighted logos/illustrations copied |
+| **Copyright & Legal Protection** | Original assets only. No logos, trademarks, illustrations, stock photos, avatars, or copyrighted text reproduced. Fidelity beyond `Structural` requires the user to own the reference or hold a licence. |
 
 ### 12.2 Design DNA & Aesthetic Archetype
 <!-- Informed by UI/UX Technical Dictionary (Modern SaaS, Linear Dark, Apple HIG, Bento Grid, etc.) -->
@@ -1054,7 +1054,7 @@ All specifications must comply with the UI/UX Technical Dictionary standard rule
 - **Desktop (≥ 1024px):** Fixed left sidebar (`w-64 border-r border-slate-200 bg-white h-screen fixed`) or clean top navigation with search bar and user profile dropdown.
 - **Tablet (768px–1023px):** Collapsible sidebar toggle or streamlined topbar with dropdown menu.
 - **Mobile (< 768px):** Fixed Bottom Navigation Bar (`fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 py-2 pb-[max(8px,env(safe-area-inset-bottom))]`), 3–5 core tabs with icons + text, `<main>` container styled with mandatory `pb-24` to prevent content overlap.
-- **Responsive Guarantee:** Layout must gracefully adapt across 360px, 390px, 768px, 1024px, 1440px, and 1920px viewports without horizontal root scrollbars.
+- **Responsive Requirement:** Layout must gracefully adapt across 360px, 390px, 768px, 1024px, 1440px, and 1920px viewports without horizontal root scrollbars.
 
 ---
 

@@ -1,6 +1,8 @@
 # Design System Blueprint — {{SLUG}}
 
-Dokumen spesifikasi desain UI/UX mendalam diekstrak dari gambar referensi (screenshot, mockup, atau desain aplikasi) di `projects/{{SLUG}}/refs/`. Digunakan sebagai kontrak visual dan panduan implementasi langsung untuk Phase 3 Codegen.
+Dokumen spesifikasi desain UI/UX mendalam diekstrak dari gambar rujukan (screenshot, mockup, atau desain aplikasi) di `projects/{{SLUG}}/refs/`. Digunakan sebagai kontrak visual dan panduan implementasi langsung untuk Phase 3 Codegen.
+
+**Piawaian wajib:** semua nilai di bawah mesti mematuhi `UIUX_TECHNICAL_DICTIONARY.md` (20 peraturan dan formula). Sebarang penyimpangan perlu dicatat dan diberi justifikasi.
 
 ---
 
@@ -54,7 +56,7 @@ Dokumen spesifikasi desain UI/UX mendalam diekstrak dari gambar referensi (scree
   - **Heading / H2:** `text-lg font-semibold text-slate-900` (18px / 28px)
   - **Subheading / H3:** `text-base font-medium text-slate-800` (16px / 24px)
   - **Body (Regular):** `text-sm font-normal text-slate-700 leading-relaxed` (14px / 20px)
-  - **Caption / Label:** `text-xs font-medium text-slate-500 uppercase tracking-wider` (12px / 16px)
+  - **Caption / Label:** `text-xs font-medium text-slate-500` (12px / 16px). Sentence case; no uppercase or letter-spacing.
 - **Kerapatan & Penjajaran:** Jarak baris selesa (`leading-relaxed`), tajuk padat (`tracking-tight`), label rata kiri.
 
 ---
@@ -109,7 +111,7 @@ Dokumen spesifikasi desain UI/UX mendalam diekstrak dari gambar referensi (scree
 
 ---
 
-## 7. Design System Blueprint (Siap Pakai untuk Webapp Builder)
+## 7. Design System Blueprint (Siap Pakai untuk WebApp Builder)
 
 ```html
 <!-- KONTRAK DESIGN SYSTEM & TOKEN UTAMA -->

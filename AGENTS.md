@@ -1,6 +1,6 @@
 # AGENTS.md — start instructions
 
-This repo is the **WebApp Builder** skill: idea → PRD → UI Design (Lampiran Images) → code → test → handoff.
+This repo is the **WebApp Builder** skill: idea → PRD → UI Design (Image Attachments) → code → test → handoff.
 
 ## When the user types `mula` or `start`
 
@@ -149,6 +149,7 @@ this is a gate between Phase 4 and Phase 5.
 | --- | --- |
 | `SKILL.md` | Full skill instructions |
 | `TEMPLATE_PRD_MS.md` | Interview and PRD template |
+| `UIUX_TECHNICAL_DICTIONARY.md` | Design vocabulary, 20 rules, and audit standard for Phase 2 and Phase 3 |
 | `workflow/` | Steps for each phase |
 | `workflow/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
 | `setup/` | MCP and stack setup |

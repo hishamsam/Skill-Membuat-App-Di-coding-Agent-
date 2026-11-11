@@ -1,4 +1,4 @@
-# WebApp Builder — PRD → UI Design (Lampiran Images) → Code → Test → Handoff
+# WebApp Builder — PRD → UI Design (Image Attachments) → Code → Test → Handoff
 
 One workflow for building an application from a rough idea:
 
@@ -6,7 +6,7 @@ One workflow for building an application from a rough idea:
 Idea + reference images
    ↓  Phase 1  TEMPLATE_PRD_MS.md
 PRD (Single Source of Truth)
-   ↓  Phase 2  UI Designer (Lampiran Images)
+   ↓  Phase 2  UI Designer (Image Attachments)
 Design System Blueprint (DESIGN-BLUEPRINT.md)
    ↓  Phase 3  responsive code
 Application
@@ -198,6 +198,8 @@ WebApp Builder/
 ├── GUIDE.md                    # complete usage guide
 ├── README.md                   # this file
 ├── LICENSE                     # MIT
+├── THIRD-PARTY-NOTICES.md      # attribution, trademarks, font licences
+├── UIUX_TECHNICAL_DICTIONARY.md # design vocabulary, rules, and audit standard
 ├── workflow/
 │   ├── 00-start.md             # Phase 0 bootstrap (mula / start)
 │   ├── 00-auto.md
@@ -333,7 +335,7 @@ only when a project already depends on it.
 PRD Chapter 12 locks the screens, tokens, and references for UI Design.
 Chapter 13 locks the test commands and acceptance criteria.
 
-### Phase 2 — UI Design (Lampiran Images)
+### Phase 2 — UI Design (Image Attachments)
 
 - Uses `ui-ux/ui-designer.md` as reference protocol.
 - Reads attached images (screenshots, mockups, wireframes) in `projects/<slug>/refs/`.
@@ -415,12 +417,15 @@ opencode mcp list
 
 | Mode | Meaning | When |
 | --- | --- | --- |
-| Structural (default) | Take structure, density, navigation; colours may change | Own branding |
-| Pixel-faithful | Follow grid, scale, radius almost 1:1 | Want it almost identical |
+| Structural (default) | Take structure, density, navigation; colours may change | Any reference |
+| Pixel-faithful | Follow grid, scale, radius almost 1:1 | Only when you own the reference or hold a licence to reproduce it |
 | Mood | Take tone/colour/material only | Vibe only |
 
 What is taken: the visual system. What is not: logos, trademarks, illustrations,
-stock photos, avatars, copyrighted text.
+stock photos, avatars, copyrighted text. A reference from another company
+establishes layout intent only; it does not grant permission to reproduce its
+trade dress, brand assets, or proprietary content. When ownership is unclear,
+use **Structural** and original assets.
 
 ---
 
@@ -480,3 +485,6 @@ stock photos, avatars, copyrighted text.
 ## License
 
 MIT — see [`LICENSE`](LICENSE).
+
+Third-party attribution, trademark usage, font licensing, and the reference-image
+policy: [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).

@@ -2,7 +2,7 @@
 
 Phase 0 runs before the PRD interview in every mode. It scans the machine,
 installs the tools it can install unattended, reports the result, and then the
-normal workflow continues unchanged: PRD → UI Design (Lampiran Images) → code → test → handoff.
+normal workflow continues unchanged: PRD → UI Design (Image Attachments) → code → test → handoff.
 
 `auto`, `full auto`, `do everything`, `finish it right away`, `one-shot`, and
 `auto deploy` never skip Phase 0. The Malay trigger phrases are accepted too.

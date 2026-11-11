@@ -1,15 +1,17 @@
 # Phase 2 — UI Design from Attached Images (UI Designer)
 
-Purpose: menganalisis gambar referensi antarmuka (screenshot aplikasi, mockup, dribbble shot, atau wireframe) yang dilampirkan oleh pengguna di `projects/<slug>/refs/`, mengekstrak spesifikasi desain secara mendalam, dan menghasilkan dokumen teks terstruktur serta **Design System Blueprint** (`projects/<slug>/design/DESIGN-BLUEPRINT.md`) yang siap dieksekusi terus oleh Phase 3 (Codegen).
+Purpose: menganalisis gambar rujukan antarmuka (screenshot aplikasi, mockup, Dribbble shot, atau wireframe) yang dilampirkan oleh pengguna di `projects/<slug>/refs/`, mengekstrak spesifikasi desain secara mendalam, dan menghasilkan dokumen teks terstruktur serta **Design System Blueprint** (`projects/<slug>/design/DESIGN-BLUEPRINT.md`) yang siap dieksekusi terus oleh Phase 3 (Codegen).
 
 Rujukan utama modul: `ui-ux/ui-designer.md`.
+
+Piawaian wajib: `UIUX_TECHNICAL_DICTIONARY.md` — 20 peraturan teknikal (token warna 3-tier, skala spacing, formula radius konsentris, sistem bayangan dua lapis, kepadatan maklumat, keadaan komponen, dan larangan anti-AI-slop). Semua spesifikasi dalam `DESIGN-BLUEPRINT.md` mesti mematuhi peraturan tersebut.
 
 ---
 
 ## 1. Input
 
 - `projects/<slug>/prd/PRD-v0.1.md` (terutamanya Bab 12 — UI Contract).
-- Gambar-gambar referensi yang dilampirkan di `projects/<slug>/refs/`.
+- Gambar-gambar rujukan yang dilampirkan di `projects/<slug>/refs/`.
 
 > **Nota:** Agent membuka dan membaca fail gambar di dalam `refs/` secara langsung. Jangan sesekali meneka atau mengabaikan butiran visual dalam tangkapan skrin yang dibekalkan.
 
@@ -22,7 +24,7 @@ Tentukan jenis dan kategori gaya visual daripada gambar rujukan:
 - Gaya: Modern Minimalist, Glassmorphism, Bento Grid, Clean Corporate, Playful/Gamified, atau Dark Mode Futuristic (lalai: Light Mode melainkan pengguna meminta mod gelap).
 - Nyatakan kesan umum (mood/tone) serta target penggunaannya.
 
-### Langkah 2: Ekstraksi Palet Warna & Token Visual (HEX & Tailwind)
+### Langkah 2: Pengekstrakan Palet Warna & Token Visual (HEX & Tailwind)
 Kenal pasti warna-warna utama daripada gambar dan tukarkan ke kod HEX tepat beserta padanan class Tailwind CSS:
 - **Background Colors**: Canvas utama (Primary BG), Surface/Card BG, Secondary/Subtle BG.
 - **Brand/Accent Colors**: Butang utama (CTA), elemen aktif, dan sorotan (Primary & Secondary Accent).
@@ -80,7 +82,7 @@ Gunakan format 7 bahagian yang kemas dan teratur:
 4. **Struktur Layout & Navigasi**
 5. **Bedah Komponen Detail**
 6. **Detail Visual & Interaksi (Shadows, Radius, Icons)**
-7. **Design System Blueprint (Untuk Webapp Builder)**
+7. **Design System Blueprint (Untuk WebApp Builder)**
 
 ---
 

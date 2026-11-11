@@ -7,7 +7,7 @@ and is secure. The attached reference design is a composition reference, not a w
 
 - `projects/<slug>/prd/PRD-v0.1.md` (Chapters 6, 7, 9, 12, 13)
 - `projects/<slug>/design/DESIGN-BLUEPRINT.md`
-- `projects/<slug>/refs/*` (gambar referensi antarmuka)
+- `projects/<slug>/refs/*` (gambar rujukan antarmuka)
 - The stack in PRD Chapter 6.
 
 ## Responsive contract (MANDATORY)

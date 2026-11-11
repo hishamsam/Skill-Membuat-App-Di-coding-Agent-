@@ -1,14 +1,14 @@
-# 📚 UI/UX TECHNICAL DICTIONARY — Essential Reference for Visual Analysis & Design System
+# UI/UX TECHNICAL DICTIONARY — Essential Reference for Visual Analysis & Design System
 
-> **Purpose:** Kamus istilah teknis, standar acuan visual, dan aturan rekayasa UI/UX untuk LLM saat menganalisa screenshot/mockup UI, mengekstrak Design System Blueprint, dan menghasilkan kode antarmuka produksi. Menjamin hasil desain konsisten, presisi, berkelas SaaS tier-1 (Linear, Stripe, Apple HIG), bebas dari cacat "AI slop", dan siap eksekusi tanpa ambiguitas.
+> **Purpose:** Kamus istilah teknikal, piawaian acuan visual, dan peraturan kejuruteraan UI/UX untuk LLM saat menganalisis screenshot/mockup UI, mengekstrak Design System Blueprint, dan menghasilkan kode antarmuka produksi. Menjamin hasil desain konsisten, presisi, berkelas SaaS tier-1 (Linear, Stripe, Apple HIG), bebas dari cacat "AI slop", dan siap eksekusi tanpa ambiguitas.
 >
-> **Cara pakai:** Dipakai bersamaan dengan `ui-ux/ui-designer.md`, `TEMPLATE_PRD_MS.md` (Bab 12), dan `templates/DESIGN-BLUEPRINT.md`. LLM wajib memakai vocabulary, formula, dan standar acuan dari dokumen ini saat audit visual maupun saat perancangan UI.
+> **Cara pakai:** Dipakai bersamaan dengan `ui-ux/ui-designer.md`, `TEMPLATE_PRD_MS.md` (Bab 12), dan `templates/DESIGN-BLUEPRINT.md`. LLM wajib memakai vocabulary, formula, dan piawaian acuan dari dokumen ini saat audit visual maupun saat perancangan UI.
 >
 > **Format:** `term` : definition + technical parameters
 
 ---
 
-## 🎨 COLOR & THEME
+## COLOR & THEME
 
 - **Primary color** : Warna identitas utama brand, dialokasikan untuk primary CTA, active navigation item, dan brand anchor utama.
 - **Accent / Secondary** : Warna pendukung untuk penegasan hierarki kedua (badge highlight, link interaktif, progress indicator).
@@ -18,9 +18,9 @@
   - **Level 2 (Popover/Dropdown/Modal)** : Permukaan mengambang (`#FFFFFF` dengan border/shadow jelas di light, `#1E1E24` di dark).
   - **Level 3 (Tooltip/Toast)** : Elemen overlay kontras tinggi (`#0F172A` di light, `#27272A` di dark).
 - **Chromatic / Tinted Neutrals** : Palet netral (slate/zinc/gray) yang diinjeksi 2%–5% saturasi warna brand (misal: cool slate dengan hint blue, warm zinc dengan hint amber). Menghindari abu-abu "mati/kotor" hasil desaturasi 100%.
-- **Hex code** : Representasi 6-digit hex standar (#RRGGBB) atau 8-digit dengan kanal alpha (#RRGGBBAA) — wajib presisi, bukan sebutan subjektif ("biru muda").
+- **Hex code** : Representasi 6-digit hex (#RRGGBB) atau 8-digit dengan kanal alpha (#RRGGBBAA) — wajib presisi, bukan sebutan subjektif ("biru muda").
 - **OKLCH / HSL** : Color space modern berbasis persepsi mata manusia (Tailwind v4 default). Memastikan nilai luminance konsisten di berbagai rona warna (hue).
-- **Contrast ratio** : Rasio kontras teks terhadap latar belakang menurut standar WCAG 2.1:
+- **Contrast ratio** : Rasio kontras teks terhadap latar belakang menurut piawaian WCAG 2.1:
   - Teks normal (<18pt / 24px) : Wajib ≥4.5:1 (AA) atau ≥7:1 (AAA).
   - Teks besar (≥18pt / 24px atau ≥14pt / 18.66px bold) : Wajib ≥3:1 (AA) atau ≥4.5:1 (AAA).
   - Komponen antarmuka & border interaktif : Wajib ≥3:1 terhadap latar belakang sekitarnya.
@@ -29,17 +29,17 @@
   - **Warning** : Amber (`#F59E0B` / text `#92400E` / bg subtle `#FFFBEB`).
   - **Danger / Error** : Rose/Red (`#EF4444` / text `#991B1B` / bg subtle `#FEF2F2`).
   - **Info** : Sky/Blue (`#0EA5E9` / text `#075985` / bg subtle `#F0F9FF`).
-- **Semantic Badge Anatomy** : Format pill status standar: background tint 10%–15%, border 1px dengan opasitas 20%–30%, teks warna pekat (contrast ≥4.5:1), serta leading dot indicator bulat 6px (`w-1.5 h-1.5 rounded-full`).
+- **Semantic Badge Anatomy** : Format pill status biasa: background tint 10%–15%, border 1px dengan opasitas 20%–30%, teks warna pekat (contrast ≥4.5:1), serta leading dot indicator bulat 6px (`w-1.5 h-1.5 rounded-full`).
 
 ---
 
-## 🔤 TYPOGRAPHY
+## TYPOGRAPHY
 
-- **Geometric sans** : Sans-serif proporsi geometris bersih (Inter, Geist Sans, Plus Jakarta Sans, SF Pro) — standar emas SaaS modern dan aplikasi B2B.
+- **Geometric sans** : Sans-serif proporsi geometris bersih (Inter, Geist Sans, Plus Jakarta Sans, SF Pro) — piawaian industri SaaS modern dan aplikasi B2B.
 - **Humanist sans** : Sans-serif dengan ritme kaligrafi organik (Open Sans, Fira Sans) — bernada ramah dan edukatif.
 - **Grotesque** : Sans-serif solid khas Swiss modern (Helvetica Neue, Neue Haas Grotesk) — nuansa editorial dan utilitarian.
 - **Editorial serif** : Huruf berkait kontras tinggi (Playfair Display, Fraunces, Newsreader) — segmen barang mewah, majalah, atau landing page berwibawa.
-- **Mono** : Font monospace dengan lebar seragam (Geist Mono, JetBrains Mono, SF Mono) — blok kode, log audit, hash ID, dan representasi data teknis.
+- **Mono** : Font monospace dengan lebar seragam (Geist Mono, JetBrains Mono, SF Mono) — blok kode, log audit, hash ID, dan representasi data teknikal.
 - **Tabular figures (`tabular-nums`)** : Glif angka dengan lebar karakter monospaced yang sama pada font proporsional — **wajib** untuk tabel keuangan, jam/timer, metrik KPI, dan counter agar angka tidak melompat (jitter) saat berganti.
 - **Type scale** : Skala ukuran teks proporsional:
   - Display / Hero : 48px–64px (line-height 1.05–1.15, tracking -0.03em)
@@ -48,14 +48,14 @@
   - H3 : 18px–20px (line-height 1.3, tracking -0.015em)
   - Body Regular : 14px–16px (line-height 1.5–1.6, tracking 0)
   - Caption / Helper : 12px–13px (line-height 1.4–1.5, tracking 0)
-  - Eyebrow / Overline : 11px–12px (uppercase, font-weight 600, tracking +0.05em to +0.1em)
+  - Eyebrow / Overline : 11px–12px, uppercase, tracking +0.05em to +0.1em. Discouraged in this workflow: do not place a small uppercase label above every heading. Use sentence case for labels, badges, and table heads.
 - **Measure (Line Length)** : Panjang baris baca ideal: 45–75 karakter per baris (optimal ~65ch / `max-w-prose`). Teks melebihi 85 karakter menyebabkan mata cepat lelah dan kehilangan orientasi baris berikutnya.
 - **Truncation with Affordance** : Pemotongan teks panjang menggunakan `truncate` (1 baris) atau `line-clamp-2` (multi-baris) yang **wajib dipadukan** dengan native `title="..."` atau popover tooltip agar teks utuh tetap dapat dibaca pengguna.
 - **Optical Centering** : Penyelarasan visual teks pada tombol atau badge dengan kompensasi visual bounding box font (contoh: kompensasi padding bawah font kapital agar tepat di tengah secara optik).
 
 ---
 
-## 📐 LAYOUT, GRID & INFORMATION DENSITY
+## LAYOUT, GRID & INFORMATION DENSITY
 
 - **12-column grid** : Grid responsif desktop yang mudah dibagi menjadi 2 (6+6), 3 (4+4+4), 4 (3+3+3+3), atau asimetris (8+4 / 9+3).
 - **Responsive Breakpoint Matrix** :
@@ -72,7 +72,7 @@
 
 ---
 
-## 📏 SPACING & RHYTHM
+## SPACING & RHYTHM
 
 - **8px Grid System** : Skala jarak berbasis kelipatan 8 (4, 8, 16, 24, 32, 48, 64, 96px) yang membagi habis kerapatan piksel layar 1x, 2x, 3x tanpa menghasilkan pecahan sub-pixel blur.
 - **4px Half-Unit** : Spacing mikro (4px / 12px) khusus untuk jarak internal komponen padat (jarak ikon ke label, padding horizontal badge, jarak input ke helper text).
@@ -81,7 +81,7 @@
 
 ---
 
-## 🟦 SHAPE & RADIUS
+## SHAPE & RADIUS
 
 - **Concentric / Nested Radius Formula** : Saat ada elemen melengkung di dalam kontainer yang juga melengkung, radius sudut elemen dalam **wajib dihitung**:
   $$r_{inner} = \max(0, r_{outer} - \text{padding})$$
@@ -95,7 +95,7 @@
 
 ---
 
-## 🌫️ ELEVATION & DEPTH
+## ELEVATION & DEPTH
 
 - **Dual-Layer Shadow System (Ambient + Directional)** :
   Bayangan realistis yang meniru pencahayaan dunia nyata selalu terdiri dari 2 lapisan:
@@ -116,10 +116,10 @@
 
 ---
 
-## 🧩 COMPONENTS & DATA PRESENTATION
+## COMPONENTS & DATA PRESENTATION
 
 - **6 Interactive States** : Setiap komponen interaktif (tombol, input, baris tabel, link) **wajib mendefinisikan 6 kondisi**:
-  1. `Default` : Penampilan standar komponen saat idle.
+  1. `Default` : Penampilan asal komponen saat idle.
   2. `Hover` : Kursor melayang di atas (perubahan warna 5%–10%, bayangan naik 1 tingkat).
   3. `Active / Pressed` : Kompresi fisik tactile saat diklik (`active:scale-[0.98]` atau `active:brightness-95`).
   4. `Focus-Visible` : Aksesibilitas keyboard via ring terpisah (`focus-visible:ring-2 focus-visible:ring-offset-2`).
@@ -144,9 +144,9 @@
 
 ---
 
-## 🎬 MOTION & TRANSITION ENGINEERING
+## MOTION & TRANSITION ENGINEERING
 
-- **GPU-Only Animation Rule** : Animasi transisi **hanya boleh memanipulasi properti yang diakselerasi kartu grafis (GPU)**, yaitu:
+- **GPU-Only Animation Rule** : Animasi transisi **hanya boleh memanipulasi properti yang diakselerasi kartu grafis (GPU)**, iaitu:
   - `transform` (`scale`, `translate`, `rotate`)
   - `opacity`
   *Pantangan mutlak:* Jangan menganimasikan `width`, `height`, `top`, `left`, `margin`, `padding` karena memaksa browser menghitung ulang layout seluruh halaman (reflow) dan menyebabkan penurunan framerate (jank).
@@ -161,7 +161,7 @@
 
 ---
 
-## ♿ ACCESSIBILITY (A11Y) STANDARDS
+## ACCESSIBILITY (A11Y) STANDARDS
 
 - **WCAG 2.1 Level AA (Mandatory Baseline)** :
   - Teks reguler kontras minimal 4.5:1.
@@ -176,9 +176,9 @@
 
 ---
 
-## 🚫 ANTI-AI-SLOP RULES (Dilarang dalam Desain Produksi)
+## ANTI-AI-SLOP RULES (Prohibited in Production Design)
 
-1. **Dilarang Gradien Ungu-Kebiruan Murahan** : Jangan gunakan gradien standar AI (`bg-gradient-to-r from-purple-600 to-blue-500`) pada kartu, tombol, atau teks judul tanpa alasan brand yang jelas. Gunakan warna solid berbobot atau palet monokrom dengan aksen tajam.
+1. **Dilarang Gradien Ungu-Kebiruan Murahan** : Jangan gunakan gradien klise AI (`bg-gradient-to-r from-purple-600 to-blue-500`) pada kartu, tombol, atau teks judul tanpa alasan brand yang jelas. Gunakan warna solid berbobot atau palet monokrom dengan aksen tajam.
 2. **Dilarang Ikon Emoji Sebagai Pengganti Ikon Sistem** : Dilarang menempatkan emoji (seperti 🚀, 📊, ⚙️) sebagai ikon antarmuka dashboard. Wajib gunakan library SVG profesional berbasis vektor (Lucide Icons, Heroicons, Phosphor Icons).
 3. **Dilarang Dialog Browser Bawaan** : Dilarang keras memakai `window.alert()`, `window.confirm()`, atau `window.prompt()`. Seluruh konfirmasi dan peringatan wajib menggunakan modal styled atau toast notification terintegrasi.
 4. **Dilarang Placeholder Sebagai Pengganti Label Form** : Placeholder di dalam input akan hilang saat pengguna mulai mengetik, merusak daya ingat pengguna. Selalu sediakan `<label>` permanen di luar kotak input.
@@ -188,7 +188,7 @@
 
 ---
 
-## 💼 DESIGN LANGUAGES & VISUAL STYLES
+## DESIGN LANGUAGES & VISUAL STYLES
 
 - **Modern Minimalist SaaS (Stripe / Vercel style)** :
   - Kanvas off-white (`#FAFAFA`), kartu solid white (`#FFFFFF`) dengan hairline border (`#E4E4E7`).
@@ -211,16 +211,16 @@
 
 ---
 
-## 🧠 20 RULES & RATIONALE — Reference Standard (Audit & Generation)
+## 20 RULES & RATIONALE — Reference Standard (Audit & Generation)
 
-Format standar: **Rule** (apa) → **Formula** (angka pasti) → **Why** (alasan teknis) → **Audit cue** (yang dicek di visual) → **Generation default** (nilai baku implementasi).
+Format piawaian: **Rule** (apa) → **Formula** (angka pasti) → **Why** (alasan teknikal) → **Audit cue** (yang dicek di visual) → **Generation default** (nilai baku implementasi).
 
 ### 1. Spacing System (8px / 4px Grid)
 - **Rule:** Semua padding, margin, dan gap wajib kelipatan base unit.
 - **Formula:** Skala token: 4, 8, 12, 16, 24, 32, 48, 64, 96px.
 - **Why:** Angka 8 membagi habis densitas layar Retina/High-DPI (1x, 2x, 3x) tanpa sub-pixel blur; konversi rem bersih (8px = 0.5rem); menjaga ritme modular.
 - **Audit cue:** Periksa jarak elemen di screenshot — apakah konsisten pada kelipatan 8 atau 4? Flag angka janggal (misal 13px, 19px, 27px) sebagai cacat inkonsistensi.
-- **Generation default:** Base 8px untuk aplikasi bisnis/web standar; base 4px mikro untuk developer tool/dashboard padat.
+- **Generation default:** Base 8px untuk aplikasi perniagaan/web biasa; base 4px mikro untuk developer tool/dashboard padat.
 
 ### 2. Column Grid per Breakpoint
 - **Rule:** Jumlah kolom berubah mengikuti lebar layar; lebar gap tetap terkunci pada skala spacing token.
@@ -233,7 +233,7 @@ Format standar: **Rule** (apa) → **Formula** (angka pasti) → **Why** (alasan
 - **Rule:** Skala heading mengikuti progresi geometris teratur berbasis rasio konstan ($Size_{n} = Size_{base} \times Ratio^{n}$).
 - **Formula:** Dense SaaS UI: rasio 1.20–1.25 (Minor Third / Major Second); Editorial/Marketing: rasio 1.333–1.5 (Perfect Fourth / Augmented Fourth).
 - **Why:** Rasio besar (Golden Ratio 1.618) menyebabkan lonjakan ekstrem yang memboroskan ruang vertikal pada aplikasi manajemen; rasio 1.2–1.25 menyediakan cukup variasi tingkat hierarki (H1 hingga caption) secara harmonis.
-- **Audit cue:** Hitung rasio antara H1, H2, H3, dan body; pastikan ada hierarki terukur yang tidak jomplang.
+- **Audit cue:** Hitung rasio antara H1, H2, H3, dan body; pastikan ada hierarki terukur yang tidak terlalu drastis.
 - **Generation default:** Rasio 1.25 untuk produk SaaS; body 14px–16px sebagai jangkar dasar.
 
 ### 4. Concentric Corner Radius Scale
@@ -316,7 +316,7 @@ Format standar: **Rule** (apa) → **Formula** (angka pasti) → **Why** (alasan
 ### 15. Touch Target & Mobile Safe Area Compliance
 - **Rule:** Area interaktif sentuh minimal 44×44px; elemen bawah wajib menghormati `env(safe-area-inset-bottom)`.
 - **Formula:** `min-h-[44px] min-w-[44px]`; kontainer bottom bar: `pb-[max(16px,env(safe-area-inset-bottom))]`.
-- **Why:** Jari manusia memiliki rata-rata tap accuracy seluas 9–10mm (~44–48 piksel). Elemen di bawah layar iPhone tanpa safe-area inset akan bentrok dengan gesture bar navigasi sistem operasi.
+- **Why:** Contact patch jari manusia berukuran kira-kira 9–10mm; sasaran 44–48 CSS px memberi margin ralat yang mencukupi pada telefon biasa. Elemen di bawah skrin tanpa safe-area inset akan bertembung dengan gesture bar sistem operasi.
 - **Audit cue:** Ukur hit-box ikon aksi pada resolusi mobile 390px; periksa apakah bottom navbar bertabrakan dengan home bar sistem.
 - **Generation default:** Setiap tombol mobile memiliki wrapper padding minimal 44×44px; `<main>` selalu menyertakan `pb-24` jika ada bottom navigation.
 
@@ -357,19 +357,19 @@ Format standar: **Rule** (apa) → **Formula** (angka pasti) → **Why** (alasan
 
 ---
 
-## 🔧 PEDOMAN ANALISIS VISUAL (Untuk Audit Screenshot LLM)
+## PEDOMAN ANALISIS VISUAL (Untuk Audit Screenshot LLM)
 
-Saat melakukan visual audit dari screenshot, **wajib gunakan istilah teknis dari kamus ini**, bukan istilah subjektif atau karangan:
+Saat melakukan visual audit dari screenshot, **wajib gunakan istilah teknikal dari kamus ini**, bukan istilah subjektif atau karangan:
 
-- ✅ **Good:** "Header menggunakan `sticky top-0 z-30` dengan efek `backdrop-blur-md bg-white/80 border-b border-slate-200/80`. Tipografi judul menggunakan **geometric sans** Inter (H1 32px line-height 1.2 tracking -0.025em), memenuhi **WCAG AA** dengan rasio kontras 12:1 terhadap kanvas off-white `#F8FAFC`."
-- ❌ **Bad:** "Bagian atasnya agak transparan dan font-nya bagus dan jelas."
-- ✅ **Good:** "Tabel data mengimplementasikan **Rule 13 (Tabular Data Alignment)**: kolom numerik dan mata uang rata kanan dengan `tabular-nums`, status menggunakan **Semantic Badge Anatomy** (bg-emerald-50 text-emerald-700 dengan 6px leading dot), dan baris memiliki hover state halus `hover:bg-slate-50/80`."
-- ❌ **Bad:** "Tabelnya rapi, ada warnanya di status."
-- ✅ **Good:** "Nested corner radius pada kartu mematuhi formula konsentris ($r_{inner} = r_{outer} - \text{padding}$): kartu luar ber-radius 16px (`rounded-2xl`) dengan padding 16px, memuat child button ber-radius 8px (`rounded-lg`)."
-- ❌ **Bad:** "Sudut-sudutnya membulat serasi."
+- **Good:** "Header menggunakan `sticky top-0 z-30` dengan efek `backdrop-blur-md bg-white/80 border-b border-slate-200/80`. Tipografi judul menggunakan **geometric sans** Inter (H1 32px line-height 1.2 tracking -0.025em), memenuhi **WCAG AA** dengan rasio kontras 12:1 terhadap kanvas off-white `#F8FAFC`."
+- **Bad:** "Bagian atasnya agak transparan dan font-nya bagus dan jelas."
+- **Good:** "Tabel data mengimplementasikan **Rule 13 (Tabular Data Alignment)**: kolom numerik dan mata uang rata kanan dengan `tabular-nums`, status menggunakan **Semantic Badge Anatomy** (bg-emerald-50 text-emerald-700 dengan 6px leading dot), dan baris memiliki hover state halus `hover:bg-slate-50/80`."
+- **Bad:** "Tabelnya rapi, ada warnanya di status."
+- **Good:** "Nested corner radius pada kartu mematuhi formula konsentris ($r_{inner} = r_{outer} - \text{padding}$): kartu luar ber-radius 16px (`rounded-2xl`) dengan padding 16px, memuat child button ber-radius 8px (`rounded-lg`)."
+- **Bad:** "Sudut-sudutnya membulat serasi."
 
-**Prinsip Utama:** Setiap klaim desain wajib menyertakan vocabulary teknis + nilai numerik terukur (px, rem, hex, ratio, ms).
+**Prinsip Utama:** Setiap klaim desain wajib menyertakan vocabulary teknikal + nilai numerik terukur (px, rem, hex, ratio, ms).
 
 ---
 
-**END OF DICTIONARY.** Total: 70+ istilah esensial (vocabulary), panduan anti-AI-slop, dan 20 aturan acuan & rationale (standar acuan audit & generation kelas produksi).
+**END OF DICTIONARY.** Total: 50+ istilah esensial (vocabulary), panduan anti-AI-slop, dan 20 peraturan acuan & rationale (piawaian acuan audit & generation kelas produksi).

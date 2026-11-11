@@ -37,7 +37,7 @@ complete, keep working without approval gates between phases.
    options plus **Other**, and one recommendation with a reason.
 3. **No answer, no progress.** If a question is unanswered or vague, re-ask the
    same question in simpler words. Never write a PRD with a gap.
-4. **Same workflow.** PRD → UI Design (Lampiran Images) → code → test. No phase is skipped.
+4. **Same workflow.** PRD → UI Design (Image Attachments) → code → test. No phase is skipped.
 5. **Assumptions must be visible.** Every gap is marked `[ASSUMPTION]` in PRD
    Chapter 5 and listed in the final summary.
 6. **Stop before irreversible actions.** Production deploy,
@@ -92,7 +92,7 @@ maintain. Record the choice and the rejected alternatives in PRD Chapter 6.
 - After the answers are complete, generate the PRD and continue Phases 2–4 without stopping.
 - Still show the PRD summary and the assumption list in the final report.
 
-### 4. Auto UI Design (Lampiran Images)
+### 4. Auto UI Design (Image Attachments)
 
 - Read PRD Chapter 12 and the attached reference images in `refs/`.
 - Follow the 7-step UI Designer protocol: UI style, color tokens (HEX & Tailwind), typography, layout, component breakdown, visual details/states, and Design System Blueprint.

@@ -1,6 +1,6 @@
-# 02 — UI Designer (Lampiran Images)
+# 02 — UI Designer (Lampiran Imej)
 
-Phase 2 mengekstrak spesifikasi desain UI/UX mendalam daripada gambar referensi antarmuka (screenshot, mockup aplikasi, atau wireframe) yang dilampirkan oleh pengguna ke dalam `projects/<slug>/refs/`.
+Phase 2 mengekstrak spesifikasi desain UI/UX mendalam daripada gambar rujukan antarmuka (screenshot, mockup aplikasi, atau wireframe) yang dilampirkan oleh pengguna ke dalam `projects/<slug>/refs/`.
 
 Pendekatan ini menggantikan keperluan perisian luaran atau server live MCP: analisis imej terus menghasilkan dokumen teks terstruktur dan **Design System Blueprint** (`projects/<slug>/design/DESIGN-BLUEPRINT.md`).
 
@@ -8,7 +8,7 @@ Pendekatan ini menggantikan keperluan perisian luaran atau server live MCP: anal
 
 ## 1. Sumber Input (Lampiran Gambar)
 
-Gambar referensi disimpan dalam folder projek:
+Gambar rujukan disimpan dalam folder projek:
 
 ```text
 projects/<slug>/refs/
@@ -26,7 +26,7 @@ Agent membaca fail imej ini secara langsung tanpa perantara luaran.
 Berdasarkan modul rujukan UI Designer:
 
 1. **Identifikasi Karakter & Gaya Desain Utama (UI Style)**: Menilai sama ada gaya bercorak Modern Minimalist, Glassmorphism, Bento Grid, Clean Corporate, Playful, dsb.
-2. **Ekstraksi Palet Warna & Token (HEX & Tailwind)**: Menentukan kod warna tepat bagi Background, Surface, Primary Accent, Text, Border, dan Status Alerts.
+2. **Pengekstrakan Palet Warna & Token (HEX & Tailwind)**: Menentukan kod warna tepat bagi Background, Surface, Primary Accent, Text, Border, dan Status Alerts.
 3. **Analisis Tipografi & Hierarki**: Memilih fon yang sesuai (Inter, Plus Jakarta Sans, Poppins) dan memetakan saiz heading hingga caption.
 4. **Bedah Tata Letak (Layout) & Navigasi**: Menetapkan susunan navigasi (Bottom Nav mobile vs Sidebar/Top Nav desktop), padding kontainer, dan grid responsif.
 5. **Rincian Komponen Detail**: Menganalisis header, bentuk card/container, border radius, bayangan (shadow), butang, input borang, dan senarai rekod.

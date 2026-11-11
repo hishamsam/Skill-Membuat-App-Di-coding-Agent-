@@ -11,7 +11,7 @@ working web application:
 Idea + reference images
         ↓  Phase 1  PRD
 Approved PRD (single source of truth)
-        ↓  Phase 2  UI Designer (Lampiran Images)
+        ↓  Phase 2  UI Designer (Image Attachments)
 Design System Blueprint (DESIGN-BLUEPRINT.md)
         ↓  Phase 3  Code
 Responsive app
@@ -165,6 +165,8 @@ WebApp Builder/
 ├── GUIDE.md                    # this guide
 ├── README.md                   # short quick start
 ├── LICENSE                     # MIT
+├── THIRD-PARTY-NOTICES.md      # attribution and trademark notices
+├── UIUX_TECHNICAL_DICTIONARY.md # design vocabulary, rules, audit standard
 ├── workflow/                   # phase-by-phase workflows
 │   ├── 00-start.md             # Phase 0 bootstrap (mula / start)
 │   └── 00-auto.md … 06-security-audit.md
@@ -383,12 +385,12 @@ Files: `workflow/02-design-images.md`, `ui-ux/ui-designer.md`.
 
 - Open and read the attached images in `projects/<slug>/refs/` directly (screenshots, mockups, wireframes).
 - Follow the 7-step UI Designer protocol:
-  1. **Karakter & Gaya Desain Utama (UI Style)**: Identify the visual style category (Modern Minimalist, Glassmorphism, Bento Grid, Clean Corporate, Playful, Futuristic, etc.) and mood.
-  2. **Ekstraksi Palet Warna & Token (HEX & Tailwind)**: Canvas BG, Surface/Card BG, Accent, Text, Border, and Status colors mapped to exact HEX and Tailwind classes.
-  3. **Analisis Tipografi & Hierarki**: Font recommendation (Inter, Plus Jakarta Sans, Poppins) and hierarchy scale (H1–H3, Body, Caption).
-  4. **Bedah Tata Letak (Layout) & Navigasi**: Mobile bottom nav vs desktop sidebar/top nav, container padding, gap scale (4/8/12/16/24/32px), responsive mapping 360px–1920px.
-  5. **Rincian Komponen Detail**: Header, cards/containers (`rounded-2xl`, shadow, border), buttons (min-height 44px), inputs, lists.
-  6. **Detail Visual & Interaksi**: Lucide Icons, hover transitions, and 4 states (default, loading skeleton, empty, error).
+  1. **Design character and visual style**: Identify the visual style category (Modern Minimalist, Glassmorphism, Bento Grid, Clean Corporate, Playful, Futuristic, etc.) and mood.
+  2. **Colour palette and tokens (HEX and Tailwind)**: Canvas BG, Surface/Card BG, Accent, Text, Border, and Status colours mapped to exact HEX and Tailwind classes.
+  3. **Typography and hierarchy**: Font recommendation (Inter, Plus Jakarta Sans, Poppins) and hierarchy scale (H1–H3, Body, Caption).
+  4. **Layout and navigation breakdown**: Mobile bottom nav vs desktop sidebar/top nav, container padding, gap scale (4/8/12/16/24/32px), responsive mapping 360px–1920px.
+  5. **Component breakdown**: Header, cards/containers (`rounded-2xl`, shadow, border), buttons (min-height 44px), inputs, lists.
+  6. **Visual detail and interaction**: Lucide Icons, hover transitions, and 4 states (default, loading skeleton, empty, error).
   7. **Design System Blueprint**: Instruction-ready summary block for Phase 3 Codegen.
 - Write the specification to `projects/<slug>/design/DESIGN-BLUEPRINT.md`.
 - Mobile reference does not lock code width: desktop layout must be explicitly defined.
