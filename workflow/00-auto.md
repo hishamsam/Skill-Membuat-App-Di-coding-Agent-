@@ -37,7 +37,7 @@ complete, keep working without approval gates between phases.
    options plus **Other**, and one recommendation with a reason.
 3. **No answer, no progress.** If a question is unanswered or vague, re-ask the
    same question in simpler words. Never write a PRD with a gap.
-4. **Same workflow.** PRD → FigCraft → code → test. No phase is skipped.
+4. **Same workflow.** PRD → UI Design (Lampiran Images) → code → test. No phase is skipped.
 5. **Assumptions must be visible.** Every gap is marked `[ASSUMPTION]` in PRD
    Chapter 5 and listed in the final summary.
 6. **Stop before irreversible actions.** Production deploy,
@@ -92,18 +92,12 @@ maintain. Record the choice and the rejected alternatives in PRD Chapter 6.
 - After the answers are complete, generate the PRD and continue Phases 2–4 without stopping.
 - Still show the PRD summary and the assumption list in the final report.
 
-### 4. Auto FigCraft
+### 4. Auto UI Design (Lampiran Images)
 
-- FigCraft MUST use **live edit** mode: `figcraft-app` / `figcraft-cli mcp
-  --attach 7979`.
-- If port 7979 is not active, stop and ask the user to open
-  `figcraft --control 7979`. Do not use headless as a substitute.
-- Read PRD Chapter 12 and the images in `refs/` yourself.
-- Build all screens with one script.
-- Export PNG and check the images. Fix until no text overlaps or
-  is cut off.
-- Save `design/design.figcraft`.
-
+- Read PRD Chapter 12 and the attached reference images in `refs/`.
+- Follow the 7-step UI Designer protocol: UI style, color tokens (HEX & Tailwind), typography, layout, component breakdown, visual details/states, and Design System Blueprint.
+- Ensure concrete and measured values (Tailwind classes, exact HEX) and map both mobile (<768px) and desktop (≥1024px) views.
+- Save `design/DESIGN-BLUEPRINT.md`.
 ### 5. Auto code
 
 - Follow `workflow/03-codegen.md`.
@@ -158,7 +152,7 @@ Before stopping, report:
 | --- | --- |
 | Slug & stack | `projects/<slug>`, stack code |
 | PRD | file link + 3 main assumptions |
-| Design | `.figcraft` link + PNG count |
+| Design | `DESIGN-BLUEPRINT.md` link + image count |
 | Code | list of main files |
 | Modules | module, route, test evidence, commit id |
 | Test | brief `qa-check` + `security-audit` + `test-local` output |
@@ -197,7 +191,7 @@ Only if the user writes `auto deploy` AND the credentials already exist:
 | Phase | Manual mode | Auto mode |
 | --- | --- | --- |
 | PRD | Full interview, show, wait for pass | Full interview, generate, continue after complete answers |
-| FigCraft | Show, wait for review | Build, check PNG yourself, continue |
+| UI Design | Show blueprint, wait for review | Generate `DESIGN-BLUEPRINT.md` from `refs/`, continue |
 | Code | Wait for instructions | Continue |
 | Test | Run, report | Run, fix, report |
 | Deploy | Wait for instructions | Stop before deploy |

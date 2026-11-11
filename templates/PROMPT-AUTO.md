@@ -8,7 +8,7 @@ Start with `mula` or `start` (both mean the same thing), then paste the prompt b
 Build [app idea] in full auto mode (auto / full auto / do everything / finish it right away / one-shot).
 
 Requirements:
-- Follow this repo's workflow: Phase 1 PRD -> Phase 2 FigCraft -> Phase 3
+- Follow this repo's workflow: Phase 1 PRD -> Phase 2 UI Design (Lampiran Images) -> Phase 3
   responsive code -> Phase 4 local test.
 - Do not skip the PRD interview. Ask one question per message, including
   stack follow-ups, until every answer is complete. Write each question in

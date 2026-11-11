@@ -747,12 +747,18 @@ Table EXACTLY as below. Capability sentences: "Admin can...", "The system displa
 | --- | --- | --- |
 | **{{LAYANAN_1}}** | {{FUNGSI_1}} | {{CATATAN_1}} |
 
-## 12. UI Contract & FigCraft Handoff
+## 12. UI Contract & Design Blueprint Handoff (Lampiran Images)
 
-<!-- MANDATORY. This chapter is direct input for the FigCraft design phase.
-FigCraft MCP cannot read PRD text; a human/AI will do the building.
-Write precisely enough that the design script can be generated without asking again. -->
-
+<!-- MANDATORY. Bab ini dan gambar-gambar rujukan di projects/{{SLUG}}/refs/ adalah input langsung untuk Phase 2 (UI Designer).
+Ekstrak spesifikasi ke dalam projects/{{SLUG}}/design/DESIGN-BLUEPRINT.md merangkumi 7 langkah:
+1. Karakter & Gaya Desain (UI Style)
+2. Palet Warna & Token (HEX & Tailwind)
+3. Tipografi & Hierarki Teks
+4. Struktur Layout & Navigasi
+5. Bedah Komponen Detail
+6. Detail Visual & Interaksi
+7. Design System Blueprint untuk Webapp Builder
+Tulis dengan tepat supaya blueprint dan kod Phase 3 dapat dijana tanpa perlu bertanya semula. -->
 ### 12.1 Image References
 
 | Item | Value |

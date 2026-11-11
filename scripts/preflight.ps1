@@ -2,8 +2,7 @@
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 [-Install] [-Json] [-Stack A-K]
 #
 # Reads scripts/tools.tsv, reports every selected tool, and with -Install installs
-# the missing ones through winget. It never prompts for credentials, never
-# upgrades an existing runtime, and never installs Docker, Flutter, or FigCraft
+# upgrades an existing runtime, and never installs Docker or Flutter
 # by itself. ASCII only; Windows PowerShell 5.1 compatible.
 
 [CmdletBinding()]
@@ -128,9 +127,6 @@ foreach ($row in $rows) {
                 $action = 'winget install --id ' + $wingetId + ' --exact'
             }
         }
-        elseif ($id -eq 'figcraft' -or $id -eq 'figcraft-cli') {
-            $status = 'manual'
-        }
         elseif (-not $winget) {
             $status = 'manual'
             $hint = 'Install App Installer from the Microsoft Store (or https://aka.ms/getwinget), then rerun preflight.'
@@ -205,49 +201,16 @@ $tools += [ordered]@{
     hint    = $bashHint
 }
 
-# FigCraft live mode is informational; Phase 2 always needs a Linux host here.
-$liveStatus = 'info'
-$liveHint = 'Phase 2 needs live mode: figcraft --control 7979'
-$listening = $null
-try {
-    $listening = Get-NetTCPConnection -LocalPort 7979 -State Listen -ErrorAction SilentlyContinue
-}
-catch {
-    $listening = $null
-}
-if ($listening) {
-    $liveStatus = 'ok'
-    $liveHint = $null
-}
-$tools += [ordered]@{
-    id      = 'figcraft-live'
-    tier    = 'info'
-    check   = 'figcraft-live'
-    status  = $liveStatus
-    version = $null
-    action  = $null
-    hint    = $liveHint
-}
 
 $phase1 = $true
 foreach ($tool in $tools) {
     if ($tool.tier -ne 'core') { continue }
     if ($tool.status -notin @('missing', 'manual', 'failed')) { continue }
-    if ($tool.id -eq 'figcraft' -or $tool.id -eq 'figcraft-cli') { continue }
     $phase1 = $false
     $blocking += $tool.id
 }
 
-$phase2 = $false
-if ($phase1) {
-    $phase2 = $true
-    foreach ($need in @('figcraft', 'figcraft-cli')) {
-        $match = $tools | Where-Object { $_.id -eq $need } | Select-Object -First 1
-        if ($null -eq $match) { $phase2 = $false; continue }
-        if ($match.status -notin @('ok', 'installed')) { $phase2 = $false }
-    }
-}
-
+$phase2 = $phase1
 $report = [ordered]@{
     os                = 'windows'
     packageManager    = $(if ($winget) { 'winget' } else { 'none' })
@@ -255,7 +218,7 @@ $report = [ordered]@{
     ready             = [ordered]@{ phase1 = [bool]$phase1; phase2 = [bool]$phase2 }
     restartRequired   = [bool]$restartRequired
     blocking          = @($blocking)
-    platformNote      = 'FigCraft is distributed for Linux/macOS. Phase 2 requires a Linux host; use WSL2 Ubuntu when Phase 2 starts.'
+    platformNote      = $null
     tools             = @($tools)
 }
 
@@ -294,11 +257,8 @@ else {
             Write-Output ('            hint: ' + $tool.hint)
         }
     }
-    if ($phase1 -and $phase2) {
+    if ($phase1) {
         Write-Output 'Result: Phase 1 ready, Phase 2 ready.'
-    }
-    elseif ($phase1) {
-        Write-Output 'Result: Phase 1 ready, Phase 2 not ready (FigCraft).'
     }
     else {
         Write-Output ('Result: Phase 1 not ready (blocked: ' + ($blocking -join ',') + ').')

@@ -69,5 +69,5 @@ Last result: {{KEPUTUSAN_UJIAN}}
 ## Links
 
 - PRD: `projects/{{SLUG}}/prd/PRD-v0.1.md`
-- Design: `projects/{{SLUG}}/design/design.figcraft`
-- Exports: `projects/{{SLUG}}/design/exports/`
+- Design Blueprint: `projects/{{SLUG}}/design/DESIGN-BLUEPRINT.md`
+- References: `projects/{{SLUG}}/refs/`

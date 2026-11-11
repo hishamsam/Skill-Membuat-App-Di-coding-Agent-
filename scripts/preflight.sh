@@ -5,7 +5,7 @@
 # Reads scripts/tools.tsv, reports every tool it selects, and with --install
 # installs the missing ones that can be installed unattended. It never prompts
 # for a sudo password, never upgrades an existing runtime, and never installs
-# Docker, Flutter, or FigCraft by itself.
+# Docker or Flutter by itself.
 #
 # Package column mapping: apt uses the apt column, dnf and zypper the dnf
 # column, pacman and apk the pacman column, brew the brew column.
@@ -348,19 +348,7 @@ add_info() { # id status hint action
   if [ -z "$INFO_JSON" ]; then INFO_JSON="$obj"; else INFO_JSON="$INFO_JSON,$obj"; fi
 }
 
-if ss -ltn 2>/dev/null | grep -q ':7979' || lsof -nP -iTCP:7979 -sTCP:LISTEN >/dev/null 2>&1; then
-  add_info "figcraft-live" "ok" "" ""
-else
-  add_info "figcraft-live" "info" "Phase 2 needs live mode: figcraft --control 7979" ""
-fi
-
-if command -v opencode >/dev/null 2>&1; then
-  if opencode mcp list 2>/dev/null | grep -qi figcraft; then
-    add_info "mcp-figcraft" "ok" "" ""
-  else
-    add_info "mcp-figcraft" "info" "Register the FigCraft MCP servers (see setup/01-opencode-mcp.md)." ""
-  fi
-fi
+# Phase 2 uses attached images; no live GUI port check needed.
 
 if command -v curl >/dev/null 2>&1; then
   if curl -fsS -o /dev/null --max-time 2 http://localhost:3000/ >/dev/null 2>&1; then
@@ -384,13 +372,8 @@ while [ "$i" -lt "$COUNT" ]; do
   if [ "${R_TIER[$i]}" = "core" ]; then
     case "${R_STATUS[$i]}" in
       missing|manual|failed)
-        case "${R_ID[$i]}" in
-          figcraft|figcraft-cli) ;;
-          *)
-            PHASE1=0
-            if [ -z "$BLOCKING" ]; then BLOCKING="${R_ID[$i]}"; else BLOCKING="$BLOCKING,${R_ID[$i]}"; fi
-            ;;
-        esac
+        PHASE1=0
+        if [ -z "$BLOCKING" ]; then BLOCKING="${R_ID[$i]}"; else BLOCKING="$BLOCKING,${R_ID[$i]}"; fi
         ;;
     esac
   fi
@@ -401,28 +384,7 @@ if [ -n "$INFO_JSON" ]; then
   if [ -z "$TOOLS_JSON" ]; then TOOLS_JSON="$INFO_JSON"; else TOOLS_JSON="$TOOLS_JSON,$INFO_JSON"; fi
 fi
 
-figcraft_status() { # id -> prints status
-  local i=0
-  while [ "$i" -lt "$COUNT" ]; do
-    if [ "${R_ID[$i]}" = "$1" ]; then
-      printf '%s' "${R_STATUS[$i]}"
-      return 0
-    fi
-    i=$((i + 1))
-  done
-  printf 'missing'
-}
-
-PHASE2=0
-if [ "$PHASE1" -eq 1 ]; then
-  PHASE2=1
-  for id in figcraft figcraft-cli; do
-    case "$(figcraft_status "$id")" in
-      ok|installed) ;;
-      *) PHASE2=0 ;;
-    esac
-  done
-fi
+PHASE2="$PHASE1"
 
 bool() { if [ "$1" -eq 1 ]; then printf 'true'; else printf 'false'; fi; }
 
@@ -469,10 +431,8 @@ if [ "$JSON" -eq 0 ]; then
     i=$((i + 1))
   done
 
-  if [ "$PHASE1" -eq 1 ] && [ "$PHASE2" -eq 1 ]; then
+  if [ "$PHASE1" -eq 1 ]; then
     echo "Result: Phase 1 ready, Phase 2 ready."
-  elif [ "$PHASE1" -eq 1 ]; then
-    echo "Result: Phase 1 ready, Phase 2 not ready (FigCraft)."
   else
     echo "Result: Phase 1 not ready (blocked: $BLOCKING)."
   fi

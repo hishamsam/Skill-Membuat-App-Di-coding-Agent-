@@ -1,6 +1,6 @@
 ---
 name: webapp-builder
-description: Build a complete application from a rough idea — PRD, FigCraft design, responsive code, local test, and handoff. Recommends Tier 1 stacks only: Supabase, Cloudflare Workers, Firebase, Next.js, Node/Express, Laravel, Django/FastAPI, Flutter.
+description: Build a complete application from a rough idea — PRD, UI design from attached images (Design System Blueprint), responsive code, local test, and handoff. Recommends Tier 1 stacks only: Supabase, Cloudflare Workers, Firebase, Next.js, Node/Express, Laravel, Django/FastAPI, Flutter.
 ---
 
 ROLE & EXPERTISE:
@@ -24,7 +24,7 @@ The full guide for each phase is in `workflow/`.
 | --- | --- | --- | --- |
 | 0 | Bootstrap | preflight report | Agent continues automatically |
 | 1 | PRD | `projects/<slug>/prd/PRD-v0.1.md` | User approval |
-| 2 | FigCraft design | `design/design.figcraft` + `design/exports/*.png` | UI reviewed |
+| 2 | UI Design (Images) | `projects/<slug>/design/DESIGN-BLUEPRINT.md` | UI reviewed |
 | 3 | Responsive code | `projects/<slug>/app/` | `qa-check.sh` passes |
 | 4 | Local test | test evidence | all PRD Chapter 13 cases pass |
 | 4.5 | Security audit | `projects/<slug>/security/REPORT.md` | 0 `FAIL`, no open high/critical |
@@ -56,8 +56,8 @@ Read the JSON (or the last `PREFLIGHT_JSON` line):
 After the A6 stack answer, rerun with `--stack <CODE>` / `-Stack <CODE>`.
 
 Limits: preflight never prompts for a password, never upgrades an existing
-runtime, and never installs Docker, Flutter, or FigCraft unattended. On native
-Windows, Phase 2 needs WSL2 Ubuntu or a Linux/macOS host.
+runtime, and never installs Docker or Flutter unattended. Phase 2 extracts UI
+specifications directly from attached images across all platforms (Linux, macOS, Windows).
 
 ### Auto Mode (One-Shot)
 
@@ -77,10 +77,9 @@ then Phases 2–4 run without a gate on each phase:
    confirmation. Record the choice + rejected alternatives in PRD Chapter 6.
 4. Generate the full PRD once the answers are complete. Mark `[ASSUMPTION]` only for
    matters the user deliberately delegates.
-5. Proceed to FigCraft, code, and tests without waiting for per-phase approval.
-6. FigCraft MUST use **live edit** mode (`figcraft-app`, port 7979). If port
-   7979 is not active, stop and ask the user to open `figcraft --control 7979`.
-   Do not use headless MCP as a substitute.
+5. Proceed to UI design, code, and tests without waiting for per-phase approval.
+6. Phase 2 analyzes attached images in `refs/` and extracts the Design System Blueprint
+   into `projects/<slug>/design/DESIGN-BLUEPRINT.md` using the 7-step UI Designer protocol.
 7. Fix `qa-check` / `test-local` failures for a maximum of 3 rounds, then
    stop and report the blocker.
 8. Report the PRD, design, code files, actual test output, assumptions, and blockers.
@@ -121,8 +120,8 @@ AI actions:
      stating its limits.
    - Technology follow-up questions (A8), maximum 4, according to the chosen stack.
    - Do not generate the PRD until the answers are detailed enough.
-3. **Read the reference images yourself.** FigCraft MCP cannot see images;
-   you must open the files in `refs/` and extract the Design DNA.
+3. **Read the reference images yourself.** Open the files in `refs/` and extract
+   the Design DNA and visual specifications.
 4. **Generate the full PRD** (Part B) and save it:
    `projects/<slug>/prd/PRD-v0.1.md`.
    The PRD is the Single Source of Truth. Every function, screen, data schema,
@@ -133,25 +132,24 @@ You MUST NOT write code in this phase.
 
 ---
 
-### Phase 2: UI Design in FigCraft (Live MCP)
+### Phase 2: UI Design from Attached Images (UI Designer)
 
-Full guide: `workflow/02-design-figcraft.md` and `FIGCRAFT-SCRIPTING.md`.
+Full guide: `workflow/02-design-images.md`. Reference: `ui-ux/ui-designer.md`.
 
-1. Read PRD Chapter 12 (reference, tokens, screen list, 4 states).
-2. Write `design/DESIGN-DNA.md`.
-3. Write ONE `design/build.py` script using `scripts/figcraft/figcraft_client.py`.
-   More than 10 layers: a script, not one-by-one tool calls.
-4. `--check` (connection only) → `python3 -I projects/<slug>/design/build.py`
-   (one clean run: builds every screen, exports PNGs to `exports/`, saves
-   `design/design.figcraft`) → review the PNGs → fix → rerun. There is no
-   rehearsal document; every run starts clean, so reruns never duplicate screens.
-5. Save `design/design.figcraft` in the project folder.
+1. Read PRD Chapter 12 (reference, tokens, screen list, 4 states) and open images in `refs/`.
+2. Follow the 7-step UI Designer protocol:
+   - **Langkah 1**: Identifikasi Karakter & Gaya Desain Utama (UI Style).
+   - **Langkah 2**: Ekstraksi Palet Warna & Token Visual (HEX & Tailwind).
+   - **Langkah 3**: Analisis Tipografi & Hierarki Teks.
+   - **Langkah 4**: Bedah Tata Letak (Layout) & Navigasi (mobile bottom nav vs desktop sidebar/top nav).
+   - **Langkah 5**: Rincian Komponen UI (Component Breakdown).
+   - **Langkah 6**: Rekomendasi Interaksi & Micro-interactions (Lucide Icons, 4 states: default/loading/empty/error).
+   - **Langkah 7**: Susun Design System Blueprint (Siap Pakai untuk Codegen).
+3. Save the specification to `projects/<slug>/design/DESIGN-BLUEPRINT.md`.
 
-If the reference is mobile-only, still build the desktop frame. The mobile
+If the reference is mobile-only, still define the desktop layout. The mobile
 design is a composition reference, not a code width lock.
-
-You MUST NOT redraw phone/browser chrome; FigCraft frames are already frames.
-
+Do not write full application code in Phase 2; focus on precise text specs and tokens.
 ---
 
 ### Phase 3: Responsive Code Generation
@@ -159,7 +157,7 @@ You MUST NOT redraw phone/browser chrome; FigCraft frames are already frames.
 Full guide: `workflow/03-codegen.md`.
 
 1. Build the implementation table from PRD Chapter 7 (requirements) + Chapter 12 (screens).
-2. Extract the tokens from `DESIGN-DNA.md` into one Tailwind configuration / `:root`.
+2. Extract the tokens from `DESIGN-BLUEPRINT.md` into one Tailwind configuration / `:root`.
 3. Generate the files according to the stack in PRD Chapter 6:
 
    | Stack | Main files |
@@ -176,7 +174,7 @@ Full guide: `workflow/03-codegen.md`.
    | J FastAPI/Django | `app/main.py` or `app/manage.py`, `requirements.txt` |
 
 4. **MANDATORY responsive contract:** the code must work from 360px–1920px even if
-   FigCraft only has a mobile frame.
+   the reference image is mobile only.
    - Mobile: bottom nav + 1 column + `pb-24`.
    - Desktop: sidebar/top nav + 2–3 columns.
    - No horizontal scroll; tables `overflow-x-auto` or mobile cards.
@@ -273,7 +271,7 @@ After presenting the PRD:
 
 > "The PRD has been generated as the Single Source of Truth.
 > - Any amendments? **Mention** them here and I will regenerate.
-> - If you agree, reply 'lulus' / 'ok proceed' for Phase 2 (FigCraft)."
+> - If you agree, reply 'lulus' / 'ok proceed' for Phase 2 (UI Design)."
 
 After the UI is complete, request the same review before Phase 3.
 
@@ -313,7 +311,7 @@ Quick mapping:
 | Chapter 9 | Data model + implementation per stack |
 | Chapter 10 | NFRs including responsiveness |
 | Chapter 11 | Integrations |
-| Chapter 12 | UI contract & FigCraft handoff (MANDATORY) |
+| Chapter 12 | UI contract & Design Blueprint handoff (MANDATORY) |
 | Chapter 13 | Local test plan + acceptance criteria (MANDATORY) |
 | Chapter 14–17 | Advanced phases, out of scope, TBD, glossary |
 
@@ -984,7 +982,7 @@ function doGet(e) {
 This section is specific to stack **A (GAS)**. For stacks B–F, follow
 `workflow/03-codegen.md` and the respective setup files.
 
-After the PRD is approved (Phase 1) and the FigCraft UI is reviewed (Phase 2), you MUST
+After the PRD is approved (Phase 1) and the UI Design Blueprint is reviewed (Phase 2), you MUST
 produce the code in the following strict order:
 
 #### File 1: Frontend Web App — `index.html` (Use the Code Canvas — DO THIS FIRST):
@@ -1126,11 +1124,11 @@ CODE RULES & CONSISTENCY (HARD RULES - MANDATORY):
 
 ANTI-PATTERN (STRICTLY FORBIDDEN):
 - **[SKIP PHASE]** Writing code without an approved PRD, or building a UI without reading PRD Chapter 12 and the reference images.
-- **[MOBILE-ONLY]** Producing code that is only correct at mobile widths because FigCraft referenced a mobile frame. The code MUST be responsive 360px–1920px.
+- **[MOBILE-ONLY]** Producing code that is only correct at mobile widths because the reference image was mobile. The code MUST be responsive 360px–1920px.
 - **[SECRETS ON THE CLIENT]** Placing `service_role`, connection strings, or admin tokens in `index.html`.
 - **[INVENTED ENDPOINTS]** Inventing API URLs, table names, or security policies that are not in the PRD/stack.
-- **[MCP NOT READY]** Starting Phase 2 without ensuring FigCraft is live on port 7979, or calling MCP tools that are not registered.
-- **[ONE LAYER ONE CALL]** Building dozens of FigCraft layers through tool calls one by one while a single script could finish it in one run.
+- **[VAGUE DESIGN TOKENS]** Using vague descriptions like 'light blue' instead of concrete measured tokens (HEX / Tailwind) in the Design System Blueprint.
+- **[PREMATURE CODEGEN]** Writing full application code during Phase 2 UI Design instead of structured design specifications and blueprint.
 - **[SKIPPED TESTS]** Reporting "done" without running `qa-check.sh` and `test-local.sh`.
 - Continuing to write code as soon as an idea is received without generating and approving the full PRD.
 - Running a long questionnaire or delaying PRD generation as soon as the user's idea is received.
@@ -1208,10 +1206,10 @@ COMPLETION CHECKLIST:
 
 ### Across all stacks (Phases 1–5)
 - [ ] Project folder created with `scripts/new-project.sh` and reference images present in `refs/`?
-- [ ] PRD generated from `TEMPLATE_PRD_MS.md`, including Chapter 6 (technology), Chapter 12 (FigCraft handoff), Chapter 13 (tests)?
+- [ ] PRD generated from `TEMPLATE_PRD_MS.md`, including Chapter 6 (technology), Chapter 12 (Design Blueprint handoff), Chapter 13 (tests)?
 - [ ] User approved the PRD before any code was written?
-- [ ] `design/design.figcraft` file + PNG exports saved in the project folder?
-- [ ] Responsive code 360px–1920px even if the FigCraft reference is mobile?
+- [ ] `design/DESIGN-BLUEPRINT.md` file saved in the project folder?
+- [ ] Responsive code 360px–1920px even if the reference image is mobile?
 - [ ] `bash scripts/qa-check.sh <slug>` passes (0 failures)?
 - [ ] `bash scripts/test-local.sh <slug> --check` passes?
 - [ ] Responsive tests at 390/768/1024/1440 run?

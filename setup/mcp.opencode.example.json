@@ -1,15 +1,5 @@
 {
   "mcp": {
-    "figcraft": {
-      "type": "local",
-      "command": ["/usr/bin/figcraft-cli", "mcp"],
-      "enabled": true
-    },
-    "figcraft-app": {
-      "type": "local",
-      "command": ["/usr/bin/figcraft-cli", "mcp", "--attach", "7979"],
-      "enabled": true
-    },
     "supabase": {
       "type": "remote",
       "url": "https://mcp.supabase.com/mcp?project_ref=REPLACE_PROJECT_REF",

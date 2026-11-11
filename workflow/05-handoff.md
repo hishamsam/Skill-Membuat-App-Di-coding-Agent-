@@ -9,7 +9,7 @@ rollback.
 projects/<slug>/
 ├── HANDOFF.md
 ├── prd/PRD-v0.1.md
-├── design/design.figcraft + exports/
+├── design/DESIGN-BLUEPRINT.md + refs/
 ├── app/                  # finished code
 ├── security/             # THREAT-MODEL.md, REPORT.md, findings.json, evidence/
 ├── tests/                # test scripts/checklist
@@ -86,7 +86,7 @@ report 0 `FAIL` and no `confirmed` high/critical record may remain open
 ## Definition of done
 
 - [ ] PRD approved and saved.
-- [ ] FigCraft file + PNG exports saved.
+- [ ] Design System Blueprint (`design/DESIGN-BLUEPRINT.md`) + fail rujukan `refs/` disimpan.
 - [ ] Code passes `qa-check` and the local tests.
 - [ ] All **Mandatory** PRD requirements work.
 - [ ] Production test passes.

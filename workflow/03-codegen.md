@@ -1,18 +1,18 @@
 # Phase 3 — Responsive Code Generation
 
-Purpose: turn the PRD + FigCraft screens into an application that works, is responsive,
-and is secure. The FigCraft design is a composition reference, not a width lock.
+Purpose: turn the PRD + Design System Blueprint (`design/DESIGN-BLUEPRINT.md`) + lampiran images in `refs/` into an application that works, is responsive,
+and is secure. The attached reference design is a composition reference, not a width lock.
 
 ## Input
 
 - `projects/<slug>/prd/PRD-v0.1.md` (Chapters 6, 7, 9, 12, 13)
-- `projects/<slug>/design/exports/*.png`
-- `projects/<slug>/design/DESIGN-DNA.md`
+- `projects/<slug>/design/DESIGN-BLUEPRINT.md`
+- `projects/<slug>/refs/*` (gambar referensi antarmuka)
 - The stack in PRD Chapter 6.
 
 ## Responsive contract (MANDATORY)
 
-A mobile design in FigCraft does NOT mean mobile-only code.
+A mobile design reference does NOT mean mobile-only code.
 The code must work from 360px to 1920px.
 
 | Range | Target | Navigation | Content grid |
@@ -44,10 +44,9 @@ Hard rules:
    | 1 | AUTH-1        | S-01  | app  | [ ]    |
    ```
 
-2. Extract the tokens from `DESIGN-DNA.md` into one place:
+2. Extract the tokens from `DESIGN-BLUEPRINT.md` into one place:
    - Tailwind `tailwind.config` or a `:root` CSS variables block.
    - Role names (`ink`, `surface`, `line`, `accent`), not scattered hex.
-
 3. Build the files per stack (see below).
 
 4. Check every button has a `data-action` and a real logic branch.

@@ -1,4 +1,4 @@
-# WebApp Builder — PRD → FigCraft → Code → Test → Handoff
+# WebApp Builder — PRD → UI Design (Lampiran Images) → Code → Test → Handoff
 
 One workflow for building an application from a rough idea:
 
@@ -6,8 +6,8 @@ One workflow for building an application from a rough idea:
 Idea + reference images
    ↓  Phase 1  TEMPLATE_PRD_MS.md
 PRD (Single Source of Truth)
-   ↓  Phase 2  FigCraft live MCP
-Design + PNG export
+   ↓  Phase 2  UI Designer (Lampiran Images)
+Design System Blueprint (DESIGN-BLUEPRINT.md)
    ↓  Phase 3  responsive code
 Application
    ↓  Phase 4  local test
@@ -98,7 +98,7 @@ The agent stops before deploy and asks for permission.
 
 Installable automatically: git, curl, unzip, node, npm, python3, java, psql,
 php, composer (apt, dnf, pacman, zypper, apk, Homebrew, or winget).
-Reported but manual: FigCraft + `figcraft-cli`, Docker, Flutter.
+Reported but manual: Docker, Flutter.
 Details: [`workflow/00-start.md`](workflow/00-start.md).
 
 ---
@@ -138,7 +138,7 @@ The agent does all of this itself. Use these only if you want to control a step.
 
 | Command | Purpose |
 | --- | --- |
-| `bash scripts/preflight.sh [--install] [--json] [--stack A-K]` | Scan (and install) tools, FigCraft, port 7979, MCP |
+| `bash scripts/preflight.sh [--install] [--json] [--stack A-K]` | Scan (and install) tools, MCP |
 | `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 -Install -Json` | Same, for native Windows |
 | `bash scripts/new-project.sh <slug> B` | Create the project folder (Tier 1: B, C, D, G–K) |
 | `bash scripts/qa-check.sh <slug>` | Check code quality |
@@ -195,8 +195,6 @@ bash scripts/security-audit.sh <slug>    # static rules: secrets, injection, RLS
 WebApp Builder/
 ├── AGENTS.md                   # start instructions for the AI agent
 ├── SKILL.md                    # main skill (agent instructions)
-├── TEMPLATE_PRD_MS.md          # PRD generator: interview + template
-├── FIGCRAFT-SCRIPTING.md       # how to script FigCraft fast
 ├── GUIDE.md                    # complete usage guide
 ├── README.md                   # this file
 ├── LICENSE                     # MIT
@@ -204,14 +202,14 @@ WebApp Builder/
 │   ├── 00-start.md             # Phase 0 bootstrap (mula / start)
 │   ├── 00-auto.md
 │   ├── 01-prd.md
-│   ├── 02-design-figcraft.md
+│   ├── 02-design-images.md
 │   ├── 03-codegen.md
 │   ├── 04-local-test.md
 │   ├── 05-handoff.md
 │   └── 06-security-audit.md
 ├── setup/                      # MCP and stack setup
 │   ├── 01-opencode-mcp.md
-│   ├── 02-figcraft.md
+│   ├── 02-ui-designer.md
 │   ├── 03-gas.md
 │   ├── 04-supabase.md
 │   ├── 05-cloudflare-worker.md
@@ -235,14 +233,11 @@ WebApp Builder/
 │   ├── security-audit.sh
 │   ├── git-save.sh
 │   ├── setup-dokploy.sh
-│   ├── build-guide-html.py     # optional: regenerate GUIDE.html
-│   └── figcraft/
-│       ├── figcraft_client.py  # live FigCraft client + helpers
-│       └── test_figcraft_client.py
+│   └── build-guide-html.py     # optional: regenerate GUIDE.html
 ├── templates/
 │   ├── HANDOFF.md
 │   ├── PROMPT-AUTO.md
-│   └── figcraft/figcraft_build.py
+│   └── DESIGN-BLUEPRINT.md
 └── projects/                   # output of each project
 ```
 
@@ -256,10 +251,7 @@ projects/<slug>/
 ├── prd/PRD-v0.1.md
 ├── refs/                     # reference images
 ├── design/
-│   ├── DESIGN-DNA.md
-│   ├── build.py
-│   ├── design.figcraft
-│   └── exports/*.png
+│   └── DESIGN-BLUEPRINT.md
 ├── app/                      # application code
 ├── security/                 # THREAT-MODEL.md, REPORT.md, findings.json, evidence/
 ├── tests/                    # test scripts/lists
@@ -292,7 +284,7 @@ What the agent does by itself:
 | Phase | Auto |
 | --- | --- |
 | 1 PRD | Full one-by-one interview, choose the stack, mark `[ASSUMPTION]` |
-| 2 FigCraft | Live edit only; ask the user to open port 7979 if needed |
+| 2 UI Design | Extract Design System Blueprint from `refs/` |
 | 3 Code | Generate responsive code, no dead buttons |
 | 4 Test | Run, fix up to 3 rounds |
 | 5 Deploy | STOP, wait for permission |
@@ -307,7 +299,7 @@ payments, DNS changes, production data deletion.
 | Phase | Guide | Output | Gate |
 | --- | --- | --- | --- |
 | 1 PRD | `workflow/01-prd.md` | `prd/PRD-v0.1.md` | PRD approved |
-| 2 Design | `workflow/02-design-figcraft.md` | `design/design.figcraft` + PNG | UI reviewed |
+| 2 Design | `workflow/02-design-images.md` | `design/DESIGN-BLUEPRINT.md` | UI reviewed |
 | 3 Code | `workflow/03-codegen.md` | `app/` | `qa-check` passes |
 | 4 Test | `workflow/04-local-test.md` | test evidence | all cases pass |
 | 4.5 Security | `workflow/06-security-audit.md` | `security/REPORT.md` | 0 `FAIL`, no open high/critical |
@@ -338,20 +330,19 @@ only when a project already depends on it.
 | E | Neon | 2 | Database only, with a separate API |
 | F | Hybrid | 2 | A combination of services already in use |
 
-PRD Chapter 12 locks the screens, tokens, and references for FigCraft.
+PRD Chapter 12 locks the screens, tokens, and references for UI Design.
 Chapter 13 locks the test commands and acceptance criteria.
 
-### Phase 2 — FigCraft
+### Phase 2 — UI Design (Lampiran Images)
 
-- **Live edit is MANDATORY** (`figcraft-app`, port 7979). Never use headless.
-  If the app is not open, ask the user to run `figcraft --control 7979`.
-- For many layers: one `design/build.py` script, not one tool call per layer.
-- Export PNGs and save `design.figcraft` in the project folder.
-- A mobile reference does not mean mobile-only code. Desktop frames are built too.
-
+- Uses `ui-ux/ui-designer.md` as reference protocol.
+- Reads attached images (screenshots, mockups, wireframes) in `projects/<slug>/refs/`.
+- Extracts 7 key design areas: UI style, color tokens (HEX & Tailwind), typography, layout, component breakdown, visual details/states, and Design System Blueprint.
+- Saves `projects/<slug>/design/DESIGN-BLUEPRINT.md`.
+- A mobile reference does not mean mobile-only code. Desktop layout is mapped too.
 ### Phase 3 — Code
 
-- Tokens from `DESIGN-DNA.md` go into one configuration.
+- Tokens from `DESIGN-BLUEPRINT.md` go into one configuration.
 - Responsive: 360–639 / 640–1023 / 1024–1439 / ≥1440.
 - Mobile: bottom nav + 1 column + `pb-24`.
 - Desktop: sidebar/top nav + 2–3 columns.
@@ -397,7 +388,7 @@ Every setup instruction lives in a separate folder: **`setup/`**.
 | Document | Content |
 | --- | --- |
 | `setup/01-opencode-mcp.md` | `opencode.json` format, registering servers |
-| `setup/02-figcraft.md` | Live mode (required), port 7979 |
+| `setup/02-ui-designer.md` | UI Designer (lampiran images), Design System Blueprint |
 | `setup/03-gas.md` | GAS, clasp, preview mode |
 | `setup/04-supabase.md` | Supabase MCP, dev project, RLS |
 | `setup/05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 |
@@ -416,7 +407,6 @@ Check:
 
 ```bash
 opencode mcp list
-ss -ltnp | grep 7979
 ```
 
 ---
@@ -451,7 +441,7 @@ stock photos, avatars, copyrighted text.
 
 **Approve:**
 
-> PRD OK. Continue to Phase 2 FigCraft.
+> PRD OK. Continue to Phase 2 (UI Design).
 
 **Review the UI:**
 

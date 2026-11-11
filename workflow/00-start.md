@@ -2,7 +2,7 @@
 
 Phase 0 runs before the PRD interview in every mode. It scans the machine,
 installs the tools it can install unattended, reports the result, and then the
-normal workflow continues unchanged: PRD → FigCraft → code → test → handoff.
+normal workflow continues unchanged: PRD → UI Design (Lampiran Images) → code → test → handoff.
 
 `auto`, `full auto`, `do everything`, `finish it right away`, `one-shot`, and
 `auto deploy` never skip Phase 0. The Malay trigger phrases are accepted too.
@@ -38,7 +38,7 @@ JSON object alone. Fields:
 | `packageManager` | `apt`, `dnf`, `pacman`, `zypper`, `apk`, `brew`, `winget`, or `none` |
 | `installAttempted` | An install command was executed |
 | `ready.phase1` | Phases 1, 3, 4, 5 can run (needs no project tooling beyond the core set) |
-| `ready.phase2` | FigCraft is also available |
+| `ready.phase2` | Phase 2 UI Design can run (reads attached images in `refs/`, ready with Phase 1) |
 | `blocking` | Ids of `core` tools that are `missing`, `manual`, or `failed` |
 | `restartRequired` | A tool was installed but is not on `PATH` yet |
 | `tools[]` | `id`, `tier`, `check`, `status`, `version`, `action`, `hint` |
@@ -50,7 +50,7 @@ manual instruction or the failure detail.
 Agent rules:
 
 1. `ready.phase1: true` → report one line such as
-   `Preflight: ready — node v24.22.1, python3 3.12.3, figcraft ok.` Then continue
+   `Preflight: ready — node v24.22.1, python3 3.12.3.` Then continue
    with Phase 1.
 2. `ready.phase1: false` → show a table of tool / status / action / hint. Ask
    the user to run the listed `action` lines, then continue the PRD interview:
@@ -75,23 +75,18 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 -Insta
 Report the result and continue Phase 2. `F` (hybrid) matches no stack rows;
 rerun once the concrete stacks are fixed in PRD Chapter 6.
 
-## 5. Windows limits
+## 5. Cross-platform compatibility
 
-Native Windows reports `ready.phase2: false` because FigCraft has no Windows
-build in this repo. Phases 1, 3, 4, and 5 work on Windows. Phase 2 needs WSL2
-Ubuntu or a Linux/macOS host. The agent must say this in the bootstrap report.
-
+Phase 2 uses image references (`refs/`) and text specifications (`DESIGN-BLUEPRINT.md`) without external GUI/MCP binaries. It runs seamlessly on Linux, macOS, and native Windows PowerShell.
 ## 6. Manual actions
 
 Some tools have no unattended installer here:
 
 | Tool | Why |
 | --- | --- |
-| FigCraft + `figcraft-cli` | Application package, no public installer URL in this repo |
 | Docker | Desktop app or system daemon |
 | Flutter | SDK archive |
 | Anything needing a sudo password | `sudo -n` fails, so the row is `manual` |
-
 Print the exact command or hint from the report. Never guess an installer, never
 invent a package name outside `scripts/tools.tsv`, and never download MSI files by
 hand on Windows — `winget` is the only Windows installer used.
@@ -100,7 +95,7 @@ hand on Windows — `winget` is the only Windows installer used.
 
 Phase 0 never creates accounts, never pays for anything, never changes DNS,
 never deletes data, never upgrades an existing runtime (an older Node is
-reported as `outdated`), and never installs Docker, Flutter, or FigCraft
+reported as `outdated`), and never installs Docker or Flutter
 unattended.
 
 ## 8. Retry policy

@@ -38,7 +38,7 @@ if [ -e "$DEST" ]; then
   exit 1
 fi
 
-mkdir -p "$DEST"/{prd,refs,design/exports,app,tests}
+mkdir -p "$DEST"/{prd,refs,design,app,tests}
 
 printf '%s\n' "$STACK" > "$DEST/STACK"
 touch "$DEST/refs/.gitkeep"
@@ -74,7 +74,7 @@ Created: $(date '+%Y-%m-%d %H:%M')
 ## Phases
 
 - [ ] Phase 1 — PRD (\`prd/PRD-v0.1.md\`)
-- [ ] Phase 2 — FigCraft design (\`design/design.figcraft\`)
+- [ ] Phase 2 — UI Design (\`design/DESIGN-BLUEPRINT.md\`)
 - [ ] Phase 3 — Code (\`app/\`)
 - [ ] Phase 4 — Local test
 - [ ] Phase 4.5 — Security audit (\`security/REPORT.md\`)
@@ -93,7 +93,7 @@ Commit: \`bash scripts/git-save.sh $SLUG "<message>"\`
 ## Notes
 
 - Reference images: \`refs/\`
-- Design exports: \`design/exports/\`
+- Design Blueprint: \`design/DESIGN-BLUEPRINT.md\`
 - Security artifacts: \`security/\`
 EOF
 
@@ -109,17 +109,18 @@ dist/
 build/
 EOF
 
-# Copy the FigCraft script template
-if [ -f "$ROOT/templates/figcraft/figcraft_build.py" ]; then
-  cp "$ROOT/templates/figcraft/figcraft_build.py" "$DEST/design/build.py"
-  sed -i "s/__SLUG__/$SLUG/g" "$DEST/design/build.py" 2>/dev/null || true
+# Copy the Design Blueprint template
+if [ -f "$ROOT/templates/DESIGN-BLUEPRINT.md" ]; then
+  cp "$ROOT/templates/DESIGN-BLUEPRINT.md" "$DEST/design/DESIGN-BLUEPRINT.md"
+  sed -i "s/{{SLUG}}/$SLUG/g" "$DEST/design/DESIGN-BLUEPRINT.md" 2>/dev/null || true
 fi
 
 echo "Project created: projects/$SLUG (stack $STACK)"
 echo "$GIT_STATE"
 echo
 echo "Next steps:"
-echo "  1. Put reference images in projects/$SLUG/refs/"
+echo "  1. Put reference images (screenshots/mockups) in projects/$SLUG/refs/"
 echo "  2. Generate the PRD per TEMPLATE_PRD_MS.md -> projects/$SLUG/prd/PRD-v0.1.md"
-echo "  3. bash scripts/git-save.sh $SLUG \"chore: scaffold projects/$SLUG (stack $STACK)\""
-echo "  4. bash scripts/test-local.sh $SLUG"
+echo "  3. Analyze reference images & fill projects/$SLUG/design/DESIGN-BLUEPRINT.md"
+echo "  4. bash scripts/git-save.sh $SLUG \"chore: scaffold projects/$SLUG (stack $STACK)\""
+echo "  5. bash scripts/test-local.sh $SLUG"

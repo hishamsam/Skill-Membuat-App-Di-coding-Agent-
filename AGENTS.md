@@ -1,6 +1,6 @@
 # AGENTS.md — start instructions
 
-This repo is the **WebApp Builder** skill: idea → PRD → FigCraft → code → test → handoff.
+This repo is the **WebApp Builder** skill: idea → PRD → UI Design (Lampiran Images) → code → test → handoff.
 
 ## When the user types `mula` or `start`
 
@@ -21,7 +21,7 @@ Parse the JSON (or the last `PREFLIGHT_JSON` line):
   listed actions, then continue the interview. Phase 1 needs no tooling.
 - `restartRequired: true` → ask the user to restart the agent session once and
   type `mula` again. Stop this turn.
-- Native Windows → state that Phase 2 needs WSL2/Linux.
+- Phase 2 extracts UI specifications from attached images directly; works cross-platform.
 
 After the A6 stack answer, rerun with `--stack <CODE>` / `-Stack <CODE>`.
 Full contract: `workflow/00-start.md`.
@@ -70,12 +70,10 @@ Otherwise ask ONE question:
 
 ### 5. Design, code, test
 
-After approval, follow `workflow/02-design-figcraft.md`,
+After approval, follow `workflow/02-design-images.md`,
 `03-codegen.md`, and `04-local-test.md`.
 
-- FigCraft MUST use **live edit** mode (`figcraft-app`, port 7979). Never use
-  headless. If the app is not open, stop and ask the user to run
-  `figcraft --control 7979`.
+- Phase 2: Read attached images in `refs/` and extract the Design System Blueprint into `projects/<slug>/design/DESIGN-BLUEPRINT.md` using the 7-step UI Designer protocol.
 - Responsive 360–1920px. No dead buttons, no placeholders, no dark mode.
 - **Build one module at a time.** A module is one screen plus its handler,
   endpoint, and data. For every module, in this order:
@@ -155,5 +153,5 @@ this is a gate between Phase 4 and Phase 5.
 | `workflow/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
 | `setup/` | MCP and stack setup |
 | `scripts/` | Check and test scripts |
-| `templates/` | HANDOFF, auto prompt, FigCraft build |
+| `templates/` | HANDOFF, auto prompt, Design Blueprint template |
 | `GUIDE.md` | Complete usage guide |

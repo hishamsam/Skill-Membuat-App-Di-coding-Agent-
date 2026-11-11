@@ -55,7 +55,7 @@ for all later phases.
 
    ```text
    - [x] Phase 1 PRD
-   - [ ] Phase 2 FigCraft
+   - [ ] Phase 2 UI Design (DESIGN-BLUEPRINT.md)
    ```
 
    If PRD Chapter 6 chooses a different stack from the argument to `new-project.sh`,
@@ -92,7 +92,7 @@ clearly which layer does what.
 
 - Every functional requirement has an ID and a priority.
 - Every screen in Chapter 12.4 has 4 states (default/loading/empty/error).
-- Chapter 12 is detailed enough to generate the FigCraft script without asking again.
+- Chapter 12 is detailed enough to extract the Design System Blueprint without asking again.
 - Chapter 13 has test commands and acceptance criteria that can be checked.
 - No hidden assumptions: every assumption is marked `[ASSUMPTION]` in Chapter 5.
 - No `{{...}}` placeholder left in the final file.
@@ -110,6 +110,5 @@ Empty output = no placeholder left.
 After the PRD is shown:
 
 > "Do you accept this PRD, or are there amendments? If you accept, reply 'pass' and I
-> will continue to Phase 2 (FigCraft design)."
-
+> will continue to Phase 2 (UI Design dari lampiran gambar)."
 Do not start Phase 2 without clear approval.

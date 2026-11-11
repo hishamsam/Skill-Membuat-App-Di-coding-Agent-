@@ -11,8 +11,8 @@ working web application:
 Idea + reference images
         ↓  Phase 1  PRD
 Approved PRD (single source of truth)
-        ↓  Phase 2  FigCraft
-Design file + exported screens
+        ↓  Phase 2  UI Designer (Lampiran Images)
+Design System Blueprint (DESIGN-BLUEPRINT.md)
         ↓  Phase 3  Code
 Responsive app
         ↓  Phase 4  Local test
@@ -50,10 +50,8 @@ bash scripts/preflight.sh
 
 Required for all projects:
 
-- FigCraft installed and able to run in live mode.
-- OpenCode with the FigCraft MCP servers registered.
 - A terminal, Node.js, and Python 3.
-
+- Reference images (screenshots, mockups, wireframes) placed in `projects/<slug>/refs/`.
 ## 3. Installation
 
 ### 3.1 Get the repo
@@ -107,7 +105,7 @@ The scanner reads `scripts/tools.tsv` and reports every selected tool. With
 | git, curl, unzip, node, npm, python3 | apt/dnf/pacman/zypper/apk | Homebrew | winget |
 | java | Package manager | Package manager | `Microsoft.OpenJDK.17` |
 | psql, php, composer | Package manager | Package manager | none |
-| docker, flutter, FigCraft | Manual | Manual | Manual |
+| docker, flutter | Manual | Manual | Manual |
 
 Rules it follows:
 
@@ -115,7 +113,7 @@ Rules it follows:
   is reported as `manual` with the exact command to run yourself.
 - It never upgrades an existing runtime. An old Node is reported as `outdated`
   with the exact NodeSource commands.
-- Docker, Flutter, and FigCraft are never installed unattended.
+- Docker and Flutter are never installed unattended.
 - Each install is attempted once per run. A failure is reported, not retried.
 - `restartRequired: true` means a tool is installed but not on `PATH` yet:
   restart the agent session.
@@ -127,11 +125,8 @@ object. Full contract: `workflow/00-start.md`.
 
 Config file: `~/.config/opencode/opencode.json`
 
-```bash
-opencode mcp add figcraft --global -- /usr/bin/figcraft-cli mcp
-opencode mcp add figcraft-app --global -- /usr/bin/figcraft-cli mcp --attach 7979
+opencode mcp add firebase --global -- npx -y firebase-tools@latest mcp
 opencode mcp list
-```
 
 Or copy the matching blocks from `setup/mcp.opencode.example.json`.
 Restart OpenCode after changing the config.
@@ -160,16 +155,6 @@ opencode mcp auth neon
 
 Never commit tokens. Use `{file:~/.secrets/<name>}` in the config or OAuth.
 
-### 3.4 Start FigCraft in live mode
-
-```bash
-figcraft --control 7979 &
-ss -ltnp | grep 7979
-```
-
-If the port is not listening, the `figcraft-app` MCP server cannot attach.
-Do not edit the OpenCode config to work around this; open the app in live mode.
-
 ## 4. Repository layout
 
 ```text
@@ -177,7 +162,6 @@ WebApp Builder/
 ├── AGENTS.md                   # agent start instructions
 ├── SKILL.md                    # main agent instructions
 ├── TEMPLATE_PRD_MS.md          # PRD generator (interview + template)
-├── FIGCRAFT-SCRIPTING.md       # fast FigCraft scripting rules
 ├── GUIDE.md                    # this guide
 ├── README.md                   # short quick start
 ├── LICENSE                     # MIT
@@ -191,7 +175,7 @@ WebApp Builder/
 │   ├── preflight.ps1           # scan and install (native Windows)
 │   ├── security-audit.sh       # static security gate
 │   └── git-save.sh             # commit the project's local repository
-├── templates/                  # HANDOFF + FigCraft build template
+├── templates/                  # HANDOFF + Design Blueprint template
 └── projects/                   # one folder per project
 ```
 
@@ -204,10 +188,7 @@ projects/<slug>/
 ├── prd/PRD-v0.1.md
 ├── refs/                     # reference images
 ├── design/
-│   ├── DESIGN-DNA.md
-│   ├── build.py
-│   ├── design.figcraft
-│   └── exports/*.png
+│   └── DESIGN-BLUEPRINT.md
 ├── app/                      # code
 ├── security/                 # THREAT-MODEL.md, REPORT.md, findings.json, evidence/
 ├── tests/
@@ -231,11 +212,8 @@ cp ~/Downloads/ref.png projects/sistem-tempahan/refs/
 # 4. Ask the agent to run Phase 1
 #    "Read the idea and refs/. Use TEMPLATE_PRD_MS.md. Generate the PRD."
 
-# 5. After PRD approval, start FigCraft
-figcraft --control 7979 &
-python3 -I projects/sistem-tempahan/design/build.py --check
-python3 -I projects/sistem-tempahan/design/build.py
-
+# 5. After PRD approval, extract UI Design Blueprint from refs/
+#    Agent runs Phase 2 and writes projects/sistem-tempahan/design/DESIGN-BLUEPRINT.md
 # 6. After UI approval, generate code and test
 bash scripts/qa-check.sh sistem-tempahan
 bash scripts/test-local.sh sistem-tempahan --check
@@ -252,13 +230,9 @@ asks the interview questions one at a time, and stops before deploy.
 
 | Step | Command | Purpose |
 | --- | --- | --- |
-| 0 | `bash scripts/preflight.sh [--install] [--json] [--stack A-K]` | Report (and install) git, curl, unzip, node, npm, python3, java, psql, php, composer, FigCraft, port 7979, MCP |
+| 0 | `bash scripts/preflight.sh [--install] [--json] [--stack A-K]` | Report (and install) git, curl, unzip, node, npm, python3, java, psql, php, composer, MCP |
 | 0 | `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/preflight.ps1 -Install -Json` | Same, for native Windows through winget |
 | 1 | `bash scripts/new-project.sh <slug> [A-K]` | Create `projects/<slug>/` with starter files |
-| 2 | `python3 -I projects/<slug>/design/build.py --check` | Verify the live connection; changes nothing |
-| 2 | `python3 -I projects/<slug>/design/build.py` | One clean run: build every screen, export PNGs, save `design.figcraft` |
-| 2 | `python3 -I projects/<slug>/design/build.py --no-save` | Build and export PNGs without overwriting `design.figcraft` |
-| 2 | `python3 -I scripts/figcraft/test_figcraft_client.py` | Test the FigCraft helper library, headless, no files written |
 | 3 | `bash scripts/qa-check.sh <slug>` | Static quality gate |
 | 4 | `bash scripts/test-local.sh <slug>` | Serve the app locally |
 | 3 | `bash scripts/git-save.sh <slug> "<message>"` | Commit the module to the project's local git |
@@ -287,7 +261,7 @@ Stop before deploy.
 | Phase | Auto behaviour |
 | --- | --- |
 | 1 PRD | Full one-by-one interview, choose the stack, mark `[ASSUMPTION]` gaps |
-| 2 FigCraft | Live edit only; ask the user to open port 7979 if it is down |
+| 2 UI Design | Extract Design System Blueprint from `refs/` |
 | 3 Code | Generate the responsive app, no dead buttons |
 | 4 Test | Run, fix up to three rounds, report real output |
 | 5 Deploy | Stop and wait for explicit approval |
@@ -389,7 +363,7 @@ The PRD records the choice and the rejected alternatives in Chapter 6.
 | 9 | Data model + physical implementation per stack |
 | 10 | Non-functional requirements, including responsive rules |
 | 11 | Third-party integrations |
-| 12 | UI contract and FigCraft handoff (mandatory) |
+| 12 | UI contract and Design Blueprint handoff (mandatory) |
 | 13 | Local test plan and acceptance criteria (mandatory) |
 | 14–17 | Future features, out of scope, open questions, glossary |
 
@@ -401,66 +375,34 @@ error. Chapter 13 must list runnable test commands and acceptance checks.
 Do not write code before the PRD is approved. Reply "lulus", "ok proceed",
 or "build" to continue.
 
-## 7. Phase 2 — FigCraft design
+## 7. Phase 2 — UI Design from Attached Images (UI Designer)
 
-Files: `workflow/02-design-figcraft.md`, `FIGCRAFT-SCRIPTING.md`.
+Files: `workflow/02-design-images.md`, `ui-ux/ui-designer.md`.
 
 ### Rules
 
-- Read PRD Chapter 12 and the actual images in `refs/`. The FigCraft MCP
-  cannot see images; the agent must open them.
-- Use **live edit mode only** (`figcraft-app`, port 7979). If it is down, stop
-  and ask the user to run `figcraft --control 7979`. Do not use headless.
-- Write `design/DESIGN-DNA.md`: grid, type, palette, spacing, radius,
-  density, signature element.
-- Build with one Python script, not one MCP call per layer.
-- Export PNGs and look at them. Fix the script and rerun.
-- Save the native file as `design/design.figcraft`.
-
-### Phase 2 commands
-
-```bash
-# Check the live connection (changes nothing)
-python3 -I projects/<slug>/design/build.py --check
-
-# Build every screen, export PNGs to exports/, save design.figcraft
-python3 -I projects/<slug>/design/build.py
-
-# Build and export only (do not overwrite design.figcraft)
-python3 -I projects/<slug>/design/build.py --no-save
-```
-
-Each run starts a clean document and reuses the single empty page (renamed to
-`UI`), so rerunning never duplicates screens and no `Page 1` is left behind.
-There is no rehearsal document: the first run is the design. Top-level frames
-are placed left to right automatically; pass `x` only for a deliberate position.
-
-### Frame sizes
-
-| Device | Size |
-| --- | --- |
-| Mobile | 390 × 844 |
-| Tablet | 768 × 1024 |
-| Desktop | 1440 × 900 |
-
-Build desktop frames even when the reference is mobile. A mobile reference is
-a composition guide, not a width lock for the code.
-
-### Screen naming
-
-```text
-S-01 / Mobile 390
-S-01 / Desktop 1440
-```
-
-Use the screen IDs from PRD Chapter 12.
+- Open and read the attached images in `projects/<slug>/refs/` directly (screenshots, mockups, wireframes).
+- Follow the 7-step UI Designer protocol:
+  1. **Karakter & Gaya Desain Utama (UI Style)**: Identify the visual style category (Modern Minimalist, Glassmorphism, Bento Grid, Clean Corporate, Playful, Futuristic, etc.) and mood.
+  2. **Ekstraksi Palet Warna & Token (HEX & Tailwind)**: Canvas BG, Surface/Card BG, Accent, Text, Border, and Status colors mapped to exact HEX and Tailwind classes.
+  3. **Analisis Tipografi & Hierarki**: Font recommendation (Inter, Plus Jakarta Sans, Poppins) and hierarchy scale (H1–H3, Body, Caption).
+  4. **Bedah Tata Letak (Layout) & Navigasi**: Mobile bottom nav vs desktop sidebar/top nav, container padding, gap scale (4/8/12/16/24/32px), responsive mapping 360px–1920px.
+  5. **Rincian Komponen Detail**: Header, cards/containers (`rounded-2xl`, shadow, border), buttons (min-height 44px), inputs, lists.
+  6. **Detail Visual & Interaksi**: Lucide Icons, hover transitions, and 4 states (default, loading skeleton, empty, error).
+  7. **Design System Blueprint**: Instruction-ready summary block for Phase 3 Codegen.
+- Write the specification to `projects/<slug>/design/DESIGN-BLUEPRINT.md`.
+- Mobile reference does not lock code width: desktop layout must be explicitly defined.
+- Do not write full application code in Phase 2; focus on precise specifications and design tokens.
 
 ### Phase 2 output
 
 ```text
-design/design.figcraft
-design/exports/S-01-mobile.png
-design/exports/S-01-desktop.png
+projects/<slug>/
+├── refs/
+│   ├── screen-1.png
+│   └── screen-2.png
+└── design/
+    └── DESIGN-BLUEPRINT.md
 ```
 
 ## 8. Phase 3 — Responsive code
@@ -674,19 +616,12 @@ Files: `workflow/05-handoff.md`, `templates/HANDOFF.md`.
 | `scripts/security-audit.sh <slug> [--json] [--deps]` | Static security gate before handoff |
 | `scripts/git-save.sh <slug> "<message>"` | Commit the project's local git repository |
 | `scripts/test-local.sh <slug> [--check] [--path /route]` | Run the local server, optionally smoke-test routes and stop |
-| `scripts/figcraft/figcraft_client.py` | FigCraft Python helpers |
-| `scripts/figcraft/test_figcraft_client.py` | Headless regression test for the helpers |
-| `templates/figcraft/figcraft_build.py` | Starter FigCraft build script |
 | `scripts/build-guide-html.py` | Regenerate `GUIDE.html` from this file |
 
 Useful flags:
 
 ```bash
 bash scripts/test-local.sh <slug> --port 8080
-python3 -I projects/<slug>/design/build.py --check
-python3 -I projects/<slug>/design/build.py
-python3 -I projects/<slug>/design/build.py --no-save
-python3 -I scripts/figcraft/test_figcraft_client.py
 ```
 
 ## 12. Documentation map
@@ -695,19 +630,18 @@ python3 -I scripts/figcraft/test_figcraft_client.py
 | --- | --- |
 | `README.md` | First overview |
 | `SKILL.md` | Agent behaviour and engineering standards |
-| `FIGCRAFT-SCRIPTING.md` | Fast FigCraft scripting rules |
 | `TEMPLATE_PRD_MS.md` | Phase 1 interview and PRD format |
 | `workflow/00-start.md` | Phase 0 bootstrap: trigger, preflight, result rules |
 | `workflow/00-auto.md` | Auto mode: trigger, limits, report |
 | `workflow/01-prd.md` | Step-by-step Phase 1 |
-| `workflow/02-design-figcraft.md` | Step-by-step Phase 2 |
+| `workflow/02-design-images.md` | Step-by-step Phase 2 |
 | `workflow/03-codegen.md` | Phase 3 rules and file layouts |
 | `workflow/04-local-test.md` | Phase 4 test matrix |
 | `workflow/05-handoff.md` | Phase 5 deploy and handoff |
 | `workflow/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
 | `templates/PROMPT-AUTO.md` | Copy-paste auto mode prompt |
 | `setup/01-opencode-mcp.md` | OpenCode MCP config |
-| `setup/02-figcraft.md` | FigCraft live mode (required) and headless reference |
+| `setup/02-ui-designer.md` | UI Designer (lampiran images), Design System Blueprint |
 | `setup/03-gas.md` | GAS setup |
 | `setup/04-supabase.md` | Supabase setup |
 | `setup/05-cloudflare-worker.md` | Cloudflare setup |
@@ -724,8 +658,6 @@ python3 -I scripts/figcraft/test_figcraft_client.py
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| `can't reach 127.0.0.1:7979` | App not in live mode | `figcraft --control 7979 &` |
-| FigCraft tools missing in OpenCode | Session started before MCP was ready | Restart OpenCode |
 | Port 4173 already in use | Old test server still running | `bash scripts/test-local.sh <slug> --port 4174` |
 | `qa-check` fails on placeholder | PRD or code still has `{{...}}` / `TODO` | Replace them with real content |
 | `qa-check` fails on dead buttons | More `<button>` than `data-action` | Add handlers |
@@ -733,12 +665,10 @@ python3 -I scripts/figcraft/test_figcraft_client.py
 | Neon connection fails locally | `psql` not installed | Use the Node migration script |
 | Firebase emulator will not start | Java missing or wrong version | Install Java 17+ |
 | Wrangler deploy asks for login | No Cloudflare session | `npx wrangler login` |
-| FigCraft text looks wrong | Missing font | `f.cmd('text.missingFonts')` |
 | Renamed folder breaks a path | Scripts resolve from repo root | Run commands from the repo, or use full paths |
 | `flutter: command not found` | Flutter SDK missing from PATH | Install the SDK, then `flutter config --enable-web` |
 | `preflight` reports `manual` | The tool needs a password, a GUI, or a manual package | Run the printed `action` command yourself, then rerun preflight |
 | `preflight` reports `restartRequired: true` | A tool was installed but `PATH` is stale | Restart the agent session, then type `mula` again |
-| FigCraft is missing on native Windows | No Windows build of FigCraft here | Run Phase 2 in WSL2 Ubuntu or on a Linux/macOS host |
 | `security-audit` reports `FAIL` | A control gap is visible in source | Fix it, then rerun the audit; the gate stays blocked |
 | `security-audit` reports `WARN` | Candidate needing a human trace | Confirm or reject it with source evidence and record the decision |
 | Module test fails with 404 | Route not implemented or wrong path | Build the route or fix `--path`, then rerun |
@@ -766,7 +696,7 @@ first interview question.
 
 **Approve**
 
-> PRD approved. Continue to Phase 2 in FigCraft.
+> PRD approved. Continue to Phase 2 (UI Design).
 
 **Review the UI**
 
@@ -785,7 +715,7 @@ first interview question.
 ## 15. Definition of done
 
 - [ ] PRD approved and saved.
-- [ ] Design file and PNG exports saved.
+- [ ] Design System Blueprint (`design/DESIGN-BLUEPRINT.md`) saved.
 - [ ] Code passes `qa-check.sh`.
 - [ ] Every module has a passing test and a local git commit.
 - [ ] `security-audit.sh` exits 0 and `security/REPORT.md` is written.

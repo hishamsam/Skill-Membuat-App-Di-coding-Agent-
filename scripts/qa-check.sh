@@ -167,8 +167,20 @@ if [ -f "$PROJ/prd/PRD-v0.1.md" ] && grep -q '{{' "$PROJ/prd/PRD-v0.1.md"; then
   fail "PRD still has {{...}} placeholders"
 fi
 
-EXPORTS=$(find "$PROJ/design/exports" -maxdepth 1 -name '*.png' 2>/dev/null | wc -l | tr -d ' ')
-if [ "$EXPORTS" -gt 0 ]; then ok "design exports: $EXPORTS PNG"; else warn "no design PNG export"; fi
+if [ -f "$PROJ/design/DESIGN-BLUEPRINT.md" ]; then
+  if grep -q '{{' "$PROJ/design/DESIGN-BLUEPRINT.md"; then
+    warn "DESIGN-BLUEPRINT.md still has {{...}} placeholders"
+  else
+    ok "Design System Blueprint present"
+  fi
+else
+  warn "DESIGN-BLUEPRINT.md missing in design/"
+fi
+
+REFS=$(find "$PROJ/refs" -maxdepth 1 \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' \) 2>/dev/null | wc -l | tr -d ' ')
+if [ "$REFS" -gt 0 ]; then
+  ok "reference images: $REFS"
+fi
 
 # 10. Sensitive files not committed
 if [ -f "$PROJ/app/.env" ]; then warn ".env present in app/ — make sure .gitignore covers it"; fi

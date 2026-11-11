@@ -275,7 +275,7 @@ def main() -> None:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Complete WebApp Builder usage guide: PRD, FigCraft, responsive code, local testing, handoff.">
+<meta name="description" content="Complete WebApp Builder usage guide: PRD, UI Design (Lampiran Images), responsive code, local testing, handoff.">
 <title>Usage Guide — WebApp Builder</title>
 <style>{CSS}</style>
 </head>
@@ -301,7 +301,7 @@ def main() -> None:
     <div class="doc">
       <header class="doc-head">
         <h1>Complete Usage Guide</h1>
-        <p>From a rough idea to a tested, deployed application. Includes PRD, FigCraft design, responsive code, local testing, and handoff.</p>
+        <p>From a rough idea to a tested, deployed application. Includes PRD, UI Design from attached images, responsive code, local testing, and handoff.</p>
       </header>
       <div class="content">{body}</div>
       <footer class="footer">

@@ -10,7 +10,7 @@ Config file: `~/.config/opencode/opencode.json`
   "mcp": {
     "server-name": {
       "type": "local",
-      "command": ["/usr/bin/figcraft-cli", "mcp"],
+      "command": ["npx", "-y", "firebase-tools@latest", "mcp"],
       "enabled": true
     },
     "remote-name": {
@@ -36,17 +36,12 @@ Rules:
 ## Registering a server
 
 Edit `opencode.json`, add a block from
-`setup/mcp.opencode.example.json`. FigCraft example:
+`setup/mcp.opencode.example.json`. Example:
 
 ```json
-"figcraft": {
+"firebase": {
   "type": "local",
-  "command": ["/usr/bin/figcraft-cli", "mcp"],
-  "enabled": true
-},
-"figcraft-app": {
-  "type": "local",
-  "command": ["/usr/bin/figcraft-cli", "mcp", "--attach", "7979"],
+  "command": ["npx", "-y", "firebase-tools@latest", "mcp"],
   "enabled": true
 }
 ```
@@ -61,7 +56,7 @@ Or inside an OpenCode session, look at the MCP tool list. If a server does not
 appear:
 
 1. Make sure the JSON is valid: `python3 -m json.tool ~/.config/opencode/opencode.json`.
-2. Make sure `command` exists: `which figcraft-cli`.
+2. Make sure `command` exists: `which npx` or verify the executable in `PATH`.
 3. Close all OpenCode sessions, open them again.
 4. For remote servers, test the URL with `curl -I`.
 
@@ -69,7 +64,7 @@ appear:
 
 ```bash
 # Local server
-opencode mcp add figcraft --global -- /usr/bin/figcraft-cli mcp
+opencode mcp add firebase --global -- npx -y firebase-tools@latest mcp
 
 # Remote server (OAuth)
 opencode mcp add supabase --global --url "https://mcp.supabase.com/mcp?project_ref=<ref>"
