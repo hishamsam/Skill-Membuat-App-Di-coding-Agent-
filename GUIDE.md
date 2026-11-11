@@ -58,25 +58,25 @@ Required for all projects:
 
 ```bash
 # Git (recommended)
-git clone https://github.com/hishamsam/idea-to-app-skill.git
-cd "idea-to-app-skill"
+git clone https://github.com/hishamsam/idea2app.git
+cd "idea2app"
 
 # Or GitHub CLI
-gh repo clone hishamsam/idea-to-app-skill
+gh repo clone hishamsam/idea2app
 
 # Or ZIP without git
 curl -L -o gas-skill.zip \
-  https://github.com/hishamsam/idea-to-app-skill/archive/refs/heads/main.zip
+  https://github.com/hishamsam/idea2app/archive/refs/heads/main.zip
 unzip gas-skill.zip
-cd idea-to-app-skill-main
+cd idea2app-main
 ```
 
 Windows PowerShell, no git needed:
 
 ```powershell
-Invoke-WebRequest -Uri https://github.com/hishamsam/idea-to-app-skill/archive/refs/heads/main.zip -OutFile gas-skill.zip
+Invoke-WebRequest -Uri https://github.com/hishamsam/idea2app/archive/refs/heads/main.zip -OutFile gas-skill.zip
 Expand-Archive -Path gas-skill.zip -DestinationPath .
-Set-Location idea-to-app-skill-main
+Set-Location idea2app-main
 ```
 
 Allow the scripts to run:
