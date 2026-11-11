@@ -1,6 +1,6 @@
 <!--
 =====================================================================
-PRD TEMPLATE + PRD GENERATOR — ENGLISH
+PRD TEMPLATE + PRD GENERATOR — ENGLISH & MALAYSIA (BILINGUAL COMPLIANT)
 =====================================================================
 This file is TWO things at once:
 1. INTERVIEW PROTOCOL for collecting project information.
@@ -16,7 +16,7 @@ INPUT:
 
 TASK:
 1. Run INTERVIEW MODE (Part A) until there is enough information.
-2. Fill ALL {{...}} placeholders in Part B.
+2. Fill ALL {{...}} placeholders in Part B with deep, maximal, engineering-grade detail.
 3. Save the result to: projects/<slug>/prd/PRD-v0.1.md
    (see workflow/01-prd.md for the folder steps).
 4. Show the full PRD, then STOP and wait for user approval.
@@ -32,7 +32,7 @@ HARD RULES:
 - An answer counts only when the user picks a letter or writes a clear answer.
   Recommendation text is advice, not an answer.
 - Unanswered or vague: re-ask the same question in simpler words with one
-  example. Do not move on and do not generate a partial PRD.
+  concrete example. Do not move on and do not generate a partial PRD.
 - If the user answers several questions at once, accept it and skip the ones already answered.
 - DO NOT merge questions. Do not show the whole A1–A10 list at once.
 - If the user says "just generate" / "auto", explain that a short interview
@@ -46,10 +46,10 @@ AUTO MODE (ONE-SHOT):
   question, generate the PRD and continue with Phases 2-4, then report.
 - Pick the stack from the A6 answer. If A6 was not answered, suggest one and
   ask for confirmation before continuing.
-- Fill all 17 chapters. Mark [ASSUMPTION] only for items the user
-  deliberately leaves to the agent.
+- Fill all 17 chapters with exhaustive, production-grade depth (matrices, schemas, contracts).
+- Mark [ASSUMPTION] only for items the user deliberately leaves to the agent.
 - Still show the PRD summary and the assumptions list in the final report.
-- Formal, concise English, no marketing sentences.
+- Formal, concise English or Malay matching user language, no marketing fluff.
 - Functional requirements use unique IDs PREFIX-N (example: AUTH-1, TRX-2).
 - Priority only: **Mandatory** / **Important** / **Phase 2**.
 - First version is always v0.1 (Provisional Draft).
@@ -105,7 +105,7 @@ already has this problem; opening it to outsiders later is easy.
 - E. Other — describe the user and the problem in one sentence
 
 If the answer is vague, ask: "What is that person doing today, and what goes
-wrong with it?"
+wrong with it? What is the main metric of success (e.g. save 5 hours/week, 0 errors)?"
 
 ## A2. Who is allowed to do what inside the app?
 
@@ -164,38 +164,32 @@ search, one simple report. Ship that, then add approval and notifications.
 
 ## A6. Where should the app and its data live? (MANDATORY)
 
-This answer decides which tools are used later. Ask the user the plain
-question first: "Who will use the app, roughly how many people at once, and
-about how much data will it hold in the first year?" Then use this table to
-map the answer to a code. Read the second column to the user, not the product
-names.
+In plain words: which technology should power it? Read the list below to the
+user, and say the recommendation.
 
-**Recommendation rule — results first:** recommend only **Tier 1**. It holds
-industry-leading, widely adopted stacks with large ecosystems, current
-security patches, and a deep pool of people who can maintain them. Never
-propose a **Tier 2** option first; mention it only when the user asks for it or
-already owns it, and state its limits plainly before continuing.
+**Recommended if you are not sure:** B — Supabase is the standard online
+database for web apps: easy to start, handles login and data, scales up.
 
-**Recommended if you are not sure:** B — a managed Postgres database with
-login, file storage, and access rules, used by a very large developer base, and
-nothing to install or maintain.
+Tier 1 — recommended for new projects:
+- B. Ready-made online database with login (Supabase / PostgreSQL)
+- C. Fast global service that answers everywhere (Cloudflare Workers)
+- D. Google app platform with live sync (Firebase)
+- G. Pages and data combined in one project (Next.js + PostgreSQL)
+- H. Your own server program (Node/Express + PostgreSQL)
+- I. PHP framework with a ready admin page (Laravel + MySQL)
+- J. Python framework with a ready admin page (FastAPI/Django + PostgreSQL)
+- K. One code base for website and phones (Flutter)
 
-| Code | Tier | What it is, in plain words | Good for | Watch out for |
-| --- | --- | --- | --- | --- |
-| **B** | 1 | A ready-made online database with login, file storage, and access rules (Supabase on PostgreSQL) | Most web apps, customers, uploaded files | Small free tier; an idle project can pause |
-| **C** | 1 | A service that answers requests fast, anywhere in the world (Cloudflare Workers) | Public apps with high traffic and small data | Storage size limits; fewer ready features |
-| **D** | 1 | Google's app platform with instant sync and easy login (Firebase) | Chat-like, live-updating, mobile apps | Cost grows with reads and writes |
-| **G** | 1 | One project that builds both pages and data access, good for Google search (Next.js + PostgreSQL) | Marketing sites plus an app; SEO matters | Tied to one host; separate database |
-| **H** | 1 | Your own server program with full control (Node/Express + PostgreSQL) | Custom logic, unusual requirements | Someone must keep the server running and backed up |
-| **I** | 1 | A PHP framework with a ready admin page (Laravel + MySQL) | PHP teams, ordinary hosting | More manual deployment |
-| **J** | 1 | A Python framework with a ready admin page (Django or FastAPI + PostgreSQL) | Python teams, reports, data work | More manual deployment |
-| **K** | 1 | One code base that ships website + Android + iPhone (Flutter) | You need phone apps from day one | Larger download; iPhone builds need a Mac |
-| **A** | 2 | A Google spreadsheet with an app on top (Google Apps Script) | A very small internal tool, under ~100 users, under ~10,000 rows | Google's daily limits; not a real database; hard to grow |
-| **E** | 2 | A database only; a small program still has to sit in front (Neon) | A PostgreSQL database with nothing else | Needs a second service; fewer proven deployments than managed Postgres |
-| **F** | 2 | Two or more of the above combined (Hybrid) | Mixed needs, for example files here and data there | Two things to maintain; more ways to fail |
+Tier 2 — choose only if you already use it or need it:
+- A. Google spreadsheet with a web app on top (Google Apps Script)
+  *(Limit: slow with over ~100 users or ~10,000 rows)*
+- E. Database only; a small program still sits in front (Neon)
+  *(Limit: needs a separate place to run your program)*
+- F. Combined: two or more of the above working together (Hybrid)
+  *(Limit: more moving parts to maintain)*
 
 **Other — describe:** if none of the codes fits, ask the user to describe the
-app in one sentence. The agent then picks the closest **Tier 1** code, states
+setup. The agent picks the closest Tier 1 stack, explains in one sentence
 which one it is and why, and asks for an explicit yes before continuing.
 
 **If the user asks for a Tier 2 code:** say in one sentence what it cannot do
@@ -533,8 +527,8 @@ languages, containers) are your decision and go into Chapter 5 marked
    Recommended if unsure: B.
 4. Should it work without internet?
    - A. No, always online is fine
-   - B. Read offline
-   - C. Full offline with sync later
+   - B. Yes, save data and sync when connected
+   - C. Not sure — recommend one
    - D. Other — describe
    Recommended if unsure: A.
 
@@ -563,6 +557,11 @@ If references exist, ask these as separate messages, one at a time:
    - C. Both equally
    - D. Other — describe
    Recommended if unsure: C.
+3. "What visual density do you prefer?"
+   - A. Balanced / Standard SaaS (comfortable padding, 44px rows, clear space)
+   - B. Compact / High Density (dense data, 32px rows, dev/pro tools)
+   - C. Relaxed / Consumer (large cards, generous whitespace)
+   Recommended if unsure: A.
 
 ## A10. How will we know it is finished and good enough?
 
@@ -590,283 +589,550 @@ first; do not generate a partial PRD.
 
 **STATUS: {{STATUS_DOKUMEN}}**
 
-| | |
+| Metadata Item | Specification |
 | --- | --- |
 | **Product Name** | {{NAMA_PRODUK_LENGKAP}} |
-| **Document Version** | v0.1 |
+| **Document Version** | v0.1 (Provisional Draft) |
 | **Prepared by** | {{NAMA_PENGEMBANG}} |
-| **For** | {{NAMA_KLIEN}} |
+| **For / Stakeholder** | {{NAMA_KLIEN}} |
 | **Date** | {{TANGGAL_DOKUMEN}} |
 | **Project Folder** | `projects/{{SLUG}}/` |
-| **Technology** | {{TEKNOLOGI_TERPILIH}} |
-| **Related Documents** | {{DOKUMEN_TERKAIT}} |
+| **Target Technology** | {{TEKNOLOGI_TERPILIH}} |
+| **Related Documents** | `DESIGN-BLUEPRINT.md`, `STATUS.md`, `THREAT-MODEL.md` |
 
 ---
 
-## 1. Product Summary
+## 1. Product Summary & Strategic Alignment
 
-<!-- 2 paragraphs. P1: the current problem. P2: the solution + main modules + goals. -->
+### 1.1 Problem Statement & Background
+<!-- 1-2 paragraphs detailing the real-world operational pain points, manual overhead, and cost of errors in the current process. -->
+{{PERNYATAAN_MASALAH}}
 
-{{RINGKASAN_PRODUK}}
+### 1.2 Solution Overview & Core Value Proposition
+<!-- 1-2 paragraphs detailing the proposed digital solution, core modules, and primary user journey. -->
+{{RINGKASAN_SOLUSI}}
+
+### 1.3 Target Audience & Primary Use Cases
+<!-- Specific user groups and scenarios in which the application delivers highest impact. -->
+{{TARGET_AUDIENCE}}
+
+### 1.4 North Star Metric & Measurable Success Indicators
+<!-- 3-5 concrete, quantifiable success metrics. -->
+- **North Star Metric:** {{METRIK_UTAMA}}
+- **Efficiency Metric:** {{METRIK_EFISIENSI}}
+- **Accuracy Metric:** {{METRIK_AKURASI}}
+- **Adoption Target:** {{METRIK_PENGGUNAAN}}
+
+---
 
 ## 2. Goals & Objectives
 
-<!-- 4–6 bullets. Business outcomes, not a feature list. -->
+### 2.1 Business Objectives
+- {{TUJUAN_BISNIS_1}}
+- {{TUJUAN_BISNIS_2}}
 
-- {{TUJUAN_1}}
-- {{TUJUAN_2}}
-- {{TUJUAN_3}}
+### 2.2 User Experience Objectives
+- {{TUJUAN_UX_1}}
+- {{TUJUAN_UX_2}}
 
-## 3. Users & Roles
+### 2.3 Technical & Operational Objectives
+- {{TUJUAN_TEKNIS_1}}
+- {{TUJUAN_TEKNIS_2}}
 
-<!-- One bullet per role: **Role :** rights and main activities. -->
+---
 
+## 3. Users, Personas & Role-Based Access Control (RBAC)
+
+### 3.1 User Personas
+<!-- Detailed persona profile per role: responsibilities, tech literacy, primary device. -->
 - **{{PERAN_1}} :** {{DESKRIPSI_PERAN_1}}
 - **{{PERAN_2}} :** {{DESKRIPSI_PERAN_2}}
+- **{{PERAN_3}} :** {{DESKRIPSI_PERAN_3}}
 
-## 4. Scope
+### 3.2 Permissions & Access Control Matrix (RBAC)
+<!-- Complete CRUD + Approve/Export permissions per role across all system entities. -->
+| Entity / Resource | Role: {{PERAN_1}} | Role: {{PERAN_2}} | Role: {{PERAN_3}} | Public / Unauth |
+| --- | --- | --- | --- | --- |
+| **{{ENTITAS_1}}** | C, R, U, D, Export | R, U (Own) | R (Assigned) | Denied |
+| **{{ENTITAS_2}}** | C, R, U, D, Approve | C, R (Own) | Denied | Denied |
+| **{{ENTITAS_3}}** | C, R, U, D | R | R | Denied |
+| **User Management** | Full Access | Denied | Denied | Denied |
+| **Audit Logs** | Read Only | Denied | Denied | Denied |
 
-### 4.1 Included (MVP)
+*Legend: C = Create, R = Read, U = Update, D = Delete*
 
+---
+
+## 4. Scope & Phasing
+
+### 4.1 In Scope (MVP Core Capabilities)
+<!-- Must be exhaustive: every feature included in v0.1 must be listed. -->
 - {{LINGKUP_MVP_1}}
 - {{LINGKUP_MVP_2}}
+- {{LINGKUP_MVP_3}}
+- {{LINGKUP_MVP_4}}
 
-### 4.2 Out of Early Scope / Later Phase
+### 4.2 Out of Scope / Boundaries & Guardrails
+<!-- Explicit non-goals to prevent scope creep during engineering. -->
+- {{LINGKUP_DILUAR_MVP_1}}
+- {{LINGKUP_DILUAR_MVP_2}}
+- {{LINGKUP_DILUAR_MVP_3}}
 
-{{LINGKUP_DILUAR_MVP}}
+### 4.3 Phasing & Roadmap Milestones
+| Milestone | Scope Summary | Target Criteria |
+| --- | --- | --- |
+| **Phase 1: MVP (Current)** | Core CRUD, Auth, Essential Flows, Single Role / Basic RBAC | Test scripts pass, security scan clean |
+| **Phase 2: Operational** | Automated notifications, bulk exports, managerial approvals | Real-world pilot launch |
+| **Phase 3: Scale & Analytics**| Advanced reporting, external webhook integrations, mobile apps | Multi-branch / team scale |
 
-## 5. Assumptions & Constraints
+---
 
-<!-- Include: budget, time, language, devices, existing accounts/services,
-and every ASSUMPTION the AI makes. Mark [ASSUMPTION] clearly. -->
+## 5. Assumptions, Dependencies & Constraints
 
-- {{ASUMSI_1}}
-- {{ASUMSI_2}}
+### 5.1 Technical Assumptions
+<!-- Mark every assumption explicitly with [ASSUMPTION]. -->
+- [ASSUMPTION] {{ASUMSI_1}}
+- [ASSUMPTION] {{ASUMSI_2}}
+- [ASSUMPTION] {{ASUMSI_3}}
 
-## 6. Technology Decision (Tech Stack Decision)
+### 5.2 Business & Operational Constraints
+- {{KENDALA_OPERASIONAL_1}}
+- {{KENDALA_OPERASIONAL_2}}
 
-<!-- MANDATORY. This section locks the stack before design and code. -->
+### 5.3 Compliance, Security & Privacy Constraints
+- Data protection: Personal Identifiable Information (PII) handled in compliance with local privacy standards.
+- Audit trail: All state changes and sensitive deletions must record actor ID and timestamp.
+- Secret isolation: No private database keys or service role tokens allowed on the client bundle.
 
-### 6.1 Choice & Justification
+---
 
-| Layer | Technology | Reason | Rejected alternative |
+## 6. Technology Decision & System Architecture
+
+### 6.1 Stack Architecture & Justification
+| Layer | Chosen Technology | Engineering Rationale | Rejected Alternatives & Trade-offs |
 | --- | --- | --- | --- |
-| Frontend | {{FE_TECH}} | {{FE_SEBAB}} | {{FE_ALT}} |
-| Backend / API | {{BE_TECH}} | {{BE_SEBAB}} | {{BE_ALT}} |
-| Database | {{DB_TECH}} | {{DB_SEBAB}} | {{DB_ALT}} |
-| Auth | {{AUTH_TECH}} | {{AUTH_SEBAB}} | {{AUTH_ALT}} |
-| Hosting | {{HOST_TECH}} | {{HOST_SEBAB}} | {{HOST_ALT}} |
+| **Frontend Framework** | {{FE_TECH}} | {{FE_SEBAB}} | {{FE_ALT}} |
+| **Backend / API Engine** | {{BE_TECH}} | {{BE_SEBAB}} | {{BE_ALT}} |
+| **Primary Database** | {{DB_TECH}} | {{DB_SEBAB}} | {{DB_ALT}} |
+| **Authentication & RBAC** | {{AUTH_TECH}} | {{AUTH_SEBAB}} | {{AUTH_ALT}} |
+| **File Storage** | {{STORAGE_TECH}} | {{STORAGE_SEBAB}} | {{STORAGE_ALT}} |
+| **Hosting & Deployment** | {{HOST_TECH}} | {{HOST_SEBAB}} | {{HOST_ALT}} |
 
-### 6.2 Services & Configuration
+### 6.2 Services, Configuration & Secret Separation
+| Configuration Item | Exposure Level | Target Environment / Variable | Notes |
+| --- | --- | --- | --- |
+| Public API URL / Host | Client (Public) | `NEXT_PUBLIC_API_URL` / `VITE_API_URL` | Safe to bundle in browser |
+| Public Anon Key | Client (Public) | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Restricted by RLS policies |
+| Database Connection String | Server (Confidential) | `DATABASE_URL` | Never exposed to client bundle |
+| Service Role / Admin Secret | Server (Strict Secret) | `SUPABASE_SERVICE_ROLE_KEY` / `API_SECRET` | Backend worker / API only |
+| Session Token / Cookie Key | Server (Strict Secret) | `SESSION_SECRET` / `JWT_SECRET` | HttpOnly, Secure, SameSite=Lax |
 
-| Item | Value |
-| --- | --- |
-| Project / Region | {{PROJEK_REGION}} |
-| Env variables | {{ENV_VARS}} |
-| Server-side secrets | {{SECRETS}} |
-| Domain | {{DOMAIN}} |
-| Local mode | {{LOCAL_MODE}} |
-
-**Secret rule:** `service_role` / admin / DB URL keys MUST NOT be placed in
-frontend files. Only public keys (anon/publishable) are allowed on the client.
-
-### 6.3 Architecture Sketch
-
+### 6.3 System Architecture Diagram
 ```text
 {{ALIRAN_ARKITEKTUR}}
 ```
 
-## 7. Functional Requirements
-
-<!-- Group by module: 7.1, 7.2, ... Naming pattern: "Actor — Module".
-Table EXACTLY as below. Capability sentences: "Admin can...", "The system displays..." -->
-
-### 7.1 {{NAMA_MODUL_1}}
-
-| **ID** | **Functional Requirement** | **Priority** |
-| --- | --- | --- |
-| **{{PREFIX}}-1** | {{DESKRIPSI_KEBUTUHAN}} | **Mandatory** |
-| **{{PREFIX}}-2** | {{DESKRIPSI_KEBUTUHAN}} | **Important** |
-
-## 8. Main User Flows
-
-<!-- 3–5 flows. Numbered steps. Include the system state in quotes. -->
-
-### 8.1 {{NAMA_ALUR_1}}
-
-1. {{LANGKAH_1}}
-2. {{LANGKAH_2}}
-
-## 9. Data Model
-
-### 9.1 Entities & Fields
-
-| Entity | Main Fields | Description |
-| --- | --- | --- |
-| **{{ENTITAS_1}}** | {{FIELD_UTAMA}} | {{KETERANGAN}} |
-
-**Note:** fields in [square brackets] are Later Phase features (Chapter 14).
-
-### 9.2 Physical Implementation
-
-<!-- Choose ONE block according to Chapter 6. Delete unused blocks. -->
-
-**If GAS:**
-- Sheets: `Users`, `{{SHEET_UTAMA}}`, `Settings`
-- Exact columns, data types, PK/FK, status enums.
-- Record ID = `timestamp + random`, not the row number.
-
-**If Supabase / Neon (Postgres):**
-- SQL schema: `public.{{TABLE}}`
-- Primary keys, FK, `created_at`, `updated_at`.
-- RLS policies per role (Supabase) or DB roles (Neon).
-- Indexes for search and lists.
-
-**If Cloudflare Worker (D1):**
-- D1 schema (`migrations/0001_init.sql`), SQLite types.
-- Bindings: `DB`, `KV`, `BUCKET` (state which are used).
-
-**If Firebase:**
-- Firestore collections: `{{COLLECTION}}`
-- Document structure, subcollections, composite indexes.
-- Security rules (`firestore.rules`) per role.
-
-## 10. Non-Functional Requirements
-
-<!-- Include responsive, security, performance, privacy, and stack limits. -->
-
-- **Responsive :** {{NFR_RESPONSIF}}
-- **Security :** {{NFR_KESELAMATAN}}
-- **Performance :** {{NFR_PRESTASI}}
-- **Privacy :** {{NFR_PRIVASI}}
-- **Technology limits :** {{NFR_HAD}}
-
-## 11. Third-Party Integrations
-
-| Service | Function | Notes |
-| --- | --- | --- |
-| **{{LAYANAN_1}}** | {{FUNGSI_1}} | {{CATATAN_1}} |
-
-## 12. UI Contract & Design Blueprint Handoff (Lampiran Images)
-
-<!-- MANDATORY. Bab ini dan gambar-gambar rujukan di projects/{{SLUG}}/refs/ adalah input langsung untuk Phase 2 (UI Designer).
-Ekstrak spesifikasi ke dalam projects/{{SLUG}}/design/DESIGN-BLUEPRINT.md merangkumi 7 langkah:
-1. Karakter & Gaya Desain (UI Style)
-2. Palet Warna & Token (HEX & Tailwind)
-3. Tipografi & Hierarki Teks
-4. Struktur Layout & Navigasi
-5. Bedah Komponen Detail
-6. Detail Visual & Interaksi
-7. Design System Blueprint untuk Webapp Builder
-Tulis dengan tepat supaya blueprint dan kod Phase 3 dapat dijana tanpa perlu bertanya semula. -->
-### 12.1 Image References
-
-| Item | Value |
-| --- | --- |
-| Fidelity mode | `None` / `Structural` / `Pixel-faithful` / `Mood` |
-| Reference file | `projects/{{SLUG}}/refs/{{NAMA_FAIL}}` |
-| Reference URL | {{URL_RUJUKAN}} |
-| Reference device | Mobile / Desktop / Both |
-| What is taken | {{APA_DIAMBIL}} |
-| What is replaced | {{APA_DIGANTI}} |
-| Legal limits | No copyrighted logo/illustration/photo copied |
-
-### 12.2 Design DNA
-
-| Aspect | Value |
-| --- | --- |
-| Grid & container | {{DNA_GRID}} |
-| Layout hierarchy | {{DNA_LAYOUT}} |
-| Typography | {{DNA_TIPOGRAFI}} |
-| Palette | {{DNA_PALETTE}} |
-| Spacing & radius | {{DNA_SPACING}} |
-| Components | {{DNA_KOMPONEN}} |
-| Density | {{DNA_DENSITY}} |
-| Motion | {{DNA_MOTION}} |
-| Signature app | {{SIGNATURE}} |
-
-### 12.3 Token Map
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| `ink` | {{TOKEN_INK}} | Primary text |
-| `surface` | {{TOKEN_SURFACE}} | Card background |
-| `line` | {{TOKEN_LINE}} | Border |
-| `accent` | {{TOKEN_ACCENT}} | Primary action |
-
-### 12.4 Screen List
-
-<!-- Every screen must have 4 states: default, loading, empty, error.
-Viewport: Mobile 390×844 / Desktop 1440×900. -->
-
-| ID | Screen | Role | Main content | States | Viewport |
-| --- | --- | --- | --- | --- | --- |
-| `S-01` | {{NAMA_SKRIN_1}} | {{PERAN_SKRIN_1}} | {{ISI_SKRIN_1}} | default, loading, empty, error | 390 + 1440 |
-| `S-02` | {{NAMA_SKRIN_2}} | {{PERAN_SKRIN_2}} | {{ISI_SKRIN_2}} | default, loading, empty, error | 390 + 1440 |
-
-### 12.5 Navigation & Responsive
-
-- **Desktop (≥ 1024px):** {{NAV_DESKTOP}}
-- **Tablet (768–1023px):** {{NAV_TABLET}}
-- **Mobile (< 768px):** {{NAV_MOBILE}}
-- **Rule:** mobile design does NOT mean mobile-only code.
-  Code must be responsive from 360px to 1920px.
-- **Touch target:** minimum 44×44px.
-- **Prohibitions:** no dark mode, no horizontal scroll on the root.
-
-## 13. Local Test Plan & Acceptance Criteria
-
-### 13.1 Local Commands
-
-```bash
-# filled per stack, for example:
-bash scripts/test-local.sh {{SLUG}}
-```
-
-### 13.2 Test Data
-
-| Item | Value |
-| --- | --- |
-| Demo account | {{AKAUN_DEMO}} |
-| Seed data | {{SEED_DATA}} |
-| Preview mode | {{MOD_PRATONTON}} |
-
-### 13.3 Test Cases
-
-| ID | Scenario | Steps | Expectation |
-| --- | --- | --- | --- |
-| `T-01` | {{SKENARIO_1}} | {{LANGKAH_UJIAN_1}} | {{JANGKAAN_1}} |
-| `T-02` | {{SKENARIO_2}} | {{LANGKAH_UJIAN_2}} | {{JANGKAAN_2}} |
-
-### 13.4 Acceptance Criteria
-
-- [ ] All screens in Chapter 12.4 open without console errors.
-- [ ] All **Mandatory** requirements in Chapter 7 pass.
-- [ ] CRUD works with real or seed data.
-- [ ] Responsive checked at 390, 768, 1024, 1440.
-- [ ] No dead buttons.
-- [ ] No secrets in frontend files.
-- [ ] `bash scripts/qa-check.sh {{SLUG}}` passes.
-
-## 14. Proposed Features / Later Phase
-
-- **{{FITUR_USULAN_1}}.** {{PENJELASAN_FITUR_1}}
-
-## 15. Rejected Features (Out of Scope)
-
-<!-- List of features deliberately not built, so they are not raised again. -->
-
-- {{DITOLAK_1}}
-
-## 16. Open Questions / TBD
-
-- {{PERTANYAAN_1}}
-- {{PERTANYAAN_2}}
-
-## 17. Glossary
-
-- **{{ISTILAH_1}} :** {{DEFINISI_1}}
+### 6.4 Data Consistency & Failure Isolation Strategy
+- All write transactions that span multiple tables must execute within a database transaction or atomic RPC call.
+- Optimistic UI updates must revert smoothly with an error toast if the backend mutation rejects.
+- External API calls must incorporate a 5-second timeout and graceful degradation fallback.
 
 ---
 
-*This document is a provisional draft and may change as further discussion continues.*
+## 7. Functional Requirements & Business Rules
+
+<!-- Grouped by logical module (7.1, 7.2, etc.). Each module contains user story, capability table, validation rules, Gherkin criteria, and edge cases. -->
+
+### 7.1 Module: {{NAMA_MODUL_1}}
+
+**User Story:** As a {{PERAN_1}}, I want to {{AKSI_PENGGUNA_1}}, so that {{NILAI_BISNIS_1}}.
+
+#### Capabilities & Functional Matrix
+| ID | Requirement Description | Priority | Business Logic & Rules |
+| --- | --- | --- | --- |
+| **{{PREFIX}}-1** | {{DESKRIPSI_KEBUTUHAN_1}} | **Mandatory** | {{ATURAN_BISNIS_1}} |
+| **{{PREFIX}}-2** | {{DESKRIPSI_KEBUTUHAN_2}} | **Mandatory** | {{ATURAN_BISNIS_2}} |
+| **{{PREFIX}}-3** | {{DESKRIPSI_KEBUTUHAN_3}} | **Important** | {{ATURAN_BISNIS_3}} |
+
+#### Input Validation Matrix
+| Field Name | Type | Required | Validation Constraints / Regex | Error Message |
+| --- | --- | --- | --- | --- |
+| `{{FIELD_1}}` | {{TIPE_1}} | Yes | {{ATURAN_VALIDASI_1}} | "{{PESAN_ERROR_1}}" |
+| `{{FIELD_2}}` | {{TIPE_2}} | Yes | {{ATURAN_VALIDASI_2}} | "{{PESAN_ERROR_2}}" |
+
+#### Acceptance Criteria (Given-When-Then)
+- **Scenario 1 (Happy Path):**
+  - **Given** {{KONDISI_AWAL_1}}
+  - **When** {{AKSI_TEST_1}}
+  - **Then** {{HASIL_TEST_1}}
+- **Scenario 2 (Validation Failure):**
+  - **Given** {{KONDISI_AWAL_2}}
+  - **When** {{AKSI_TEST_2}}
+  - **Then** {{HASIL_TEST_2}}
+
+#### Edge Cases & Failure Handling
+- **Duplicate submission:** Double-click on submit button is prevented by immediate button disable + loading spinner.
+- **Network timeout:** If server does not respond within 8 seconds, request aborts and shows inline retry banner.
+- **Concurrent edits:** Last-write-wins or optimistic lock verification based on `updated_at` timestamp.
+
+---
+
+### 7.2 Module: {{NAMA_MODUL_2}}
+
+**User Story:** As a {{PERAN_2}}, I want to {{AKSI_PENGGUNA_2}}, so that {{NILAI_BISNIS_2}}.
+
+#### Capabilities & Functional Matrix
+| ID | Requirement Description | Priority | Business Logic & Rules |
+| --- | --- | --- | --- |
+| **{{PREFIX2}}-1** | {{DESKRIPSI_KEBUTUHAN_2_1}} | **Mandatory** | {{ATURAN_BISNIS_2_1}} |
+| **{{PREFIX2}}-2** | {{DESKRIPSI_KEBUTUHAN_2_2}} | **Important** | {{ATURAN_BISNIS_2_2}} |
+
+#### Input Validation Matrix
+| Field Name | Type | Required | Validation Constraints / Regex | Error Message |
+| --- | --- | --- | --- | --- |
+| `{{FIELD_2_1}}` | {{TIPE_2_1}} | Yes | {{ATURAN_VALIDASI_2_1}} | "{{PESAN_ERROR_2_1}}" |
+
+#### Acceptance Criteria (Given-When-Then)
+- **Scenario 1:**
+  - **Given** {{KONDISI_AWAL_2_1}}
+  - **When** {{AKSI_TEST_2_1}}
+  - **Then** {{HASIL_TEST_2_1}}
+
+#### Edge Cases & Failure Handling
+- {{PENANGANAN_EDGE_CASE_2}}
+
+---
+
+## 8. Main User Flows & State Machines
+
+### 8.1 Primary End-to-End User Flow (Happy Path)
+<!-- Detailed step-by-step sequence from entry to successful completion. -->
+1. **Entry & Authentication:** User navigates to `/login`, enters credentials, and receives authenticated session with redirect to `/dashboard`.
+2. **Initiation:** User clicks `{{TOMBOL_AKSI_UTAMA}}` on the dashboard; system transitions to `{{MODAL_FORM_STATE}}`.
+3. **Data Entry & Validation:** User completes required fields; client-side validation evaluates in real-time.
+4. **Submission & Processing:** User clicks "Submit"; button disables with spinner, payload posts to API endpoint.
+5. **Confirmation & Feedback:** Backend persists record; UI displays success toast "{{TOAST_SUKSES}}", dismisses modal, and updates list via optimistic update.
+
+### 8.2 Entity Lifecycle & State Transition Matrix
+<!-- Status state machine for main business entity (e.g. Draft -> Submitted -> Approved / Rejected). -->
+| Current State | Trigger / Event | Allowed Actor | Next State | System Actions & Notifications |
+| --- | --- | --- | --- | --- |
+| `draft` | Click "Submit for Review" | Creator | `pending_review` | Send notification to Manager |
+| `pending_review` | Click "Approve" | Manager / Admin | `approved` | Generate confirmation record |
+| `pending_review` | Click "Reject" (with reason)| Manager / Admin | `rejected` | Send rejection email to Creator |
+| `approved` | Click "Complete" | System / Admin | `completed` | Lock record from further edits |
+
+### 8.3 Exception & Error Recovery Flows
+- **Session Expiry:** If JWT token expires during active entry, form data is preserved in `sessionStorage`, modal triggers login prompt without page reload, and submission retries upon re-auth.
+- **Resource Not Found (404):** Clean zero-state message with single "Return to Dashboard" CTA.
+- **Internal Server Error (500):** Generic user-friendly message with error tracking ID, avoiding raw stack-trace leakage.
+
+---
+
+## 9. Data Architecture, Schemas & API Contracts
+
+### 9.1 Data Model Dictionary
+<!-- Complete dictionary of entities, attributes, data types, and constraints. -->
+
+#### Entity: `{{ENTITAS_1}}`
+| Column / Field | Data Type | Nullable | Constraints & Defaults | Description |
+| --- | --- | --- | --- | --- |
+| `id` | `uuid` / `text` | No | Primary Key, `gen_random_uuid()` | Unique record identifier |
+| `created_at` | `timestamptz` | No | Default `now()` | Timestamp of creation |
+| `updated_at` | `timestamptz` | No | Default `now()` | Timestamp of last modification |
+| `{{KOLOM_1}}` | {{TIPE_DATA_1}} | {{NULL_1}} | {{CONSTRAINT_1}} | {{DESKRIPSI_KOLOM_1}} |
+| `{{KOLOM_2}}` | {{TIPE_DATA_2}} | {{NULL_2}} | {{CONSTRAINT_2}} | {{DESKRIPSI_KOLOM_2}} |
+| `status` | `text` / `enum` | No | Default `'pending'` | Current lifecycle status |
+
+#### Entity: `{{ENTITAS_2}}`
+| Column / Field | Data Type | Nullable | Constraints & Defaults | Description |
+| --- | --- | --- | --- | --- |
+| `id` | `uuid` / `text` | No | Primary Key, `gen_random_uuid()` | Unique record identifier |
+| `{{ENTITAS_1_FK}}` | `uuid` / `text` | No | FK references `{{ENTITAS_1}}(id)` | Foreign key relationship |
+| `{{KOLOM_2_1}}` | {{TIPE_DATA_2_1}} | {{NULL_2_1}} | {{CONSTRAINT_2_1}} | {{DESKRIPSI_KOLOM_2_1}} |
+
+### 9.2 API & Server Endpoint Contracts
+
+#### Endpoint 1: `GET /api/{{RESOURCES}}`
+- **Description:** Retrieve paginated list of resources with filtering.
+- **Authentication:** Required (Bearer Token / Cookie Session).
+- **Query Parameters:** `page=1&limit=20&status=active&search=keyword`
+- **Success Response (200 OK):**
+```json
+{
+  "data": [
+    {
+      "id": "uuid-here",
+      "status": "active"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 45,
+    "totalPages": 3
+  }
+}
+```
+- **Error Responses:** `401 Unauthorized`, `403 Forbidden`, `500 Internal Server Error`.
+
+#### Endpoint 2: `POST /api/{{RESOURCES}}`
+- **Description:** Create a new resource record.
+- **Authentication:** Required (Role: `{{PERAN_1}}`).
+- **Request Body (application/json):**
+```json
+{
+  "{{KOLOM_1}}": "Example Value",
+  "{{KOLOM_2}}": 100
+}
+```
+- **Success Response (201 Created):**
+```json
+{
+  "id": "uuid-here",
+  "status": "pending",
+  "createdAt": "2026-11-11T10:00:00Z"
+}
+```
+- **Error Responses:** `400 Bad Request` (Validation errors map), `409 Conflict`, `500 Server Error`.
+
+### 9.3 Physical Database Implementation
+<!-- Choose ONE block matching the stack chosen in Chapter 6. Delete or adapt others. -->
+
+**If Supabase / PostgreSQL:**
+```sql
+-- DDL Migration Schema
+CREATE TABLE public.{{TABLE_NAME}} (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    CONSTRAINT chk_status CHECK (status IN ('pending', 'approved', 'rejected', 'completed'))
+);
+
+-- Performance Indexes
+CREATE INDEX idx_{{TABLE_NAME}}_user_id ON public.{{TABLE_NAME}}(user_id);
+CREATE INDEX idx_{{TABLE_NAME}}_status ON public.{{TABLE_NAME}}(status);
+
+-- Row Level Security (RLS)
+ALTER TABLE public.{{TABLE_NAME}} ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read own records"
+    ON public.{{TABLE_NAME}} FOR SELECT
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own records"
+    ON public.{{TABLE_NAME}} FOR INSERT
+    WITH CHECK (auth.uid() = user_id);
+```
+
+**If Cloudflare Worker (D1 SQLite):**
+```sql
+-- D1 Migration: 0001_init.sql
+CREATE TABLE {{TABLE_NAME}} (
+    id TEXT PRIMARY KEY,
+    created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+    updated_at INTEGER NOT NULL DEFAULT (unixepoch()),
+    user_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending'
+);
+CREATE INDEX idx_{{TABLE_NAME}}_user_id ON {{TABLE_NAME}}(user_id);
+```
+
+---
+
+## 10. Non-Functional Requirements & Service Level Objectives
+
+### 10.1 Web Vitals & Performance Budgets
+- **Largest Contentful Paint (LCP):** < 1.5 seconds on fast 4G / broadband.
+- **First Input Delay / INP:** < 100 milliseconds for all interactive elements.
+- **Cumulative Layout Shift (CLS):** 0.00 (enforced via skeleton loaders with matched dimensions).
+- **API Response Latency:** p95 < 250 milliseconds for read queries; p95 < 400ms for mutations.
+- **Bundle Size Ceiling:** Initial JavaScript payload < 180 KB compressed.
+
+### 10.2 Security Controls & Hardening
+- **Authentication & Sessions:** Secure cookies with `HttpOnly`, `SameSite=Lax`, `Secure` flags; JWT expiration ≤ 24 hours.
+- **Injection Prevention:** All database queries parameterized or generated via type-safe ORM/client; zero string concatenation SQL.
+- **XSS & Content Security Policy (CSP):** HTML content sanitized; user inputs escaped before rendering.
+- **Cross-Site Request Forgery (CSRF):** SameSite cookie validation or CSRF tokens for mutating actions.
+- **Rate Limiting:** Maximum 60 requests per minute per IP on authentication and public submission endpoints.
+
+### 10.3 Accessibility & Inclusivity (WCAG 2.1 Level AA)
+- Text contrast ratio ≥ 4.5:1 for body copy; ≥ 3:1 for large text and interactive borders.
+- Full keyboard navigability: logical tab order, visible focus rings (`focus-visible:ring-2`).
+- Touch targets: minimum 44×44px interactive bounding box on touch devices.
+- Screen reader accessibility: semantic landmarks (`<main>`, `<nav>`, `<header>`), explicit `aria-label` on icon-only buttons.
+
+### 10.4 Reliability, Fault Tolerance & Error Recovery
+- Graceful offline detection: banner notification informing user of disconnected state.
+- Form preservation: draft state retained in local storage during unexpected session drops.
+- Error boundary wrappers around individual dashboard widgets to isolate failures.
+
+### 10.5 Audit Trail & Mutation Logging
+- All insert, update, and delete actions record: `actor_id`, `action_type`, `entity_name`, `entity_id`, `timestamp`, and `diff_summary`.
+- Audit logs are immutable (append-only; no update/delete capabilities granted to app users).
+
+---
+
+## 11. Third-Party Integrations & External Services
+
+| External Service | Category / Function | Integration Method | Auth / Credentials | Fallback Strategy if Unavailable |
+| --- | --- | --- | --- | --- |
+| **{{LAYANAN_1}}** | {{FUNGSI_1}} | REST API / Webhook | API Key (Server Env) | Queue request in DB and retry via cron |
+| **{{LAYANAN_2}}** | {{FUNGSI_2}} | SDK / Client Script | Public Client Key | Degrade gracefully without blocking core app |
+
+---
+
+## 12. UI Contract & Design System Blueprint (Lampiran Images)
+
+<!-- MANDATORY. This section bridges directly into Phase 2 (UI Designer) and Phase 3 (Codegen).
+All specifications must comply with the UI/UX Technical Dictionary standard rules. -->
+
+### 12.1 Image References & Visual Strategy
+| Item | Specification |
+| --- | --- |
+| **Fidelity Mode** | `Pixel-faithful` / `Structural` / `Mood-only` |
+| **Reference Files** | `projects/{{SLUG}}/refs/{{NAMA_FAIL}}` |
+| **Target Device Orientation** | Mobile First (390px) + Desktop Master (1440px) |
+| **Extracted Elements** | {{APA_DIAMBIL}} |
+| **Replaced / Localized Elements** | {{APA_DIGANTI}} |
+| **Copyright & Legal Protection** | 100% original vectors, no copyrighted logos/illustrations copied |
+
+### 12.2 Design DNA & Aesthetic Archetype
+<!-- Informed by UI/UX Technical Dictionary (Modern SaaS, Linear Dark, Apple HIG, Bento Grid, etc.) -->
+| Visual Dimension | Specification | Reference Standard |
+| --- | --- | --- |
+| **Design Language** | {{DNA_GAYA}} | Modern Minimalist SaaS / Linear Clean |
+| **Information Density** | {{DNA_DENSITY}} | Standard (44px rows) / Compact (32px rows) |
+| **Grid Architecture** | 12-col desktop, 8-col tablet, 4-col mobile | `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` |
+| **Corner Radius Scale** | Concentric: Card `rounded-2xl` (16px), Button `rounded-lg` (8px), Pill `rounded-full` | Formula: $r_{inner} = r_{outer} - padding$ |
+| **Shadow System** | Dual-layer ambient: `shadow-sm` base, `shadow-md` floating | Rule 12: Ambient + Key Light |
+| **Visual Anti-Slop** | Light canvas default, no cheap purple gradients, no emoji icons, no browser alerts | Zero AI Slop Compliance |
+
+### 12.3 3-Tier Color Token Map
+| Token Role | Semantic Class | Hex Code | Purpose & Usage |
+| --- | --- | --- | --- |
+| **Canvas Background** | `bg-slate-50` / `bg-canvas` | `#F8FAFC` | Root viewport canvas (soft neutral) |
+| **Surface Card** | `bg-white` / `bg-surface-1`| `#FFFFFF` | Primary cards, panels, modals |
+| **Surface Hover** | `bg-slate-100` | `#F1F5F9` | Table row hover, chip inactive |
+| **Border / Hairline** | `border-slate-200/80` | `#E2E8F0` | Razor 1px card and divider borders |
+| **Primary Brand Accent** | `bg-slate-900 text-white` | `#0F172A` | Primary CTA, active navigation item |
+| **Primary Accent Hover** | `hover:bg-slate-800` | `#1E293B` | Interactive hover for primary button |
+| **Secondary Accent** | `text-blue-600 bg-blue-50`| `#2563EB` | Interactive links, badges, focus rings |
+| **Typography Heading** | `text-slate-900` | `#0F172A` | Primary titles and section headings |
+| **Typography Body** | `text-slate-700` | `#334155` | Paragraph copy, table cell text |
+| **Typography Muted** | `text-slate-500` | `#64748B` | Timestamps, subtitles, helper hints |
+| **Semantic Success** | `bg-emerald-50 text-emerald-700` | `#10B981` | Completed, paid, approved status pill |
+| **Semantic Warning** | `bg-amber-50 text-amber-700` | `#F59E0B` | Pending review, incomplete badge |
+| **Semantic Danger** | `bg-rose-50 text-rose-700` | `#EF4444` | Destructive action, error alerts |
+
+### 12.4 Screen Inventory & 4-State Coverage
+<!-- Every screen must define 4 states: Default, Loading (Skeleton), Empty, and Error. -->
+| Screen ID | Screen Name | Route Path | Access Role | Main Components | 4-State Specifications |
+| --- | --- | --- | --- | --- | --- |
+| `S-01` | Dashboard Home | `/dashboard` | Authenticated | KPI Bento cards, recent items table, quick action CTA | Default, Skeleton card pulse, Empty ("No records yet"), Error retry |
+| `S-02` | Resource List | `/records` | Authenticated | Search & filter bar, data table, pagination bar | Default, Table skeleton 5 rows, Empty search filter, Error toast |
+| `S-03` | Record Detail / Form | `/records/:id` | Authenticated | Multi-field form, status timeline, action footer | Default, Form skeleton, 404 Not Found, Validation error |
+| `S-04` | Settings / Admin | `/settings` | Admin Only | User management table, profile form, audit trail | Default, List skeleton, Empty user list, Error alert |
+
+### 12.5 Interactive Components & Micro-interactions
+- **Buttons (6 States):**
+  - Primary: `h-10 px-4 bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-medium rounded-lg transition-[transform,colors] duration-150 inline-flex items-center justify-center gap-2`.
+  - Secondary: `h-10 px-4 border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium rounded-lg transition-colors`.
+  - Destructive: `h-10 px-4 bg-rose-600 hover:bg-rose-700 text-white font-medium rounded-lg transition-colors`.
+- **Inputs & Form Controls:**
+  - Jitter-free focus: `h-10 px-3 bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-1 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 transition-shadow`.
+- **Data Table Ergonomics:**
+  - Text cells left-aligned; numerical/currency cells right-aligned with `font-mono tabular-nums`.
+  - Row hover: `hover:bg-slate-50/80 transition-colors`.
+  - Sticky right action column with fixed width `w-20`.
+
+### 12.6 Navigation Architecture & Responsive Adaptation
+- **Desktop (≥ 1024px):** Fixed left sidebar (`w-64 border-r border-slate-200 bg-white h-screen fixed`) or clean top navigation with search bar and user profile dropdown.
+- **Tablet (768px–1023px):** Collapsible sidebar toggle or streamlined topbar with dropdown menu.
+- **Mobile (< 768px):** Fixed Bottom Navigation Bar (`fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 py-2 pb-[max(8px,env(safe-area-inset-bottom))]`), 3–5 core tabs with icons + text, `<main>` container styled with mandatory `pb-24` to prevent content overlap.
+- **Responsive Guarantee:** Layout must gracefully adapt across 360px, 390px, 768px, 1024px, 1440px, and 1920px viewports without horizontal root scrollbars.
+
+---
+
+## 13. Local Test Plan & Acceptance Criteria
+
+### 13.1 Local Commands & Quality Verification
+```bash
+# Automated local smoke & endpoint test
+bash scripts/test-local.sh {{SLUG}} --check
+
+# Code quality & anti-pattern verification
+bash scripts/qa-check.sh {{SLUG}}
+
+# Security & vulnerability audit gate
+bash scripts/security-audit.sh {{SLUG}}
+```
+
+### 13.2 Deterministic Demo Accounts & Test Seed Matrix
+| Role | Demo Username / Email | Password (Local Dev) | Expected Initial State |
+| --- | --- | --- | --- |
+| **Admin** | `admin@local.test` | `Admin123!` | Sees all records, audit logs, and settings |
+| **Standard User** | `user@local.test` | `User123!` | Sees only own records; create/edit enabled |
+| **Approver / Manager** | `manager@local.test` | `Manager123!` | Sees assigned records pending review |
+
+### 13.3 Test Cases & Verification Scenarios
+| Test ID | Module | Scenario / Trigger | Action Steps | Expected Outcome |
+| --- | --- | --- | --- | --- |
+| `T-01` | Auth | Valid User Sign-in | Navigate to `/login`, submit valid credentials | Redirects to `/dashboard`, session established |
+| `T-02` | Auth | Invalid Password | Submit invalid password on `/login` | Inline error displayed; no redirect; status 401 |
+| `T-03` | CRUD | Create Entity Record | Fill valid form on `/records/new`, click Submit | Record persists; success toast; appears in list |
+| `T-04` | Validation | Missing Required Fields| Submit blank form | Field errors highlight in red; submission blocked |
+| `T-05` | RBAC | Unauthorized Access | Standard user navigates to `/settings` | Access Denied banner / 403 redirect |
+| `T-06` | Responsive | Mobile Viewport | Open app at 390×844 viewport | Bottom nav visible, table scrolls or stacks cleanly |
+
+### 13.4 Strict Definition of Done Checklist
+- [ ] All screens listed in Chapter 12.4 open without uncaught browser console errors.
+- [ ] Every **Mandatory** requirement in Chapter 7 passes functional verification.
+- [ ] Complete CRUD cycle (Create, Read, Update, Delete) succeeds with real or seeded database.
+- [ ] Responsive design verified across 360px, 768px, 1024px, and 1440px with zero root horizontal scroll.
+- [ ] No dead buttons: every interactive element triggers action, modal, toast, or feedback.
+- [ ] Zero exposed credentials or private keys in client-side bundle (`NEXT_PUBLIC_` / `VITE_` audits clean).
+- [ ] `bash scripts/qa-check.sh {{SLUG}}` exits with code 0.
+- [ ] `bash scripts/security-audit.sh {{SLUG}}` exits with code 0 (zero FAIL findings).
+
+---
+
+## 14. Proposed Features / Later Phase (Post-MVP Roadmap)
+
+- **{{FITUR_USULAN_1}}:** {{PENJELASAN_FITUR_1}}
+- **{{FITUR_USULAN_2}}:** {{PENJELASAN_FITUR_2}}
+- **{{FITUR_USULAN_3}}:** {{PENJELASAN_FITUR_3}}
+
+---
+
+## 15. Explicitly Rejected Features (Scope Guardrails)
+
+<!-- Features intentionally omitted to prevent scope creep and unnecessary complexity. -->
+- **{{DITOLAK_1}}:** Deliberately omitted because {{ALASAN_DITOLAK_1}}.
+- **{{DITOLAK_2}}:** Deliberately omitted because {{ALASAN_DITOLAK_2}}.
+
+---
+
+## 16. Open Questions & Technical Spikes (TBD)
+
+<!-- Decisions that cannot be confirmed until stakeholder validation or external access is granted. -->
+- **{{PERTANYAAN_1}}:** {{STATUS_PERTANYAAN_1}}
+- **{{PERTANYAAN_2}}:** {{STATUS_PERTANYAAN_2}}
+
+---
+
+## 17. Project Glossary & Domain Terms
+
+- **{{ISTILAH_1}} :** {{DEFINISI_1}}
+- **{{ISTILAH_2}} :** {{DEFINISI_2}}
+- **RBAC :** Role-Based Access Control — Method of restricting system access to authorized users based on their assigned role.
+- **CLS :** Cumulative Layout Shift — Metric measuring visual stability; target is 0.00 using matched skeleton screens.
+- **RLS :** Row Level Security — Database engine security feature that restricts row access based on authenticated user context.
+
+---
+
+*This document serves as the formal specification and binding engineering contract for {{NAMA_PRODUK_LENGKAP}}. Subsequent phases (Phase 2 UI Design, Phase 3 Codegen, Phase 4 Local Testing, and Phase 4.5 Security Gate) must adhere strictly to the requirements defined herein.*

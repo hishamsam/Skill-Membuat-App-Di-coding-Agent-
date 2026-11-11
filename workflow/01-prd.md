@@ -90,13 +90,16 @@ clearly which layer does what.
 
 ## PRD quality
 
-- Every functional requirement has an ID and a priority.
-- Every screen in Chapter 12.4 has 4 states (default/loading/empty/error).
-- Chapter 12 is detailed enough to extract the Design System Blueprint without asking again.
-- Chapter 13 has test commands and acceptance criteria that can be checked.
+- Chapter 3 includes a complete Role-Based Access Control (RBAC) permissions matrix across all entities.
+- Every functional requirement in Chapter 7 has an ID, User Story, business rules, input validation matrix, Given-When-Then acceptance criteria, and edge cases.
+- Chapter 8 details primary happy path, state lifecycle transitions, and toast/feedback states.
+- Chapter 9 specifies the complete data dictionary, API endpoint request/response contracts, and physical DDL schema with RLS.
+- Chapter 10 details performance budgets (LCP < 1.5s, CLS = 0), OWASP security controls, WCAG AA accessibility, and audit logging.
+- Chapter 12 is detailed enough to extract the Design System Blueprint directly, strictly adhering to `UIUX_TECHNICAL_DICTIONARY.md` (3-tier tokens, density archetypes, 4 screen states, 6-state buttons).
+- Every screen in Chapter 12.4 defines all 4 mandatory states (Default, Loading/Skeleton, Empty/Zero-state, Error/Retry).
+- Chapter 13 provides concrete local test commands, deterministic demo accounts/seed data, and test cases.
 - No hidden assumptions: every assumption is marked `[ASSUMPTION]` in Chapter 5.
 - No `{{...}}` placeholder left in the final file.
-
 ## Quick check before approval
 
 ```bash
