@@ -12,7 +12,7 @@ You are the Product Manager + Solution Architect who assembles the PRD.
 
 INPUT:
 - The user's rough idea, meeting notes, transcript, or existing document.
-- UI reference images (optional, used as visual reference only): screenshots, Figma mockups, Dribbble/Mobbin images. Confirm that you own the image or hold a licence before reproducing its assets or trade dress.
+- UI reference images (optional, used as visual reference only): screenshots, Figma mockups, Dribbble/Mobbin images. Confirm that you own the image or hold a license before reproducing its assets or trade dress.
 
 TASK:
 1. Run INTERVIEW MODE (Part A) until there is enough information.
@@ -541,14 +541,14 @@ fits the domain, and you review the result in Phase 2.
 - B. Screenshots or mockups — I will put them in projects/<slug>/refs/
 - C. A live website or app I like — I will send the link
 - D. A mix of the above
-- E. Other — describe the look in words (colours, mood, brand)
+- E. Other — describe the look in words (colors, mood, brand)
 
 If references exist, ask these as separate messages, one at a time:
 
 1. "Should the design follow the reference closely?"
    - A. Keep the structure only (default)
    - B. Match the layout and spacing closely, using original assets
-   - C. Take only the mood and colours
+   - C. Take only the mood and colors
    - D. Other — describe
    Recommended if unsure: A.
 2. "Which device matters most?"
@@ -585,19 +585,19 @@ first; do not generate a partial PRD.
 
 # PART B — PRD TEMPLATE
 
-# PRODUCT REQUIREMENTS DOCUMENT — {{NAMA_PRODUK}}
+# PRODUCT REQUIREMENTS DOCUMENT — {{PRODUCT_NAME}}
 
-**STATUS: {{STATUS_DOKUMEN}}**
+**STATUS: {{DOCUMENT_STATUS}}**
 
 | Metadata Item | Specification |
 | --- | --- |
-| **Product Name** | {{NAMA_PRODUK_LENGKAP}} |
+| **Product Name** | {{PRODUCT_FULL_NAME}} |
 | **Document Version** | v0.1 (Provisional Draft) |
-| **Prepared by** | {{NAMA_PENGEMBANG}} |
-| **For / Stakeholder** | {{NAMA_KLIEN}} |
-| **Date** | {{TANGGAL_DOKUMEN}} |
+| **Prepared by** | {{AUTHOR_NAME}} |
+| **For / Stakeholder** | {{CLIENT_NAME}} |
+| **Date** | {{DOCUMENT_DATE}} |
 | **Project Folder** | `projects/{{SLUG}}/` |
-| **Target Technology** | {{TEKNOLOGI_TERPILIH}} |
+| **Target Technology** | {{SELECTED_TECHNOLOGY}} |
 | **Related Documents** | `DESIGN-BLUEPRINT.md`, `STATUS.md`, `THREAT-MODEL.md` |
 
 ---
@@ -606,11 +606,11 @@ first; do not generate a partial PRD.
 
 ### 1.1 Problem Statement & Background
 <!-- 1-2 paragraphs detailing the real-world operational pain points, manual overhead, and cost of errors in the current process. -->
-{{PERNYATAAN_MASALAH}}
+{{PROBLEM_STATEMENT}}
 
 ### 1.2 Solution Overview & Core Value Proposition
 <!-- 1-2 paragraphs detailing the proposed digital solution, core modules, and primary user journey. -->
-{{RINGKASAN_SOLUSI}}
+{{SOLUTION_SUMMARY}}
 
 ### 1.3 Target Audience & Primary Use Cases
 <!-- Specific user groups and scenarios in which the application delivers highest impact. -->
@@ -618,26 +618,26 @@ first; do not generate a partial PRD.
 
 ### 1.4 North Star Metric & Measurable Success Indicators
 <!-- 3-5 concrete, quantifiable success metrics. -->
-- **North Star Metric:** {{METRIK_UTAMA}}
-- **Efficiency Metric:** {{METRIK_EFISIENSI}}
-- **Accuracy Metric:** {{METRIK_AKURASI}}
-- **Adoption Target:** {{METRIK_PENGGUNAAN}}
+- **North Star Metric:** {{PRIMARY_METRIC}}
+- **Efficiency Metric:** {{EFFICIENCY_METRIC}}
+- **Accuracy Metric:** {{ACCURACY_METRIC}}
+- **Adoption Target:** {{ADOPTION_METRIC}}
 
 ---
 
 ## 2. Goals & Objectives
 
 ### 2.1 Business Objectives
-- {{TUJUAN_BISNIS_1}}
-- {{TUJUAN_BISNIS_2}}
+- {{BUSINESS_OBJECTIVE_1}}
+- {{BUSINESS_OBJECTIVE_2}}
 
 ### 2.2 User Experience Objectives
-- {{TUJUAN_UX_1}}
-- {{TUJUAN_UX_2}}
+- {{UX_OBJECTIVE_1}}
+- {{UX_OBJECTIVE_2}}
 
 ### 2.3 Technical & Operational Objectives
-- {{TUJUAN_TEKNIS_1}}
-- {{TUJUAN_TEKNIS_2}}
+- {{TECHNICAL_OBJECTIVE_1}}
+- {{TECHNICAL_OBJECTIVE_2}}
 
 ---
 
@@ -645,17 +645,17 @@ first; do not generate a partial PRD.
 
 ### 3.1 User Personas
 <!-- Detailed persona profile per role: responsibilities, tech literacy, primary device. -->
-- **{{PERAN_1}} :** {{DESKRIPSI_PERAN_1}}
-- **{{PERAN_2}} :** {{DESKRIPSI_PERAN_2}}
-- **{{PERAN_3}} :** {{DESKRIPSI_PERAN_3}}
+- **{{ROLE_1}} :** {{ROLE_DESCRIPTION_1}}
+- **{{ROLE_2}} :** {{ROLE_DESCRIPTION_2}}
+- **{{ROLE_3}} :** {{ROLE_DESCRIPTION_3}}
 
 ### 3.2 Permissions & Access Control Matrix (RBAC)
 <!-- Complete CRUD + Approve/Export permissions per role across all system entities. -->
-| Entity / Resource | Role: {{PERAN_1}} | Role: {{PERAN_2}} | Role: {{PERAN_3}} | Public / Unauth |
+| Entity / Resource | Role: {{ROLE_1}} | Role: {{ROLE_2}} | Role: {{ROLE_3}} | Public / Unauth |
 | --- | --- | --- | --- | --- |
-| **{{ENTITAS_1}}** | C, R, U, D, Export | R, U (Own) | R (Assigned) | Denied |
-| **{{ENTITAS_2}}** | C, R, U, D, Approve | C, R (Own) | Denied | Denied |
-| **{{ENTITAS_3}}** | C, R, U, D | R | R | Denied |
+| **{{ENTITY_1}}** | C, R, U, D, Export | R, U (Own) | R (Assigned) | Denied |
+| **{{ENTITY_2}}** | C, R, U, D, Approve | C, R (Own) | Denied | Denied |
+| **{{ENTITY_3}}** | C, R, U, D | R | R | Denied |
 | **User Management** | Full Access | Denied | Denied | Denied |
 | **Audit Logs** | Read Only | Denied | Denied | Denied |
 
@@ -667,16 +667,16 @@ first; do not generate a partial PRD.
 
 ### 4.1 In Scope (MVP Core Capabilities)
 <!-- Must be exhaustive: every feature included in v0.1 must be listed. -->
-- {{LINGKUP_MVP_1}}
-- {{LINGKUP_MVP_2}}
-- {{LINGKUP_MVP_3}}
-- {{LINGKUP_MVP_4}}
+- {{MVP_SCOPE_1}}
+- {{MVP_SCOPE_2}}
+- {{MVP_SCOPE_3}}
+- {{MVP_SCOPE_4}}
 
 ### 4.2 Out of Scope / Boundaries & Guardrails
 <!-- Explicit non-goals to prevent scope creep during engineering. -->
-- {{LINGKUP_DILUAR_MVP_1}}
-- {{LINGKUP_DILUAR_MVP_2}}
-- {{LINGKUP_DILUAR_MVP_3}}
+- {{OUT_OF_SCOPE_1}}
+- {{OUT_OF_SCOPE_2}}
+- {{OUT_OF_SCOPE_3}}
 
 ### 4.3 Phasing & Roadmap Milestones
 | Milestone | Scope Summary | Target Criteria |
@@ -691,13 +691,13 @@ first; do not generate a partial PRD.
 
 ### 5.1 Technical Assumptions
 <!-- Mark every assumption explicitly with [ASSUMPTION]. -->
-- [ASSUMPTION] {{ASUMSI_1}}
-- [ASSUMPTION] {{ASUMSI_2}}
-- [ASSUMPTION] {{ASUMSI_3}}
+- [ASSUMPTION] {{ASSUMPTION_1}}
+- [ASSUMPTION] {{ASSUMPTION_2}}
+- [ASSUMPTION] {{ASSUMPTION_3}}
 
 ### 5.2 Business & Operational Constraints
-- {{KENDALA_OPERASIONAL_1}}
-- {{KENDALA_OPERASIONAL_2}}
+- {{OPERATIONAL_CONSTRAINT_1}}
+- {{OPERATIONAL_CONSTRAINT_2}}
 
 ### 5.3 Compliance, Security & Privacy Constraints
 - Data protection: Personal Identifiable Information (PII) handled in compliance with local privacy standards.
@@ -712,10 +712,10 @@ first; do not generate a partial PRD.
 | Layer | Chosen Technology | Engineering Rationale | Rejected Alternatives & Trade-offs |
 | --- | --- | --- | --- |
 | **Frontend Framework** | {{FE_TECH}} | {{FE_SEBAB}} | {{FE_ALT}} |
-| **Backend / API Engine** | {{BE_TECH}} | {{BE_SEBAB}} | {{BE_ALT}} |
-| **Primary Database** | {{DB_TECH}} | {{DB_SEBAB}} | {{DB_ALT}} |
-| **Authentication & RBAC** | {{AUTH_TECH}} | {{AUTH_SEBAB}} | {{AUTH_ALT}} |
-| **File Storage** | {{STORAGE_TECH}} | {{STORAGE_SEBAB}} | {{STORAGE_ALT}} |
+| **Backend / API Engine** | {{BE_TECH}} | {{BACKEND_REASON}} | {{BE_ALT}} |
+| **Primary Database** | {{DB_TECH}} | {{DATABASE_REASON}} | {{DB_ALT}} |
+| **Authentication & RBAC** | {{AUTH_TECH}} | {{AUTH_REASON}} | {{AUTH_ALT}} |
+| **File Storage** | {{STORAGE_TECH}} | {{STORAGE_REASON}} | {{STORAGE_ALT}} |
 | **Hosting & Deployment** | {{HOST_TECH}} | {{HOST_SEBAB}} | {{HOST_ALT}} |
 
 ### 6.2 Services, Configuration & Secret Separation
@@ -729,12 +729,12 @@ first; do not generate a partial PRD.
 
 ### 6.3 System Architecture Diagram
 ```text
-{{ALIRAN_ARKITEKTUR}}
+{{ARCHITECTURE_FLOW}}
 ```
 
 ### 6.4 Data Consistency & Failure Isolation Strategy
 - All write transactions that span multiple tables must execute within a database transaction or atomic RPC call.
-- Optimistic UI updates must revert smoothly with an error toast if the backend mutation rejects.
+- Optimiztic UI updates must revert smoothly with an error toast if the backend mutation rejects.
 - External API calls must incorporate a 5-second timeout and graceful degradation fallback.
 
 ---
@@ -743,32 +743,32 @@ first; do not generate a partial PRD.
 
 <!-- Grouped by logical module (7.1, 7.2, etc.). Each module contains user story, capability table, validation rules, Gherkin criteria, and edge cases. -->
 
-### 7.1 Module: {{NAMA_MODUL_1}}
+### 7.1 Module: {{MODULE_NAME_1}}
 
-**User Story:** As a {{PERAN_1}}, I want to {{AKSI_PENGGUNA_1}}, so that {{NILAI_BISNIS_1}}.
+**User Story:** As a {{ROLE_1}}, I want to {{USER_ACTION_1}}, so that {{BUSINESS_VALUE_1}}.
 
 #### Capabilities & Functional Matrix
 | ID | Requirement Description | Priority | Business Logic & Rules |
 | --- | --- | --- | --- |
-| **{{PREFIX}}-1** | {{DESKRIPSI_KEBUTUHAN_1}} | **Mandatory** | {{ATURAN_BISNIS_1}} |
-| **{{PREFIX}}-2** | {{DESKRIPSI_KEBUTUHAN_2}} | **Mandatory** | {{ATURAN_BISNIS_2}} |
-| **{{PREFIX}}-3** | {{DESKRIPSI_KEBUTUHAN_3}} | **Important** | {{ATURAN_BISNIS_3}} |
+| **{{PREFIX}}-1** | {{REQUIREMENT_DESCRIPTION_1}} | **Mandatory** | {{BUSINESS_RULE_1}} |
+| **{{PREFIX}}-2** | {{REQUIREMENT_DESCRIPTION_2}} | **Mandatory** | {{BUSINESS_RULE_2}} |
+| **{{PREFIX}}-3** | {{REQUIREMENT_DESCRIPTION_3}} | **Important** | {{BUSINESS_RULE_3}} |
 
 #### Input Validation Matrix
 | Field Name | Type | Required | Validation Constraints / Regex | Error Message |
 | --- | --- | --- | --- | --- |
-| `{{FIELD_1}}` | {{TIPE_1}} | Yes | {{ATURAN_VALIDASI_1}} | "{{PESAN_ERROR_1}}" |
-| `{{FIELD_2}}` | {{TIPE_2}} | Yes | {{ATURAN_VALIDASI_2}} | "{{PESAN_ERROR_2}}" |
+| `{{FIELD_1}}` | {{TYPE_1}} | Yes | {{VALIDATION_RULE_1}} | "{{ERROR_MESSAGE_1}}" |
+| `{{FIELD_2}}` | {{TYPE_2}} | Yes | {{VALIDATION_RULE_2}} | "{{ERROR_MESSAGE_2}}" |
 
 #### Acceptance Criteria (Given-When-Then)
 - **Scenario 1 (Happy Path):**
-  - **Given** {{KONDISI_AWAL_1}}
-  - **When** {{AKSI_TEST_1}}
-  - **Then** {{HASIL_TEST_1}}
+  - **Given** {{INITIAL_CONDITION_1}}
+  - **When** {{TEST_ACTION_1}}
+  - **Then** {{TEST_RESULT_1}}
 - **Scenario 2 (Validation Failure):**
-  - **Given** {{KONDISI_AWAL_2}}
-  - **When** {{AKSI_TEST_2}}
-  - **Then** {{HASIL_TEST_2}}
+  - **Given** {{INITIAL_CONDITION_2}}
+  - **When** {{TEST_ACTION_2}}
+  - **Then** {{TEST_RESULT_2}}
 
 #### Edge Cases & Failure Handling
 - **Duplicate submission:** Double-click on submit button is prevented by immediate button disable + loading spinner.
@@ -777,29 +777,29 @@ first; do not generate a partial PRD.
 
 ---
 
-### 7.2 Module: {{NAMA_MODUL_2}}
+### 7.2 Module: {{MODULE_NAME_2}}
 
-**User Story:** As a {{PERAN_2}}, I want to {{AKSI_PENGGUNA_2}}, so that {{NILAI_BISNIS_2}}.
+**User Story:** As a {{ROLE_2}}, I want to {{USER_ACTION_2}}, so that {{BUSINESS_VALUE_2}}.
 
 #### Capabilities & Functional Matrix
 | ID | Requirement Description | Priority | Business Logic & Rules |
 | --- | --- | --- | --- |
-| **{{PREFIX_2}}-1** | {{DESKRIPSI_KEBUTUHAN_2_1}} | **Mandatory** | {{ATURAN_BISNIS_2_1}} |
-| **{{PREFIX_2}}-2** | {{DESKRIPSI_KEBUTUHAN_2_2}} | **Important** | {{ATURAN_BISNIS_2_2}} |
+| **{{PREFIX_2}}-1** | {{REQUIREMENT_DESCRIPTION_2_1}} | **Mandatory** | {{BUSINESS_RULE_2_1}} |
+| **{{PREFIX_2}}-2** | {{REQUIREMENT_DESCRIPTION_2_2}} | **Important** | {{BUSINESS_RULE_2_2}} |
 
 #### Input Validation Matrix
 | Field Name | Type | Required | Validation Constraints / Regex | Error Message |
 | --- | --- | --- | --- | --- |
-| `{{FIELD_2_1}}` | {{TIPE_2_1}} | Yes | {{ATURAN_VALIDASI_2_1}} | "{{PESAN_ERROR_2_1}}" |
+| `{{FIELD_2_1}}` | {{TYPE_2_1}} | Yes | {{VALIDATION_RULE_2_1}} | "{{ERROR_MESSAGE_2_1}}" |
 
 #### Acceptance Criteria (Given-When-Then)
 - **Scenario 1:**
-  - **Given** {{KONDISI_AWAL_2_1}}
-  - **When** {{AKSI_TEST_2_1}}
-  - **Then** {{HASIL_TEST_2_1}}
+  - **Given** {{INITIAL_CONDITION_2_1}}
+  - **When** {{TEST_ACTION_2_1}}
+  - **Then** {{TEST_RESULT_2_1}}
 
 #### Edge Cases & Failure Handling
-- {{PENANGANAN_EDGE_CASE_2}}
+- {{EDGE_CASE_HANDLING_2}}
 
 ---
 
@@ -808,10 +808,10 @@ first; do not generate a partial PRD.
 ### 8.1 Primary End-to-End User Flow (Happy Path)
 <!-- Detailed step-by-step sequence from entry to successful completion. -->
 1. **Entry & Authentication:** User navigates to `/login`, enters credentials, and receives authenticated session with redirect to `/dashboard`.
-2. **Initiation:** User clicks `{{TOMBOL_AKSI_UTAMA}}` on the dashboard; system transitions to `{{MODAL_FORM_STATE}}`.
+2. **Initiation:** User clicks `{{PRIMARY_ACTION_BUTTON}}` on the dashboard; system transitions to `{{FORM_MODAL_STATE}}`.
 3. **Data Entry & Validation:** User completes required fields; client-side validation evaluates in real-time.
 4. **Submission & Processing:** User clicks "Submit"; button disables with spinner, payload posts to API endpoint.
-5. **Confirmation & Feedback:** Backend persists record; UI displays success toast "{{TOAST_SUKSES}}", dismisses modal, and updates list via optimistic update.
+5. **Confirmation & Feedback:** Backend persists record; UI displays success toast "{{SUCCESS_TOAST}}", dismisses modal, and updates list via optimistic update.
 
 ### 8.2 Entity Lifecycle & State Transition Matrix
 <!-- Status state machine for main business entity (e.g. Draft -> Submitted -> Approved / Rejected). -->
@@ -834,22 +834,22 @@ first; do not generate a partial PRD.
 ### 9.1 Data Model Dictionary
 <!-- Complete dictionary of entities, attributes, data types, and constraints. -->
 
-#### Entity: `{{ENTITAS_1}}`
+#### Entity: `{{ENTITY_1}}`
 | Column / Field | Data Type | Nullable | Constraints & Defaults | Description |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` / `text` | No | Primary Key, `gen_random_uuid()` | Unique record identifier |
 | `created_at` | `timestamptz` | No | Default `now()` | Timestamp of creation |
 | `updated_at` | `timestamptz` | No | Default `now()` | Timestamp of last modification |
-| `{{KOLOM_1}}` | {{TIPE_DATA_1}} | {{NULL_1}} | {{CONSTRAINT_1}} | {{DESKRIPSI_KOLOM_1}} |
-| `{{KOLOM_2}}` | {{TIPE_DATA_2}} | {{NULL_2}} | {{CONSTRAINT_2}} | {{DESKRIPSI_KOLOM_2}} |
+| `{{COLUMN_1}}` | {{DATA_TYPE_1}} | {{NULL_1}} | {{CONSTRAINT_1}} | {{COLUMN_DESCRIPTION_1}} |
+| `{{COLUMN_2}}` | {{DATA_TYPE_2}} | {{NULL_2}} | {{CONSTRAINT_2}} | {{COLUMN_DESCRIPTION_2}} |
 | `status` | `text` / `enum` | No | Default `'pending'` | Current lifecycle status |
 
-#### Entity: `{{ENTITAS_2}}`
+#### Entity: `{{ENTITY_2}}`
 | Column / Field | Data Type | Nullable | Constraints & Defaults | Description |
 | --- | --- | --- | --- | --- |
 | `id` | `uuid` / `text` | No | Primary Key, `gen_random_uuid()` | Unique record identifier |
-| `{{ENTITAS_1_FK}}` | `uuid` / `text` | No | FK references `{{ENTITAS_1}}(id)` | Foreign key relationship |
-| `{{KOLOM_2_1}}` | {{TIPE_DATA_2_1}} | {{NULL_2_1}} | {{CONSTRAINT_2_1}} | {{DESKRIPSI_KOLOM_2_1}} |
+| `{{ENTITY_1_FK}}` | `uuid` / `text` | No | FK references `{{ENTITY_1}}(id)` | Foreign key relationship |
+| `{{COLUMN_2_1}}` | {{DATA_TYPE_2_1}} | {{NULL_2_1}} | {{CONSTRAINT_2_1}} | {{COLUMN_DESCRIPTION_2_1}} |
 
 ### 9.2 API & Server Endpoint Contracts
 
@@ -878,12 +878,12 @@ first; do not generate a partial PRD.
 
 #### Endpoint 2: `POST /api/{{RESOURCES}}`
 - **Description:** Create a new resource record.
-- **Authentication:** Required (Role: `{{PERAN_1}}`).
+- **Authentication:** Required (Role: `{{ROLE_1}}`).
 - **Request Body (application/json):**
 ```json
 {
-  "{{KOLOM_1}}": "Example Value",
-  "{{KOLOM_2}}": 100
+  "{{COLUMN_1}}": "Example Value",
+  "{{COLUMN_2}}": 100
 }
 ```
 - **Success Response (201 Created):**
@@ -981,8 +981,8 @@ CREATE INDEX idx_{{TABLE_NAME}}_user_id ON {{TABLE_NAME}}(user_id);
 
 | External Service | Category / Function | Integration Method | Auth / Credentials | Fallback Strategy if Unavailable |
 | --- | --- | --- | --- | --- |
-| **{{LAYANAN_1}}** | {{FUNGSI_1}} | REST API / Webhook | API Key (Server Env) | Queue request in DB and retry via cron |
-| **{{LAYANAN_2}}** | {{FUNGSI_2}} | SDK / Client Script | Public Client Key | Degrade gracefully without blocking core app |
+| **{{SERVICE_1}}** | {{FUNCTION_1}} | REST API / Webhook | API Key (Server Env) | Queue request in DB and retry via cron |
+| **{{SERVICE_2}}** | {{FUNCTION_2}} | SDK / Client Script | Public Client Key | Degrade gracefully without blocking core app |
 
 ---
 
@@ -995,17 +995,17 @@ All specifications must comply with the UI/UX Technical Dictionary standard rule
 | Item | Specification |
 | --- | --- |
 | **Fidelity Mode** | `Pixel-faithful` (owned references only) / `Structural` / `Mood-only` |
-| **Reference Files** | `projects/{{SLUG}}/refs/{{NAMA_FAIL}}` |
+| **Reference Files** | `projects/{{SLUG}}/refs/{{FILE_NAME}}` |
 | **Target Device Orientation** | Mobile First (390px) + Desktop Master (1440px) |
-| **Extracted Elements** | {{APA_DIAMBIL}} |
-| **Replaced / Localized Elements** | {{APA_DIGANTI}} |
-| **Copyright & Legal Protection** | Original assets only. No logos, trademarks, illustrations, stock photos, avatars, or copyrighted text reproduced. Fidelity beyond `Structural` requires the user to own the reference or hold a licence. |
+| **Extracted Elements** | {{EXTRACTED_ELEMENTS}} |
+| **Replaced / Localized Elements** | {{REPLACED_ELEMENTS}} |
+| **Copyright & Legal Protection** | Original assets only. No logos, trademarks, illustrations, stock photos, avatars, or copyrighted text reproduced. Fidelity beyond `Structural` requires the user to own the reference or hold a license. |
 
 ### 12.2 Design DNA & Aesthetic Archetype
 <!-- Informed by UI/UX Technical Dictionary (Modern SaaS, Linear Dark, Apple HIG, Bento Grid, etc.) -->
 | Visual Dimension | Specification | Reference Standard |
 | --- | --- | --- |
-| **Design Language** | {{DNA_GAYA}} | Modern Minimalist SaaS / Linear Clean |
+| **Design Language** | {{DNA_STYLE}} | Modern Minimalist SaaS / Linear Clean |
 | **Information Density** | {{DNA_DENSITY}} | Standard (44px rows) / Compact (32px rows) |
 | **Grid Architecture** | 12-col desktop, 8-col tablet, 4-col mobile | `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` |
 | **Corner Radius Scale** | Concentric: Card `rounded-2xl` (16px), Button `rounded-lg` (8px), Pill `rounded-full` | Formula: $r_{inner} = r_{outer} - padding$ |
@@ -1103,36 +1103,36 @@ bash scripts/security-audit.sh {{SLUG}}
 
 ## 14. Proposed Features / Later Phase (Post-MVP Roadmap)
 
-- **{{FITUR_USULAN_1}}:** {{PENJELASAN_FITUR_1}}
-- **{{FITUR_USULAN_2}}:** {{PENJELASAN_FITUR_2}}
-- **{{FITUR_USULAN_3}}:** {{PENJELASAN_FITUR_3}}
+- **{{PROPOSED_FEATURE_1}}:** {{FEATURE_DESCRIPTION_1}}
+- **{{PROPOSED_FEATURE_2}}:** {{FEATURE_DESCRIPTION_2}}
+- **{{PROPOSED_FEATURE_3}}:** {{FEATURE_DESCRIPTION_3}}
 
 ---
 
 ## 15. Explicitly Rejected Features (Scope Guardrails)
 
 <!-- Features intentionally omitted to prevent scope creep and unnecessary complexity. -->
-- **{{DITOLAK_1}}:** Deliberately omitted because {{ALASAN_DITOLAK_1}}.
-- **{{DITOLAK_2}}:** Deliberately omitted because {{ALASAN_DITOLAK_2}}.
+- **{{REJECTED_FEATURE_1}}:** Deliberately omitted because {{REJECTION_REASON_1}}.
+- **{{REJECTED_FEATURE_2}}:** Deliberately omitted because {{REJECTION_REASON_2}}.
 
 ---
 
 ## 16. Open Questions & Technical Spikes (TBD)
 
 <!-- Decisions that cannot be confirmed until stakeholder validation or external access is granted. -->
-- **{{PERTANYAAN_1}}:** {{STATUS_PERTANYAAN_1}}
-- **{{PERTANYAAN_2}}:** {{STATUS_PERTANYAAN_2}}
+- **{{QUESTION_1}}:** {{QUESTION_STATUS_1}}
+- **{{QUESTION_2}}:** {{QUESTION_STATUS_2}}
 
 ---
 
 ## 17. Project Glossary & Domain Terms
 
-- **{{ISTILAH_1}} :** {{DEFINISI_1}}
-- **{{ISTILAH_2}} :** {{DEFINISI_2}}
+- **{{GLOSSARY_TERM_1}} :** {{DEFINITION_1}}
+- **{{GLOSSARY_TERM_2}} :** {{DEFINITION_2}}
 - **RBAC :** Role-Based Access Control — Method of restricting system access to authorized users based on their assigned role.
 - **CLS :** Cumulative Layout Shift — Metric measuring visual stability; target is 0.00 using matched skeleton screens.
 - **RLS :** Row Level Security — Database engine security feature that restricts row access based on authenticated user context.
 
 ---
 
-*This document serves as the formal specification and binding engineering contract for {{NAMA_PRODUK_LENGKAP}}. Subsequent phases (Phase 2 UI Design, Phase 3 Codegen, Phase 4 Local Testing, and Phase 4.5 Security Gate) must adhere strictly to the requirements defined herein.*
+*This document serves as the formal specification and binding engineering contract for {{PRODUCT_FULL_NAME}}. Subsequent phases (Phase 2 UI Design, Phase 3 Codegen, Phase 4 Local Testing, and Phase 4.5 Security Gate) must adhere strictly to the requirements defined herein.*

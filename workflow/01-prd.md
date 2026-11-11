@@ -113,5 +113,5 @@ Empty output = no placeholder left.
 After the PRD is shown:
 
 > "Do you accept this PRD, or are there amendments? If you accept, reply 'pass' and I
-> will continue to Phase 2 (UI Design dari lampiran gambar)."
+> will continue to Phase 2 (UI Design from attached images)."
 Do not start Phase 2 without clear approval.

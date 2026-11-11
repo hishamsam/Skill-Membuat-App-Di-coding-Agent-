@@ -139,11 +139,11 @@ Full guide: `workflow/02-design-images.md`. Reference: `ui-ux/ui-designer.md`.
 1. Read PRD Chapter 12 (reference, tokens, screen list, 4 states) and open images in `refs/`.
 2. Follow the 7-step UI Designer protocol:
    - **Step 1**: Identify the design character and primary visual style.
-   - **Step 2**: Extract the colour palette and visual tokens (HEX and Tailwind).
-   - **Step 3**: Analyse typography and text hierarchy.
+   - **Step 2**: Extract the color palette and visual tokens (HEX and Tailwind).
+   - **Step 3**: Analyze typography and text hierarchy.
    - **Step 4**: Break down layout and navigation (mobile bottom nav vs desktop sidebar/top nav).
    - **Step 5**: Detail the UI components (component breakdown).
-   - **Step 6**: Recommend interaction and micro-interaction behaviour (Lucide Icons, 4 states: default/loading/empty/error).
+   - **Step 6**: Recommend interaction and micro-interaction behavior (Lucide Icons, 4 states: default/loading/empty/error).
    - **Step 7**: Assemble the Design System Blueprint (ready for code generation).
 3. Save the specification to `projects/<slug>/design/DESIGN-BLUEPRINT.md`.
 
@@ -430,7 +430,7 @@ function writeWithLock(fn) {
 // ✅ CORRECT — errors must not leak out as a GAS HTML error page
 function handleCreateRecord(data, tokenPayload) {
   try {
-    if (!data.nama) return { success: false, error: 'Name is required.' };
+    if (!data.name) return { success: false, error: 'Name is required.' };
     // business logic...
     return { success: true, data: { id: newId } };
   } catch (e) {
@@ -501,7 +501,7 @@ When the user attaches an image (app screenshot, Figma mockup, Dribbble/Mobbin i
 
 | Mode | When used | What is taken |
 |---|---|---|
-| **Pixel-faithful** | The user says "follow it exactly", "same as this", "1:1", **and** owns the reference or holds a licence to reproduce it | Grid, layout, hierarchy, density, type scale, radius, composition — 1:1. Only data and branding may be changed. |
+| **Pixel-faithful** | The user says "follow it exactly", "same as this", "1:1", **and** owns the reference or holds a license to reproduce it | Grid, layout, hierarchy, density, type scale, radius, composition — 1:1. Only data and branding may be changed. |
 | **Structural (default)** | The user only provides a reference without instructions | Structure, hierarchy, navigation pattern, density, composition. Color/font/branding may be adjusted to the app. |
 | **Mood** | The user says "inspiration only", "take the vibe" | Tone, temperature, material, texture, imagery type. Layout is free. |
 

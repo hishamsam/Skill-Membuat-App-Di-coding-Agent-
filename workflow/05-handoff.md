@@ -86,7 +86,7 @@ report 0 `FAIL` and no `confirmed` high/critical record may remain open
 ## Definition of done
 
 - [ ] PRD approved and saved.
-- [ ] Design System Blueprint (`design/DESIGN-BLUEPRINT.md`) + fail rujukan `refs/` disimpan.
+- [ ] Design System Blueprint (`design/DESIGN-BLUEPRINT.md`) and reference files in `refs/` are saved.
 - [ ] Code passes `qa-check` and the local tests.
 - [ ] All **Mandatory** PRD requirements work.
 - [ ] Production test passes.

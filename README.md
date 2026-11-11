@@ -198,7 +198,7 @@ WebApp Builder/
 ├── GUIDE.md                    # complete usage guide
 ├── README.md                   # this file
 ├── LICENSE                     # MIT
-├── THIRD-PARTY-NOTICES.md      # attribution, trademarks, font licences
+├── THIRD-PARTY-NOTICES.md      # attribution, trademarks, font licenses
 ├── UIUX_TECHNICAL_DICTIONARY.md # design vocabulary, rules, and audit standard
 ├── workflow/
 │   ├── 00-start.md             # Phase 0 bootstrap (mula / start)
@@ -390,7 +390,7 @@ Every setup instruction lives in a separate folder: **`setup/`**.
 | Document | Content |
 | --- | --- |
 | `setup/01-opencode-mcp.md` | `opencode.json` format, registering servers |
-| `setup/02-ui-designer.md` | UI Designer (lampiran images), Design System Blueprint |
+| `setup/02-ui-designer.md` | UI Designer (image attachments), Design System Blueprint |
 | `setup/03-gas.md` | GAS, clasp, preview mode |
 | `setup/04-supabase.md` | Supabase MCP, dev project, RLS |
 | `setup/05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 |
@@ -417,9 +417,9 @@ opencode mcp list
 
 | Mode | Meaning | When |
 | --- | --- | --- |
-| Structural (default) | Take structure, density, navigation; colours may change | Any reference |
-| Pixel-faithful | Follow grid, scale, radius almost 1:1 | Only when you own the reference or hold a licence to reproduce it |
-| Mood | Take tone/colour/material only | Vibe only |
+| Structural (default) | Take structure, density, navigation; colors may change | Any reference |
+| Pixel-faithful | Follow grid, scale, radius almost 1:1 | Only when you own the reference or hold a license to reproduce it |
+| Mood | Take tone/color/material only | Vibe only |
 
 What is taken: the visual system. What is not: logos, trademarks, illustrations,
 stock photos, avatars, copyrighted text. A reference from another company

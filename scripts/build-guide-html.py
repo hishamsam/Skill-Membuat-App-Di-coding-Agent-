@@ -275,7 +275,7 @@ def main() -> None:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Complete WebApp Builder usage guide: PRD, UI Design (Lampiran Images), responsive code, local testing, handoff.">
+<meta name="description" content="Complete WebApp Builder usage guide: PRD, UI Design (Image Attachments), responsive code, local testing, handoff.">
 <title>Usage Guide — WebApp Builder</title>
 <style>{CSS}</style>
 </head>

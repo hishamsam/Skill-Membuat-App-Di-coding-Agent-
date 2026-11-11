@@ -2,7 +2,7 @@
 
 This repository is released under the MIT License (see [`LICENSE`](LICENSE)).
 The notices below cover material referenced, adapted, or named by this
-repository. They do not change the licence of the original work.
+repository. They do not change the license of the original work.
 
 ## 1. Adapted material
 
@@ -57,25 +57,25 @@ claims no ownership of that methodology.
 
 The workflow instructs generated applications to load third-party libraries
 from public CDNs: Tailwind CSS (Play CDN), Lucide Icons, Google Fonts,
-Chart.js, and SweetAlert2. Each library keeps its own licence. Generated
-applications are responsible for complying with those licences, including
+Chart.js, and SweetAlert2. Each library keeps its own license. Generated
+applications are responsible for complying with those licenses, including
 attribution where required.
 
 ## 3. Fonts and design assets
 
 Font families named in the design guidance are recommendations, not bundled
-files. Each font carries its own licence. Confirm the licence before embedding
+files. Each font carries its own license. Confirm the license before embedding
 or redistributing a font, particularly proprietary families such as SF Pro,
 Söhne, and Helvetica Neue.
 
 No stock photography, illustration, icon set, logo, or brand asset is bundled.
-Icons are referenced by library name; install them under their own licence.
+Icons are referenced by library name; install them under their own license.
 
 ## 4. Reference images
 
 Reference images supplied by a user remain the property of their owner. The
-workflow uses them to infer layout, density, typography, and colour intent.
-It does not grant a licence to reproduce third-party trade dress, logos,
+workflow uses them to infer layout, density, typography, and color intent.
+It does not grant a license to reproduce third-party trade dress, logos,
 illustrations, or text. See the image reference rules in
 [`README.md`](README.md#image-reference-modes) and Section D of the image
 reference protocol in [`SKILL.md`](SKILL.md).

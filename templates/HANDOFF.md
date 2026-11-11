@@ -1,7 +1,7 @@
-# HANDOFF — {{NAMA_PRODUK}}
+# HANDOFF — {{PRODUCT_NAME}}
 
-Date: {{TARIKH}}
-Version: {{VERSI}}
+Date: {{DATE}}
+Version: {{VERSION}}
 Folder: `projects/{{SLUG}}/`
 
 ## URL
@@ -32,7 +32,7 @@ Folder: `projects/{{SLUG}}/`
 
 | Name | Where | Notes |
 | --- | --- | --- |
-| `{{ENV_1}}` | {{LOKASI_ENV_1}} | {{NOTA_ENV_1}} |
+| `{{ENV_1}}` | {{ENV_LOCATION_1}} | {{ENV_NOTE_1}} |
 
 Secret values are NOT written here.
 
@@ -45,7 +45,7 @@ bash scripts/test-local.sh {{SLUG}}
 ## Redeploy
 
 ```bash
-{{ARAHAN_DEPLOY}}
+{{DEPLOY_INSTRUCTIONS}}
 ```
 
 ## Test
@@ -55,7 +55,7 @@ bash scripts/qa-check.sh {{SLUG}}
 bash scripts/test-local.sh {{SLUG}} --check
 ```
 
-Last result: {{KEPUTUSAN_UJIAN}}
+Last result: {{TEST_RESULT}}
 
 ## Backup & rollback
 
@@ -63,8 +63,8 @@ Last result: {{KEPUTUSAN_UJIAN}}
 
 ## Known limitations
 
-- {{HAD_1}}
-- {{HAD_2}}
+- {{KNOWN_LIMITATION_1}}
+- {{KNOWN_LIMITATION_2}}
 
 ## Links
 

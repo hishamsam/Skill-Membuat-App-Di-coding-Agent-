@@ -206,22 +206,22 @@ bash scripts/preflight.sh --install
 
 # 2. Create a project (A=GAS, B=Supabase, C=Worker, D=Firebase, E=Neon,
 #    F=Hybrid, G=Next.js, H=Node, I=Laravel, J=Python, K=Flutter)
-bash scripts/new-project.sh sistem-tempahan A
+bash scripts/new-project.sh booking-system A
 
 # 3. Put reference images here
-cp ~/Downloads/ref.png projects/sistem-tempahan/refs/
+cp ~/Downloads/ref.png projects/booking-system/refs/
 
 # 4. Ask the agent to run Phase 1
 #    "Read the idea and refs/. Use TEMPLATE_PRD_MS.md. Generate the PRD."
 
 # 5. After PRD approval, extract UI Design Blueprint from refs/
-#    Agent runs Phase 2 and writes projects/sistem-tempahan/design/DESIGN-BLUEPRINT.md
+#    Agent runs Phase 2 and writes projects/booking-system/design/DESIGN-BLUEPRINT.md
 # 6. After UI approval, generate code and test
-bash scripts/qa-check.sh sistem-tempahan
-bash scripts/test-local.sh sistem-tempahan --check
+bash scripts/qa-check.sh booking-system
+bash scripts/test-local.sh booking-system --check
 
 # 7. Or run steps 1, 2, 6 in one go
-bash scripts/run-all.sh sistem-tempahan A
+bash scripts/run-all.sh booking-system A
 ```
 
 Or skip the manual steps: open any coding agent in this folder and type
@@ -260,7 +260,7 @@ Code must be responsive 360-1920px. Run qa-check and test-local --check.
 Stop before deploy.
 ```
 
-| Phase | Auto behaviour |
+| Phase | Auto behavior |
 | --- | --- |
 | 1 PRD | Full one-by-one interview, choose the stack, mark `[ASSUMPTION]` gaps |
 | 2 UI Design | Extract Design System Blueprint from `refs/` |
@@ -386,7 +386,7 @@ Files: `workflow/02-design-images.md`, `ui-ux/ui-designer.md`.
 - Open and read the attached images in `projects/<slug>/refs/` directly (screenshots, mockups, wireframes).
 - Follow the 7-step UI Designer protocol:
   1. **Design character and visual style**: Identify the visual style category (Modern Minimalist, Glassmorphism, Bento Grid, Clean Corporate, Playful, Futuristic, etc.) and mood.
-  2. **Colour palette and tokens (HEX and Tailwind)**: Canvas BG, Surface/Card BG, Accent, Text, Border, and Status colours mapped to exact HEX and Tailwind classes.
+  2. **Color palette and tokens (HEX and Tailwind)**: Canvas BG, Surface/Card BG, Accent, Text, Border, and Status colors mapped to exact HEX and Tailwind classes.
   3. **Typography and hierarchy**: Font recommendation (Inter, Plus Jakarta Sans, Poppins) and hierarchy scale (H1–H3, Body, Caption).
   4. **Layout and navigation breakdown**: Mobile bottom nav vs desktop sidebar/top nav, container padding, gap scale (4/8/12/16/24/32px), responsive mapping 360px–1920px.
   5. **Component breakdown**: Header, cards/containers (`rounded-2xl`, shadow, border), buttons (min-height 44px), inputs, lists.
@@ -631,7 +631,7 @@ bash scripts/test-local.sh <slug> --port 8080
 | Document | Read it when |
 | --- | --- |
 | `README.md` | First overview |
-| `SKILL.md` | Agent behaviour and engineering standards |
+| `SKILL.md` | Agent behavior and engineering standards |
 | `TEMPLATE_PRD_MS.md` | Phase 1 interview and PRD format |
 | `workflow/00-start.md` | Phase 0 bootstrap: trigger, preflight, result rules |
 | `workflow/00-auto.md` | Auto mode: trigger, limits, report |
@@ -643,7 +643,7 @@ bash scripts/test-local.sh <slug> --port 8080
 | `workflow/06-security-audit.md` | Security gate: threat model, hunt, severity, report |
 | `templates/PROMPT-AUTO.md` | Copy-paste auto mode prompt |
 | `setup/01-opencode-mcp.md` | OpenCode MCP config |
-| `setup/02-ui-designer.md` | UI Designer (lampiran images), Design System Blueprint |
+| `setup/02-ui-designer.md` | UI Designer (image attachments), Design System Blueprint |
 | `setup/03-gas.md` | GAS setup |
 | `setup/04-supabase.md` | Supabase setup |
 | `setup/05-cloudflare-worker.md` | Cloudflare setup |

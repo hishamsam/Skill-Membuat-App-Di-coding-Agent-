@@ -184,7 +184,7 @@ and only then run Phase 5.
 1. Checklist deviations presented as vulnerabilities.
 2. Defense-in-depth advice with no reachable boundary violation.
 3. Probing production, shared services, or third parties.
-4. Guessing provider, proxy, browser, or deployment behaviour that is not in source.
+4. Guessing provider, proxy, browser, or deployment behavior that is not in source.
 5. Treating same-principal or self-inflicted impact as a cross-boundary result.
 6. Claiming a stronger result than the observed effect.
 7. Prose-only findings that cannot be traced or reproduced.

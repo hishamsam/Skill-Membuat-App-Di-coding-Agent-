@@ -67,7 +67,7 @@ bash scripts/test-local.sh <slug> --check
 
 ## Checks
 
-- [ ] Auth and authorisation on the server.
+- [ ] Auth and authorization on the server.
 - [ ] No secrets in client code.
 - [ ] Input validated on the server.
 - [ ] `qa-check.sh` passes.

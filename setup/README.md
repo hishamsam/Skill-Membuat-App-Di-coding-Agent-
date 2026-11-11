@@ -8,7 +8,7 @@ This folder collects all installation instructions. It is separate from
 | File | Content |
 | --- | --- |
 | `01-opencode-mcp.md` | `opencode.json` format, register MCP, check status |
-| `02-ui-designer.md` | UI Designer (lampiran images), Design System Blueprint |
+| `02-ui-designer.md` | UI Designer (image attachments), Design System Blueprint |
 | `03-gas.md` | Google Apps Script, clasp, preview mode (Tier 2 — on request only) |
 | `04-supabase.md` | Supabase MCP, dev project, RLS (Tier 1) |
 | `05-cloudflare-worker.md` | Cloudflare MCP, wrangler, D1 (Tier 1) |
@@ -26,7 +26,7 @@ This folder collects all installation instructions. It is separate from
 
 1. `bash scripts/preflight.sh --install` — check machine status.
 2. `01-opencode-mcp.md` — basics.
-3. `02-ui-designer.md` — Phase 2 (ekstrak spesifikasi dari gambar rujukan).
+3. `02-ui-designer.md` — Phase 2 (extract the specification from reference images).
 4. Pick one **Tier 1** stack first: `04-supabase.md`, `05-cloudflare-worker.md`,
    `06-firebase.md`, `09-nextjs.md`, `10-node-express.md`, `11-laravel.md`,
    `12-python.md`, `13-flutter.md`.

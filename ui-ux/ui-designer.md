@@ -1,68 +1,68 @@
 ---
 name: webappbuilder-ui-designer
-description: "Ekstrak spesifikasi desain UI/UX secara mendalam dari gambar rujukan (screenshot, mockup, atau desain aplikasi) menjadi dokumen teks terstruktur dan Design System Blueprint yang siap dikombinasikan dengan skill WebApp Builder. Gunakan saat pengguna melampirkan gambar UI dan meminta analisis desain, bedah tampilan, rujukan gaya visual, atau spesifikasi UI untuk pembuatan aplikasi web."
+description: "Extract a detailed UI/UX design specification from reference images (screenshots, mockups, or application designs) into a structured text document and a Design System Blueprint ready to combine with the WebApp Builder skill. Use when the user attaches a UI image and requests design analysis, a visual breakdown, a style reference, or a UI specification for building a web application."
 ---
 # UI Designer
 
-Skill ini menganalisis gambar rujukan antarmuka (UI) yang dilampirkan pengguna dan menerjemahkannya menjadi spesifikasi desain berbasis teks yang komprehensif, terstruktur, dan siap dieksekusi oleh skill pembuatan aplikasi (WebApp Builder).
+This skill analyzes user-supplied interface reference images and translates them into a comprehensive, structured, text-based design specification that the WebApp Builder skill can execute directly.
 
 ## When to Use
 
-- Pengguna melampirkan gambar (screenshot aplikasi, mockup, dribble shot, atau wireframe) dan meminta analisis atau spesifikasi UI.
-- Pengguna ingin mengekstrak gaya visual, warna, tipografi, dan tata letak dari gambar sebagai rujukan sebelum membangun aplikasi.
-- Pengguna meminta "bedah UI", "ambil rujukan dari gambar ini", atau "buat spesifikasi desain dari gambar" untuk digabungkan dengan skill WebApp Builder.
+- The user attaches an image (application screenshot, mockup, Dribbble shot, or wireframe) and requests a UI analysis or specification.
+- The user wants to extract the visual style, colors, typography, and layout from an image as a reference before building an application.
+- The user asks for a "UI breakdown", "use this image as a reference", or "write a design specification from this image" to combine with the WebApp Builder skill.
 
 ## Steps
 
-1. **Identifikasi Karakter & Gaya Desain Utama**
-   Tentukan jenis dan kategori gaya visual dari gambar yang dilampirkan (misalnya: Modern Minimalist, Glassmorphism, Neumorphism, Bento Grid, Clean Corporate, Playful/Gamified, atau Dark Mode Futuristic) beserta kesan umum dan target penggunaannya.
+1. **Identify the Primary Design Character & Style**
+   Determine the visual style category of the attached image (for example: Modern Minimalist, Glassmorphism, Neumorphism, Bento Grid, Clean Corporate, Playful/Gamified, or Dark Mode Futuristic) together with its overall impression and intended audience.
 
-2. **Pengekstrakan Palet Warna & Token Visual**
-   Identifikasi warna-warna utama dari gambar dan konversikan ke dalam kode HEX beserta padanan class Tailwind CSS terdekat:
-   - **Background Colors**: Warna latar utama (Primary BG), latar sekunder/surface (Card/Modal BG).
-   - **Brand/Accent Colors**: Warna utama tombol, elemen aktif, dan highlight (Primary & Secondary Accent).
-   - **Text/Typography Colors**: Warna teks judul (Heading), teks isi (Body), dan teks redup (Muted/Placeholder).
-   - **Status & Border Colors**: Warna garis tepi (Border/Divider), serta indikator status jika ada (Success, Warning, Danger).
+2. **Extract the Color Palette & Visual Tokens**
+   Identify the main colors in the image and convert them to HEX codes with the nearest Tailwind CSS class equivalents:
+   - **Background Colors**: Primary background (Primary BG), secondary/surface background (Card/Modal BG).
+   - **Brand/Accent Colors**: Main button color, active elements, and highlights (Primary & Secondary Accent).
+   - **Text/Typography Colors**: Heading text, body text, and muted text (Muted/Placeholder).
+   - **Status & Border Colors**: Border/divider color plus status indicators where present (Success, Warning, Danger).
 
-3. **Analisis Tipografi & Hierarki Teks**
-   Jelaskan karakteristik teks yang terlihat pada rujukan:
-   - Jenis font yang disarankan (misal: Inter, Plus Jakarta Sans, Poppins, atau Roboto).
-   - Hierarki ukuran dan ketebalan (Heading, Subheading, Body, Caption/Label).
-   - Kerapatan teks (line-height, letter-spacing) dan perataan teks.
+3. **Analyze Typography & Text Hierarchy**
+   Describe the text characteristics visible in the reference:
+   - Recommended font family (for example: Inter, Plus Jakarta Sans, Poppins, or Roboto).
+   - Size and weight hierarchy (Heading, Subheading, Body, Caption/Label).
+   - Text density (line-height, letter-spacing) and alignment.
 
-4. **Bedah Tata Letak (Layout) & Navigasi**
-   Uraikan struktur kerangka halaman secara menyeluruh:
-   - **Sistem Navigasi**: Posisi dan bentuk navigasi (misal: Bottom Navigation Bar ala mobile app, Sidebar, Top Navbar, atau Floating Action Button).
-   - **Struktur Grid & Spacing**: Pola penyusunan konten (Single Column Mobile-First, Bento Grid, 2-Column Asymmetric, dll.), estimasi padding kontainer, dan jarak antar elemen (gap).
-   - **Responsivitas**: Bagaimana layout tersebut harus beradaptasi di layar smartphone (mobile-first) maupun desktop.
+4. **Break Down Layout & Navigation**
+   Describe the page structure in full:
+   - **Navigation System**: Position and form of navigation (for example: mobile-app-style bottom navigation bar, sidebar, top navbar, or floating action button).
+   - **Grid Structure & Spacing**: Content arrangement pattern (single-column mobile-first, Bento Grid, two-column asymmetric, etc.), estimated container padding, and element gaps.
+   - **Responsiveness**: How the layout must adapt on smartphone (mobile-first) and desktop screens.
 
-5. **Rincian Komponen UI (Component Breakdown)**
-   Daftar setiap komponen spesifik yang tampak di dalam gambar dari atas ke bawah beserta detail bentuknya:
-   - **Header / Hero Section**: Avatar, sapaan, ikon notifikasi, search bar, atau banner.
-   - **Cards & Containers**: Tingkat kelengkungan sudut (border-radius seperti `rounded-xl`, `rounded-2xl`, `rounded-3xl`), gaya bayangan (`shadow-sm`, `shadow-lg`, atau flat dengan border tipis), dan efek latar (solid, gradient, atau blur/glass).
-   - **Buttons, Badges & Inputs**: Bentuk tombol (pill/rounded-full atau rounded-lg), gaya input form, chip filter, atau tab navigasi.
-   - **Data Visualization / Lists**: Tampilan grafik, progress bar, tabel, atau daftar item (list view).
+5. **Detail the UI Components (Component Breakdown)**
+   List every specific component visible in the image, top to bottom, with its shape details:
+   - **Header / Hero Section**: Avatar, greeting, notification icon, search bar, or banner.
+   - **Cards & Containers**: Corner radius (`rounded-xl`, `rounded-2xl`, `rounded-3xl`), shadow style (`shadow-sm`, `shadow-lg`, or flat with a thin border), and background effect (solid, gradient, or blur/glass).
+   - **Buttons, Badges & Inputs**: Button shape (pill/rounded-full or rounded-lg), form input style, filter chips, or navigation tabs.
+   - **Data Visualization / Lists**: Charts, progress bars, tables, or item lists.
 
-6. **Rekomendasi Interaksi & Micro-interactions**
-   Berikan saran singkat mengenai transisi, efek hover/active, state loading (skeleton), dan library ikon yang paling cocok (misalnya Lucide Icons, Heroicons, atau Phosphor Icons) agar hasil akhir di WebApp Builder terasa hidup.
+6. **Recommend Interaction & Micro-interactions**
+   Give brief guidance on transitions, hover/active effects, loading states (skeletons), and the most suitable icon library (for example Lucide Icons, Heroicons, or Phosphor Icons) so the final WebApp Builder result feels alive.
 
-7. **Susun Prompt Blueprint untuk WebApp Builder**
-   Di bagian paling akhir, rangkum seluruh hasil analisis ke dalam satu blok **"Design System Blueprint (Siap Pakai untuk WebApp Builder)"** yang padat dan instruktif. Bagian ini dirancang agar langsung terbaca oleh agen saat mengeksekusi skill WebApp Builder pada tahap berikutnya.
+7. **Assemble the Blueprint Prompt for WebApp Builder**
+   At the very end, summarize the entire analysis into one compact, instructional **"Design System Blueprint (Ready for WebApp Builder)"** block. This section is designed to be read directly by the agent executing the WebApp Builder skill in the next stage.
 
-## Format Output
+## Output Format
 
-Sajikan respons dalam Bahasa Indonesia yang rapi dan terstruktur menggunakan urutan bagian berikut:
+Present the response in clear, structured English using the following section order:
 
-- **1. Karakter & Gaya Desain (UI Style)**
-- **2. Palet Warna & Token (HEX & Tailwind)**
-- **3. Tipografi & Hierarki**
-- **4. Struktur Layout & Navigasi**
-- **5. Bedah Komponen Detail**
-- **6. Detail Visual & Interaksi (Shadows, Radius, Icons)**
-- **7. Design System Blueprint (Untuk WebApp Builder)**
+- **1. Design Character & Style (UI Style)**
+- **2. Color Palette & Tokens (HEX & Tailwind)**
+- **3. Typography & Hierarchy**
+- **4. Layout & Navigation Structure**
+- **5. Detailed Component Breakdown**
+- **6. Visual Detail & Interaction (Shadows, Radius, Icons)**
+- **7. Design System Blueprint (for WebApp Builder)**
 
 ## Gotchas
 
-- **Jangan menulis kode aplikasi penuh**: Fokus utama skill ini adalah memberikan deskripsi teks, jenis, dan spesifikasi mendalam dari desain UI. Jangan men-generate kode HTML/JS aplikasi secara utuh kecuali pengguna memintanya secara eksplisit di luar analisis.
-- **Berikan nilai yang konkret dan terukur**: Hindari deskripsi kabur seperti "sudut agak melengkung" atau "warna biru muda". Gunakan istilah terukur seperti "sudut sangat membulat (`rounded-2xl` / 16px)" dan kode HEX spesifik (misal `#3B82F6` / `bg-blue-500`).
-- **Siap dikombinasikan**: Pastikan bagian ke-7 (Design System Blueprint) merangkum aturan UI secara tegas sehingga ketika pengguna memanggil skill WebApp Builder (Supabase, Firebase, atau GAS), gaya visual dari gambar langsung teraplikasikan dengan akurat.
+- **Do not write full application code**: This skill focuses on providing text descriptions, categories, and detailed UI design specifications. Do not generate complete application HTML/JS code unless the user explicitly requests it outside the analysis.
+- **Provide concrete, measurable values**: Avoid vague descriptions such as "slightly curved corners" or "light blue". Use measurable terms such as "heavily rounded corners (`rounded-2xl` / 16px)" and specific HEX codes (for example `#3B82F6` / `bg-blue-500`).
+- **Ready to combine**: Ensure section 7 (Design System Blueprint) states the UI rules firmly enough that when the user invokes the WebApp Builder skill (Supabase, Firebase, or GAS), the visual style from the image is applied accurately.

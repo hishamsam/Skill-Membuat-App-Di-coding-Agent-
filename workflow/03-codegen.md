@@ -1,13 +1,13 @@
 # Phase 3 — Responsive Code Generation
 
-Purpose: turn the PRD + Design System Blueprint (`design/DESIGN-BLUEPRINT.md`) + lampiran images in `refs/` into an application that works, is responsive,
+Purpose: turn the PRD + Design System Blueprint (`design/DESIGN-BLUEPRINT.md`) + attached images in `refs/` into an application that works, is responsive,
 and is secure. The attached reference design is a composition reference, not a width lock.
 
 ## Input
 
 - `projects/<slug>/prd/PRD-v0.1.md` (Chapters 6, 7, 9, 12, 13)
 - `projects/<slug>/design/DESIGN-BLUEPRINT.md`
-- `projects/<slug>/refs/*` (gambar rujukan antarmuka)
+- `projects/<slug>/refs/*` (interface reference images)
 - The stack in PRD Chapter 6.
 
 ## Responsive contract (MANDATORY)
