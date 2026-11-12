@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="#readme">
+    <img src="assets/logo.svg" alt="idea2app logo" width="680">
+  </a>
+</p>
+
 # WebApp Builder — PRD → UI Design (Image Attachments) → Code → Test → Handoff
 
 One workflow for building an application from a rough idea:
